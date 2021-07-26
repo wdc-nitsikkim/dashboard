@@ -1,8 +1,8 @@
 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
     {{-- visible in mobile view --}}
     <a class="navbar-brand me-lg-5" href="/">
-        <img class="navbar-brand-dark" src="{{ asset('assets/images/logo.svg') }}" alt="Logo" />
-        <img class="navbar-brand-light" src="{{ asset('assets/images/logo.svg') }}" alt="Logo" />
+        <img class="navbar-brand-dark" src="{{ asset('static/images/logo.svg') }}" alt="Logo" />
+        <img class="navbar-brand-light" src="{{ asset('static/images/logo.svg') }}" alt="Logo" />
     </a>
     <div class="d-flex align-items-center">
         <button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
@@ -54,7 +54,7 @@
             <li class="nav-item">
                 <a href="/" class="nav-link d-flex align-items-center">
                     <span class="sidebar-icon">
-                        <img src="{{ asset('assets/images/logo.svg') }}" height="20" width="20" alt="Volt Logo">
+                        <img src="{{ asset('static/images/logo.svg') }}" height="20" width="20" alt="Volt Logo">
                     </span>
                     <span class="mt-1 ms-1 sidebar-text">Home</span>
                 </a>
