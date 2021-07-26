@@ -32,9 +32,10 @@
     <link rel="canonical" href="" />
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="120x120" href="">
-    <link rel="icon" type="image/png" sizes="32x32" href="">
-    <link rel="icon" type="image/png" sizes="16x16" href="">
+    <link rel="apple-touch-icon" href="{{ asset('static/images/icons/apple-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('static/images/icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('static/images/icons/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('static/images/icon.webp') }}">
 
     @include('includes.styles')
 </head>
