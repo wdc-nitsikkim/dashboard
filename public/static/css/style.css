@@ -1,0 +1,155 @@
+@font-face {
+    font-family: "Material Icons";
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/Material-Icons.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "Kirvy";
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/Kirvy-Regular.otf) format("opentype");
+}
+
+@font-face {
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/Manrope-Regular.otf) format("opentype");
+}
+
+body {
+    font-family: "Manrope";
+}
+
+.special-font {
+    font-family: "Kirvy" !important;
+}
+
+/* icons --start */
+.material-icons {
+    font-family: "Material Icons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-feature-settings: "liga";
+            font-feature-settings: "liga";
+}
+
+.left-align {
+    margin-right: 6px;
+}
+
+.right-align {
+    margin-left: 6px;
+}
+/* icons --end */
+
+div.page-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Back to top button --start */
+#backToTop {
+    display: inline-block;
+    background-color: #292928b0;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 35px;
+    right: 30px;
+    transition: background-color .3s,
+        opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+@media (max-width: 500px) {
+    #backToTop {
+        bottom: 25px;
+        right: 15px;
+    }
+}
+
+#backToTop[data-background-color="dark"] {
+    background-color: transparent !important;
+}
+
+#backToTop .material-icons{
+    color: #ffffff;
+    margin-top: 11%;
+    font-size: 32px;
+}
+
+#backToTop[data-background-color="dark"]:hover {
+    cursor: pointer;
+    background-color: #3a4769a1;
+}
+
+#backToTop:hover {
+    cursor: pointer;
+    background-color: #1269DB;
+}
+
+#backToTop:active {
+    background-color: #555;
+}
+
+#backToTop.show {
+    opacity: 1;
+    visibility: visible;
+}
+/* Back to top button --end */
+
+/* animation classes --start */
+.rotate-infinite {
+    animation: spin 1s linear infinite;
+}
+
+.grow-animation {
+    animation: grow 1s linear infinite;
+}
+
+.delete-animation {
+    animation: deleteAnim 1s linear infinite;
+}
+
+.unarchive-animation {
+    animation: unarchiveAnim 1s linear infinite;
+}
+
+@-moz-keyframes grow { 0% {opacity: 100%; } 50% {opacity: 0%;} 100% { opacity: 100%; } }
+@-webkit-keyframes grow { 0% {opacity: 100%; } 50% {opacity: 0%;} 100% { opacity: 100%; } }
+@keyframes grow { 0% {opacity: 100%; } 50% {opacity: 0%;} 100% { opacity: 100%; } }
+
+@-moz-keyframes unarchiveAnim { 0% {background-color: #FFF; } 50% {background-color: #D4EDDA;} 100% { background-color: #FFF; } }
+@-webkit-keyframes unarchiveAnim { 0% {background-color: #FFF; } 50% {background-color: #D4EDDA;} 100% { background-color: #FFF; } }
+@keyframes unarchiveAnim { 0% {background-color: #FFF; } 50% {background-color: #D4EDDA;} 100% { background-color: #FFF; } }
+
+@-moz-keyframes deleteAnim { 0% {background-color: #FFF; } 50% {background-color: #f8d7da;} 100% { background-color: #FFF; } }
+@-webkit-keyframes deleteAnim { 0% {background-color: #FFF; } 50% {background-color: #f8d7da;} 100% { background-color: #FFF; } }
+@keyframes deleteAnim { 0% {background-color: #FFF; } 50% {background-color: #f8d7da;} 100% { background-color: #FFF; } }
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+/* animation classes --end */
