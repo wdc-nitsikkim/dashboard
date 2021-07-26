@@ -50,20 +50,20 @@
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
         @if (count($notifications['data']) == 0)
-        <p>Nothing to display!</p>
+        <h5 class="text-center text-danger">No results found!</h5>
         @else
         <div class="table-responsive">
             <table class="table table-centered table-nowrap mb-0 rounded">
                 <thead class="thead-light">
                     <tr>
-                        <th class="border-0 rounded-start">#</th>
-                        <th class="border-0">Type</th>
-                        <th class="border-0">Display Text</th>
-                        <th class="border-0">Link</th>
-                        <th class="border-0">Created At</th>
-                        <th class="border-0">Updated At</th>
-                        <th class="border-0">Edit</th>
-                        <th class="border-0 rounded-end">Remove</th>
+                        <th class="border-0 col rounded-start">#</th>
+                        <th class="border-0 col">Type</th>
+                        <th class="border-0 col">Display Text</th>
+                        <th class="border-0 col">Link</th>
+                        <th class="border-0 col">Created At</th>
+                        {{-- <th class="border-0 col">Updated At</th> --}}
+                        <th class="border-0 col">Status</th>
+                        <th class="border-0 col rounded-end">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,22 +77,38 @@
                             {{ ucfirst($notice['type']) }}
                         </td>
                         <td>
-                            {{ $notice['display_text'] }}
+                            <span class="d-inline-block text-truncate" style="max-width: 200px" data-bs-toggle="tooltip"
+                                title="{{ $notice['display_text'] }}">
+                                {{ $notice['display_text'] }}</span>
                         </td>
                         <td>
-                            <a class="text-info" href="{{ $notice['link'] }}" target="_blank">{{ $notice['link'] }}</a>
+                            <a class="d-inline-block text-truncate text-info" style="max-width: 150px"
+                                href="{{ $notice['link'] }}" target="_blank" data-bs-toggle="tooltip"
+                                title="{{ $notice['link'] }}">
+                                {{ $notice['link'] }}</a>
                         </td>
                         <td>
                             {{ date('d-m-Y', strtotime($notice['created_at'])) }}
                         </td>
-                        <td>
+                        {{-- <td>
                             {{ date('d-m-Y', strtotime($notice['updated_at'])) }}
+                        </td> --}}
+                        <td>
+                            @php
+                                $btn_class = 'btn-success';
+                                $btn_text = 'Active';
+                                if ($notice['status'] == 0) {
+                                    $btn_class = 'btn-danger';
+                                    $btn_text = 'Hidden';
+                                }
+                            @endphp
+                            <button type="button" class="btn btn-xs {{ $btn_class }}">
+                                {{ $btn_text }}
+                            </button>
                         </td>
                         <td>
-                            <a class="text-primary" href=""><span class="material-icons">edit</span></a>
-                        </td>
-                        <td>
-                            <a class="text-danger" href=""><span class="material-icons">delete</span></a>
+                            <a class="text-primary mx-1" href=""><span class="material-icons">edit</span></a>
+                            <a class="text-danger mx-1" href=""><span class="material-icons">delete</span></a>
                         </td>
                     </tr>
                     @endforeach
@@ -100,6 +116,10 @@
                 </tbody>
             </table>
         </div>
+
+        <nav class="my-3">
+            {{ $pagination }}
+        </nav>
         @endif
     </div>
 </div>
