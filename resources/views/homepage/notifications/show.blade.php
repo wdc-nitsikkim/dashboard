@@ -97,18 +97,31 @@
                             @php
                                 $btn_class = 'btn-success';
                                 $btn_text = 'Active';
+                                $query_param = 'disable';
                                 if ($notice['status'] == 0) {
                                     $btn_class = 'btn-danger';
                                     $btn_text = 'Hidden';
+                                    $query_param = 'enable';
                                 }
                             @endphp
-                            <button type="button" class="btn btn-xs {{ $btn_class }}">
+                            <a href="{{ route('homepage.notification.changeStatus', ['notification'=> $notice['id'], 'status'=> $query_param]) }}"
+                                class="btn btn-xs {{ $btn_class }}">
                                 {{ $btn_text }}
-                            </button>
+                            </a>
                         </td>
                         <td>
-                            <a class="text-primary mx-1" href=""><span class="material-icons">edit</span></a>
-                            <a class="text-danger mx-1" href=""><span class="material-icons">delete</span></a>
+                            @if ($notice['deleted_at'] == null)
+                            <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
+                                href="{{ route('homepage.notification.editPage', $notice['id']) }}">
+                                <span class="material-icons">edit</span></a>
+                            <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete"
+                                href=""><span class="material-icons">delete</span></a>
+                            @else
+                            <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
+                                href=""><span class="material-icons">restore</span></a>
+                            <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete Permanently"
+                                href=""><span class="material-icons">delete_forever</span></a>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
