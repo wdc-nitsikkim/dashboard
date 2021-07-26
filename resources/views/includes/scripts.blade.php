@@ -25,7 +25,7 @@
 <script src="{{ asset('static/js/volt.js') }}"></script>
 
 <!-- Custom JS -->
-{{-- <script src=""></script> --}}
+<script src="{{ asset('static/js/main.js') }}"></script>
 
 {{-- all additional scripts (if any) will be loaded after the core js files --}}
 @stack('scripts')
