@@ -11,6 +11,9 @@
 <!-- Sweet Alerts 2 -->
 <script src="{{ asset('static/vendor/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 
+<!-- jQuery -->
+<script src="{{ asset('static/vendor/jquery-3.6.0.min.js') }}"></script>
+
 <!-- Simplebar -->
 <script src="{{ asset('static/vendor/simplebar/dist/simplebar.min.js') }}"></script>
 
@@ -22,7 +25,7 @@
 <script src="{{ asset('static/js/volt.js') }}"></script>
 
 <!-- Custom JS -->
-<script src=""></script>
+{{-- <script src=""></script> --}}
 
 {{-- all additional scripts (if any) will be loaded after the core js files --}}
 @stack('scripts')
