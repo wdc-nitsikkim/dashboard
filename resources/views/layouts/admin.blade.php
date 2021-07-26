@@ -20,7 +20,7 @@
 <html lang="en">
 
 <head>
-    <title>Admin Dashboard</title>
+    <title>{{ $title ?? 'Admin Dashboard' }}</title>
 
     <!-- Primary Meta Tags -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
