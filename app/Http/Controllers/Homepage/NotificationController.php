@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Homepage;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\HomepageNotification as Noti;
 
-class HomepageNotificationController extends Controller {
+class NotificationController extends Controller {
     private $noti_paginate = 5;
 
     public function show(Request $request) {
@@ -17,7 +18,16 @@ class HomepageNotificationController extends Controller {
         }
         $notifications = $notifications->paginate($this->noti_paginate);
 
-        return \view('homepage.notifications-view')->with([
+        return \view('homepage.show-notifications')->with([
+            'notifications'=> $notifications->toArray(),
+            'pagination'=> $notifications->links('vendor.pagination.default')]
+        );
+    }
+
+    public function showBin(Request $request) {
+        $notifications = Noti::onlyTrashed()->paginate($this->noti_paginate);
+
+        return \view('homepage.show-notifications')->with([
             'notifications'=> $notifications->toArray(),
             'pagination'=> $notifications->links('vendor.pagination.default')]
         );
