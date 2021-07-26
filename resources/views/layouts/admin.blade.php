@@ -40,6 +40,7 @@
 </head>
 
 <body>
+
     @include('includes.sidenav')
 
     <main class="content">
@@ -89,7 +90,7 @@
                                             <div class="col-auto">
                                                 <!-- Avatar -->
                                                 <img alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-1.jpg"
+                                                    src="{{ asset('static/img/team/profile-picture-1.jpg') }}"
                                                     class="avatar-md rounded">
                                             </div>
                                             <div class="col ps-0 ms-2">
@@ -112,7 +113,7 @@
                                             <div class="col-auto">
                                                 <!-- Avatar -->
                                                 <img alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-2.jpg"
+                                                    src="{{ asset('static/img/team/profile-picture-2.jpg') }}"
                                                     class="avatar-md rounded">
                                             </div>
                                             <div class="col ps-0 ms-2">
@@ -134,7 +135,7 @@
                                             <div class="col-auto">
                                                 <!-- Avatar -->
                                                 <img alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-3.jpg"
+                                                    src="{{ asset('static/img/team/profile-picture-3.jpg') }}"
                                                     class="avatar-md rounded">
                                             </div>
                                             <div class="col ps-0 m-2">
@@ -156,7 +157,7 @@
                                             <div class="col-auto">
                                                 <!-- Avatar -->
                                                 <img alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-4.jpg"
+                                                    src="{{ asset('static/img/team/profile-picture-4.jpg') }}"
                                                     class="avatar-md rounded">
                                             </div>
                                             <div class="col ps-0 ms-2">
@@ -178,7 +179,7 @@
                                             <div class="col-auto">
                                                 <!-- Avatar -->
                                                 <img alt="Image placeholder"
-                                                    src="../../assets/img/team/profile-picture-5.jpg"
+                                                    src="{{ asset('static/img/team/profile-picture-5.jpg') }}"
                                                     class="avatar-md rounded">
                                             </div>
                                             <div class="col ps-0 ms-2">
@@ -214,9 +215,9 @@
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="media d-flex align-items-center">
                                     <img class="avatar rounded-circle" alt="Image placeholder"
-                                        src="../../assets/img/team/profile-picture-3.jpg">
+                                        src="{{ asset('static/img/team/profile-picture-3.jpg') }}">
                                     <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                                        <span class="mb-0 font-small fw-bold text-gray-900">Bonnie Green</span>
+                                        <span class="mb-0 font-small fw-bold text-gray-900">Admin User</span>
                                     </div>
                                 </div>
                             </a>
@@ -649,7 +650,7 @@
                                                 <!-- Avatar -->
                                                 <a href="#" class="avatar">
                                                     <img class="rounded" alt="Image placeholder"
-                                                        src="../../assets/img/team/profile-picture-1.jpg">
+                                                        src="{{ asset('static/img/team/profile-picture-1.jpg') }}">
                                                 </a>
                                             </div>
                                             <div class="col-auto ms--2">
@@ -681,7 +682,7 @@
                                                 <!-- Avatar -->
                                                 <a href="#" class="avatar">
                                                     <img class="rounded" alt="Image placeholder"
-                                                        src="../../assets/img/team/profile-picture-2.jpg">
+                                                        src="{{ asset('static/img/team/profile-picture-2.jpg') }}">
                                                 </a>
                                             </div>
                                             <div class="col-auto ms--2">
@@ -712,8 +713,8 @@
                                             <div class="col-auto">
                                                 <!-- Avatar -->
                                                 <a href="#" class="avatar">
-                                                    <img class="rounded" alt="Image placeholder"
-                                                        src="../../assets/img/team/profile-picture-3.jpg">
+                                                    <img class="rounded" alt="Admin"
+                                                        src="{{ asset('static/images/admin.webp') }}">
                                                 </a>
                                             </div>
                                             <div class="col-auto ms--2">
@@ -745,7 +746,7 @@
                                                 <!-- Avatar -->
                                                 <a href="#" class="avatar">
                                                     <img class="rounded" alt="Image placeholder"
-                                                        src="../../assets/img/team/profile-picture-4.jpg">
+                                                        src="{{ asset('static/img/team/profile-picture-4.jpg') }}">
                                                 </a>
                                             </div>
                                             <div class="col-auto ms--2">
@@ -1054,7 +1055,8 @@
                 </div>
             </div>
         </div>
-        <div class="theme-settings card bg-gray-800 pt-2 collapse" id="theme-settings">
+
+        {{-- <div class="theme-settings card bg-gray-800 pt-2 collapse" id="theme-settings">
             <div class="card-body bg-gray-800 text-white pt-4">
                 <button type="button" class="btn-close theme-settings-close" aria-label="Close"
                     data-bs-toggle="collapse" href="#theme-settings" role="button" aria-expanded="false"
@@ -1101,29 +1103,26 @@
                     Settings
                 </span>
             </div>
-        </div>
+        </div> --}}
 
         <footer class="bg-white rounded shadow p-5 mb-4 mt-4">
             <div class="row">
                 <div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
-                    <p class="mb-0 text-center text-lg-start">© 2019-<span class="current-year"></span> <a
-                            class="text-primary fw-normal" href="https://themesberg.com" target="_blank">Themesberg</a>
+                    <p class="mb-0 text-center text-lg-start">© 2021-<span class="current-year"></span> <a
+                            class="text-primary fw-normal" href="#!" target="_blank">WDC, NIT Sikkim</a>
                     </p>
                 </div>
                 <div class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
                     <!-- List -->
                     <ul class="list-inline list-group-flush list-group-borderless text-md-end mb-0">
                         <li class="list-inline-item px-0 px-sm-2">
-                            <a href="https://themesberg.com/about">About</a>
+                            <a href="#!">Link 1</a>
                         </li>
                         <li class="list-inline-item px-0 px-sm-2">
-                            <a href="https://themesberg.com/themes">Themes</a>
+                            <a href="#!">Link 2</a>
                         </li>
                         <li class="list-inline-item px-0 px-sm-2">
-                            <a href="https://themesberg.com/blog">Blog</a>
-                        </li>
-                        <li class="list-inline-item px-0 px-sm-2">
-                            <a href="https://themesberg.com/contact">Contact</a>
+                            <a href="#!">Link 3</a>
                         </li>
                     </ul>
                 </div>
