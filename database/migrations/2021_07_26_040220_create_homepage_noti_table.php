@@ -21,6 +21,7 @@ class CreateHomepageNotiTable extends Migration
             $table->enum('status', [0, 1])->default(1);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
