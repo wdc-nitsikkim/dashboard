@@ -18,6 +18,8 @@ Route::get('/', function () {
 Route::view('/test', 'layouts.admin');
 Route::view('/login', 'login');
 Route::view('/register', 'register');
+Route::view('/notice', 'notifications-view');
+Route::get('/homepage-notifications', 'HomepageNotificationController@show');
 
 Route::get('/version', function() {
     return "Laravel v" . Illuminate\Foundation\Application::VERSION . " working on PHP v" . \phpversion();
