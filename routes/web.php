@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::view('/test', 'layouts.admin');
+Route::view('/login', 'login');
+Route::view('/register', 'register');
+
 Route::get('/version', function() {
     return "Laravel v" . Illuminate\Foundation\Application::VERSION . " working on PHP v" . \phpversion();
 });
