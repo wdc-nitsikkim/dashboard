@@ -137,6 +137,18 @@ div.page-loader {
     animation: unarchiveAnim 1s linear infinite;
 }
 
+.slidingBg {
+    animation: animateBg 10s infinite linear;
+    background-color: #fff;
+    background-image: linear-gradient(90deg, rgba(255, 0, 0, 0.1), #fff, rgba(255, 0, 0, 0.1), #fff);
+    background-size: 300% 100%;
+}
+
+@keyframes animateBg {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 0; }
+}
+
 @-moz-keyframes grow { 0% {opacity: 100%; } 50% {opacity: 0%;} 100% { opacity: 100%; } }
 @-webkit-keyframes grow { 0% {opacity: 100%; } 50% {opacity: 0%;} 100% { opacity: 100%; } }
 @keyframes grow { 0% {opacity: 100%; } 50% {opacity: 0%;} 100% { opacity: 100%; } }
