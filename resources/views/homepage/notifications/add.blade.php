@@ -34,9 +34,9 @@
                         <label for="display_text">Display Text</label>
 
                         @if ($errors->has('display_text'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('display_text') }}
-                        </div>
+                            <div class="invalid-feedback">
+                                {{ $errors->first('display_text') }}
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -53,9 +53,9 @@
                         <label for="type">Notification Type</label>
 
                         @if ($errors->has('type'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('type') }}
-                        </div>
+                            <div class="invalid-feedback">
+                                {{ $errors->first('type') }}
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -66,9 +66,9 @@
                         <label for="link">Redirect Link</label>
 
                         @if ($errors->has('link'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('link') }}
-                        </div>
+                            <div class="invalid-feedback">
+                                {{ $errors->first('link') }}
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -81,9 +81,9 @@
                     <small class="text-muted">Selecting file will automatically overwrite redirect link</small>
 
                     @if ($errors->has('attachment'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('attachment') }}
-                    </div>
+                        <div class="invalid-feedback">
+                            {{ $errors->first('attachment') }}
+                        </div>
                     @endif
                 </div>
             </div>
