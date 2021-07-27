@@ -37,6 +37,12 @@
 
         @yield('content')
 
+        {{-- hidden form to spoof POST/PUT/DELETE requests involving simple links --}}
+        <form id="methodSpoofer" style="display: none" action="" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="_method" value="">
+        </form>
+
         @include('includes.footer')
 
     </main>

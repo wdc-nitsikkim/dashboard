@@ -1,4 +1,6 @@
 const globalHandler = (function ($, window) {
+    'use strict';
+
     const breakPoints = {
         sm: 540,
         md: 720,
@@ -14,7 +16,8 @@ const globalHandler = (function ($, window) {
 
     $('a[confirm]').on('click', function (e) {
         e.preventDefault();
-        e.stopPropagation();
+        /* prevent other click handlers of same type from running */
+        e.stopImmediatePropagation();
 
         const btn = $(this);
 
@@ -28,10 +31,31 @@ const globalHandler = (function ($, window) {
             confirmButtonText: 'Confirm'
         }).then((result) => {
             if (result.isConfirmed) {
+                if (btn[0].hasAttribute('spoof')) {
+                    return spoofMethod(btn);
+                }
                 window.location.href = btn.attr('href');
             }
         });
     });
+
+    $('a[spoof]').on('click', function(e) {
+        e.preventDefault();
+        spoofMethod($(this));
+    });
+
+    function spoofMethod(anchorElement) {
+        const a = anchorElement;
+        const form = $('#methodSpoofer');
+        const spoofUrl = a.attr('href');
+        const spoofMethod = a.attr('spoof-method') ?? 'POST';
+
+        /* filling fields */
+        form.attr('action', spoofUrl);
+        form.find('input[name="_method"]').val(spoofMethod);
+        /* submit form */
+        form.trigger('submit');
+    }
 
     function modifySideNav() {
         const active = $('li.nav-item.active').first();

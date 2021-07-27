@@ -71,14 +71,15 @@ Route::name('homepage.')->prefix('homepage')->group(function() {
         Route::get('/trashed', 'NotificationController@showTrashed')->name('showTrashed');
         Route::get('/edit/{notification}', 'NotificationController@editPage')->name('editPage');
         Route::post('/update/{notification}', 'NotificationController@update')->name('update');
-        Route::get('/change-status/{id}/{status}', 'NotificationController@updateStatus')
-            ->where(['id'=> '[0-9]+','status'=> 'enable|disable'])->name('changeStatus');  /* POST */
-        Route::get('/restore/{id}', 'NotificationController@restore')
-            ->where('id', '[0-9]+')->name('restore');  /* GET, POST */
-        Route::get('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');  /* DELETE */
+        Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
+            ->where(['id'=> '[0-9]+','status'=> 'enable|disable'])->name('changeStatus');
+        Route::post('/restore/{id}', 'NotificationController@restore')
+            ->where('id', '[0-9]+')->name('restore');
+        Route::delete('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');
 
-        Route::get('/delete/{id}', 'NotificationController@delete')
-            ->where('id', '[0-9]+')->name('delete'); /* DELETE */
+        Route::delete('/delete/{id}', 'NotificationController@delete')
+            ->where('id', '[0-9]+')->name('delete');
+        Route::get('/test', 'NotificationController@test');
     });
 });
 

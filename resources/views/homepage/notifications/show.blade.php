@@ -108,7 +108,7 @@
                                 }
                             @endphp
                             <a href="{{ route('homepage.notification.changeStatus', ['id'=> $notice['id'], 'status'=> $query_param]) }}"
-                                class="btn btn-xs {{ $btn_class }}">
+                                class="btn btn-xs {{ $btn_class }}" spoof spoof-method="POST">
                                 {{ $btn_text }}
                             </a>
                         </td>
@@ -120,14 +120,16 @@
                             <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete"
                                 href="{{ route('homepage.notification.softDelete', $notice['id']) }}"
                                 alert-title="Move to Trash?" alert-text="-"
-                                confirm><span class="material-icons">delete</span></a>
+                                confirm spoof spoof-method="DELETE"><span class="material-icons">delete</span></a>
                             @else
                             <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
-                                href="{{ route('homepage.notification.restore', $notice['id']) }}">
+                                href="{{ route('homepage.notification.restore', $notice['id']) }}"
+                                spoof spoof-method="POST">
                                 <span class="material-icons">restore</span></a>
                             <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete Permanently"
                                 href="{{ route('homepage.notification.delete', $notice['id']) }}"
-                                alert-title="Delete Permanently?" confirm><span class="material-icons">delete_forever</span></a>
+                                alert-title="Delete Permanently?" confirm spoof spoof-method="DELETE">
+                                <span class="material-icons">delete_forever</span></a>
                             @endif
                         </td>
                     </tr>
