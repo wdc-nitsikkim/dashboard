@@ -2,6 +2,10 @@
     <div class="container-fluid px-0">
         <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
             <div class="d-flex align-items-center">
+                {{-- <button id="sidebar-toggle"
+                    class="sidebar-toggle me-3 btn btn-icon-only d-none d-lg-inline-block align-items-center justify-content-center">
+                    <span class="material-icons">menu</span>
+                </button> --}}
                 <!-- Search form -->
                 <form class="navbar-search form-inline" id="navbar-search-main">
                     <div class="input-group input-group-merge search-bar">
@@ -113,7 +117,7 @@
                         aria-expanded="false">
                         <div class="media d-flex align-items-center">
                             <img class="avatar rounded-circle" alt="Image placeholder"
-                                src="{{ asset('static/img/team/profile-picture-3.jpg') }}">
+                                src="{{ asset('static/images/admin.webp') }}">
                             <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                                 <span class="mb-0 font-small fw-bold text-gray-900">{{ Auth::user()->name }}</span>
                             </div>
