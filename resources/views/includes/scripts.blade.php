@@ -18,8 +18,8 @@
 <script src="{{ asset('static/vendor/simplebar/dist/simplebar.min.js') }}"></script>
 
 <!-- Charts -->
-<script src="{{ asset('static/vendor/chartist/dist/chartist.min.js') }}"></script>
-<script src="{{ asset('static/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
+{{-- <script src="{{ asset('static/vendor/chartist/dist/chartist.min.js') }}"></script>
+<script src="{{ asset('static/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script> --}}
 
 <!-- Volt JS -->
 <script src="{{ asset('static/js/volt.js') }}"></script>
