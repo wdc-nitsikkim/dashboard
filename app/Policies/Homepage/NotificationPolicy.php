@@ -22,25 +22,25 @@ class NotificationPolicy {
     }
 
     public function view(User $user) {
-        $user_permissions = CustomHelper::array_val_from_rows($user->permissions->toArray(), 'permission');
+        $user_permissions = $user->permissions->pluck('permission')->toArray();
         return \in_array($user->role, $this->view_roles)
             && \in_array($this->permission['read'], $user_permissions);
     }
 
     public function create(User $user) {
-        $user_permissions = CustomHelper::array_val_from_rows($user->permissions->toArray(), 'permission');
+        $user_permissions = $user->permissions->pluck('permission')->toArray();
         return \in_array($user->role, $this->create_roles)
             && \in_array($this->permission['write'], $user_permissions);
     }
 
     public function update(User $user) {
-        $user_permissions = CustomHelper::array_val_from_rows($user->permissions->toArray(), 'permission');
+        $user_permissions = $user->permissions->pluck('permission')->toArray();
         return \in_array($user->role, $this->update_roles)
             && \in_array($this->permission['write'], $user_permissions);
     }
 
     public function delete(User $user) {
-        $user_permissions = CustomHelper::array_val_from_rows($user->permissions->toArray(), 'permission');
+        $user_permissions = $user->permissions->pluck('permission')->toArray();
         return \in_array($user->role, $this->delete_roles)
             && \in_array($this->permission['delete'], $user_permissions);
     }
