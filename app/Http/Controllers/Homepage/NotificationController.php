@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 use App\CustomHelper;
-use App\HomepageNotification as Noti;
+use App\Models\HomepageNotification as Noti;
 
 class NotificationController extends Controller {
     private $noti_paginate = 5;

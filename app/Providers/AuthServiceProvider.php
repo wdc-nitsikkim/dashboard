@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-use App\HomepageNotification;
+use App\Models\HomepageNotification;
 use App\Policies\Homepage\NotificationPolicy;
 
 class AuthServiceProvider extends ServiceProvider

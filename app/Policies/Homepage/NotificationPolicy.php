@@ -4,9 +4,9 @@ namespace App\Policies\Homepage;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\User;
+use App\Models\User;
 use App\CustomHelper;
-use App\HomepageNotification;
+use App\Models\HomepageNotification;
 
 class NotificationPolicy {
     use HandlesAuthorization;

@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use App\UserPermission;
-use App\UserAccessDepartment;
+use App\Models\UserPermission;
+use App\Models\UserAccessDepartment;
 
 class User extends Authenticatable
 {
