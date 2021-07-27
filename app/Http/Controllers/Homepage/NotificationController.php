@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Homepage;
 use Validator;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,6 +16,7 @@ class NotificationController extends Controller {
     private $noti_paginate = 5;
 
     public function show(Request $request) {
+        $this->authorize('view', Noti::class);
         if (!empty($request->input('filter_by')) && !empty($request->input('value'))) {
             $notifications = Noti::where($request->input('filter_by'), $request->input('value'))
                 ->orderBy('created_at', 'desc');
@@ -30,10 +32,14 @@ class NotificationController extends Controller {
     }
 
     public function add($type = null) {
+        $this->authorize('create', Noti::class);
         return \view('homepage.notifications.add', ['type'=> $type]);
     }
 
     public function saveNew(Request $request) {
+        $this->authorize('create', Noti::class);
+        /* TODO: make more dynamic.. use constants */
+
         $validator = Validator::make($request->all(), [
             'display_text'=> 'required | min:10',
             'type'=> 'required',
@@ -87,6 +93,8 @@ class NotificationController extends Controller {
     }
 
     public function showTrashed() {
+        $this->authorize('view', Noti::class);
+
         $notifications = Noti::onlyTrashed()->paginate($this->noti_paginate);
 
         return \view('homepage.notifications.show')->with([
@@ -96,10 +104,14 @@ class NotificationController extends Controller {
     }
 
     public function editPage(Noti $notification) {
+        $this->authorize('update', Noti::class);
+
         return \response()->json($notification);
     }
 
     public function updateStatus($id, $status) {
+        $this->authorize('update', Noti::class);
+
         $notification = Noti::withTrashed()->findOrFail($id);
         try {
             $notification->status = ($status == 'enable') ? '1' : '0';
@@ -118,6 +130,8 @@ class NotificationController extends Controller {
     }
 
     public function softDelete(Noti $notification) {
+        $this->authorize('update', Noti::class);
+
         try {
             $notification->delete();
         } catch (\Exception $e) {
@@ -134,6 +148,8 @@ class NotificationController extends Controller {
     }
 
     public function restore($id) {
+        $this->authorize('update', Noti::class);
+
         $notification = Noti::withTrashed()->findOrFail($id);
         try {
             $notification->restore();
@@ -151,6 +167,8 @@ class NotificationController extends Controller {
     }
 
     public function delete($id) {
+        $this->authorize('delete', Noti::class);
+
         $notification = Noti::withTrashed()->findOrFail($id);
         try {
             $notification->forceDelete();
