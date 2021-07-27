@@ -30,7 +30,7 @@
                         <input type="text"
                             class="form-control {{ $errors->has('display_text') ? 'is-invalid' : '' }}"
                             id="display_text" placeholder="Text to display"
-                            name="display_text" value="{{ old('display_text') }}">
+                            name="display_text" value="{{ old('display_text') }}" required>
                         <label for="display_text">Display Text</label>
 
                         @if ($errors->has('display_text'))
@@ -44,7 +44,8 @@
             <div class="row g-2 mb-3">
                 <div class="col-sm-4 mb-2">
                     <div class="form-floating">
-                        <select class="form-select {{ $errors->has('type') ? 'is-invalid' : '' }}" id="type" name="type">
+                        <select class="form-select {{ $errors->has('type') ? 'is-invalid' : '' }}"
+                            id="type" name="type" required>
                             <option value="announcement" {{ $type == 'announcement' ? 'selected' : '' }}>Announcement</option>
                             <option value="download" {{ $type == 'download' ? 'selected' : '' }}>Download</option>
                             <option value="notice" {{ $type == 'notice' ? 'selected' : '' }}>Notice</option>
