@@ -24,8 +24,8 @@
                         class="card-img-top rounded-circle border-white" alt="Bonnie Green">
                 </div>
                 <div class="d-block">
-                    <h2 class="h5 mb-3">Hi, User</h2>
-                    <a href="../../pages/examples/sign-in.html"
+                    <h2 class="h5 mb-3">Hi, {{ Auth::user()->name }}</h2>
+                    <a href="{{ route('logout') }}"
                         class="btn btn-secondary btn-sm d-inline-flex align-items-center">
                         <svg class="icon icon-xxs me-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -59,8 +59,8 @@
                     <span class="mt-1 ms-1 sidebar-text">Home</span>
                 </a>
             </li>
-            <li class="nav-item  active ">
-                <a href="../../pages/dashboard/dashboard.html" class="nav-link">
+            <li class="nav-item {{ url()->current() == url('/default') ? 'active' : '' }}">
+                <a href="{{ url('/default') }}" class="nav-link">
                     <span class="material-icons sidebar-icon">
                         dashboard
                     </span>
@@ -94,7 +94,7 @@
             {{-- <li class="nav-item">Quick Links</li> --}}
 
             <li class="nav-item">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                <span class="nav-link collapsed d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-homepage">
                     <span>
                         <span class="material-icons sidebar-icon">
@@ -113,13 +113,13 @@
                 </span>
                 <div class="multi-level collapse" role="list" id="submenu-homepage" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#!">
+                        <li class="nav-item {{ Route::is('homepage.notification.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('homepage.notification.show') }}">
                                 <span class="sidebar-text">Notifications</span>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#!">
+                        <li class="nav-item {{ Route::is('homepage.notification.showTrashed') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('homepage.notification.showTrashed') }}">
                                 <span class="sidebar-text">Trash</span>
                             </a>
                         </li>
@@ -188,7 +188,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="#!" class="btn btn-danger justify-content-center btn-upgrade-pro">
+                <a href="{{ route('logout') }}" class="btn btn-danger justify-content-center btn-upgrade-pro">
                     <span class="material-icons sidebar-icon">
                         exit_to_app
                     </span>
