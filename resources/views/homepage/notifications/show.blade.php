@@ -43,6 +43,13 @@
             {{-- <p class="mb-0"></p> --}}
         </div>
         <div>
+            @if (isset($filter) && $filter)
+                <a href="{{ url()->current() }}"
+                    class="btn btn-outline-danger d-inline-flex align-items-center">
+                    <span class="material-icons mx-1">filter_alt</span>
+                    Clear Filters
+                </a>
+            @endisset
             <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
                 <span class="material-icons mx-1">help</span>
             </a>
@@ -66,7 +73,7 @@
                             <th class="border-0 col">Created At</th>
                             {{-- <th class="border-0 col">Updated At</th> --}}
                             <th class="border-0 col">Status</th>
-                            <th class="border-0 col rounded-end">Action</th>
+                            <th class="border-0 col rounded-end">Actions</th>
                         </tr>
                     </thead>
 
