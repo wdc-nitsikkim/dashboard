@@ -83,6 +83,11 @@ Route::name('homepage.')->prefix('homepage')->group(function() {
     });
 });
 
+/* department routes */
+Route::name('department.')->prefix('department')->group(function() {
+    Route::view('/', 'department.home')->name('home');
+});
+
 /* framewrok version */
 Route::get('/version', function() {
     return "Laravel v" . Illuminate\Foundation\Application::VERSION . " working on PHP v" . \phpversion();

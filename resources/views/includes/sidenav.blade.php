@@ -146,8 +146,8 @@
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
+                        <li class="nav-item {{ Route::is('department.home') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('department.home') }}">
                                 <span class="sidebar-text">Home</span>
                             </a>
                         </li>
@@ -188,7 +188,8 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('logout') }}" class="btn btn-danger justify-content-center btn-upgrade-pro">
+                <a href="{{ route('logout') }}" class="btn btn-danger justify-content-center btn-upgrade-pro"
+                    confirm alert-title='Logout?' alert-text='-'>
                     <span class="material-icons sidebar-icon">
                         exit_to_app
                     </span>
