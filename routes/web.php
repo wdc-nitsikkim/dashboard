@@ -48,6 +48,15 @@ Route::name('artisan.')->middleware('checkRole:admin')->group(function() {
         $exit_code = Artisan::call('cache:clear');
         return "Route cache cleared!";
     })->name('clearCache');
+    Route::get('/link-storage-server', function () {
+        /* !!! for server use only !!! */
+        /* actual storage path */
+        $target = '/home/ntskm85i/domains/nitsikkim.ac.in/laravel-5/storage/app/public';
+        /* public storage path */
+        $shortcut = '/home/ntskm85i/domains/nitsikkim.ac.in/public_html/admin-dashboard-laravel/storage';
+        echo symlink($target, $shortcut) ? 'Linked' : 'Failed';
+        //echo $_SERVER['DOCUMENT_ROOT'];
+     });
 });
 
 
