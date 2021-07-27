@@ -33,13 +33,11 @@ class User extends Authenticatable
 
     /* custom model functions */
 
-    public function getAllowedDepartments($id = null) {
-        $id = ($id == null ? Auth::id() : $id);
-        return UserAccessDepartment::where('user_id', $id)->get();
+    public function permissions() {
+        return $this->hasMany(UserPermission::class, 'user_id');
     }
 
-    public function getPermissions($id = null) {
-        $id = ($id == null ? Auth::id() : $id);
-        return UserPermission::where('user_id', $id)->get();
+    public function departments() {
+        return $this->hasMany(UserAccessDepartment::class, 'user_id');
     }
 }
