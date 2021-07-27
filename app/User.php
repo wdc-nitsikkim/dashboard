@@ -2,8 +2,12 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
+use App\UserPermission;
+use App\UserAccessDepartment;
 
 class User extends Authenticatable
 {
@@ -26,4 +30,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /* custom model functions */
+
+    public function getAllowedDepartments($id = null) {
+        $id = ($id == null ? Auth::id() : $id);
+        return UserAccessDepartment::where('user_id', $id)->get();
+    }
+
+    public function getPermissions($id = null) {
+        $id = ($id == null ? Auth::id() : $id);
+        return UserPermission::where('user_id', $id)->get();
+    }
 }
