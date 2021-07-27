@@ -34,7 +34,7 @@ Route::get('/auth', function() {
 Route::get('/logout', function() {
     Auth::logout();
     return "Logged out!";
-});
+})->name('logout');
 Route::get('/hash/{str}', function($str) {
     return \Hash::make($str);
 });
@@ -62,8 +62,8 @@ Route::name('artisan.')->middleware('checkRole:admin')->group(function() {
 
 /* homepage routes */
 Route::name('homepage.')->prefix('homepage')->group(function() {
-    Route::name('notification.')->prefix('notification')->namespace('Homepage')
-        ->middleware(['auth', 'checkRole:admin,office'])->group(function() {
+    Route::name('notification.')->prefix('notifications')->namespace('Homepage')
+        ->middleware(['auth'])->group(function() {
         Route::get('/', 'NotificationController@show')->name('show');
         Route::get('/add/{type?}', 'NotificationController@add')
             ->where('type', 'announcement|download|notice|tender')->name('add');
@@ -76,11 +76,7 @@ Route::name('homepage.')->prefix('homepage')->group(function() {
         Route::get('/restore/{id}', 'NotificationController@restore')
             ->where('id', '[0-9]+')->name('restore');  /* GET, POST */
         Route::get('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');  /* DELETE */
-    });
 
-    /* admin only routes */
-    Route::name('notification.')->prefix('notification')->namespace('Homepage')
-        ->middleware(['auth', 'checkRole:admin'])->group(function() {
         Route::get('/delete/{id}', 'NotificationController@delete')
             ->where('id', '[0-9]+')->name('delete'); /* DELETE */
     });
