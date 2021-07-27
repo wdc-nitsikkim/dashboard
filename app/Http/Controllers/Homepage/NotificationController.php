@@ -235,7 +235,7 @@ class NotificationController extends Controller {
     }
 
     private function getStoragePath($type) {
-        return 'files/' . $type;
+        return 'homepage/files/' . $type;
     }
 
     private function checkLinkAndFileBothMissing() {
