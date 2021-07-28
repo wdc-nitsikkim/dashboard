@@ -1,16 +1,16 @@
-@extends('layouts.admin')
+@extends('layouts.admin', ['title' => 'Department'])
 
 @section('content')
 <div class="my-3">
     <div class="d-flex justify-content-between w-100 flex-wrap">
         <div class="mb-3 mb-lg-0">
-            <h1 class="h4">Department Homepage</h1>
+            <h1 class="h3">
+                {{ $department['name'] ? 'Department of ' . $department['name'] : 'Department Homepage' }}
+            </h1>
             {{-- <p class="mb-0"></p> --}}
         </div>
         <div>
-            <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-                <span class="material-icons mx-1">help</span>
-            </a>
+            @include('department.partials.session-mod-btns')
         </div>
     </div>
 </div>
