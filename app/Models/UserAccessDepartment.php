@@ -10,4 +10,8 @@ class UserAccessDepartment extends Model {
     public function user() {
         return $this->belongsTo(\App\Models\User::class)->withDefault();
     }
+
+    public function department() {
+        return $this->belongsTo(\App\Models\Department::class, 'department_id')->withDefault();
+    }
 }
