@@ -56,21 +56,21 @@
                         {{ $dept['name'] }}
                     </a>
                 @endforeach
-            @elseif ($admin)
-                <p>Already an admin!</p>
             @else
-                <p>No special access!</p>
+                <p>No Results / Not Applicable</p>
             @endif
         <hr/>
         </div>
 
         <h5>All Departments</h5>
-        @foreach ($departments as $dept)
-            <a class="btn btn-lg btn-outline-tertiary mx-1 mb-2"
-                href="{{ route('department.saveInSession', $dept['code']) }}" spoof spoof-method="POST">
-                {{ $dept['name'] }}
-            </a>
-        @endforeach
+        <div class="mb-3">
+            @foreach ($departments as $dept)
+                <a class="btn btn-lg btn-outline-tertiary mx-1 mb-2"
+                    href="{{ route('department.saveInSession', $dept['code']) }}" spoof spoof-method="POST">
+                    {{ $dept['name'] }}
+                </a>
+            @endforeach
+        </div>
     </div>
 </div>
 
