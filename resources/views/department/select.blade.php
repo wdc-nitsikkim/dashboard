@@ -56,8 +56,10 @@
                         {{ $dept['name'] }}
                     </a>
                 @endforeach
-            @else
+            @elseif ($admin)
                 <p>Already an admin!</p>
+            @else
+                <p>No special access!</p>
             @endif
         <hr/>
         </div>
