@@ -91,13 +91,19 @@ Route::name('homepage.')->prefix('homepage')->middleware(['auth'])->group(functi
 });
 
 /* department routes */
-Route::name('department.')->prefix('department')->middleware(['auth'])->group(function() {
+Route::name('department.')->prefix('department')->middleware(['auth'])
+    ->namespace('Department')->group(function() {
     /* department home routes */
-    Route::get('/', 'Department\IndexController@index')->name('index');
-    Route::get('/select', 'Department\IndexController@select')->name('select');
-    Route::post('/save-in-session/{code}', 'Department\IndexController@saveInSession')->name('saveInSession');
-    Route::get('/test', 'Department\IndexController@test');
-    Route::get('/{code}', 'Department\IndexController@home')->name('home');
+    Route::get('/', 'MainController@index')->name('index');
+    Route::get('/select', 'MainController@select')->name('select');
+    Route::post('/save-in-session/{dept}', 'MainController@saveInSession')->name('saveInSession');
+    Route::get('/test', 'MainController@test');
+    Route::get('/{dept}', 'MainController@home')->name('home');
+
+    /* student routes */
+    Route::name('students.')->prefix('{dept}/students')->group(function() {
+        Route::get('/', 'StudentController@test')->name('show');
+    });
 });
 
 /* framewrok version */

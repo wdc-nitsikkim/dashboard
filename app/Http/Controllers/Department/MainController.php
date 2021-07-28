@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\CustomHelper;
 use App\Models\Department;
 
-class IndexController extends Controller {
+class MainController extends Controller {
     private $session_keys = null;
 
     function __construct() {
@@ -25,34 +25,30 @@ class IndexController extends Controller {
     }
 
     public function select() {
-        $preferred = [];
-        if (Auth::user()->role != 'admin') {
-            $preferred = Department::whereIn('id',
+        $preferred = Department::whereIn('id',
             Auth::user()->departments->pluck('department_id')->toArray())->get();
-        }
 
         $departments = Department::all();
         return view('department.select', [
-            'admin' => Auth::user()->role == 'admin',
             'preferred' => $preferred,
             'departments' => $departments
         ]);
     }
 
-    public function saveInSession($code) {
-        session([$this->session_keys['selectedDepartment'] => $code]);
-        return redirect()->route('department.home', $code);
+    public function saveInSession($dept_code) {
+        session([$this->session_keys['selectedDepartment'] => $dept_code]);
+        return redirect()->route('department.home', $dept_code);
     }
 
-    public function home($code) {
+    public function home($dept_code) {
         $this->authorize('view', Department::class);
 
         return view('department.home', [
-            'department'=> $code
+            'department'=> $dept_code
         ]);
     }
 
     public function test() {
-       return 'Test';
+        return 'Test';
     }
 }
