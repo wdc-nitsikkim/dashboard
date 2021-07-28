@@ -24,7 +24,7 @@
                         class="card-img-top rounded-circle border-white" alt="Bonnie Green">
                 </div>
                 <div class="d-block">
-                    <h2 class="h5 mb-3">Hi, {{ Auth::user()->name }}</h2>
+                    <h2 class="h5 mb-3">Hi, {{ Auth::user()->name ?? '-' }}</h2>
                     <a href="{{ route('logout') }}"
                         class="btn btn-secondary btn-sm d-inline-flex align-items-center">
                         <svg class="icon icon-xxs me-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -146,8 +146,9 @@
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item {{ Route::is('department.home') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('department.home') }}">
+                        <li class="nav-item
+                            {{ Route::is('department.home') || Route::is('department.select') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('department.index') }}">
                                 <span class="sidebar-text">Home</span>
                             </a>
                         </li>
