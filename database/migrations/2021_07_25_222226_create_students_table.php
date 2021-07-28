@@ -18,15 +18,15 @@ class CreateStudentsTable extends Migration
             $table->string('roll_number', 20)->unique();
             $table->string('name', 50);
             $table->string('email', 50)->unique();
-            $table->unsignedSmallInteger('department');
-            $table->unsignedSmallInteger('batch');
+            $table->unsignedSmallInteger('department_id');
+            $table->unsignedSmallInteger('batch_id');
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('department')->references('id')->on('departments')
+            $table->foreign('department_id')->references('id')->on('departments')
                 ->onUpdate('no action')->onDelete('no action');
-            $table->foreign('batch')->references('id')->on('batches')
+            $table->foreign('batch_id')->references('id')->on('batches')
                 ->onUpdate('no action')->onDelete('no action');
         });
     }

@@ -16,7 +16,7 @@ class CreateBatchesTable extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->smallIncrements('id');
             $table->enum('type', ['b', 'm'])->default('b');  /* b => btech, m => mtech */
-            $table->string('batch', 10)->unique();
+            $table->string('name', 10)->unique();
             $table->string('full_name', 100);
             $table->integer('start_year');
 
