@@ -26,7 +26,7 @@ class MainController extends Controller {
 
     public function select() {
         $preferred = Department::whereIn('id',
-            Auth::user()->departments->pluck('department_id')->toArray())->get();
+            Auth::user()->allowed_departments->pluck('department_id')->toArray())->get();
 
         $departments = Department::all();
         return view('department.select', [
@@ -35,16 +35,19 @@ class MainController extends Controller {
         ]);
     }
 
-    public function saveInSession($dept_code) {
-        session([$this->session_keys['selectedDepartment'] => $dept_code]);
-        return redirect()->route('department.home', $dept_code);
+    public function saveInSession($dept) {
+        session([$this->session_keys['selectedDepartment'] => $dept]);
+        return redirect()->route('department.home', $dept);
     }
 
-    public function home($dept_code) {
-        $this->authorize('view', Department::class);
+    public function home($dept) {
+        /* temp. -> additional (policy + model) required */
+        /* new page model required */
+        $advanced_access = false;
 
         return view('department.home', [
-            'department'=> $dept_code
+            'department' => $dept,
+            'advanced_access' => $advanced_access
         ]);
     }
 
