@@ -4,10 +4,16 @@
     /* add helper functions here */
 
     class CustomHelper {
-        private static $PERMISSIONS_MAP = [
-            'read'=> 'r',
-            'write'=> 'w',
-            'delete'=> 'd'
+        private static $GLOBAL_CONSTS = [
+            'session_map' => [
+                'selectedDepartment' => 'department.selected',
+                'selectedSubject' => 'subject.selected'
+            ],
+            'permission_map' => [
+                'read' => 'r',
+                'write' => 'w',
+                'delete' => 'd'
+            ]
         ];
 
         public static function check_file_input($name) {
@@ -22,17 +28,16 @@
             return ($append_timestamp ? $tmp . '_' . time() : $tmp);
         }
 
-        /* get indexed array of '$extract' coloumn from sql '$rows' */
-        public static function array_val_from_rows(array $rows, $extract) {
-            $tmp = [];
-            foreach ($rows as $val) {
-                array_push($tmp, $val[$extract]);
-            }
-            return $tmp;
+        public static function get_permission_constants() {
+            return self::$GLOBAL_CONSTS['permission_map'];
         }
 
-        public static function get_permission_constants() {
-            return self::$PERMISSIONS_MAP;
+        public static function get_session_constants() {
+            return self::$GLOBAL_CONSTS['session_map'];
+        }
+
+        public static function test() {
+            return 'Test';
         }
     }
 ?>
