@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies\Department;
+namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -8,7 +8,7 @@ use App\Models\User;
 use App\CustomHelper;
 use App\Models\Department;
 
-class IndexPolicy
+class DepartmentPolicy
 {
     use HandlesAuthorization;
 

@@ -7,8 +7,8 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 
 use App\Models\Department;
 use App\Models\HomepageNotification;
-use App\Policies\Department\IndexPolicy;
-use App\Policies\Homepage\NotificationPolicy;
+use App\Policies\DepartmentPolicy;
+use App\Policies\HomepageNotificationPolicy as NotificationPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -19,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         HomepageNotification::class => NotificationPolicy::class,
-        Department::class => IndexPolicy::class,
+        Department::class => DepartmentPolicy::class
     ];
 
     /**
@@ -31,6 +31,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::before(function($user, $ability) {
+            return $user->role === 'root' ? true : null;
+        });
     }
 }
