@@ -8,8 +8,8 @@ use App\CustomHelper;
 
 class RootController extends Controller {
     public function clearSession() {
-        $session_keys = CustomHelper::get_session_constants();
-        foreach ($session_keys as $val) {
+        $sessionKeys = CustomHelper::getSessionConstants();
+        foreach ($sessionKeys as $val) {
             session()->forget($val);
         }
 

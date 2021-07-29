@@ -1,4 +1,4 @@
-@if (session()->has(CustomHelper::get_session_constants()['selectedDepartment']))
+@if (session()->has(CustomHelper::getSessionConstants()['selectedDepartment']))
     <a href="{{ route('root.clearSession') }}"
         class="btn btn-outline-danger d-inline-flex align-items-center mx-1"
         data-bs-toggle="tooltip" data-bs-placement="left" title="Clear Session" spoof spoof-method="POST">

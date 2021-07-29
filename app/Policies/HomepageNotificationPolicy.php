@@ -11,13 +11,18 @@ use App\Models\HomepageNotification;
 class HomepageNotificationPolicy {
     use HandlesAuthorization;
 
+    /**
+     * Valid role list for specified access
+     *
+     * @var array
+     */
     protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
     protected $create_roles = ['admin', 'office'];
     protected $update_roles = ['admin', 'office'];
     protected $delete_roles = ['admin'];
 
     public function __construct() {
-        $this->permission = CustomHelper::get_permission_constants();
+        $this->permission = CustomHelper::getPermissionConstants();
     }
 
     public function view(User $user) {

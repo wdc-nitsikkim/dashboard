@@ -11,15 +11,20 @@ use App\CustomHelper;
 use App\Models\Department;
 
 class MainController extends Controller {
-    private $session_keys = null;
+    /**
+     * Stores session keys received from \CustomHelper::getSessionConstants()
+     *
+     * @var null|array
+     */
+    private $sessionKeys = null;
 
     function __construct() {
-        $this->session_keys = CustomHelper::get_session_constants();
+        $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
     public function index() {
-        if (session()->has($this->session_keys['selectedDepartment'])) {
-            return redirect()->route('department.home', session($this->session_keys['selectedDepartment']));
+        if (session()->has($this->sessionKeys['selectedDepartment'])) {
+            return redirect()->route('department.home', session($this->sessionKeys['selectedDepartment']));
         }
         return redirect()->route('department.select');
     }
@@ -36,7 +41,7 @@ class MainController extends Controller {
     }
 
     public function saveInSession($dept) {
-        session([$this->session_keys['selectedDepartment'] => $dept]);
+        session([$this->sessionKeys['selectedDepartment'] => $dept]);
         return redirect()->route('department.home', $dept);
     }
 

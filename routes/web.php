@@ -41,7 +41,7 @@ Route::get('/hash/{str}', function($str) {
 });
 
 /* artisan routes */
-Route::name('artisan.')->middleware('checkRole:admin')->group(function() {
+Route::name('artisan.')->middleware('auth')->group(function() {
     Route::get('/link-storage', function() {
         $exit_code = Artisan::call('storage:link');
         return "Storage linked!";

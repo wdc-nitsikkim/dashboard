@@ -32,22 +32,49 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Defines one-to-many relationship
+     *
+     */
     public function allowedDepartments() {
         return $this->hasMany(UserAccessDepartment::class, 'user_id');
     }
 
+    /**
+     * Defines one-to-many relationship
+     */
     public function roles() {
         return $this->hasMany(UserRole::class, 'user_id');
     }
 
+    /**
+     * Checks whether user has given role
+     *
+     * @param string $role
+     */
     public function hasRole($role) {
         return $this->roles->contains('role', $role);
     }
 
+    /**
+     * Returns list of valid roles belonging to user
+     *
+     * @param array $roleList  Array of required roles. Eg.: ['admin', 'hod']
+     * @return Illuminate\Support\Collection
+     */
     public function validRoles(array $roleList) {
         return $this->roles->whereIn('role', $roleList);
     }
 
+    /**
+     * Checks whether the user has permission according
+     * to the provided roleList
+     * Usage
+     * $user->isPermissionValid(['hod', 'office'], 'r')
+     *
+     * @param array $roleList
+     * @param string $permissionToCheck
+     */
     public function isPermissionValid(array $roleList, $permissionToCheck) {
         $role_ids = $this->validRoles($roleList)->pluck('id')->toArray();
         $perms = UserRolePermission::select('permission')->distinct()
