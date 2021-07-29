@@ -18,25 +18,25 @@ class NotificationController extends Controller {
      *
      * @var int
      */
-    private $noti_paginate = 5;
+    private $paginate = 5;
 
     public function show(Request $request) {
         $this->authorize('view', Noti::class);
 
-        $filter_added = false;
+        $filterAdded = false;
         if (!empty($request->input('filter_by')) && !empty($request->input('value'))) {
-            $filter_added = true;
+            $filterAdded = true;
             $notifications = Noti::where($request->input('filter_by'), $request->input('value'))
                 ->orderBy('created_at', 'desc');
         } else {
             $notifications = Noti::orderBy('created_at', 'desc');
         }
-        $notifications = $notifications->paginate($this->noti_paginate);
+        $notifications = $notifications->paginate($this->paginate);
 
         return \view('homepage.notifications.show')->with([
-            'filter'=> $filter_added,
-            'notifications'=> $notifications->toArray(),
-            'pagination'=> $notifications->links('vendor.pagination.default')
+            'filter' => $filterAdded,
+            'notifications' => $notifications->toArray(),
+            'pagination' => $notifications->links('vendor.pagination.default')
         ]);
     }
 
@@ -67,11 +67,11 @@ class NotificationController extends Controller {
             return back()->withErrors($validator->errors())->withInput();
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
-            $file_name = CustomHelper::formatFileName($file->getClientOriginalName());
+            $fileName = CustomHelper::formatFileName($file->getClientOriginalName());
             $extension = $file->extension();
-            $file_name .= '.' . $extension;
-            $storage_path = $this->getStoragePath($request->input('type'));
-            $path = $file->storeAs($storage_path, $file_name, 'public');
+            $fileName .= '.' . $extension;
+            $storagePath = $this->getStoragePath($request->input('type'));
+            $path = $file->storeAs($storagePath, $fileName, 'public');
             $link = asset(Storage::url($path));
         } else {
             $link = $request->input('link');
@@ -99,7 +99,7 @@ class NotificationController extends Controller {
     public function showTrashed() {
         $this->authorize('view', Noti::class);
 
-        $notifications = Noti::onlyTrashed()->paginate($this->noti_paginate);
+        $notifications = Noti::onlyTrashed()->paginate($this->paginate);
 
         return \view('homepage.notifications.show')->with([
             'notifications'=> $notifications->toArray(),
@@ -135,11 +135,11 @@ class NotificationController extends Controller {
             return back()->withErrors($validator->errors());
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
-            $file_name = CustomHelper::formatFileName($file->getClientOriginalName());
+            $fileName = CustomHelper::formatFileName($file->getClientOriginalName());
             $extension = $file->extension();
-            $file_name .= '.' . $extension;
-            $storage_path = $this->getStoragePath($request->input('type'));
-            $path = $file->storeAs($storage_path, $file_name, 'public');
+            $fileName .= '.' . $extension;
+            $storagePath = $this->getStoragePath($request->input('type'));
+            $path = $file->storeAs($storagePath, $fileName, 'public');
             $link = asset(Storage::url($path));
         } else {
             $link = $request->input('link');
