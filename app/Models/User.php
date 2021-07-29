@@ -69,7 +69,7 @@ class User extends Authenticatable
     /**
      * Checks whether the user has permission according
      * to the provided roleList
-     * Usage
+     * Usage:
      * $user->isPermissionValid(['hod', 'office'], 'r')
      *
      * @param array $roleList
@@ -78,8 +78,23 @@ class User extends Authenticatable
     public function isPermissionValid(array $roleList, $permissionToCheck) {
         $role_ids = $this->validRoles($roleList)->pluck('id')->toArray();
         $perms = UserRolePermission::select('permission')->distinct()
-            ->whereIn('role_id', $role_ids)->where('permission', $permissionToCheck)
-            ->get();
+            ->whereIn('role_id', $role_ids)->where('permission', $permissionToCheck);
         return $perms->count() > 0;
+    }
+
+    /**
+     * Checks whether user has access to specified department
+     * Note: users with admin role have access to all departments, i.e,
+     * it will always return true
+     *
+     * @param int $dept  'id' of department
+     * @return bool
+     */
+    public function hasDepartmentAccess($dept) {
+        if ($this->hasRole('admin')) {
+            return true;
+        }
+        return $this->allowedDepartments->where('department_id', $dept)
+            ->count() > 0;
     }
 }
