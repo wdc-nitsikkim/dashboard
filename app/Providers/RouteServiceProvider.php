@@ -28,6 +28,7 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::model('dept', \App\Models\Department::class);
+        Route::model('batch', \App\Models\Batch::class);
     }
 
     /**
