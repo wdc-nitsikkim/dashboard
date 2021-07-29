@@ -17,7 +17,7 @@ class HomepageNotificationPolicy {
     protected $delete_roles = ['admin'];
 
     public function __construct() {
-        $this->permission = CustomHelper::get_permission_constants();
+        $this->permission = CustomHelper::getPermissionConstants();
     }
 
     public function view(User $user) {

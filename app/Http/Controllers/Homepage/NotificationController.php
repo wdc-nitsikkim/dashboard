@@ -62,7 +62,7 @@ class NotificationController extends Controller {
             return back()->withErrors($validator->errors())->withInput();
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
-            $file_name = CustomHelper::format_file_name($file->getClientOriginalName());
+            $file_name = CustomHelper::formatFileName($file->getClientOriginalName());
             $extension = $file->extension();
             $file_name .= '.' . $extension;
             $storage_path = $this->getStoragePath($request->input('type'));
@@ -130,7 +130,7 @@ class NotificationController extends Controller {
             return back()->withErrors($validator->errors());
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
-            $file_name = CustomHelper::format_file_name($file->getClientOriginalName());
+            $file_name = CustomHelper::formatFileName($file->getClientOriginalName());
             $extension = $file->extension();
             $file_name .= '.' . $extension;
             $storage_path = $this->getStoragePath($request->input('type'));
@@ -239,7 +239,7 @@ class NotificationController extends Controller {
     }
 
     private function checkLinkAndFileBothMissing() {
-        $file_status = CustomHelper::check_file_input('attachment');
+        $file_status = CustomHelper::checkFileInput('attachment');
         $link_status = isset($_POST['link']) && !empty($_POST['link']);
         return ($file_status == false && $link_status == false);
     }

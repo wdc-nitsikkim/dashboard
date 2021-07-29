@@ -15,23 +15,23 @@
             ]
         ];
 
-        public static function check_file_input($name) {
+        public static function checkFileInput($name) {
             return (isset($_FILES[$name]) &&
                 $_FILES[$name]['name'] != '' &&
                 $_FILES[$name]['size'] != 0);
         }
 
-        public static function format_file_name($str, $append_timestamp = true) {
+        public static function formatFileName($str, $appendTimestamp = true) {
             define('FILENAME_MAX_LEN', 15);
             $tmp = camel_case(mb_substr(\pathinfo($str, PATHINFO_FILENAME), 0, FILENAME_MAX_LEN));
-            return ($append_timestamp ? $tmp . '_' . time() : $tmp);
+            return ($appendTimestamp ? $tmp . '_' . time() : $tmp);
         }
 
-        public static function get_permission_constants() {
+        public static function getPermissionConstants() {
             return self::$GLOBAL_CONSTS['permission_map'];
         }
 
-        public static function get_session_constants() {
+        public static function getSessionConstants() {
             return self::$GLOBAL_CONSTS['session_map'];
         }
 
