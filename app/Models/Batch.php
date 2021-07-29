@@ -11,7 +11,7 @@ class Batch extends Model {
 
     /* match route parameter to this value instead of 'id' */
     public function getRouteKeyName() {
-        return 'name';
+        return 'batch';
     }
 
     public function students() {
