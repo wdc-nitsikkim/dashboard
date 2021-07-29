@@ -11,8 +11,7 @@ use App\Models\HomepageNotification;
 class HomepageNotificationPolicy {
     use HandlesAuthorization;
 
-    /* TODO: to be made dynamic */
-    protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty'];
+    protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
     protected $create_roles = ['admin', 'office'];
     protected $update_roles = ['admin', 'office'];
     protected $delete_roles = ['admin'];
@@ -22,26 +21,18 @@ class HomepageNotificationPolicy {
     }
 
     public function view(User $user) {
-        $user_permissions = $user->permissions->pluck('permission')->toArray();
-        return \in_array($user->role, $this->view_roles)
-            && \in_array($this->permission['read'], $user_permissions);
+        return $user->isPermissionValid($this->view_roles, $this->permission['read']);
     }
 
     public function create(User $user) {
-        $user_permissions = $user->permissions->pluck('permission')->toArray();
-        return \in_array($user->role, $this->create_roles)
-            && \in_array($this->permission['write'], $user_permissions);
+        return $user->isPermissionValid($this->create_roles, $this->permission['create']);
     }
 
     public function update(User $user) {
-        $user_permissions = $user->permissions->pluck('permission')->toArray();
-        return \in_array($user->role, $this->update_roles)
-            && \in_array($this->permission['write'], $user_permissions);
+        return $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
     public function delete(User $user) {
-        $user_permissions = $user->permissions->pluck('permission')->toArray();
-        return \in_array($user->role, $this->delete_roles)
-            && \in_array($this->permission['delete'], $user_permissions);
+        return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
     }
 }
