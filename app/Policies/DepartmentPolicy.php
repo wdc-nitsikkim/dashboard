@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use Auth;
 use App\Models\User;
 use App\CustomHelper;
 use App\Models\Department;
@@ -21,7 +20,10 @@ class DepartmentPolicy
 
     public function __construct() {
         $this->permission = CustomHelper::get_permission_constants();
-        $this->user_permissions = Auth::user()->permissions->pluck('permission')->toArray();
+    }
+
+    public function before($user, $ability) {
+        $this->user_permissions = $user->permissions->pluck('permission')->toArray();
     }
 
     public function view(User $user) {
