@@ -13,6 +13,11 @@ use App\CustomHelper;
 use App\Models\HomepageNotification as Noti;
 
 class NotificationController extends Controller {
+    /**
+     * Items per page
+     *
+     * @var int
+     */
     private $noti_paginate = 5;
 
     public function show(Request $request) {
@@ -234,10 +239,21 @@ class NotificationController extends Controller {
         ]);
     }
 
+    /**
+     * Returns file storage path for this class
+     *
+     * @param string $type
+     * @return string
+     */
     private function getStoragePath($type) {
         return 'homepage/files/' . $type;
     }
 
+    /**
+     * Checks whether link & file both are missing from input
+     *
+     * @return bool
+     */
     private function checkLinkAndFileBothMissing() {
         $file_status = CustomHelper::checkFileInput('attachment');
         $link_status = isset($_POST['link']) && !empty($_POST['link']);

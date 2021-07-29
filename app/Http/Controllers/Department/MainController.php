@@ -11,6 +11,11 @@ use App\CustomHelper;
 use App\Models\Department;
 
 class MainController extends Controller {
+    /**
+     * Stores session keys received from \CustomHelper::getSessionConstants()
+     *
+     * @var null|array
+     */
     private $sessionKeys = null;
 
     function __construct() {

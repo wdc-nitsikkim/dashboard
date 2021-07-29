@@ -8,10 +8,14 @@ use App\Models\User;
 use App\CustomHelper;
 use App\Models\Department;
 
-class DepartmentPolicy
-{
+class DepartmentPolicy {
     use HandlesAuthorization;
 
+    /**
+     * Valid role list for specified access
+     *
+     * @var array
+     */
     protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
     protected $create_roles = ['admin'];
     protected $update_roles = ['admin', 'office'];

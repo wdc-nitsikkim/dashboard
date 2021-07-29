@@ -11,6 +11,11 @@ use App\Models\HomepageNotification;
 class HomepageNotificationPolicy {
     use HandlesAuthorization;
 
+    /**
+     * Valid role list for specified access
+     *
+     * @var array
+     */
     protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
     protected $create_roles = ['admin', 'office'];
     protected $update_roles = ['admin', 'office'];

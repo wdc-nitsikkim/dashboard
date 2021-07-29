@@ -14,10 +14,16 @@ class Student extends Model {
     protected $table = 'students';
     protected $dates = ['deleted_at'];
 
+    /**
+     * Defines many-to-one relationship
+     */
     public function department() {
         return $this->belongsTo(Department::class, 'department_id')->withDefault();
     }
 
+    /**
+     * Defines many-to-one relationship
+     */
     public function batch() {
         return $this->belongsTo(Batch::class, 'batch_id')->withDefault();
     }
