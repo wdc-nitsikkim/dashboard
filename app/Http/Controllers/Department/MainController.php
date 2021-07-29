@@ -26,7 +26,7 @@ class MainController extends Controller {
 
     public function select() {
         $preferred = Department::whereIn('id',
-            Auth::user()->allowed_departments->pluck('department_id')->toArray())->get();
+            Auth::user()->allowedDepartments->pluck('department_id')->toArray())->get();
 
         $departments = Department::all();
         return view('department.select', [
