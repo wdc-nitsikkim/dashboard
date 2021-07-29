@@ -15,13 +15,15 @@ class CreateBatchesTable extends Migration
     {
         Schema::create('batches', function (Blueprint $table) {
             $table->smallIncrements('id');
-            $table->enum('type', ['b', 'm'])->default('b');  /* b => btech, m => mtech */
-            $table->string('name', 10)->unique();
-            $table->string('full_name', 100);
-            $table->integer('start_year');
+            $table->enum('type', ['b', 'm'])->default('b')->nullable(false);  /* b => btech, m => mtech */
+            $table->string('batch', 10)->nullable(false);
+            $table->string('full_name', 100)->nullable(false);
+            $table->integer('start_year')->nullable(false);
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique('batch');
         });
     }
 
