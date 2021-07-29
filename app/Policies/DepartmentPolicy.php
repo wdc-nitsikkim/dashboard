@@ -12,8 +12,7 @@ class DepartmentPolicy
 {
     use HandlesAuthorization;
 
-    /* TODO: to be made dynamic */
-    protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty'];
+    protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
     protected $create_roles = ['admin'];
     protected $update_roles = ['admin', 'office'];
     protected $delete_roles = ['admin'];
@@ -22,27 +21,19 @@ class DepartmentPolicy
         $this->permission = CustomHelper::get_permission_constants();
     }
 
-    public function before($user, $ability) {
-        $this->user_permissions = $user->permissions->pluck('permission')->toArray();
-    }
-
     public function view(User $user) {
-        return \in_array($user->role, $this->view_roles)
-            && \in_array($this->permission['read'], $this->user_permissions);
+        return $user->isPermissionValid($this->view_roles, $this->permission['read']);
     }
 
     public function create(User $user) {
-        return \in_array($user->role, $this->create_roles)
-            && \in_array($this->permission['write'], $this->user_permissions);
+        return $user->isPermissionValid($this->create_roles, $this->permission['create']);
     }
 
     public function update(User $user) {
-        return \in_array($user->role, $this->update_roles)
-            && \in_array($this->permission['write'], $this->user_permissions);
+        return $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
     public function delete(User $user) {
-        return \in_array($user->role, $this->delete_roles)
-            && \in_array($this->permission['delete'], $this->user_permissions);
+        return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
     }
 }

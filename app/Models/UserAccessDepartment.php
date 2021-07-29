@@ -11,7 +11,7 @@ class UserAccessDepartment extends Model {
     protected $table = 'user_access_departments';
 
     public function user() {
-        return $this->belongsTo(User::class)->withDefault();
+        return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
 
     public function department() {
