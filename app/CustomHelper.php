@@ -1,8 +1,6 @@
 <?php
     namespace App;
 
-    /* add helper functions here */
-
     class CustomHelper {
         private static $GLOBAL_CONSTS = [
             'session_map' => [
@@ -11,15 +9,16 @@
             ],
             'permission_map' => [
                 'read' => 'r',
-                'write' => 'w',
+                'create' => 'c',
+                'update' => 'u',
                 'delete' => 'd'
             ]
         ];
 
         public static function check_file_input($name) {
             return (isset($_FILES[$name]) &&
-                $_FILES[$name]["name"] != "" &&
-                $_FILES[$name]["size"] != 0);
+                $_FILES[$name]['name'] != '' &&
+                $_FILES[$name]['size'] != 0);
         }
 
         public static function format_file_name($str, $append_timestamp = true) {
