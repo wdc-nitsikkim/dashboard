@@ -1,40 +1,42 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-    <div>
-        <div class="dropdown">
-            <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="material-icons mx-1">add</span>
-                New
-            </button>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('homepage.notification.add', 'announcement') }}">
-                    <span class="material-icons">campaign</span>
-                    Announcement
-                </a>
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('homepage.notification.add', 'download') }}">
-                    <span class="material-icons">download_done</span>
-                    Download
-                </a>
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('homepage.notification.add', 'notice') }}">
-                    <span class="material-icons">description</span>
-                    Notice
-                </a>
-                <div role="separator" class="dropdown-divider my-1"></div>
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('homepage.notification.add', 'tender') }}">
-                    <span class="material-icons">apartment</span>
-                    Tender
-                </a>
+@if (Auth::user()->can('create', \App\Models\HomepageNotification::class))
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="material-icons mx-1">add</span>
+                    New
+                </button>
+                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('homepage.notification.add', 'announcement') }}">
+                        <span class="material-icons">campaign</span>
+                        Announcement
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('homepage.notification.add', 'download') }}">
+                        <span class="material-icons">download_done</span>
+                        Download
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('homepage.notification.add', 'notice') }}">
+                        <span class="material-icons">description</span>
+                        Notice
+                    </a>
+                    <div role="separator" class="dropdown-divider my-1"></div>
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('homepage.notification.add', 'tender') }}">
+                        <span class="material-icons">apartment</span>
+                        Tender
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endif
 
 <div class="my-3">
     <div class="d-flex justify-content-between w-100 flex-wrap">

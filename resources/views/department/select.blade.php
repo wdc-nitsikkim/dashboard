@@ -49,7 +49,7 @@
     <div class="card-body">
         <h5>Additional Access</h5>
         <div class="mb-3">
-            @if (count($preferred) > 0)
+            @if ($preferred->count() > 0)
                 @foreach ($preferred as $dept)
                     <a class="btn btn-lg btn-outline-tertiary mx-1 mb-2"
                         href="{{ route('department.saveInSession', $dept['code']) }}" spoof spoof-method="POST">
@@ -57,19 +57,23 @@
                     </a>
                 @endforeach
             @else
-                <p>No Results / Not Applicable</p>
+                <p class="text-danger">No Results / Not Applicable</p>
             @endif
         <hr/>
         </div>
 
         <h5>All Departments</h5>
         <div class="mb-3">
-            @foreach ($departments as $dept)
-                <a class="btn btn-lg btn-outline-tertiary mx-1 mb-2"
-                    href="{{ route('department.saveInSession', $dept['code']) }}" spoof spoof-method="POST">
-                    {{ $dept['name'] }}
-                </a>
-            @endforeach
+            @if ($departments->count() > 0)
+                @foreach ($departments as $dept)
+                    <a class="btn btn-lg btn-outline-tertiary mx-1 mb-2"
+                        href="{{ route('department.saveInSession', $dept['code']) }}" spoof spoof-method="POST">
+                        {{ $dept['name'] }}
+                    </a>
+                @endforeach
+            @else
+                <p class="text-danger">No Results</p>
+            @endif
         </div>
     </div>
 </div>
