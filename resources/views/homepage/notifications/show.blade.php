@@ -2,7 +2,7 @@
 
 @section('content')
 @if (Auth::user()->can('create', \App\Models\HomepageNotification::class))
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">
                 <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
@@ -45,13 +45,6 @@
             {{-- <p class="mb-0"></p> --}}
         </div>
         <div>
-            @if (isset($filter) && $filter)
-                <a href="{{ url()->current() }}"
-                    class="btn btn-outline-danger d-inline-flex align-items-center">
-                    <span class="material-icons mx-1">filter_alt</span>
-                    Clear Filters
-                </a>
-            @endisset
             <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
                 <span class="material-icons mx-1">help</span>
             </a>

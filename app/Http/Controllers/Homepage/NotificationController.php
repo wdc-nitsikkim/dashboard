@@ -23,18 +23,9 @@ class NotificationController extends Controller {
     public function show(Request $request) {
         $this->authorize('view', Noti::class);
 
-        $filterAdded = false;
-        if (!empty($request->input('filter_by')) && !empty($request->input('value'))) {
-            $filterAdded = true;
-            $notifications = Noti::where($request->input('filter_by'), $request->input('value'))
-                ->orderBy('created_at', 'desc');
-        } else {
-            $notifications = Noti::orderBy('created_at', 'desc');
-        }
-        $notifications = $notifications->paginate($this->paginate);
+        $notifications = Noti::orderBy('created_at', 'desc')->paginate($this->paginate);
 
         return \view('homepage.notifications.show')->with([
-            'filter' => $filterAdded,
             'notifications' => $notifications->toArray(),
             'pagination' => $notifications->links('vendor.pagination.default')
         ]);
