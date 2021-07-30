@@ -34,18 +34,17 @@ class NotificationController extends Controller {
     public function add($type = null) {
         $this->authorize('create', Noti::class);
 
-        return \view('homepage.notifications.add', ['type'=> $type]);
+        return \view('homepage.notifications.add', ['type' => $type]);
     }
 
     public function saveNew(Request $request) {
         $this->authorize('create', Noti::class);
-        /* TODO: make more dynamic.. use constants */
 
         $validator = Validator::make($request->all(), [
-            'display_text'=> 'required | min:10',
-            'type'=> 'required',
-            'link'=> 'nullable | url',
-            'attachment'=> 'filled | mimes:pdf,doc,docx,xls,xlsx | max:5120'
+            'display_text' => 'required | min:10',
+            'type' => 'required',
+            'link' => 'nullable | url',
+            'attachment' => 'filled | mimes:pdf,doc,docx,xls,xlsx | max:5120'
         ]);
 
         $validator->after(function($validator) {
@@ -76,14 +75,14 @@ class NotificationController extends Controller {
             $notification->save();
         } catch (\Exception $e) {
             return back()->with([
-                'status'=> 'fail',
-                'message'=> 'Failed to add notification!'
+                'status' => 'fail',
+                'message' => 'Failed to add notification!'
             ])->withInput();
         }
 
         return redirect()->route('homepage.notification.show')->with([
-            'status'=> 'success',
-            'message'=> 'Notification added!'
+            'status' => 'success',
+            'message' => 'Notification added!'
         ]);
     }
 
@@ -93,8 +92,8 @@ class NotificationController extends Controller {
         $notifications = Noti::onlyTrashed()->paginate($this->paginate);
 
         return \view('homepage.notifications.show')->with([
-            'notifications'=> $notifications->toArray(),
-            'pagination'=> $notifications->links('vendor.pagination.default')]
+            'notifications' => $notifications->toArray(),
+            'pagination' => $notifications->links('vendor.pagination.default')]
         );
     }
 
@@ -102,7 +101,7 @@ class NotificationController extends Controller {
         $this->authorize('update', Noti::class);
 
         return \view('homepage.notifications.edit', [
-            'notification'=> $notification
+            'notification' => $notification
         ]);
     }
 
@@ -110,10 +109,10 @@ class NotificationController extends Controller {
         $this->authorize('update', Noti::class);
 
         $validator = Validator::make($request->all(), [
-            'display_text'=> 'required | min:10',
-            'type'=> 'required',
-            'link'=> 'nullable | url',
-            'attachment'=> 'filled | mimes:pdf,doc,docx,xls,xlsx | max:5120'
+            'display_text' => 'required | min:10',
+            'type' => 'required',
+            'link' => 'nullable | url',
+            'attachment' => 'filled | mimes:pdf,doc,docx,xls,xlsx | max:5120'
         ]);
 
         $validator->after(function($validator) {
@@ -143,14 +142,14 @@ class NotificationController extends Controller {
             $notification->save();
         } catch (\Exception $e) {
             return back()->with([
-                'status'=> 'fail',
-                'message'=> 'Failed to update!'
+                'status' => 'fail',
+                'message' => 'Failed to update!'
             ]);
         }
 
         return back()->with([
-            'status'=> 'success',
-            'message'=> 'Notification updated!'
+            'status' => 'success',
+            'message' => 'Notification updated!'
         ]);
     }
 
@@ -163,14 +162,14 @@ class NotificationController extends Controller {
             $notification->save();
         } catch (\Exception $e) {
             return back()->with([
-                'status'=> 'fail',
-                'message'=> 'Failed to update!'
+                'status' => 'fail',
+                'message' => 'Failed to update!'
             ]);
         }
 
         return back()->with([
-            'status'=> 'success',
-            'message'=> 'Status updated!'
+            'status' => 'success',
+            'message' => 'Status updated!'
         ]);
     }
 
@@ -181,14 +180,14 @@ class NotificationController extends Controller {
             $notification->delete();
         } catch (\Exception $e) {
             return back()->with([
-                'status'=> 'fail',
-                'message'=> 'Failed to Delete!'
+                'status' => 'fail',
+                'message' => 'Failed to Delete!'
             ]);
         }
 
         return back()->with([
-            'status'=> 'success',
-            'message'=> 'Moved to Trash'
+            'status' => 'success',
+            'message' => 'Moved to Trash'
         ]);
     }
 
@@ -200,14 +199,14 @@ class NotificationController extends Controller {
             $notification->restore();
         } catch (\Exception $e) {
             return back()->with([
-                'status'=> 'fail',
-                'message'=> 'Failed to restore!'
+                'status' => 'fail',
+                'message' => 'Failed to restore!'
             ]);
         }
 
         return back()->with([
-            'status'=> 'success',
-            'message'=> 'Restored successfully'
+            'status' => 'success',
+            'message' => 'Restored successfully'
         ]);
     }
 
@@ -219,14 +218,14 @@ class NotificationController extends Controller {
             $notification->forceDelete();
         } catch (\Exception $e) {
             return back()->with([
-                'status'=> 'fail',
-                'message'=> 'Failed to delete!'
+                'status' => 'fail',
+                'message' => 'Failed to delete!'
             ]);
         }
 
         return back()->with([
-            'status'=> 'success',
-            'message'=> 'Deleted permanently!'
+            'status' => 'success',
+            'message' => 'Deleted permanently!'
         ]);
     }
 

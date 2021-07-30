@@ -113,7 +113,7 @@
                                         }
                                     @endphp
 
-                                    <a href="{{ route('homepage.notification.changeStatus', ['id'=> $notice['id'], 'status'=> $query_param]) }}"
+                                    <a href="{{ route('homepage.notification.changeStatus', ['id' => $notice['id'], 'status' => $query_param]) }}"
                                         class="btn btn-xs {{ $btn_class }}" spoof spoof-method="POST">
                                         {{ $btn_text }}
                                     </a>
