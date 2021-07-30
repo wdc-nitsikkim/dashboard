@@ -40,12 +40,12 @@ class MainController extends Controller {
         ]);
     }
 
-    public function saveInSession($dept) {
+    public function saveInSession(Department $dept) {
         session([$this->sessionKeys['selectedDepartment'] => $dept]);
         return redirect()->route('department.home', $dept);
     }
 
-    public function home($dept) {
+    public function home(Department $dept) {
         /* temp. -> additional (policy + model) required */
         /* new page model required */
         $advanced_access = false;
