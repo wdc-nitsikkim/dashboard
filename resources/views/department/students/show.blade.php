@@ -2,6 +2,13 @@
 
 @section('content')
 
+@php
+    $baseRouteParams = [
+        'dept' => $department,
+        'batch' => $batch
+    ];
+@endphp
+
 @if (Auth::user()->can('create', [\App\Models\Student::class, $department])
     || Auth::user()->can('create', \App\Models\Batch::class))
 
@@ -18,7 +25,7 @@
 
                     @if (Auth::user()->can('create', [\App\Models\Student::class, $department]))
                         <a class="dropdown-item d-flex align-items-center"
-                            href="#!">
+                            href="{{ route('department.students.add', $baseRouteParams) }}">
                             <span class="material-icons">face</span>
                             Student
                         </a>
@@ -127,27 +134,34 @@
 
                                 <td>
 
+                                    @php
+                                        $baseRouteWithId = array_merge(
+                                            $baseRouteParams,
+                                            ['id' => $student['id']]
+                                        );
+                                    @endphp
+
                                     @if ($student['deleted_at'] == null)
                                         @if (Auth::user()->can('update', [\App\Models\Student::class, $department]))
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
                                                 href="#!">
                                                 <span class="material-icons">edit</span></a>
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete"
-                                                href="#!"
+                                                href="{{ route('department.students.softDelete', $baseRouteWithId) }}"
                                                 alert-title="Move to Trash?" alert-text="-"
                                                 confirm spoof spoof-method="DELETE"><span class="material-icons">delete</span></a>
                                         @endif
                                     @else
                                         @if (Auth::user()->can('update', [\App\Models\Student::class, $department]))
                                             <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
-                                                href="#!"
+                                                href="{{ route('department.students.restore', $baseRouteWithId) }}"
                                                 spoof spoof-method="POST">
                                                 <span class="material-icons">restore</span></a>
                                         @endif
                                         @if (Auth::user()->can('delete', [\App\Models\Student::class, $department]))
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip"
                                                 title="Delete Permanently"
-                                                href="#!"
+                                                href="{{ route('department.students.delete', $baseRouteWithId) }}"
                                                 alert-title="Delete Permanently?" confirm spoof spoof-method="DELETE">
                                                 <span class="material-icons">delete_forever</span></a>
                                         @endif

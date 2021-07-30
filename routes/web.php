@@ -71,21 +71,20 @@ Route::name('homepage.')->prefix('homepage')->middleware(['auth'])->group(functi
     /* notification routes */
     Route::name('notification.')->prefix('notifications')->namespace('Homepage')
         ->group(function() {
+
         Route::get('/', 'NotificationController@show')->name('show');
         Route::get('/add/{type?}', 'NotificationController@add')
             ->where('type', 'announcement|download|notice|tender')->name('add');
         Route::post('/save', 'NotificationController@saveNew')->name('saveNew');
         Route::get('/trashed', 'NotificationController@showTrashed')->name('showTrashed');
-        Route::get('/edit/{notification}', 'NotificationController@editPage')->name('editPage');
+        Route::get('/edit/{notification}', 'NotificationController@edit')->name('edit');
         Route::post('/update/{notification}', 'NotificationController@update')->name('update');
         Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
-            ->where(['id'=> '[0-9]+','status'=> 'enable|disable'])->name('changeStatus');
-        Route::post('/restore/{id}', 'NotificationController@restore')
-            ->where('id', '[0-9]+')->name('restore');
+            ->where('status', 'enable|disable')->name('changeStatus');
+        Route::post('/restore/{id}', 'NotificationController@restore')->name('restore');
         Route::delete('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');
 
-        Route::delete('/delete/{id}', 'NotificationController@delete')
-            ->where('id', '[0-9]+')->name('delete');
+        Route::delete('/delete/{id}', 'NotificationController@delete')->name('delete');
         Route::get('/test', 'NotificationController@test');
     });
 });
@@ -93,6 +92,7 @@ Route::name('homepage.')->prefix('homepage')->middleware(['auth'])->group(functi
 /* department routes */
 Route::name('department.')->prefix('department')->middleware(['auth'])
     ->namespace('Department')->group(function() {
+
     /* department home routes */
     Route::get('/', 'MainController@index')->name('index');
     Route::get('/select', 'MainController@select')->name('select');
@@ -102,10 +102,17 @@ Route::name('department.')->prefix('department')->middleware(['auth'])
 
     /* student routes */
     Route::name('students.')->prefix('{dept}/students')->group(function() {
-        Route::get('/', 'StudentController@index')->name('selectBatch');
+        Route::get('/', 'StudentController@selectBatch')->name('selectBatch');
 
         Route::prefix('{batch}')->group(function() {
             Route::get('/', 'StudentController@show')->name('show');
+            Route::get('/add', 'StudentController@add')->name('add');
+            Route::post('/save', 'StudentController@saveNew')->name('saveNew');
+            Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
+            Route::post('/update/{student}', 'StudentController@update')->name('update');
+            Route::delete('/soft-delete/{student}', 'StudentController@softDelete')->name('softDelete');
+            Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
+            Route::delete('/delete/{id}', 'StudentController@delete')->name('delete');
         });
     });
 });
