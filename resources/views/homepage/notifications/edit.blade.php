@@ -119,9 +119,7 @@
 
             <div class="row mb-3">
                 <div class="col-sm-3 d-grid mx-auto mb-3">
-                    <a class="btn btn-primary"
-                        href="{{ url()->previous() == url()->current()
-                            ? route('homepage.notification.show') : url()->previous() }}">
+                    <a class="btn btn-primary" href="{{ route('homepage.notification.show') }}">
                         <span class="material-icons mx-1">keyboard_arrow_left</span>
                         Go back
                     </a>

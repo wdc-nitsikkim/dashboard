@@ -68,9 +68,9 @@ class NotificationController extends Controller {
         }
 
         try {
-            $notification = new Noti;
-            $notification->display_text = $request->input('display_text');
-            $notification->type = $request->input('type');
+            $notification = new Noti($request->only([
+                'display_text', 'type'
+            ]));
             $notification->link = $link;
             $notification->save();
         } catch (\Exception $e) {
