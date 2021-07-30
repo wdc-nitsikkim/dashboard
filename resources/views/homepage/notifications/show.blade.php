@@ -123,7 +123,7 @@
                                     @if ($notice['deleted_at'] == null)
                                         @if (Auth::user()->can('update', \App\Models\HomepageNotification::class))
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
-                                                href="{{ route('homepage.notification.editPage', $notice['id']) }}">
+                                                href="{{ route('homepage.notification.edit', $notice['id']) }}">
                                                 <span class="material-icons">edit</span></a>
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete"
                                                 href="{{ route('homepage.notification.softDelete', $notice['id']) }}"

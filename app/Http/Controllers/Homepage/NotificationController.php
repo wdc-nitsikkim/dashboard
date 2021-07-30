@@ -98,7 +98,7 @@ class NotificationController extends Controller {
         );
     }
 
-    public function editPage(Noti $notification) {
+    public function edit(Noti $notification) {
         $this->authorize('update', Noti::class);
 
         return \view('homepage.notifications.edit', [
