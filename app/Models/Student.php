@@ -15,6 +15,15 @@ class Student extends Model {
     protected $dates = ['deleted_at'];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'roll_number', 'name', 'email', 'department_id', 'batch_id'
+    ];
+
+    /**
      * Defines many-to-one relationship
      */
     public function department() {
