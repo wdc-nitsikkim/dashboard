@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+
 <div class="my-3">
     <div class="d-flex justify-content-between w-100 flex-wrap">
         <div class="mb-3 mb-lg-0">
@@ -20,8 +21,9 @@
         <form class="form-floating" action="{{ route('homepage.notification.saveNew') }}"
             enctype="multipart/form-data" method="POST">
             {{ csrf_field() }}
+
             @php
-                $type = old('type') ? old('type') : $type;
+                $type = old('type') ?? $type;
             @endphp
 
             <div class="row g-2 mb-3">
@@ -38,6 +40,7 @@
                                 {{ $errors->first('display_text') }}
                             </div>
                         @endif
+
                     </div>
                 </div>
             </div>
@@ -71,6 +74,7 @@
                                 {{ $errors->first('link') }}
                             </div>
                         @endif
+
                     </div>
                 </div>
             </div>
@@ -86,6 +90,7 @@
                             {{ $errors->first('attachment') }}
                         </div>
                     @endif
+
                 </div>
             </div>
 

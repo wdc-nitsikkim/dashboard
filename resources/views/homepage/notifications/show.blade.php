@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+
 @if (Auth::user()->can('create', \App\Models\HomepageNotification::class))
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
@@ -54,6 +55,7 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
+
         @if (count($notifications['data']) == 0)
             <h5 class="text-center text-danger">No results found!</h5>
         @else
@@ -117,6 +119,7 @@
                                     </a>
                                 </td>
                                 <td>
+
                                     @if ($notice['deleted_at'] == null)
                                         @if (Auth::user()->can('update', \App\Models\HomepageNotification::class))
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
@@ -141,6 +144,7 @@
                                                 <span class="material-icons">delete_forever</span></a>
                                         @endif
                                     @endif
+
                                 </td>
                             </tr>
                         @endforeach
@@ -153,6 +157,7 @@
                 {{ $pagination }}
             </nav>
         @endif
+
     </div>
 </div>
 @endsection

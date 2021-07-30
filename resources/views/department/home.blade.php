@@ -1,6 +1,7 @@
 @extends('layouts.admin', ['title' => 'Department'])
 
 @section('content')
+
 <div class="my-3">
     <div class="d-flex justify-content-between w-100 flex-wrap">
         <div class="mb-3 mb-lg-0">
@@ -75,6 +76,7 @@
 </div>
 
 @if ($advanced_access)
+
     <div class="mb-3">
         <h3 class="text-tertiary">
             <span class="material-icons">
@@ -113,6 +115,7 @@
             </div>
         </div>
     </div>
+
 @endif
 
 @endsection

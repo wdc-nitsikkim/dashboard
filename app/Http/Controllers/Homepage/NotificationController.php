@@ -102,7 +102,7 @@ class NotificationController extends Controller {
         $this->authorize('update', Noti::class);
 
         return \view('homepage.notifications.edit', [
-            'data'=> $notification
+            'notification'=> $notification
         ]);
     }
 
