@@ -11,7 +11,7 @@
             {{-- <p class="mb-0"></p> --}}
         </div>
         <div>
-            @include('department.partials.session-mod-btns')
+            @include('department.partials.sessionModBtns')
         </div>
     </div>
 </div>

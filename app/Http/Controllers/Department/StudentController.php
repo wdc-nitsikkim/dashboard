@@ -18,7 +18,7 @@ class StudentController extends Controller {
      *
      * @var int
      */
-    private $paginate = 15;
+    private $paginate = 10;
 
     public function index($dept) {
         $this->authorize('view', [Student::class, $dept]);
@@ -26,7 +26,7 @@ class StudentController extends Controller {
         $btechBatches = Batch::where('type', 'b')->orderByDesc('id')->get();
         $mtechBatches = Batch::where('type', 'm')->orderByDesc('id')->get();
 
-        return view('department.students.select-batch', [
+        return view('department.students.selectBatch', [
             'department' => $dept,
             'btechBatches' => $btechBatches,
             'mtechBatches' => $mtechBatches
@@ -36,8 +36,16 @@ class StudentController extends Controller {
     public function show($dept, $batch) {
         $this->authorize('view', [Student::class, $dept]);
 
-        echo $dept;
-        echo $batch;
+        $students = $batch->students()->where(
+            'department_id', $dept->id
+        )->withTrashed()->paginate($this->paginate);
+
+        return view('department.students.show', [
+            'batch' => $batch,
+            'department' => $dept,
+            'students' => $students->toArray(),
+            'pagination' => $students->links('vendor.pagination.default')
+        ]);
     }
 
     public function test() {
