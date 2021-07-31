@@ -48,18 +48,24 @@ class User extends Authenticatable
     }
 
     /**
-     * Checks whether user has given role
+     * Checks whether user has any of the given role(s)
      *
-     * @param string $role
+     * @param array $roles
      */
-    public function hasRole($role) {
-        return $this->roles->contains('role', $role);
+    public function hasRole(...$roles) {
+        $userRoles = $this->roles;
+        foreach ($roles as $role) {
+            if ($userRoles->contains('role', $role)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * Returns list of valid roles belonging to user
      *
-     * @param array $roleList  Array of required roles. Eg.: ['admin', 'hod']
+     * @param array $roleList  Array of roles which can perform the action. Eg.: ['admin', 'hod']
      * @return Illuminate\Support\Collection
      */
     public function validRoles(array $roleList) {
