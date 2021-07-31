@@ -25,7 +25,7 @@ class NotificationController extends Controller {
 
         $notifications = Noti::orderBy('created_at', 'desc')->paginate($this->paginate);
 
-        return \view('homepage.notifications.show')->with([
+        return view('homepage.notifications.show')->with([
             'notifications' => $notifications->toArray(),
             'pagination' => $notifications->links('vendor.pagination.default')
         ]);
@@ -34,7 +34,7 @@ class NotificationController extends Controller {
     public function add($type = null) {
         $this->authorize('create', Noti::class);
 
-        return \view('homepage.notifications.add', ['type' => $type]);
+        return view('homepage.notifications.add', ['type' => $type]);
     }
 
     public function saveNew(Request $request) {
@@ -91,7 +91,7 @@ class NotificationController extends Controller {
 
         $notifications = Noti::onlyTrashed()->paginate($this->paginate);
 
-        return \view('homepage.notifications.show')->with([
+        return view('homepage.notifications.show')->with([
             'notifications' => $notifications->toArray(),
             'pagination' => $notifications->links('vendor.pagination.default')]
         );
@@ -100,7 +100,7 @@ class NotificationController extends Controller {
     public function edit(Noti $notification) {
         $this->authorize('update', Noti::class);
 
-        return \view('homepage.notifications.edit', [
+        return view('homepage.notifications.edit', [
             'notification' => $notification
         ]);
     }

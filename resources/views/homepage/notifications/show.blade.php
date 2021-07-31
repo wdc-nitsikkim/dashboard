@@ -160,8 +160,5 @@
 
     </div>
 </div>
-@endsection
 
-@push('scripts')
-    <script src="{{ asset('static/js/homepage-notification.js') }}"></script>
-@endpush
+@endsection
