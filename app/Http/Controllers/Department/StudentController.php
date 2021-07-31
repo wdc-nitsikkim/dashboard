@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Department;
 
+use Validator;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -87,10 +89,16 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function edit(Department $dept, Batch $batch) {
+    public function edit(Department $dept, Batch $batch, Student $student) {
         $this->authorize('update', [Student::class, $dept]);
 
-        return 'Edit';
+        $departmentList = Department::all();
+        return view('department.students.edit', [
+            'batch' => $batch,
+            'department' => $dept,
+            'student' => $student,
+            'departmentList' => $departmentList
+        ]);
     }
 
     public function update(Request $request, Department $dept, Batch $batch,
@@ -98,12 +106,32 @@ class StudentController extends Controller {
 
         $this->authorize('update', [Student::class, $dept]);
 
-        return 'Update';
+        $validator = $request->validate([
+            'name' => 'required | string | min:3',
+            'roll_number' => 'required',  /* TODO: add regex validation */
+            'email' => 'required | email',
+            'department' => 'required | numeric'
+        ]);
+
+        try {
+            $student->name = $request->input('name');
+            $student->roll_number = $request->input('roll_number');
+            $student->email = $request->input('email');
+            $student->save();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to update!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Student updated'
+        ]);
     }
 
-    public function softDelete(Request $request, Department $dept, Batch $batch,
-        Student $student) {
-
+    public function softDelete(Department $dept, Batch $batch, Student $student) {
         $this->authorize('update', [Student::class, $dept]);
 
         try {
@@ -121,9 +149,7 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function restore(Request $request, Department $dept, Batch $batch,
-        $student_id) {
-
+    public function restore(Department $dept, Batch $batch, $student_id) {
         $this->authorize('update', [Student::class, $dept]);
 
         $student = Student::withTrashed()->findOrFail($student_id);
@@ -142,9 +168,7 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function delete(Request $request, Department $dept, Batch $batch,
-        $student_id) {
-
+    public function delete(Department $dept, Batch $batch, $student_id) {
         $this->authorize('delete', [Student::class, $dept]);
 
         $student = Student::withTrashed()->findOrFail($student_id);
