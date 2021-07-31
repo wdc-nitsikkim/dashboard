@@ -125,7 +125,7 @@
                                 <td>
 
                                     @if ($notice['deleted_at'] == null)
-                                        @can('update', $notiModel))
+                                        @can('update', $notiModel)
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
                                                 href="{{ route('homepage.notification.edit', $notice['id']) }}">
                                                 <span class="material-icons">edit</span></a>
@@ -135,14 +135,14 @@
                                                 confirm spoof spoof-method="DELETE"><span class="material-icons">delete</span></a>
                                         @endcan
                                     @else
-                                        @can('update', $notiModel))
+                                        @can('update', $notiModel)
                                             <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
                                                 href="{{ route('homepage.notification.restore', $notice['id']) }}"
                                                 spoof spoof-method="POST">
                                                 <span class="material-icons">restore</span></a>
                                         @endcan
 
-                                        @can('delete', $notiModel))
+                                        @can('delete', $notiModel)
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete Permanently"
                                                 href="{{ route('homepage.notification.delete', $notice['id']) }}"
                                                 alert-title="Delete Permanently?" confirm spoof spoof-method="DELETE">
