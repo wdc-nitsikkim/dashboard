@@ -135,7 +135,7 @@
                                 <td>
 
                                     @php
-                                        $baseRouteWithId = array_merge(
+                                        $routeParamsWithId = array_merge(
                                             $baseRouteParams,
                                             ['id' => $student['id']]
                                         );
@@ -144,24 +144,24 @@
                                     @if ($student['deleted_at'] == null)
                                         @if (Auth::user()->can('update', [\App\Models\Student::class, $department]))
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
-                                                href="#!">
+                                                href="{{ route('department.students.edit', $routeParamsWithId) }}">
                                                 <span class="material-icons">edit</span></a>
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete"
-                                                href="{{ route('department.students.softDelete', $baseRouteWithId) }}"
+                                                href="{{ route('department.students.softDelete', $routeParamsWithId) }}"
                                                 alert-title="Move to Trash?" alert-text="-"
                                                 confirm spoof spoof-method="DELETE"><span class="material-icons">delete</span></a>
                                         @endif
                                     @else
                                         @if (Auth::user()->can('update', [\App\Models\Student::class, $department]))
                                             <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
-                                                href="{{ route('department.students.restore', $baseRouteWithId) }}"
+                                                href="{{ route('department.students.restore', $routeParamsWithId) }}"
                                                 spoof spoof-method="POST">
                                                 <span class="material-icons">restore</span></a>
                                         @endif
                                         @if (Auth::user()->can('delete', [\App\Models\Student::class, $department]))
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip"
                                                 title="Delete Permanently"
-                                                href="{{ route('department.students.delete', $baseRouteWithId) }}"
+                                                href="{{ route('department.students.delete', $routeParamsWithId) }}"
                                                 alert-title="Delete Permanently?" confirm spoof spoof-method="DELETE">
                                                 <span class="material-icons">delete_forever</span></a>
                                         @endif

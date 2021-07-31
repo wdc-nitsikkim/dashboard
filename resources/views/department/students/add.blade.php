@@ -124,8 +124,9 @@
         </form>
     </div>
 </div>
+
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('static/js/student.js') }}"></script>
+    <script src="{{ asset('static/js/students.js') }}"></script>
 @endpush
