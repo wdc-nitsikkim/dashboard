@@ -122,7 +122,7 @@ class NotificationController extends Controller {
         });
 
         if ($validator->fails()) {
-            return back()->withErrors($validator->errors());
+            return back()->withErrors($validator->errors())->withInput();
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
             $fileName = CustomHelper::formatFileName($file->getClientOriginalName());
