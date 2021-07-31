@@ -128,5 +128,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('static/js/students.js') }}"></script>
+    {{-- <script src="{{ asset('static/js/students.js') }}"></script> --}}
 @endpush
