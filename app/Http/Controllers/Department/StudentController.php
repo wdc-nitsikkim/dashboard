@@ -117,6 +117,11 @@ class StudentController extends Controller {
             $student->name = $request->input('name');
             $student->roll_number = $request->input('roll_number');
             $student->email = $request->input('email');
+
+            if (Auth::user()->can('updateDepartment', Student::class)) {
+                $student->department_id = $request->input('department');
+            }
+
             $student->save();
         } catch (\Exception $e) {
             return back()->with([

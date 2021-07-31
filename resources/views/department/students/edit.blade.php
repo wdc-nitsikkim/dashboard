@@ -106,17 +106,26 @@
             <div class="row g-2 mb-3">
                 <div class="col-sm-8 mb-2">
                     <div class="form-floating">
-                        <select class="form-select {{ $errors->has('department') ? 'is-invalid' : '' }}"
-                            id="department" name="department" required>
 
-                            @foreach ($departmentList as $dept)
-                                <option value="{{ $dept['id'] }}"
-                                    {{ $dept['id'] == $student['department_id'] ? 'selected' : '' }}>
-                                    {{ $dept['name'] }}
-                                </option>
-                            @endforeach
+                        @can('updateDepartment', 'App\\Models\Student')
+                            <select class="form-select {{ $errors->has('department') ? 'is-invalid' : '' }}"
+                                id="department" name="department" required>
 
-                        </select>
+                                @foreach ($departmentList as $dept)
+                                    <option value="{{ $dept['id'] }}"
+                                        {{ $dept['id'] == $student['department_id'] ? 'selected' : '' }}>
+                                        {{ $dept['name'] }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        @else
+                            <input type="text"
+                                class="form-control {{ $errors->has('department') ? 'is-invalid' : '' }}"
+                                id="department" placeholder="Department" name="department"
+                                value="{{ old('department') ?? $department['name'] }}" readonly>
+                        @endcan
+
                         <label for="department">Department</label>
 
                         @if ($errors->has('department'))

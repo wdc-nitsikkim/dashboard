@@ -49,4 +49,8 @@ class StudentPolicy {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete'])
             && $user->hasDepartmentAccess($department->id);
     }
+
+    public function updateDepartment(User $user) {
+        return $user->hasRole('admin');
+    }
 }
