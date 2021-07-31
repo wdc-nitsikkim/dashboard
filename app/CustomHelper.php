@@ -1,39 +1,66 @@
 <?php
     namespace App;
 
-    /* add helper functions here */
-
     class CustomHelper {
+        /**
+         * Contains constant values to be provided globally
+         *
+         * @static array
+         */
         private static $GLOBAL_CONSTS = [
-            'session_map' => [
+            'sessionMap' => [
                 'selectedDepartment' => 'department.selected',
                 'selectedSubject' => 'subject.selected'
             ],
-            'permission_map' => [
+            'permissionMap' => [
                 'read' => 'r',
-                'write' => 'w',
+                'create' => 'c',
+                'update' => 'u',
                 'delete' => 'd'
             ]
         ];
 
-        public static function check_file_input($name) {
+        /**
+         * Checks file input
+         *
+         * @param string $name
+         * @return bool
+         */
+        public static function checkFileInput($name) {
             return (isset($_FILES[$name]) &&
-                $_FILES[$name]["name"] != "" &&
-                $_FILES[$name]["size"] != 0);
+                $_FILES[$name]['name'] != '' &&
+                $_FILES[$name]['size'] != 0);
         }
 
-        public static function format_file_name($str, $append_timestamp = true) {
+        /**
+         * Reformats $str according to given format
+         *
+         * @param string $str
+         * @param bool $appendTimestamp
+         * @return string
+         */
+        public static function formatFileName($str, $appendTimestamp = true) {
             define('FILENAME_MAX_LEN', 15);
             $tmp = camel_case(mb_substr(\pathinfo($str, PATHINFO_FILENAME), 0, FILENAME_MAX_LEN));
-            return ($append_timestamp ? $tmp . '_' . time() : $tmp);
+            return ($appendTimestamp ? $tmp . '_' . time() : $tmp);
         }
 
-        public static function get_permission_constants() {
-            return self::$GLOBAL_CONSTS['permission_map'];
+        /**
+         * Returns permission contants used in database
+         *
+         * @return array
+         */
+        public static function getPermissionConstants() {
+            return self::$GLOBAL_CONSTS['permissionMap'];
         }
 
-        public static function get_session_constants() {
-            return self::$GLOBAL_CONSTS['session_map'];
+        /**
+         * Returns common session keys used in app
+         *
+         * @return array
+         */
+        public static function getSessionConstants() {
+            return self::$GLOBAL_CONSTS['sessionMap'];
         }
 
         public static function test() {

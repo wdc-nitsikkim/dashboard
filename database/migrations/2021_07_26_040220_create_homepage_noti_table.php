@@ -15,10 +15,10 @@ class CreateHomepageNotiTable extends Migration
     {
         Schema::create('homepage_notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('type', ['announcement', 'notice', 'download', 'tender']);
-            $table->string('display_text', 100);
+            $table->enum('type', ['announcement', 'notice', 'download', 'tender'])->nullable(false);
+            $table->string('display_text', 100)->nullable(false);
             $table->string('link', 100);
-            $table->enum('status', [0, 1])->default(1);
+            $table->enum('status', [0, 1])->default(1)->nullable(false);
 
             $table->timestamps();
             $table->softDeletes();

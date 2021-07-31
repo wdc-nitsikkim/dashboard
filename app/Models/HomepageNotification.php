@@ -10,4 +10,11 @@ class HomepageNotification extends Model {
 
     protected $table = 'homepage_notifications';
     protected $dates = ['deleted_at'];
+
+    /**
+     * attributes that cannot be mass-assigned
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
 }

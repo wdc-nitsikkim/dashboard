@@ -149,13 +149,24 @@
                 <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
                     <ul class="flex-column nav">
                         <li class="nav-item
-                            {{ Route::is('department.home') || Route::is('department.select') ? 'active' : '' }}">
+                            {{ Route::is('department.home', 'department.select') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('department.index') }}">
                                 <span class="sidebar-text">Home</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
+
+                        @php
+                            $routeUrl = route('department.index');
+                            $sessionKey = CustomHelper::getSessionConstants()['selectedDepartment'];
+                            if (session()->has($sessionKey)) {
+                                $dept = session($sessionKey);
+                                $routeUrl = route('department.students.selectBatch', $dept);
+                            }
+                        @endphp
+
+                        <li class="nav-item
+                            {{ Route::is('department.students.selectBatch', 'department.students.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ $routeUrl }}">
                                 <span class="sidebar-text">Students</span>
                             </a>
                         </li>

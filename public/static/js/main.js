@@ -32,7 +32,7 @@ const globalHandler = (function ($, window) {
         }).then((result) => {
             if (result.isConfirmed) {
                 if (btn[0].hasAttribute('spoof')) {
-                    return spoofMethod(btn);
+                    return spoofMethod(btn, e);
                 }
                 window.location.href = btn.attr('href');
             }
@@ -41,19 +41,18 @@ const globalHandler = (function ($, window) {
 
     $('a[spoof]').on('click', function(e) {
         e.preventDefault();
-        spoofMethod($(this));
+        spoofMethod($(this), e);
     });
 
-    function spoofMethod(anchorElement) {
+    function spoofMethod(anchorElement, event) {
         const a = anchorElement;
         const form = $('#methodSpoofer');
         const spoofUrl = a.attr('href');
         const spoofMethod = a.attr('spoof-method') ?? 'POST';
 
-        /* filling fields */
         form.attr('action', spoofUrl);
+        event.ctrlKey ? form.attr('target', '_blank') : form.attr('target', '_self');
         form.find('input[name="_method"]').val(spoofMethod);
-        /* submit form */
         form.trigger('submit');
     }
 

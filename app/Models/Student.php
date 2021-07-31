@@ -14,10 +14,25 @@ class Student extends Model {
     protected $table = 'students';
     protected $dates = ['deleted_at'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'roll_number', 'name', 'email', 'department_id', 'batch_id'
+    ];
+
+    /**
+     * Defines many-to-one relationship
+     */
     public function department() {
         return $this->belongsTo(Department::class, 'department_id')->withDefault();
     }
 
+    /**
+     * Defines many-to-one relationship
+     */
     public function batch() {
         return $this->belongsTo(Batch::class, 'batch_id')->withDefault();
     }

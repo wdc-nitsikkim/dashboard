@@ -1,5 +1,10 @@
 @if ($paginator->hasPages())
-    <ul class="pagination {{ isset($pagination_class) ? $pagination_class : 'justify-content-end' }}">
+    <div class="text-muted">
+        Showing {{ $paginator->firstItem() . ' - ' . $paginator->lastItem() }} of
+        total {{ $paginator->total() }}
+    </div>
+
+    <ul class="pagination {{ isset($pagination_class) ? $pagination_class : '' }}">
         {{-- First Page Link --}}
         {{-- <li class="page-item {{ $paginator->onFirstPage() ? 'disabled' : '' }}" title="First Page">
             <a class="page-link" href="{{ url()->current() . '?page=1' }}">
@@ -18,16 +23,16 @@
         @foreach ($elements as $element)
             {{-- "Three Dots" Separator --}}
             @if (is_string($element))
-                <li class="disabled"><span>{{ $element }}</span></li>
+                <li class="page-item disabled"><span class="page-link">{{ $element }}</span></li>
             @endif
 
             {{-- Array Of Links --}}
             @if (is_array($element))
                 @foreach ($element as $page => $url)
-                <li class="page-item {{ $page == $paginator->currentPage() ? 'active' : '' }}">
-                    <a class="page-link" href="{{ $page == $paginator->currentPage() ? '#!' : $url }}">
-                        {{ $page }}</a>
-                </li>
+                    <li class="page-item {{ $page == $paginator->currentPage() ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $page == $paginator->currentPage() ? '#!' : $url }}">
+                            {{ $page }}</a>
+                    </li>
                 @endforeach
             @endif
         @endforeach

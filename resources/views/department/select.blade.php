@@ -1,8 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
-@if (Auth::user()->can('create', \App\Models\Department::class))
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+
+@if (Auth::user()->can('create', \App\Models\Department::class)
+    || Auth::user()->can('update', \App\Models\Department::class))
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">
                 <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
@@ -11,11 +14,15 @@
                     New
                 </button>
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="">
-                        <span class="material-icons">add_circle</span>
-                        Create New Department
-                    </a>
+
+                    @if (Auth::user()->can('create', \App\Models\Department::class))
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="">
+                            <span class="material-icons">add_circle</span>
+                            Create New Department
+                        </a>
+                    @endif
+
                     @if (Auth::user()->can('update', \App\Models\Department::class))
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
@@ -23,10 +30,12 @@
                             Edit Existing
                         </a>
                     @endif
+
                 </div>
             </div>
         </div>
     </div>
+
 @endif
 
 <div class="my-3">
@@ -49,28 +58,46 @@
     <div class="card-body">
         <h5>Additional Access</h5>
         <div class="mb-3">
-            @if (count($preferred) > 0)
+
+            @if ($preferred->count() > 0)
                 @foreach ($preferred as $dept)
-                    <a class="btn btn-lg btn-outline-tertiary mx-1 mb-2"
-                        href="{{ route('department.saveInSession', $dept['code']) }}" spoof spoof-method="POST">
+                    @component('components.anchorBtn', [
+                            'href' => route('department.saveInSession', $dept['code']),
+                            'classes' => 'btn-lg btn-outline-tertiary mb-2'
+                        ])
+                        @slot('attr')
+                            spoof spoof-method="POST"
+                        @endslot
                         {{ $dept['name'] }}
-                    </a>
+                    @endcomponent
                 @endforeach
-            @elseif ($admin)
-                <p>Already an admin!</p>
             @else
-                <p>No special access!</p>
+                <p class="text-danger">No Results / Not Applicable</p>
             @endif
+
         <hr/>
         </div>
 
         <h5>All Departments</h5>
-        @foreach ($departments as $dept)
-            <a class="btn btn-lg btn-outline-tertiary mx-1 mb-2"
-                href="{{ route('department.saveInSession', $dept['code']) }}" spoof spoof-method="POST">
-                {{ $dept['name'] }}
-            </a>
-        @endforeach
+        <div class="mb-3">
+
+            @if ($departments->count() > 0)
+                @foreach ($departments as $dept)
+                    @component('components.anchorBtn', [
+                            'href' => route('department.saveInSession', $dept['code']),
+                            'classes' => 'btn-lg btn-outline-tertiary mb-2'
+                        ])
+                        @slot('attr')
+                            spoof spoof-method="POST"
+                        @endslot
+                        {{ $dept['name'] }}
+                    @endcomponent
+                @endforeach
+            @else
+                <p class="text-danger">No Results</p>
+            @endif
+
+        </div>
     </div>
 </div>
 

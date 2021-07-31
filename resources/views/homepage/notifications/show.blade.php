@@ -1,40 +1,43 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-    <div>
-        <div class="dropdown">
-            <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="material-icons mx-1">add</span>
-                New
-            </button>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('homepage.notification.add', 'announcement') }}">
-                    <span class="material-icons">campaign</span>
-                    Announcement
-                </a>
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('homepage.notification.add', 'download') }}">
-                    <span class="material-icons">download_done</span>
-                    Download
-                </a>
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('homepage.notification.add', 'notice') }}">
-                    <span class="material-icons">description</span>
-                    Notice
-                </a>
-                <div role="separator" class="dropdown-divider my-1"></div>
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('homepage.notification.add', 'tender') }}">
-                    <span class="material-icons">apartment</span>
-                    Tender
-                </a>
+
+@if (Auth::user()->can('create', \App\Models\HomepageNotification::class))
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="material-icons mx-1">add</span>
+                    New
+                </button>
+                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('homepage.notification.add', 'announcement') }}">
+                        <span class="material-icons">campaign</span>
+                        Announcement
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('homepage.notification.add', 'download') }}">
+                        <span class="material-icons">download_done</span>
+                        Download
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('homepage.notification.add', 'notice') }}">
+                        <span class="material-icons">description</span>
+                        Notice
+                    </a>
+                    <div role="separator" class="dropdown-divider my-1"></div>
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('homepage.notification.add', 'tender') }}">
+                        <span class="material-icons">apartment</span>
+                        Tender
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endif
 
 <div class="my-3">
     <div class="d-flex justify-content-between w-100 flex-wrap">
@@ -43,13 +46,6 @@
             {{-- <p class="mb-0"></p> --}}
         </div>
         <div>
-            @if (isset($filter) && $filter)
-                <a href="{{ url()->current() }}"
-                    class="btn btn-outline-danger d-inline-flex align-items-center">
-                    <span class="material-icons mx-1">filter_alt</span>
-                    Clear Filters
-                </a>
-            @endisset
             <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
                 <span class="material-icons mx-1">help</span>
             </a>
@@ -59,6 +55,7 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
+
         @if (count($notifications['data']) == 0)
             <h5 class="text-center text-danger">No results found!</h5>
         @else
@@ -116,16 +113,17 @@
                                         }
                                     @endphp
 
-                                    <a href="{{ route('homepage.notification.changeStatus', ['id'=> $notice['id'], 'status'=> $query_param]) }}"
+                                    <a href="{{ route('homepage.notification.changeStatus', ['id' => $notice['id'], 'status' => $query_param]) }}"
                                         class="btn btn-xs {{ $btn_class }}" spoof spoof-method="POST">
                                         {{ $btn_text }}
                                     </a>
                                 </td>
                                 <td>
+
                                     @if ($notice['deleted_at'] == null)
                                         @if (Auth::user()->can('update', \App\Models\HomepageNotification::class))
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
-                                                href="{{ route('homepage.notification.editPage', $notice['id']) }}">
+                                                href="{{ route('homepage.notification.edit', $notice['id']) }}">
                                                 <span class="material-icons">edit</span></a>
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete"
                                                 href="{{ route('homepage.notification.softDelete', $notice['id']) }}"
@@ -146,6 +144,7 @@
                                                 <span class="material-icons">delete_forever</span></a>
                                         @endif
                                     @endif
+
                                 </td>
                             </tr>
                         @endforeach
@@ -158,10 +157,8 @@
                 {{ $pagination }}
             </nav>
         @endif
+
     </div>
 </div>
-@endsection
 
-@push('scripts')
-    <script src="{{ asset('static/js/homepage-notification.js') }}"></script>
-@endpush
+@endsection
