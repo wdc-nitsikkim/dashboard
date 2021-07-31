@@ -94,18 +94,16 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-sm-4 d-grid gap-1 mx-auto mb-3">
-                    <a class="btn btn-primary" href="{{ route('homepage.notification.show') }}">
-                        Cancel <span class="material-icons mx-1">cancel</span>
-                    </a>
-                </div>
-                <div class="col-sm-8 d-grid gap-1 mx-auto mb-3">
-                    <button class="btn btn-success" type="submit">
-                        Add Notification <span class="material-icons mx-1">keyboard_arrow_right</span>
-                    </button>
-                </div>
-            </div>
+            @component('components.formFooterAdd')
+                @slot('returnRoute')
+                    {{ route('homepage.notification.show') }}
+                @endslot
+
+                @slot('submitBtnTxt')
+                    Add Notification
+                @endslot
+            @endcomponent
+
         </form>
     </div>
 </div>
