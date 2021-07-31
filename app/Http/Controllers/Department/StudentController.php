@@ -176,7 +176,7 @@ class StudentController extends Controller {
     public function delete(Department $dept, Batch $batch, $student_id) {
         $this->authorize('delete', [Student::class, $dept]);
 
-        $student = Student::withTrashed()->findOrFail($student_id);
+        $student = Student::onlyTrashed()->findOrFail($student_id);
         try {
             $student->forceDelete();
         } catch (\Exception $e) {
