@@ -39,36 +39,33 @@
     </div>
 @endcan
 
-<div class="my-3">
-    <div class="d-flex justify-content-between w-100 flex-wrap">
-        <div class="mb-3 mb-lg-0">
-            <h1 class="h4">
-                Select a batch to proceed
-            </h1>
-            <p class="mb-0">
-                {{ $department['name'] }}
-            </p>
-        </div>
-        <div>
-            <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-                <span class="material-icons mx-1">help</span>
-            </a>
+@component('components.pageHeading')
+    @slot('heading')
+        Select a batch to proceed
+    @endslot
 
-            @component('components.anchorBtn', [
-                    'icon' => 'import_export',
-                    'href' => route('department.select'),
-                    'classes' => 'btn-outline-info',
-                    'tooltip' => true
-                ])
-                @slot('attr')
-                    data-bs-placement="left" title="Change Department"
-                @endslot
-                Department
-            @endcomponent
+    @slot('subheading')
+        {{ $department['name'] }}
+    @endslot
 
-        </div>
-    </div>
-</div>
+    @slot('sideButtons')
+        <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
+            <span class="material-icons mx-1">help</span>
+        </a>
+
+        @component('components.anchorBtn', [
+                'icon' => 'import_export',
+                'href' => route('department.select'),
+                'classes' => 'btn-outline-info',
+                'tooltip' => true
+            ])
+            @slot('attr')
+                data-bs-placement="left" title="Change Department"
+            @endslot
+            Department
+        @endcomponent
+    @endslot
+@endcomponent
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">

@@ -2,27 +2,23 @@
 
 @section('content')
 
-<div class="my-3">
-    <div class="d-flex justify-content-between w-100 flex-wrap">
-        <div class="mb-3 mb-lg-0">
-            <h1 class="h4">Edit Student Details</h1>
-            <p class="mb-0">
-                @if ($batch['type'] == 'b')
-                    B.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 4)  }})
-                @else
-                    M.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 2) }})
-                @endif
-                ,
-                {{ $department['name'] }}
-            </p>
-        </div>
-        <div>
-            <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-                <span class="material-icons mx-1">help</span>
-            </a>
-        </div>
-    </div>
-</div>
+@component('components.pageHeading')
+    @slot('heading')
+        Update Student - {{ $batch['full_name'] }}
+    @endslot
+
+    @slot('subheading')
+        @include('department.partials.studentsPageSubheading', ['batch' => $batch])
+
+        {{ $department['name'] }}
+    @endslot
+
+    @slot('sideButtons')
+        <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
+            <span class="material-icons mx-1">help</span>
+        </a>
+    @endslot
+@endcomponent
 
 @php
     $baseRouteParams = [

@@ -48,52 +48,21 @@
     </div>
 @endif
 
-<div class="my-3">
-    <div class="d-flex justify-content-between w-100 flex-wrap">
-        <div class="mb-3 mb-lg-0">
-            <h1 class="h4">Student List - {{ $batch['full_name'] }}</h1>
-            <p class="mb-0">
-                @if ($batch['type'] == 'b')
-                    B.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 4)  }}),
-                @else
-                    M.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 2) }}),
-                @endif
+@component('components.pageHeading')
+    @slot('heading')
+        Student List - {{ $batch['full_name'] }}
+    @endslot
 
-                {{ $department['name'] }}
-            </p>
-        </div>
-        <div>
-            <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-                <span class="material-icons mx-1">help</span>
-            </a>
+    @slot('subheading')
+        @include('department.partials.studentsPageSubheading', ['batch' => $batch])
 
-            @component('components.anchorBtn', [
-                    'icon' => 'import_export',
-                    'href' => route('department.select'),
-                    'classes' => 'btn-outline-info',
-                    'tooltip' => true
-                ])
-                @slot('attr')
-                    data-bs-placement="left" title="Change Department"
-                @endslot
-                Department
-            @endcomponent
+        {{ $department['name'] }}
+    @endslot
 
-            @component('components.anchorBtn', [
-                    'icon' => 'import_export',
-                    'href' => route('department.students.selectBatch', $department),
-                    'classes' => 'btn-outline-info',
-                    'tooltip' => true
-                ])
-                @slot('attr')
-                    data-bs-placement="left" title="Change Batch"
-                @endslot
-                Batch
-            @endcomponent
-
-        </div>
-    </div>
-</div>
+    @slot('sideButtons')
+        @include('department.partials.studentsPageSwitchBtns', ['department' => $department])
+    @endslot
+@endcomponent
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
