@@ -103,6 +103,7 @@ Route::name('department.')->prefix('department')->middleware(['auth'])
     /* student routes */
     Route::name('students.')->prefix('{dept}/students')->group(function() {
         Route::get('/', 'StudentController@selectBatch')->name('selectBatch');
+        Route::get('/test/{student?}', 'StudentController@test');
 
         Route::prefix('{batch}')->group(function() {
             Route::get('/', 'StudentController@show')->name('show');
