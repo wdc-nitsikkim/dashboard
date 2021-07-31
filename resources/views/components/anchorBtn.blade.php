@@ -6,6 +6,9 @@
     class="btn {{ $classes ?? 'btn-outline-primary' }} d-inline-flex
     align-items-center ms-1" {{ $attr ?? '' }}
     {{ isset($tooltip) ? $tooltipAttr : '' }}>
-    <span class="material-icons mx-1">{{ $icon ?? '' }}</span>
+    @isset($icon)
+        <span class="material-icons ms-1">{{ $icon }}</span>
+    @endisset
+
     {{ $slot }}
 </a>
