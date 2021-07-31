@@ -144,6 +144,15 @@ div.page-loader {
     background-size: 300% 100%;
 }
 
+.unread.unread-animation {
+    animation: unreadAnim 1.5s linear infinite;
+}
+
+@keyframes unreadAnim {
+    50% { opacity: 45%; }
+    100% { opacity: 100%; }
+}
+
 @keyframes animateBg {
     0% { background-position: 0 0; }
     100% { background-position: 100% 0; }

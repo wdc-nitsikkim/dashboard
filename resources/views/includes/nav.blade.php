@@ -32,7 +32,7 @@
 
             <ul class="navbar-nav align-items-center">
                 <li class="nav-item dropdown">
-                    <a class="nav-link text-dark notification-bell {{ $unread ? 'unread' : '' }}
+                    <a class="nav-link text-dark notification-bell {{ $unread ? 'unread unread-animation' : '' }}
                         dropdown-toggle"
                         data-unread-notifications="{{ $unread ? 'true' : 'false' }}"
                         href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static"
