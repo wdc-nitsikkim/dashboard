@@ -112,6 +112,17 @@ div.page-loader {
 }
 /* Back to top button --end */
 
+/* General classes --start */
+.scale-on-hover {
+    transform: scale(1.0);
+    transition: all 0.3s ease;
+}
+
+.scale-on-hover:hover {
+    transform: scale(1.4);
+}
+/* General classes --end */
+
 /* animation classes --start */
 .rotate-infinite {
     animation: spin 1s linear infinite;
