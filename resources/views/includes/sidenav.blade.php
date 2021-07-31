@@ -25,7 +25,7 @@
                 </div>
                 <div class="d-block">
                     <h2 class="h5 mb-3">
-                        <span class="badge bg-info text-dark mx-1">{{ strtoupper(Auth::user()->role) ?? '-' }}</span>
+                        {{-- <span class="badge bg-info text-dark mx-1">{{ strtolower(Auth::user()->email) ?? '-' }}</span> --}}
                         {{ Auth::user()->name ?? '-' }}</h2>
                     <a href="{{ route('logout') }}"
                         class="btn btn-secondary btn-sm d-inline-flex align-items-center">

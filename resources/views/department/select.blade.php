@@ -2,9 +2,11 @@
 
 @section('content')
 
-@if (Auth::user()->can('create', \App\Models\Department::class)
-    || Auth::user()->can('update', \App\Models\Department::class))
+@php
+    $departmentModel = 'App\\Models\\Department';
+@endphp
 
+@can (['create', 'update'], $departmentModel)
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">
@@ -15,28 +17,27 @@
                 </button>
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
 
-                    @if (Auth::user()->can('create', \App\Models\Department::class))
+                    @can ('create', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
                             <span class="material-icons">add_circle</span>
                             Create New Department
                         </a>
-                    @endif
+                    @endcan
 
-                    @if (Auth::user()->can('update', \App\Models\Department::class))
+                    @can ('update', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
                             <span class="material-icons">edit</span>
                             Edit Existing
                         </a>
-                    @endif
+                    @endcan
 
                 </div>
             </div>
         </div>
     </div>
-
-@endif
+@endcan
 
 <div class="my-3">
     <div class="d-flex justify-content-between w-100 flex-wrap">

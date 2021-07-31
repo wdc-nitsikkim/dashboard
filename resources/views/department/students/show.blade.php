@@ -3,6 +3,9 @@
 @section('content')
 
 @php
+    $batchModel = 'App\\Models\\Batch';
+    $studentModel = 'App\\Models\\Student';
+
     $baseRouteParams = [
         'dept' => $department,
         'batch' => $batch
@@ -23,21 +26,21 @@
 
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
 
-                    @if (Auth::user()->can('create', [\App\Models\Student::class, $department]))
+                    @can ('create', [$studentModel, $department])
                         <a class="dropdown-item d-flex align-items-center"
                             href="{{ route('department.students.add', $baseRouteParams) }}">
                             <span class="material-icons">face</span>
                             Student
                         </a>
-                    @endif
+                    @endcan
 
-                    @if (Auth::user()->can('create', \App\Models\Batch::class))
+                    @can ('create', $batchModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="#!">
                             <span class="material-icons">format_list_numbered</span>
                             Batch
                         </a>
-                    @endif
+                    @endcan
 
                 </div>
             </div>
@@ -51,11 +54,11 @@
             <h1 class="h4">Student List - {{ $batch['full_name'] }}</h1>
             <p class="mb-0">
                 @if ($batch['type'] == 'b')
-                    B.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 4)  }})
+                    B.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 4)  }}),
                 @else
-                    M.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 2) }})
+                    M.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 2) }}),
                 @endif
-                ,
+
                 {{ $department['name'] }}
             </p>
         </div>
@@ -142,7 +145,7 @@
                                     @endphp
 
                                     @if ($student['deleted_at'] == null)
-                                        @if (Auth::user()->can('update', [\App\Models\Student::class, $department]))
+                                        @can ('update', [$studentModel, $department])
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
                                                 href="{{ route('department.students.edit', $routeParamsWithId) }}">
                                                 <span class="material-icons">edit</span></a>
@@ -150,21 +153,22 @@
                                                 href="{{ route('department.students.softDelete', $routeParamsWithId) }}"
                                                 alert-title="Move to Trash?" alert-text="-"
                                                 confirm spoof spoof-method="DELETE"><span class="material-icons">delete</span></a>
-                                        @endif
+                                       @endcan
                                     @else
-                                        @if (Auth::user()->can('update', [\App\Models\Student::class, $department]))
+                                        @can ('update', [$studentModel, $department])
                                             <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
                                                 href="{{ route('department.students.restore', $routeParamsWithId) }}"
                                                 spoof spoof-method="POST">
                                                 <span class="material-icons">restore</span></a>
-                                        @endif
-                                        @if (Auth::user()->can('delete', [\App\Models\Student::class, $department]))
+                                       @endcan
+
+                                       @can ('delete', [$studentModel, $department])
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip"
                                                 title="Delete Permanently"
                                                 href="{{ route('department.students.delete', $routeParamsWithId) }}"
                                                 alert-title="Delete Permanently?" confirm spoof spoof-method="DELETE">
                                                 <span class="material-icons">delete_forever</span></a>
-                                        @endif
+                                        @endcan
                                     @endif
 
                                 </td>

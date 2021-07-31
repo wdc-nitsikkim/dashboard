@@ -2,7 +2,11 @@
 
 @section('content')
 
-@if (Auth::user()->can('create', \App\Models\HomepageNotification::class))
+@php
+    $notiModel = 'App\\Models\\HomepageNotification';
+@endphp
+
+@can ('create', $notiModel)
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">
@@ -37,7 +41,7 @@
             </div>
         </div>
     </div>
-@endif
+@endcan
 
 <div class="my-3">
     <div class="d-flex justify-content-between w-100 flex-wrap">
@@ -121,7 +125,7 @@
                                 <td>
 
                                     @if ($notice['deleted_at'] == null)
-                                        @if (Auth::user()->can('update', \App\Models\HomepageNotification::class))
+                                        @can('update', $notiModel))
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
                                                 href="{{ route('homepage.notification.edit', $notice['id']) }}">
                                                 <span class="material-icons">edit</span></a>
@@ -129,20 +133,21 @@
                                                 href="{{ route('homepage.notification.softDelete', $notice['id']) }}"
                                                 alert-title="Move to Trash?" alert-text="-"
                                                 confirm spoof spoof-method="DELETE"><span class="material-icons">delete</span></a>
-                                        @endif
+                                        @endcan
                                     @else
-                                        @if (Auth::user()->can('update', \App\Models\HomepageNotification::class))
+                                        @can('update', $notiModel))
                                             <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
                                                 href="{{ route('homepage.notification.restore', $notice['id']) }}"
                                                 spoof spoof-method="POST">
                                                 <span class="material-icons">restore</span></a>
-                                        @endif
-                                        @if (Auth::user()->can('delete', \App\Models\HomepageNotification::class))
+                                        @endcan
+
+                                        @can('delete', $notiModel))
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete Permanently"
                                                 href="{{ route('homepage.notification.delete', $notice['id']) }}"
                                                 alert-title="Delete Permanently?" confirm spoof spoof-method="DELETE">
                                                 <span class="material-icons">delete_forever</span></a>
-                                        @endif
+                                        @endcan
                                     @endif
 
                                 </td>

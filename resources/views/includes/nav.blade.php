@@ -25,15 +25,18 @@
                 <!-- / Search form -->
             </div>
             <!-- Navbar links -->
+
             @php
                 $unread = session()->has('status') || $errors->any();
             @endphp
 
             <ul class="navbar-nav align-items-center">
                 <li class="nav-item dropdown">
-                    <a class="nav-link text-dark notification-bell {{ $unread ? 'unread' : '' }} dropdown-toggle"
+                    <a class="nav-link text-dark notification-bell {{ $unread ? 'unread' : '' }}
+                        dropdown-toggle"
                         data-unread-notifications="{{ $unread ? 'true' : 'false' }}"
-                        href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                        href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static"
+                        aria-expanded="false">
                         <span class="material-icons">
                             notifications
                         </span>
@@ -42,6 +45,7 @@
                         <div class="list-group list-group-flush">
                             <a class="text-center text-primary fw-bold border-bottom border-light py-3">
                                 {{ $unread ? 'Recent Notifications' : 'No notifications!' }}</a>
+
                             @if (session()->has('status'))
                                 @php
                                     $tmp_noti['class'] = 'text-success';
@@ -112,14 +116,14 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown ms-lg-3">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <div class="media d-flex align-items-center">
                             <img class="avatar rounded-circle" alt="Image placeholder"
                                 src="{{ asset('static/images/admin.webp') }}">
                             <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                                <span class="badge bg-info text-dark mx-1">{{ strtoupper(Auth::user()->role) ?? '-' }}</span>
+                                <span class="badge bg-info text-dark mx-1">{{ strtolower(Auth::user()->email) ?? '-' }}</span>
                                 <span class="mb-0 font-small fw-bold text-gray-900">{{ Auth::user()->name ?? '-' }}</span>
                             </div>
                         </div>

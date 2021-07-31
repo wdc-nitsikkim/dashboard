@@ -2,10 +2,12 @@
 
 @section('content')
 
-@if (Auth::user()->can('create', \App\Models\Batch::class)
-    || Auth::user()->can('update', \App\Models\Batch::class))
+@php
+    $batchModel = 'App\\Models\\Batch';
+@endphp
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+@can (['create', 'update'], $batchModel)
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">
                 <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
@@ -15,27 +17,27 @@
                 </button>
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
 
-                    @if (Auth::user()->can('create', \App\Models\Batch::class))
+                    @can('create', $batchModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
                             <span class="material-icons">add_circle</span>
                             Add New Batch
                         </a>
-                    @endif
+                    @endcan
 
-                    @if (Auth::user()->can('update', \App\Models\Batch::class))
+                    @can('update', $batchModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
                             <span class="material-icons">edit</span>
                             Edit Existing
                         </a>
-                    @endif
+                    @endcan
 
                 </div>
             </div>
         </div>
     </div>
-@endif
+@endcan
 
 <div class="my-3">
     <div class="d-flex justify-content-between w-100 flex-wrap">
