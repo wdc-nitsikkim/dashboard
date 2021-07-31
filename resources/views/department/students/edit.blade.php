@@ -103,7 +103,7 @@
                 <div class="col-sm-8 mb-2">
                     <div class="form-floating">
 
-                        @can ('updateDepartment', 'App\\Models\\Student')
+                        @can('updateDepartment', 'App\\Models\\Student')
                             <select class="form-select {{ $errors->has('department') ? 'is-invalid' : '' }}"
                                 id="department" name="department" required>
 

@@ -6,7 +6,7 @@
     $batchModel = 'App\\Models\\Batch';
 @endphp
 
-@can (['create', 'update'], $batchModel)
+@can(['create', 'update'], $batchModel)
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">

@@ -6,7 +6,7 @@
     $notiModel = 'App\\Models\\HomepageNotification';
 @endphp
 
-@can ('create', $notiModel)
+@can('create', $notiModel)
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">

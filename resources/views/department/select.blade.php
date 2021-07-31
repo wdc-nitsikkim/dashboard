@@ -6,7 +6,7 @@
     $departmentModel = 'App\\Models\\Department';
 @endphp
 
-@can (['create', 'update'], $departmentModel)
+@can(['create', 'update'], $departmentModel)
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">
@@ -17,7 +17,7 @@
                 </button>
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
 
-                    @can ('create', $departmentModel)
+                    @can('create', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
                             <span class="material-icons">add_circle</span>
@@ -25,7 +25,7 @@
                         </a>
                     @endcan
 
-                    @can ('update', $departmentModel)
+                    @can('update', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
                             <span class="material-icons">edit</span>

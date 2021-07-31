@@ -26,7 +26,7 @@
 
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
 
-                    @can ('create', [$studentModel, $department])
+                    @can('create', [$studentModel, $department])
                         <a class="dropdown-item d-flex align-items-center"
                             href="{{ route('department.students.add', $baseRouteParams) }}">
                             <span class="material-icons">face</span>
@@ -34,7 +34,7 @@
                         </a>
                     @endcan
 
-                    @can ('create', $batchModel)
+                    @can('create', $batchModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="#!">
                             <span class="material-icons">format_list_numbered</span>
@@ -114,7 +114,7 @@
                                     @endphp
 
                                     @if ($student['deleted_at'] == null)
-                                        @can ('update', [$studentModel, $department])
+                                        @can('update', [$studentModel, $department])
                                             <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
                                                 href="{{ route('department.students.edit', $routeParamsWithId) }}">
                                                 <span class="material-icons">edit</span></a>
@@ -124,14 +124,14 @@
                                                 confirm spoof spoof-method="DELETE"><span class="material-icons">delete</span></a>
                                        @endcan
                                     @else
-                                        @can ('update', [$studentModel, $department])
+                                        @can('update', [$studentModel, $department])
                                             <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
                                                 href="{{ route('department.students.restore', $routeParamsWithId) }}"
                                                 spoof spoof-method="POST">
                                                 <span class="material-icons">restore</span></a>
                                        @endcan
 
-                                       @can ('delete', [$studentModel, $department])
+                                       @can('delete', [$studentModel, $department])
                                             <a class="text-danger mx-1" data-bs-toggle="tooltip"
                                                 title="Delete Permanently"
                                                 href="{{ route('department.students.delete', $routeParamsWithId) }}"
