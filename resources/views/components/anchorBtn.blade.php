@@ -7,7 +7,7 @@
     align-items-center ms-1" {{ $attr ?? '' }}
     {{ isset($tooltip) ? $tooltipAttr : '' }}>
     @isset($icon)
-        <span class="material-icons ms-1">{{ $icon }}</span>
+        <span class="material-icons {{ isset($slot) && $slot != '' ? 'me-1' : '' }}">{{ $icon }}</span>
     @endisset
 
     {{ $slot }}
