@@ -70,84 +70,82 @@
         @if (count($students['data']) == 0)
             <h5 class="text-center text-danger">No results found!</h5>
         @else
-            <div class="table-responsive">
-                <table class="table table-centered table-nowrap mb-0 rounded">
-                    <thead class="thead-light">
-                        <tr>
-                            <th class="border-0 col rounded-start">#</th>
-                            <th class="border-0 col">Roll Number</th>
-                            <th class="border-0 col">Name</th>
-                            <th class="border-0 col">Email</th>
-                            <th class="border-0 col rounded-end">Actions</th>
+            @component('components.table.main')
+                @slot('head')
+                    @component('components.table.head', [
+                            'items' => [
+                                '#', 'Roll Number', 'Name',
+                                'Email', 'Actions'
+                            ]
+                        ])
+                    @endcomponent
+                @endslot
+
+                @slot('body')
+                    @foreach ($students['data'] as $student)
+
+                        <tr class="{{ $student['deleted_at'] != null ? 'text-danger' : ''}}">
+                            <td>
+                                <span class="fw-bolder">{{ $loop->iteration }}</span>
+                            </td>
+                            <td>
+                                {{ strtoupper($student['roll_number']) }}
+                            </td>
+                            <td>
+                                <span class="d-inline-block text-truncate" style="max-width: 200px"
+                                    data-bs-toggle="tooltip"
+                                    title="{{ ucwords($student['name']) }}">
+                                    {{ ucwords($student['name']) }}</span>
+                            </td>
+                            <td>
+                                <a class="d-inline-block text-truncate text-info" style="max-width: 200px"
+                                    href="mailto:{{ strtolower($student['email']) }}">
+                                    {{ strtolower($student['email']) }}</a>
+                            </td>
+
+                            <td>
+
+                                @php
+                                    $routeParamsWithId = array_merge(
+                                        $baseRouteParams,
+                                        ['id' => $student['id']]
+                                    );
+                                @endphp
+
+                                @if ($student['deleted_at'] == null)
+                                    @can('update', [$studentModel, $department])
+                                        <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
+                                            href="{{ route('department.students.edit', $routeParamsWithId) }}">
+                                            <span class="material-icons scale-on-hover">edit</span></a>
+                                        <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete"
+                                            href="{{ route('department.students.softDelete', $routeParamsWithId) }}"
+                                            alert-title="Move to Trash?" alert-text="-"
+                                            confirm spoof spoof-method="DELETE">
+                                            <span class="material-icons scale-on-hover">delete</span></a>
+                                @endcan
+                                @else
+                                    @can('update', [$studentModel, $department])
+                                        <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
+                                            href="{{ route('department.students.restore', $routeParamsWithId) }}"
+                                            spoof spoof-method="POST">
+                                            <span class="material-icons scale-on-hover">restore</span></a>
+                                @endcan
+
+                                @can('delete', [$studentModel, $department])
+                                        <a class="text-danger mx-1" data-bs-toggle="tooltip"
+                                            title="Delete Permanently"
+                                            href="{{ route('department.students.delete', $routeParamsWithId) }}"
+                                            alert-title="Delete Permanently?" confirm spoof spoof-method="DELETE">
+                                            <span class="material-icons scale-on-hover">delete_forever</span></a>
+                                    @endcan
+                                @endif
+
+                            </td>
                         </tr>
-                    </thead>
 
-                    <tbody>
-
-                        @foreach ($students['data'] as $student)
-                            <tr class="{{ $student['deleted_at'] != null ? 'text-danger' : ''}}">
-                                <td>
-                                    <span class="fw-bolder">{{ $loop->iteration }}</span>
-                                </td>
-                                <td>
-                                    {{ strtoupper($student['roll_number']) }}
-                                </td>
-                                <td>
-                                    <span class="d-inline-block text-truncate" style="max-width: 200px"
-                                        data-bs-toggle="tooltip"
-                                        title="{{ ucwords($student['name']) }}">
-                                        {{ ucwords($student['name']) }}</span>
-                                </td>
-                                <td>
-                                    <a class="d-inline-block text-truncate text-info" style="max-width: 200px"
-                                        href="mailto:{{ strtolower($student['email']) }}">
-                                        {{ strtolower($student['email']) }}</a>
-                                </td>
-
-                                <td>
-
-                                    @php
-                                        $routeParamsWithId = array_merge(
-                                            $baseRouteParams,
-                                            ['id' => $student['id']]
-                                        );
-                                    @endphp
-
-                                    @if ($student['deleted_at'] == null)
-                                        @can('update', [$studentModel, $department])
-                                            <a class="text-primary mx-1" data-bs-toggle="tooltip" title="Edit"
-                                                href="{{ route('department.students.edit', $routeParamsWithId) }}">
-                                                <span class="material-icons scale-on-hover">edit</span></a>
-                                            <a class="text-danger mx-1" data-bs-toggle="tooltip" title="Delete"
-                                                href="{{ route('department.students.softDelete', $routeParamsWithId) }}"
-                                                alert-title="Move to Trash?" alert-text="-"
-                                                confirm spoof spoof-method="DELETE">
-                                                <span class="material-icons scale-on-hover">delete</span></a>
-                                       @endcan
-                                    @else
-                                        @can('update', [$studentModel, $department])
-                                            <a class="text-success mx-1" data-bs-toggle="tooltip" title="Restore"
-                                                href="{{ route('department.students.restore', $routeParamsWithId) }}"
-                                                spoof spoof-method="POST">
-                                                <span class="material-icons scale-on-hover">restore</span></a>
-                                       @endcan
-
-                                       @can('delete', [$studentModel, $department])
-                                            <a class="text-danger mx-1" data-bs-toggle="tooltip"
-                                                title="Delete Permanently"
-                                                href="{{ route('department.students.delete', $routeParamsWithId) }}"
-                                                alert-title="Delete Permanently?" confirm spoof spoof-method="DELETE">
-                                                <span class="material-icons scale-on-hover">delete_forever</span></a>
-                                        @endcan
-                                    @endif
-
-                                </td>
-                            </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                @endslot
+            @endcomponent
 
             <nav class="my-3 d-flex justify-content-between">
                 {{ $pagination }}
