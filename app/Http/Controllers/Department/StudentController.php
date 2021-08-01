@@ -22,6 +22,23 @@ class StudentController extends Controller {
      */
     private $paginate = 10;
 
+    /**
+     * Stores session keys received from \CustomHelper::getSessionConstants()
+     *
+     * @var null|array
+     */
+    private $sessionKeys = null;
+
+    public function handleRedirect(Department $dept) {
+        if (session()->has($this->sessionKeys['selectedBatch'])) {
+            return redirect()->route('department.students.show', [
+                'dept' => $dept,
+                'batch' => session($this->sessionKeys['selectedBatch'])
+            ]);
+        }
+        return redirect()->route('batch.select', ['redirect' => '']);
+    }
+
     public function selectBatch(Department $dept) {
         $this->authorize('view', [Student::class, $dept]);
 
