@@ -49,9 +49,29 @@
     @endslot
 
     @slot('sideButtons')
-        <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-            <span class="material-icons mx-1">help</span>
-        </a>
+        @if (Route::is('homepage.notification.show'))
+            @component('components.anchorBtn', [
+                    'href' => route('homepage.notification.showTrashed'),
+                    'classes' => 'btn-outline-info',
+                    'tooltip' => true,
+                    'icon' => 'restore_from_trash'
+                ])
+
+                @slot('attr')
+                    data-bs-placement="left" title="Trashed"
+                @endslot
+                Trashed
+            @endcomponent
+        @else
+            @component('components.anchorBtn', [
+                    'href' => route('homepage.notification.show'),
+                    'classes' => 'btn-outline-info',
+                    'icon' => 'keyboard_arrow_left'
+                ])
+
+                Back
+            @endcomponent
+        @endif
     @endslot
 @endcomponent
 
