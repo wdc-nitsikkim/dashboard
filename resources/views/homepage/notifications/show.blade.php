@@ -57,9 +57,6 @@
                     'icon' => 'restore_from_trash'
                 ])
 
-                @slot('attr')
-                    data-bs-placement="left" title="Trashed"
-                @endslot
                 Trashed
             @endcomponent
         @else
