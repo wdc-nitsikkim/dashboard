@@ -17,7 +17,7 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <title>{{ $title ?? 'Admin Dashboard' }}</title>

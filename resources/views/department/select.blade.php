@@ -2,9 +2,11 @@
 
 @section('content')
 
-@if (Auth::user()->can('create', \App\Models\Department::class)
-    || Auth::user()->can('update', \App\Models\Department::class))
+@php
+    $departmentModel = 'App\\Models\\Department';
+@endphp
 
+@can(['create', 'update'], $departmentModel)
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">
@@ -15,44 +17,39 @@
                 </button>
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
 
-                    @if (Auth::user()->can('create', \App\Models\Department::class))
+                    @can('create', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
                             <span class="material-icons">add_circle</span>
                             Create New Department
                         </a>
-                    @endif
+                    @endcan
 
-                    @if (Auth::user()->can('update', \App\Models\Department::class))
+                    @can('update', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
                             href="">
                             <span class="material-icons">edit</span>
                             Edit Existing
                         </a>
-                    @endif
+                    @endcan
 
                 </div>
             </div>
         </div>
     </div>
+@endcan
 
-@endif
+@component('components.page.heading')
+    @slot('heading')
+        Select a department to proceed
+    @endslot
 
-<div class="my-3">
-    <div class="d-flex justify-content-between w-100 flex-wrap">
-        <div class="mb-3 mb-lg-0">
-            <h1 class="h4">
-                Select a department to proceed
-            </h1>
-            {{-- <p class="mb-0"></p> --}}
-        </div>
-        <div>
-            <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-                <span class="material-icons mx-1">help</span>
-            </a>
-        </div>
-    </div>
-</div>
+    @slot('sideButtons')
+        <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
+            <span class="material-icons mx-1">help</span>
+        </a>
+    @endslot
+@endcomponent
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
@@ -61,7 +58,7 @@
 
             @if ($preferred->count() > 0)
                 @foreach ($preferred as $dept)
-                    @component('components.anchorBtn', [
+                    @component('components.inline.anchorBtn', [
                             'href' => route('department.saveInSession', $dept['code']),
                             'classes' => 'btn-lg btn-outline-tertiary mb-2'
                         ])
@@ -83,7 +80,7 @@
 
             @if ($departments->count() > 0)
                 @foreach ($departments as $dept)
-                    @component('components.anchorBtn', [
+                    @component('components.inline.anchorBtn', [
                             'href' => route('department.saveInSession', $dept['code']),
                             'classes' => 'btn-lg btn-outline-tertiary mb-2'
                         ])

@@ -2,19 +2,15 @@
 
 @section('content')
 
-<div class="my-3">
-    <div class="d-flex justify-content-between w-100 flex-wrap">
-        <div class="mb-3 mb-lg-0">
-            <h1 class="h3">
-                {{ $department['name'] ? 'Department of ' . $department['name'] : 'Department Homepage' }}
-            </h1>
-            {{-- <p class="mb-0"></p> --}}
-        </div>
-        <div>
-            @include('department.partials.sessionModBtns')
-        </div>
-    </div>
-</div>
+@component('components.page.heading')
+    @slot('heading')
+        {{ $department['name'] ? 'Department of ' . $department['name'] : 'Department Homepage' }}
+    @endslot
+
+    @slot('sideButtons')
+        @include('department.partials.sessionModBtns')
+    @endslot
+@endcomponent
 
 <div class="row row-cols-1 row-cols-md-3 g-2 mb-4">
     <div class="col">

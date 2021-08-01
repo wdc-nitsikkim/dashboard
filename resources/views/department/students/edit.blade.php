@@ -2,27 +2,23 @@
 
 @section('content')
 
-<div class="my-3">
-    <div class="d-flex justify-content-between w-100 flex-wrap">
-        <div class="mb-3 mb-lg-0">
-            <h1 class="h4">Edit Student Details</h1>
-            <p class="mb-0">
-                @if ($batch['type'] == 'b')
-                    B.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 4)  }})
-                @else
-                    M.Tech ({{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 2) }})
-                @endif
-                ,
-                {{ $department['name'] }}
-            </p>
-        </div>
-        <div>
-            <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-                <span class="material-icons mx-1">help</span>
-            </a>
-        </div>
-    </div>
-</div>
+@component('components.page.heading')
+    @slot('heading')
+        Update Student - {{ $batch['full_name'] }}
+    @endslot
+
+    @slot('subheading')
+        @include('department.partials.studentsPageSubheading', ['batch' => $batch])
+
+        {{ $department['name'] }}
+    @endslot
+
+    @slot('sideButtons')
+        <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
+            <span class="material-icons mx-1">help</span>
+        </a>
+    @endslot
+@endcomponent
 
 @php
     $baseRouteParams = [
@@ -107,7 +103,7 @@
                 <div class="col-sm-8 mb-2">
                     <div class="form-floating">
 
-                        @can('updateDepartment', 'App\\Models\Student')
+                        @can('updateDepartment', 'App\\Models\\Student')
                             <select class="form-select {{ $errors->has('department') ? 'is-invalid' : '' }}"
                                 id="department" name="department" required>
 
@@ -145,25 +141,12 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-sm-3 d-grid gap-1 mx-auto mb-3">
-                    <a class="btn btn-primary"
-                        href="{{ route('department.students.show', $baseRouteParams) }}">
-                        Cancel <span class="material-icons ms-1">cancel</span>
-                    </a>
-                </div>
-                <div class="col-sm-3 d-grid mx-auto mb-3">
-                    <button class="btn btn-info" type="reset">
-                        <span class="material-icons me-1">undo</span>
-                        Reset
-                    </button>
-                </div>
-                <div class="col-sm-6 d-grid gap-1 mx-auto mb-3">
-                    <button class="btn btn-success" type="submit">
-                        Update <span class="material-icons ms-1">update</span>
-                    </button>
-                </div>
-            </div>
+            @component('components.form.footerEdit')
+                @slot('returnRoute')
+                    {{ route('department.students.show', $baseRouteParams) }}
+                @endslot
+            @endcomponent
+
         </form>
     </div>
 </div>

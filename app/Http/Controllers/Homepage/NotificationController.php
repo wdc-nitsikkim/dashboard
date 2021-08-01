@@ -213,7 +213,7 @@ class NotificationController extends Controller {
     public function delete($id) {
         $this->authorize('delete', Noti::class);
 
-        $notification = Noti::withTrashed()->findOrFail($id);
+        $notification = Noti::onlyTrashed()->findOrFail($id);
         try {
             $notification->forceDelete();
         } catch (\Exception $e) {

@@ -2,19 +2,17 @@
 
 @section('content')
 
-<div class="my-3">
-    <div class="d-flex justify-content-between w-100 flex-wrap">
-        <div class="mb-3 mb-lg-0">
-            <h1 class="h4">Homepage - Add Notification</h1>
-            {{-- <p class="mb-0"></p> --}}
-        </div>
-        <div>
-            <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-                <span class="material-icons mx-1">help</span>
-            </a>
-        </div>
-    </div>
-</div>
+@component('components.page.heading')
+    @slot('heading')
+        Homepage - Add Notification
+    @endslot
+
+    @slot('sideButtons')
+        <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
+            <span class="material-icons mx-1">help</span>
+        </a>
+    @endslot
+@endcomponent
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
@@ -94,18 +92,16 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-sm-4 d-grid gap-1 mx-auto mb-3">
-                    <a class="btn btn-primary" href="{{ route('homepage.notification.show') }}">
-                        Cancel <span class="material-icons mx-1">cancel</span>
-                    </a>
-                </div>
-                <div class="col-sm-8 d-grid gap-1 mx-auto mb-3">
-                    <button class="btn btn-success" type="submit">
-                        Add Notification <span class="material-icons mx-1">keyboard_arrow_right</span>
-                    </button>
-                </div>
-            </div>
+            @component('components.form.footerAdd')
+                @slot('returnRoute')
+                    {{ route('homepage.notification.show') }}
+                @endslot
+
+                @slot('submitBtnTxt')
+                    Add Notification
+                @endslot
+            @endcomponent
+
         </form>
     </div>
 </div>

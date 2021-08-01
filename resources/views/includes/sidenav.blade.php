@@ -25,7 +25,7 @@
                 </div>
                 <div class="d-block">
                     <h2 class="h5 mb-3">
-                        <span class="badge bg-info text-dark mx-1">{{ strtoupper(Auth::user()->role) ?? '-' }}</span>
+                        {{-- <span class="badge bg-info text-dark mx-1">{{ strtolower(Auth::user()->email) ?? '-' }}</span> --}}
                         {{ Auth::user()->name ?? '-' }}</h2>
                     <a href="{{ route('logout') }}"
                         class="btn btn-secondary btn-sm d-inline-flex align-items-center">
@@ -105,29 +105,27 @@
                         <span class="sidebar-text">Homepage</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse" role="list" id="submenu-homepage" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item {{ Route::is('homepage.notification.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('homepage.notification.show') }}">
-                                <span class="sidebar-text">Notifications</span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">Home</span>
                             </a>
                         </li>
-                        <li class="nav-item {{ Route::is('homepage.notification.showTrashed') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('homepage.notification.showTrashed') }}">
-                                <span class="sidebar-text">Trash</span>
+                        <li class="nav-item
+                            {{ Route::is('homepage.notification.show', 'homepage.notification.showTrashed')
+                                ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('homepage.notification.show') }}">
+                                <span class="sidebar-text">Notifications</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
+
             <li class="nav-item">
                 <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-department">
@@ -135,15 +133,10 @@
                         <span class="material-icons sidebar-icon">
                             business
                         </span>
-                        <span class="sidebar-text">Department</span>
+                        <span class="sidebar-text">Departments</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
@@ -154,6 +147,65 @@
                                 <span class="sidebar-text">Home</span>
                             </a>
                         </li>
+                        <li class="nav-item
+                            {{ Route::is('/') ? 'active' : '' }}">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">List</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">Syllabus</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <span class="nav-link collapsed d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#submenu-people">
+                    <span>
+                        <span class="material-icons sidebar-icon">
+                            people
+                        </span>
+                        <span class="sidebar-text">People</span>
+                    </span>
+                    <span class="link-arrow">
+                        @include('partials.sidemenuSvg')
+                    </span>
+                </span>
+                <div class="multi-level collapse" role="list" id="submenu-people" aria-expanded="false">
+                    <ul class="flex-column nav">
+                        <li class="nav-item {{ false ? 'active' : '' }}">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">Faculty / Staff</span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ false ? 'active' : '' }}">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">Researchers</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <span class="nav-link collapsed d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#submenu-students">
+                    <span>
+                        <span class="material-icons sidebar-icon">
+                            face
+                        </span>
+                        <span class="sidebar-text">Students</span>
+                    </span>
+                    <span class="link-arrow">
+                        @include('partials.sidemenuSvg')
+                    </span>
+                </span>
+                <div class="multi-level collapse" role="list" id="submenu-students" aria-expanded="false">
+                    <ul class="flex-column nav">
 
                         @php
                             $routeUrl = route('department.index');
@@ -164,25 +216,115 @@
                             }
                         @endphp
 
-                        <li class="nav-item
-                            {{ Route::is('department.students.selectBatch', 'department.students.show') ? 'active' : '' }}">
+                        <li class="nav-item {{ false ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
-                                <span class="sidebar-text">Students</span>
+                                <span class="sidebar-text">List</span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ false ? 'active' : '' }}">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">Add Multiple</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#submenu-results">
+                    <span>
+                        <span class="material-icons sidebar-icon">
+                            military_tech
+                        </span>
+                        <span class="sidebar-text">Results</span>
+                    </span>
+                    <span class="link-arrow">
+                        @include('partials.sidemenuSvg')
+                    </span>
+                </span>
+                <div class="multi-level collapse " role="list" id="submenu-results" aria-expanded="false">
+                    <ul class="flex-column nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">List</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#submenu-tnp">
+                    <span>
+                        <span class="material-icons sidebar-icon">
+                            contacts
+                        </span>
+                        <span class="sidebar-text">TnP</span>
+                    </span>
+                    <span class="link-arrow">
+                        @include('partials.sidemenuSvg')
+                    </span>
+                </span>
+                <div class="multi-level collapse " role="list" id="submenu-tnp" aria-expanded="false">
+                    <ul class="flex-column nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">Option 1</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#!">
-                                <span class="sidebar-text">Timetable & Syllabus</span>
+                                <span class="sidebar-text">Option 2</span>
                             </a>
                         </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#submenu-batch">
+                    <span>
+                        <span class="material-icons sidebar-icon">
+                            format_list_numbered
+                        </span>
+                        <span class="sidebar-text">Batches</span>
+                    </span>
+                    <span class="link-arrow">
+                        @include('partials.sidemenuSvg')
+                    </span>
+                </span>
+                <div class="multi-level collapse " role="list" id="submenu-batch" aria-expanded="false">
+                    <ul class="flex-column nav">
                         <li class="nav-item">
                             <a class="nav-link" href="#!">
-                                <span class="sidebar-text">Faculty & Staff</span>
+                                <span class="sidebar-text">List</span>
                             </a>
                         </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#submenu-subjects">
+                    <span>
+                        <span class="material-icons sidebar-icon">
+                            auto_stories
+                        </span>
+                        <span class="sidebar-text">Subjects</span>
+                    </span>
+                    <span class="link-arrow">
+                        @include('partials.sidemenuSvg')
+                    </span>
+                </span>
+                <div class="multi-level collapse " role="list" id="submenu-subjects" aria-expanded="false">
+                    <ul class="flex-column nav">
                         <li class="nav-item">
                             <a class="nav-link" href="#!">
-                                <span class="sidebar-text">Researchers</span>
+                                <span class="sidebar-text">List</span>
                             </a>
                         </li>
                     </ul>
