@@ -105,12 +105,7 @@
                         <span class="sidebar-text">Homepage</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse" role="list" id="submenu-homepage" aria-expanded="false">
@@ -141,12 +136,7 @@
                         <span class="sidebar-text">Departments</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
@@ -182,12 +172,7 @@
                         <span class="sidebar-text">People</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse" role="list" id="submenu-people" aria-expanded="false">
@@ -216,12 +201,7 @@
                         <span class="sidebar-text">Students</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse" role="list" id="submenu-students" aria-expanded="false">
@@ -260,12 +240,7 @@
                         <span class="sidebar-text">Results</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-results" aria-expanded="false">
@@ -289,12 +264,7 @@
                         <span class="sidebar-text">TnP</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-tnp" aria-expanded="false">
@@ -323,12 +293,7 @@
                         <span class="sidebar-text">Batches</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-batch" aria-expanded="false">
@@ -352,12 +317,7 @@
                         <span class="sidebar-text">Subjects</span>
                     </span>
                     <span class="link-arrow">
-                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        @include('partials.sidemenuSvg')
                     </span>
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-subjects" aria-expanded="false">
