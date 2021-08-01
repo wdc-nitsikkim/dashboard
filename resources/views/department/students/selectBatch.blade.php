@@ -39,7 +39,7 @@
     </div>
 @endcan
 
-@component('components.pageHeading')
+@component('components.page.heading')
     @slot('heading')
         Select a batch to proceed
     @endslot
@@ -53,7 +53,7 @@
             <span class="material-icons mx-1">help</span>
         </a>
 
-        @component('components.anchorBtn', [
+        @component('components.inline.anchorBtn', [
                 'icon' => 'import_export',
                 'href' => route('department.select'),
                 'classes' => 'btn-outline-info',
@@ -75,7 +75,7 @@
 
                 @if ($btechBatches->count() > 0)
                     @foreach ($btechBatches as $batch)
-                        @component('components.anchorBtn', [
+                        @component('components.inline.anchorBtn', [
                                 'href' => route('department.students.show', [
                                         'code' => $department,
                                         'batch' => $batch['batch']
@@ -96,7 +96,7 @@
 
                 @if ($mtechBatches->count() > 0)
                     @foreach ($mtechBatches as $batch)
-                        @component('components.anchorBtn', [
+                        @component('components.inline.anchorBtn', [
                                 'href' => route('department.students.show', [
                                         'code' => $department,
                                         'batch' => $batch['batch']

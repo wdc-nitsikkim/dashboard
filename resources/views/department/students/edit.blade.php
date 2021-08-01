@@ -2,7 +2,7 @@
 
 @section('content')
 
-@component('components.pageHeading')
+@component('components.page.heading')
     @slot('heading')
         Update Student - {{ $batch['full_name'] }}
     @endslot
@@ -141,7 +141,7 @@
                 </div>
             </div>
 
-            @component('components.formFooterEdit')
+            @component('components.form.footerEdit')
                 @slot('returnRoute')
                     {{ route('department.students.show', $baseRouteParams) }}
                 @endslot

@@ -2,7 +2,7 @@
     <span class="material-icons mx-1">help</span>
 </a>
 
-@component('components.anchorBtn', [
+@component('components.inline.anchorBtn', [
         'icon' => 'import_export',
         'href' => route('department.select'),
         'classes' => 'btn-outline-info',
@@ -14,7 +14,7 @@
     Department
 @endcomponent
 
-@component('components.anchorBtn', [
+@component('components.inline.anchorBtn', [
         'icon' => 'import_export',
         'href' => route('department.students.selectBatch', $department),
         'classes' => 'btn-outline-info',

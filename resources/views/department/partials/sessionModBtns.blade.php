@@ -1,5 +1,5 @@
 @if (session()->has(CustomHelper::getSessionConstants()['selectedDepartment']))
-    @component('components.anchorBtn', [
+    @component('components.inline.anchorBtn', [
             'icon' => 'clear',
             'href' => route('root.clearSession'),
             'classes' => 'btn-outline-danger',
@@ -11,7 +11,7 @@
     @endcomponent
 @endif
 
-@component('components.anchorBtn', [
+@component('components.inline.anchorBtn', [
         'icon' => 'import_export',
         'href' => route('department.select'),
         'classes' => 'btn-outline-info',

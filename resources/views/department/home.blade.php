@@ -2,7 +2,7 @@
 
 @section('content')
 
-@component('components.pageHeading')
+@component('components.page.heading')
     @slot('heading')
         {{ $department['name'] ? 'Department of ' . $department['name'] : 'Department Homepage' }}
     @endslot

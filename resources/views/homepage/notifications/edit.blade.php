@@ -2,7 +2,7 @@
 
 @section('content')
 
-@component('components.pageHeading')
+@component('components.page.heading')
     @slot('heading')
         Homepage - Edit Notification
     @endslot
@@ -121,7 +121,7 @@
                 </div>
             </div>
 
-            @component('components.formFooterEdit')
+            @component('components.form.footerEdit')
                 @slot('returnRoute')
                     {{ route('homepage.notification.show') }}
                 @endslot

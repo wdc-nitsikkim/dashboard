@@ -39,7 +39,7 @@
     </div>
 @endcan
 
-@component('components.pageHeading')
+@component('components.page.heading')
     @slot('heading')
         Select a department to proceed
     @endslot
@@ -58,7 +58,7 @@
 
             @if ($preferred->count() > 0)
                 @foreach ($preferred as $dept)
-                    @component('components.anchorBtn', [
+                    @component('components.inline.anchorBtn', [
                             'href' => route('department.saveInSession', $dept['code']),
                             'classes' => 'btn-lg btn-outline-tertiary mb-2'
                         ])
@@ -80,7 +80,7 @@
 
             @if ($departments->count() > 0)
                 @foreach ($departments as $dept)
-                    @component('components.anchorBtn', [
+                    @component('components.inline.anchorBtn', [
                             'href' => route('department.saveInSession', $dept['code']),
                             'classes' => 'btn-lg btn-outline-tertiary mb-2'
                         ])

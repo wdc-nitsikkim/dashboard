@@ -48,7 +48,7 @@
     </div>
 @endif
 
-@component('components.pageHeading')
+@component('components.page.heading')
     @slot('heading')
         Student List - {{ $batch['full_name'] }}
     @endslot

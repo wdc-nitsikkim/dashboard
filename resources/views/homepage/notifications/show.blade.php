@@ -43,14 +43,14 @@
     </div>
 @endcan
 
-@component('components.pageHeading')
+@component('components.page.heading')
     @slot('heading')
         Homepage - Notifications
     @endslot
 
     @slot('sideButtons')
         @if (Route::is('homepage.notification.show'))
-            @component('components.anchorBtn', [
+            @component('components.inline.anchorBtn', [
                     'href' => route('homepage.notification.showTrashed'),
                     'classes' => 'btn-outline-info',
                     'tooltip' => true,
@@ -63,7 +63,7 @@
                 Trashed
             @endcomponent
         @else
-            @component('components.anchorBtn', [
+            @component('components.inline.anchorBtn', [
                     'href' => route('homepage.notification.show'),
                     'classes' => 'btn-outline-info',
                     'icon' => 'keyboard_arrow_left'
