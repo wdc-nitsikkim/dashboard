@@ -8,7 +8,10 @@
     @endslot
 
     @slot('sideButtons')
-        @include('department.partials.sessionModBtns')
+        @include('partials.pageSideBtns', [
+            'help' => '#!',
+            'deptRedirect' => ''
+        ])
     @endslot
 @endcomponent
 

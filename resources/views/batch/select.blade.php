@@ -44,28 +44,16 @@
         Select a batch to proceed
     @endslot
 
-    @slot('subheading')
-        {{ $department['name'] }}
-    @endslot
-
     @slot('sideButtons')
         <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
             <span class="material-icons mx-1">help</span>
         </a>
-
-        @component('components.inline.anchorBtn', [
-                'icon' => 'import_export',
-                'href' => route('department.select'),
-                'classes' => 'btn-outline-info',
-                'tooltip' => true
-            ])
-            @slot('attr')
-                data-bs-placement="left" title="Change Department"
-            @endslot
-            Department
-        @endcomponent
     @endslot
 @endcomponent
+
+@php
+    $redirect = \request()->query('redirect') ?? '';
+@endphp
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
@@ -76,12 +64,15 @@
                 @if ($btechBatches->count() > 0)
                     @foreach ($btechBatches as $batch)
                         @component('components.inline.anchorBtn', [
-                                'href' => route('department.students.show', [
-                                        'code' => $department,
-                                        'batch' => $batch['batch']
+                                'href' => route('batch.saveInSession', [
+                                        'batch' => $batch['batch'],
+                                        'redirect' => $redirect
                                     ]),
                                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
                             ])
+                            @slot('attr')
+                                spoof spoof-method="POST"
+                            @endslot
                             {{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 4) }}
                         @endcomponent
                     @endforeach
@@ -97,12 +88,15 @@
                 @if ($mtechBatches->count() > 0)
                     @foreach ($mtechBatches as $batch)
                         @component('components.inline.anchorBtn', [
-                                'href' => route('department.students.show', [
-                                        'code' => $department,
-                                        'batch' => $batch['batch']
+                                'href' => route('batch.saveInSession', [
+                                        'batch' => $batch['batch'],
+                                        'redirect' => $redirect
                                     ]),
                                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
                             ])
+                            @slot('attr')
+                                spoof spoof-method="POST"
+                            @endslot
                             {{ $batch['start_year'] . ' - ' . ($batch['start_year'] + 2) }}
                         @endcomponent
                     @endforeach
