@@ -4,7 +4,7 @@
 
 @component('components.inline.anchorBtn', [
         'icon' => 'import_export',
-        'href' => route('department.select'),
+        'href' => route('department.select', ['redirect' => 'students.handleRedirect']),
         'classes' => 'btn-outline-info',
         'tooltip' => true
     ])
@@ -16,7 +16,7 @@
 
 @component('components.inline.anchorBtn', [
         'icon' => 'import_export',
-        'href' => route('students.selectBatch', $department),
+        'href' => route('batch.select', ['redirect' => 'students.handleRedirect']),
         'classes' => 'btn-outline-info',
         'tooltip' => true
     ])

@@ -47,21 +47,8 @@ class StudentController extends Controller {
         }
 
         return redirect()->route('students.show', [
-            'dept' => session('selectedDepartment'),
-            'batch' => session('selectedBatch')
-        ]);
-    }
-
-    public function selectBatch(Department $dept) {
-        $this->authorize('view', [Student::class, $dept]);
-
-        $btechBatches = Batch::where('type', 'b')->orderByDesc('id')->get();
-        $mtechBatches = Batch::where('type', 'm')->orderByDesc('id')->get();
-
-        return view('students.selectBatch', [
-            'department' => $dept,
-            'btechBatches' => $btechBatches,
-            'mtechBatches' => $mtechBatches
+            'dept' => session($this->sessionKeys['selectedDepartment']),
+            'batch' => session($this->sessionKeys['selectedBatch'])
         ]);
     }
 
