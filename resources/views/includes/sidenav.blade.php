@@ -212,12 +212,12 @@
                             $sessionKey = CustomHelper::getSessionConstants()['selectedDepartment'];
                             if (session()->has($sessionKey)) {
                                 $dept = session($sessionKey);
-                                $routeUrl = route('students.selectBatch', $dept);
+                                $routeUrl = route('batch.select');
                             }
                         @endphp
 
                         <li class="nav-item {{ false ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ $routeUrl }}">
+                            <a class="nav-link" href="#!">
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>

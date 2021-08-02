@@ -100,7 +100,6 @@ Route::name('department.')->prefix('department')->middleware(['auth'])->group(fu
 
 /* student routes */
 Route::name('students.')->prefix('students')->middleware(['auth'])->group(function() {
-    Route::get('/select-batch', 'StudentController@selectBatch')->name('selectBatch');
     Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
     Route::get('/test', 'StudentController@test');
 
@@ -114,6 +113,14 @@ Route::name('students.')->prefix('students')->middleware(['auth'])->group(functi
         Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
         Route::delete('/delete/{id}', 'StudentController@delete')->name('delete');
     });
+});
+
+/* batch routes */
+Route::name('batch.')->prefix('batch')->middleware(['auth'])->group(function() {
+    Route::get('/', 'BatchController@show')->name('show');
+    Route::get('/select', 'BatchController@select')->name('select');
+    Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
+    Route::get('/test', 'BatchController@test')->name('test');
 });
 
 /* framewrok version */
