@@ -13,6 +13,15 @@ class Batch extends Model {
     protected $table = 'batches';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'type', 'batch', 'full_name', 'start_year'
+    ];
+
+    /**
      * Match route parameter of this model to specified string
      * instead of default 'id'
      *

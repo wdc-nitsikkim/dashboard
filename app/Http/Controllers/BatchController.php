@@ -68,6 +68,33 @@ class BatchController extends Controller {
         ]);
     }
 
+    public function add() {
+        return view('batch.add');
+    }
+
+    public function saveNew(Request $request) {
+        $request->validate([
+            'type' => 'required | in:b,m',
+            'batch' => 'required | max:5',
+            'start_year' => 'required | numeric | min:2010',
+            'full_name' => 'required | min:3'
+        ]);
+
+        try {
+            Batch::create($request->all());
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to add batch!'
+            ])->withInput();
+        }
+
+        return redirect()->route('batch.show')->with([
+            'status' => 'success',
+            'message' => 'Batch added!'
+        ]);
+    }
+
     public function test() {
         return 'Test';
     }
