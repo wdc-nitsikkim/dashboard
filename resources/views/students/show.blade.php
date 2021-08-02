@@ -28,7 +28,7 @@
 
                     @can('create', [$studentModel, $department])
                         <a class="dropdown-item d-flex align-items-center"
-                            href="{{ route('department.students.add', $baseRouteParams) }}">
+                            href="{{ route('students.add', $baseRouteParams) }}">
                             <span class="material-icons">face</span>
                             Student
                         </a>
@@ -115,22 +115,22 @@
                                 @if ($student['deleted_at'] == null)
                                     @can('update', [$studentModel, $department])
                                         @include('components.table.actionBtn.edit', [
-                                            'href' => route('department.students.edit', $routeParamsWithId)
+                                            'href' => route('students.edit', $routeParamsWithId)
                                         ])
                                         @include('components.table.actionBtn.trash', [
-                                            'href' => route('department.students.softDelete', $routeParamsWithId)
+                                            'href' => route('students.softDelete', $routeParamsWithId)
                                         ])
                                     @endcan
                                 @else
                                     @can('update', [$studentModel, $department])
                                         @include('components.table.actionBtn.restore', [
-                                            'href' => route('department.students.restore', $routeParamsWithId)
+                                            'href' => route('students.restore', $routeParamsWithId)
                                         ])
                                     @endcan
 
                                     @can('delete', [$studentModel, $department])
                                         @include('components.table.actionBtn.delete', [
-                                            'href' => route('department.students.delete', $routeParamsWithId)
+                                            'href' => route('students.delete', $routeParamsWithId)
                                         ])
                                     @endcan
                                 @endif

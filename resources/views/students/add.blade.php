@@ -29,7 +29,7 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
-        <form class="form-floating" action="{{ route('department.students.saveNew', $baseRouteParams) }}" method="POST">
+        <form class="form-floating" action="{{ route('students.saveNew', $baseRouteParams) }}" method="POST">
             {{ csrf_field() }}
 
             <div class="row g-2 mb-3">
@@ -106,7 +106,7 @@
 
             @component('components.form.footerAdd')
                 @slot('returnRoute')
-                    {{ route('department.students.show', $baseRouteParams) }}
+                    {{ route('students.show', $baseRouteParams) }}
                 @endslot
 
                 @slot('submitBtnTxt')

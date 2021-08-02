@@ -76,8 +76,8 @@
                 @if ($btechBatches->count() > 0)
                     @foreach ($btechBatches as $batch)
                         @component('components.inline.anchorBtn', [
-                                'href' => route('department.students.show', [
-                                        'code' => $department,
+                                'href' => route('students.show', [
+                                        'dept' => $department,
                                         'batch' => $batch['batch']
                                     ]),
                                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
@@ -97,7 +97,7 @@
                 @if ($mtechBatches->count() > 0)
                     @foreach ($mtechBatches as $batch)
                         @component('components.inline.anchorBtn', [
-                                'href' => route('department.students.show', [
+                                'href' => route('students.show', [
                                         'code' => $department,
                                         'batch' => $batch['batch']
                                     ]),

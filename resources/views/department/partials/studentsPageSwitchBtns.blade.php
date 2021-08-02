@@ -16,7 +16,7 @@
 
 @component('components.inline.anchorBtn', [
         'icon' => 'import_export',
-        'href' => route('department.students.selectBatch', $department),
+        'href' => route('students.selectBatch', $department),
         'classes' => 'btn-outline-info',
         'tooltip' => true
     ])
