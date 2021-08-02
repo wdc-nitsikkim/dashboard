@@ -101,6 +101,42 @@ class BatchController extends Controller {
         ]);
     }
 
+    public function edit($id) {
+        $this->authorize('update', Batch::class);
+
+        $batch = Batch::findOrFail($id);
+        return view('batch.edit', [
+            'batch' => $batch
+        ]);
+    }
+
+    public function update(Request $request, $id) {
+        $this->authorize('update', Batch::class);
+
+        $batch = Batch::findOrFail($id);
+
+        $request->validate([
+            'type' => 'required | in:b,m',
+            'batch' => 'required | max:5',
+            'start_year' => 'required | numeric | min:2010',
+            'full_name' => 'required | min:3'
+        ]);
+
+        try {
+            $batch->update($request->all());
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to add batch!'
+            ])->withInput();
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Batch updated!'
+        ]);
+    }
+
     public function softDelete($id) {
         $this->authorize('update', Batch::class);
 
