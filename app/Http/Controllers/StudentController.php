@@ -36,13 +36,13 @@ class StudentController extends Controller {
     public function handleRedirect() {
         if (!session()->has($this->sessionKeys['selectedDepartment'])) {
             return redirect()->route('department.select', [
-                'redirect' => ''
+                'redirect' => 'students.handleRedirect'
             ]);
         }
 
         if (!session()->has($this->sessionKeys['selectedBatch'])) {
             return redirect()->route('batch.select', [
-                'redirect' => ''
+                'redirect' => 'students.handleRedirect'
             ]);
         }
 
