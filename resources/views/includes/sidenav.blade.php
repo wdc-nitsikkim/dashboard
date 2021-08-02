@@ -237,11 +237,6 @@
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
-                        <li class="nav-item {{ false ? 'active' : '' }}">
-                            <a class="nav-link" href="#!">
-                                <span class="sidebar-text">Add Multiple</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </li>
@@ -314,8 +309,8 @@
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-batch" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
+                        <li class="nav-item {{ Route::is('batch.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('batch.show') }}">
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
