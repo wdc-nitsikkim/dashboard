@@ -20,7 +20,7 @@
 <html lang="{{ app()->getLocale() }}">
 
 <head>
-    <title>{{ $title ?? 'Admin Dashboard' }}</title>
+    <title>{{ isset($title) ? ucwords($title) : 'Admin Dashboard' }}</title>
 
     @include('includes.meta-head')
 

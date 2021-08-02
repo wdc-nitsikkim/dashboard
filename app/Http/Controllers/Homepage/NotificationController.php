@@ -42,7 +42,7 @@ class NotificationController extends Controller {
 
         $validator = Validator::make($request->all(), [
             'display_text' => 'required | min:10',
-            'type' => 'required',
+            'type' => 'required | in:announcement,download,notice,tender',
             'link' => 'nullable | url',
             'attachment' => 'filled | mimes:pdf,doc,docx,xls,xlsx | max:5120'
         ]);
@@ -110,7 +110,7 @@ class NotificationController extends Controller {
 
         $validator = Validator::make($request->all(), [
             'display_text' => 'required | min:10',
-            'type' => 'required',
+            'type' => 'required | in:announcement,download,notice,tender',
             'link' => 'nullable | url',
             'attachment' => 'filled | mimes:pdf,doc,docx,xls,xlsx | max:5120'
         ]);

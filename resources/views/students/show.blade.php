@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin', ['title' => 'View Students - ' . $department['name']])
 
 @section('content')
 

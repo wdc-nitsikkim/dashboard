@@ -137,6 +137,12 @@
                             <span class="material-icons">settings</span>
                             Settings
                         </a>
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('root.clearSession') }}" confirm alert-title="Clear Session?"
+                            alert-text="All session data will be cleared!" alert-timer="5000" spoof spoof-method="POST">
+                            <span class="material-icons">close</span>
+                            Session
+                        </a>
                         <div role="separator" class="dropdown-divider my-1"></div>
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
                             <span class="text-danger material-icons">exit_to_app</span>

@@ -8,6 +8,6 @@
 
     @slot('attr')
         confirm alert-title="Move to Trash?" alert-text="-""
-        spoof spoof-method="DELETE"
+        alert-timer="3600" spoof spoof-method="DELETE"
     @endslot
 @endcomponent

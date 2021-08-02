@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin', ['title' => 'View Homepage Notifications'])
 
 @section('content')
 

@@ -8,6 +8,6 @@
 
     @slot('attr')
         confirm alert-title="Delete Permanently?" alert-text="You won't be able to revert this!"
-        spoof spoof-method="DELETE"
+        alert-timer="3600" spoof spoof-method="DELETE"
     @endslot
 @endcomponent

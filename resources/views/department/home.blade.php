@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['title' => 'Department'])
+@extends('layouts.admin', ['title' => 'Home - ' . $department['name']])
 
 @section('content')
 
@@ -74,7 +74,7 @@
     </div>
 </div>
 
-@if ($advanced_access)
+@if ($advancedAccess)
 
     <div class="mb-3">
         <h3 class="text-tertiary">
