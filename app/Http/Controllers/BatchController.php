@@ -47,6 +47,8 @@ class BatchController extends Controller {
     }
 
     public function show(Request $request) {
+        $this->authorize('view', Batch::class);
+
         $btechPage = $request->btech;
         $mtechPage = $request->mtech;
 
@@ -69,10 +71,14 @@ class BatchController extends Controller {
     }
 
     public function add() {
+        $this->authorize('create', Batch::class);
+
         return view('batch.add');
     }
 
     public function saveNew(Request $request) {
+        $this->authorize('create', Batch::class);
+
         $request->validate([
             'type' => 'required | in:b,m',
             'batch' => 'required | max:5',
@@ -92,6 +98,63 @@ class BatchController extends Controller {
         return redirect()->route('batch.show')->with([
             'status' => 'success',
             'message' => 'Batch added!'
+        ]);
+    }
+
+    public function softDelete($id) {
+        $this->authorize('update', Batch::class);
+
+        $batch = Batch::findOrFail($id);
+        try {
+            $batch->delete();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to delete!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Moved to trash!'
+        ]);
+    }
+
+    public function restore($id) {
+        $this->authorize('update', Batch::class);
+
+        $batch = Batch::withTrashed()->findOrFail($id);
+        try {
+            $batch->restore();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to restore!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Restored successfully!'
+        ]);
+    }
+
+    public function delete($id) {
+        $this->authorize('delete', Batch::class);
+
+        $batch = Batch::onlyTrashed()->findOrFail($id);
+        try {
+            $batch->forceDelete();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to delete!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Deleted permanently!'
         ]);
     }
 
