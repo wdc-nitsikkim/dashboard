@@ -27,9 +27,9 @@ class CreateStudentsTable extends Migration
             $table->unique('roll_number');
             $table->unique('email');
             $table->foreign('department_id')->references('id')->on('departments')
-                ->onUpdate('no action')->onDelete('no action');
+                ->onUpdate('no action')->onDelete('cascade');
             $table->foreign('batch_id')->references('id')->on('batches')
-                ->onUpdate('no action')->onDelete('no action');
+                ->onUpdate('no action')->onDelete('cascade');
         });
     }
 
