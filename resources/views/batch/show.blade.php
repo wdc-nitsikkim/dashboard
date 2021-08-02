@@ -70,7 +70,7 @@
 
                         @slot('body')
                             @foreach ($btechBatches['data'] as $batch)
-                                <tr>
+                                <tr class="{{ $batch['deleted_at'] != null ? 'text-danger' : ''}}">
                                     <td>
                                         <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                                     </td>
@@ -144,7 +144,7 @@
 
                         @slot('body')
                             @foreach ($mtechBatches['data'] as $batch)
-                                <tr>
+                                <tr class="{{ $batch['deleted_at'] != null ? 'text-danger' : ''}}">
                                     <td>
                                         <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                                     </td>
