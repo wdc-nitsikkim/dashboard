@@ -212,7 +212,7 @@
                             $sessionKey = CustomHelper::getSessionConstants()['selectedDepartment'];
                             if (session()->has($sessionKey)) {
                                 $dept = session($sessionKey);
-                                $routeUrl = route('department.students.selectBatch', $dept);
+                                $routeUrl = route('students.selectBatch', $dept);
                             }
                         @endphp
 
