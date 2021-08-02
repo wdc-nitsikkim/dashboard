@@ -53,11 +53,11 @@ class DepartmentController extends Controller {
     public function home(Department $dept) {
         /* temp. -> additional (policy + model) required */
         /* new page model required */
-        $advanced_access = false;
+        $advancedAccess = false;
 
         return view('department.home', [
             'department' => $dept,
-            'advanced_access' => $advanced_access
+            'advancedAccess' => $advancedAccess
         ]);
     }
 
