@@ -54,13 +54,13 @@
     @endslot
 
     @slot('subheading')
-        @include('department.partials.studentsPageSubheading', ['batch' => $batch])
+        @include('students.partials.subheading', ['batch' => $batch])
 
         {{ $department['name'] }}
     @endslot
 
     @slot('sideButtons')
-        @include('department.partials.studentsPageSwitchBtns', ['department' => $department])
+        @include('students.partials.switchBtns', ['department' => $department])
     @endslot
 @endcomponent
 
