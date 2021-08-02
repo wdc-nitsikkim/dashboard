@@ -31,11 +31,13 @@ Route::get('/auth/{id?}', function($id = 1) {
     Auth::loginUsingId($id);
     return "Logged in";
 });
+
 Route::get('/logout', function() {
     Auth::logout();
     session()->flush();
     return "Logged out!";
 })->name('logout');
+
 Route::get('/hash/{str}', function($str) {
     return \Hash::make($str);
 });
@@ -93,10 +95,20 @@ Route::name('homepage.')->prefix('homepage')->middleware(['auth'])->group(functi
 
 /* department routes */
 Route::name('department.')->prefix('department')->middleware(['auth'])->group(function() {
-    Route::get('/', 'DepartmentController@index')->name('index');
+    Route::get('/', 'DepartmentController@show')->name('show');
+    Route::get('/index', 'DepartmentController@index')->name('index');
     Route::get('/select', 'DepartmentController@select')->name('select');
     Route::post('/save-in-session/{dept}', 'DepartmentController@saveInSession')->name('saveInSession');
     Route::get('/test', 'DepartmentController@test');
+
+    Route::get('/add', 'DepartmentController@add')->name('add');
+    Route::post('/save', 'DepartmentController@saveNew')->name('saveNew');
+    Route::get('/edit/{id}', 'DepartmentController@edit')->name('edit');
+    Route::post('/update/{id}', 'DepartmentController@update')->name('update');
+    Route::delete('/soft-delete/{id}', 'DepartmentController@softDelete')->name('softDelete');
+    Route::post('/restore/{id}', 'DepartmentController@restore')->name('restore');
+    Route::delete('/delete/{id}', 'DepartmentController@delete')->name('delete');
+
     Route::get('/{dept}', 'DepartmentController@home')->name('home');
 });
 
