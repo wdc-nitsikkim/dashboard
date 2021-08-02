@@ -3,11 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Student;
 
 class Department extends Model {
+    use softDeletes;
+
     protected $table = 'departments';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'code', 'name'
+    ];
 
     /**
      * Match route parameter of this model to specified string
