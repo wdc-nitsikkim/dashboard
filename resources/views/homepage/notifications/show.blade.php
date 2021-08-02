@@ -150,7 +150,7 @@
                 @endslot
             @endcomponent
 
-            <nav class="my-3">
+            <nav class="my-3 d-flex justify-content-between">
                 {{ $pagination }}
             </nav>
         @endif
