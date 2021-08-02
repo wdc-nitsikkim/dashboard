@@ -10,8 +10,7 @@
         private static $GLOBAL_CONSTS = [
             'sessionMap' => [
                 'selectedDepartment' => 'department.selected',
-                'selectedSubject' => 'subject.selected',
-                'selectedBatch' => 'batch.selected'
+                'selectedSubject' => 'subject.selected'
             ],
             'permissionMap' => [
                 'read' => 'r',

@@ -5,7 +5,6 @@
 @php
     $batchModel = 'App\\Models\\Batch';
     $studentModel = 'App\\Models\\Student';
-    $redirectHandler = 'students.handleRedirect';
 
     $baseRouteParams = [
         'dept' => $department,
@@ -13,7 +12,9 @@
     ];
 @endphp
 
-@can('create', [$studentModel, $department])
+@if (Auth::user()->can('create', [\App\Models\Student::class, $department])
+    || Auth::user()->can('create', \App\Models\Batch::class))
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
         <div>
             <div class="dropdown">
@@ -24,21 +25,28 @@
                 </button>
 
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('students.add', $baseRouteParams) }}">
-                        <span class="material-icons">face</span>
-                        Student
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="#!">
-                        <span class="material-icons">group_add</span>
-                        Bulk Add
-                    </a>
+
+                    @can('create', [$studentModel, $department])
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('department.students.add', $baseRouteParams) }}">
+                            <span class="material-icons">face</span>
+                            Student
+                        </a>
+                    @endcan
+
+                    @can('create', $batchModel)
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="#!">
+                            <span class="material-icons">format_list_numbered</span>
+                            Batch
+                        </a>
+                    @endcan
+
                 </div>
             </div>
         </div>
     </div>
-@endcan
+@endif
 
 @component('components.page.heading')
     @slot('heading')
@@ -46,17 +54,13 @@
     @endslot
 
     @slot('subheading')
-        @include('students.partials.subheading', ['batch' => $batch])
+        @include('department.partials.studentsPageSubheading', ['batch' => $batch])
 
         {{ $department['name'] }}
     @endslot
 
     @slot('sideButtons')
-        @include('partials.pageSideBtns', [
-            'help' => '#!',
-            'deptRedirect' => $redirectHandler,
-            'batchRedirect' => $redirectHandler
-        ])
+        @include('department.partials.studentsPageSwitchBtns', ['department' => $department])
     @endslot
 @endcomponent
 
@@ -111,22 +115,22 @@
                                 @if ($student['deleted_at'] == null)
                                     @can('update', [$studentModel, $department])
                                         @include('components.table.actionBtn.edit', [
-                                            'href' => route('students.edit', $routeParamsWithId)
+                                            'href' => route('department.students.edit', $routeParamsWithId)
                                         ])
                                         @include('components.table.actionBtn.trash', [
-                                            'href' => route('students.softDelete', $routeParamsWithId)
+                                            'href' => route('department.students.softDelete', $routeParamsWithId)
                                         ])
                                     @endcan
                                 @else
                                     @can('update', [$studentModel, $department])
                                         @include('components.table.actionBtn.restore', [
-                                            'href' => route('students.restore', $routeParamsWithId)
+                                            'href' => route('department.students.restore', $routeParamsWithId)
                                         ])
                                     @endcan
 
                                     @can('delete', [$studentModel, $department])
                                         @include('components.table.actionBtn.delete', [
-                                            'href' => route('students.delete', $routeParamsWithId)
+                                            'href' => route('department.students.delete', $routeParamsWithId)
                                         ])
                                     @endcan
                                 @endif

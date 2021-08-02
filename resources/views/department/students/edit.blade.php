@@ -8,7 +8,7 @@
     @endslot
 
     @slot('subheading')
-        @include('students.partials.subheading', ['batch' => $batch])
+        @include('department.partials.studentsPageSubheading', ['batch' => $batch])
 
         {{ $department['name'] }}
     @endslot
@@ -34,7 +34,7 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
-        <form class="form-floating" action="{{ route('students.update', $routeParamsWithId) }}" method="POST">
+        <form class="form-floating" action="{{ route('department.students.update', $routeParamsWithId) }}" method="POST">
             {{ csrf_field() }}
 
             <div class="row g-2 mb-3">
@@ -143,7 +143,7 @@
 
             @component('components.form.footerEdit')
                 @slot('returnRoute')
-                    {{ route('students.show', $baseRouteParams) }}
+                    {{ route('department.students.show', $baseRouteParams) }}
                 @endslot
             @endcomponent
 

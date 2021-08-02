@@ -13,18 +13,6 @@
     </div>
 </nav>
 
-@php
-    $sessionConsts = CustomHelper::getSessionConstants();
-
-    $isDeptSelected = session()->has($sessionConsts['selectedDepartment']);
-    $isBatchSelected = session()->has($sessionConsts['selectedBatch']);
-    $isSubjectSelected = session()->has($sessionConsts['selectedSubject']);
-
-    $department = session($sessionConsts['selectedDepartment']);
-    $batch = session($sessionConsts['selectedBatch']);
-    $subject = session($sessionConsts['selectedSubject']);
-@endphp
-
 <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
     {{-- visible in mobile view --}}
     <div class="sidebar-inner px-4 pt-3">
@@ -138,7 +126,7 @@
                 </div>
             </li>
 
-            <li class="nav-item {{ Route::is('department.select') ? 'active' : '' }}">
+            <li class="nav-item">
                 <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-department">
                     <span>
@@ -151,20 +139,16 @@
                         @include('partials.sidemenuSvg')
                     </span>
                 </span>
-
-                @php
-                    $routeUrl = $isDeptSelected ? route('department.home', $department) : route('department.index');
-                @endphp
-
                 <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
                     <ul class="flex-column nav">
                         <li class="nav-item
-                            {{ Route::is('department.home') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ $routeUrl }}">
+                            {{ Route::is('department.home', 'department.select') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('department.index') }}">
                                 <span class="sidebar-text">Home</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item
+                            {{ Route::is('/') ? 'active' : '' }}">
                             <a class="nav-link" href="#!">
                                 <span class="sidebar-text">List</span>
                             </a>
@@ -224,15 +208,15 @@
                     <ul class="flex-column nav">
 
                         @php
-                            $routeUrl = ($isDeptSelected && $isBatchSelected)
-                                ? route('students.show', [
-                                        'dept' => $department,
-                                        'batch' => $batch
-                                    ])
-                                : route('students.handleRedirect');
+                            $routeUrl = route('department.index');
+                            $sessionKey = CustomHelper::getSessionConstants()['selectedDepartment'];
+                            if (session()->has($sessionKey)) {
+                                $dept = session($sessionKey);
+                                $routeUrl = route('department.students.selectBatch', $dept);
+                            }
                         @endphp
 
-                        <li class="nav-item {{ Route::is('students.show') ? 'active' : '' }}">
+                        <li class="nav-item {{ false ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
                                 <span class="sidebar-text">List</span>
                             </a>
@@ -299,7 +283,7 @@
                 </div>
             </li>
 
-            <li class="nav-item {{ Route::is('batch.select') ? 'active' : '' }}">
+            <li class="nav-item">
                 <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-batch">
                     <span>

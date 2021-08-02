@@ -5,11 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-use App\Models\Batch;
 use App\Models\Student;
 use App\Models\Department;
 use App\Models\HomepageNotification;
-use App\Policies\BatchPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\StudentPolicy;
 use App\Policies\HomepageNotificationPolicy as NotificationPolicy;
@@ -24,8 +22,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         HomepageNotification::class => NotificationPolicy::class,
         Department::class => DepartmentPolicy::class,
-        Student::class => StudentPolicy::class,
-        Batch::class => BatchPolicy::class
+        Student::class => StudentPolicy::class
     ];
 
     /**

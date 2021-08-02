@@ -51,10 +51,6 @@
     @endslot
 @endcomponent
 
-@php
-    $redirect = \request()->query('redirect') ?? '';
-@endphp
-
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
         <h5>Additional Access</h5>
@@ -63,10 +59,7 @@
             @if ($preferred->count() > 0)
                 @foreach ($preferred as $dept)
                     @component('components.inline.anchorBtn', [
-                            'href' => route('department.saveInSession', [
-                                    'dept' => $dept['code'],
-                                    'redirect' => $redirect
-                                ]),
+                            'href' => route('department.saveInSession', $dept['code']),
                             'classes' => 'btn-lg btn-outline-tertiary mb-2'
                         ])
                         @slot('attr')
@@ -88,10 +81,7 @@
             @if ($departments->count() > 0)
                 @foreach ($departments as $dept)
                     @component('components.inline.anchorBtn', [
-                            'href' => route('department.saveInSession', [
-                                    'dept' => $dept['code'],
-                                    'redirect' => $redirect
-                                ]),
+                            'href' => route('department.saveInSession', $dept['code']),
                             'classes' => 'btn-lg btn-outline-tertiary mb-2'
                         ])
                         @slot('attr')

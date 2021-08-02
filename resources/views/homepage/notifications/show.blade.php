@@ -50,13 +50,24 @@
 
     @slot('sideButtons')
         @if (Route::is('homepage.notification.show'))
-            @include('partials.pageSideBtns', [
-                'trashRedirect' => route('homepage.notification.showTrashed')
-            ])
+            @component('components.inline.anchorBtn', [
+                    'href' => route('homepage.notification.showTrashed'),
+                    'classes' => 'btn-outline-info',
+                    'tooltip' => true,
+                    'icon' => 'restore_from_trash'
+                ])
+
+                Trashed
+            @endcomponent
         @else
-            @include('partials.pageSideBtns', [
-                'backRedirect' => route('homepage.notification.show')
-            ])
+            @component('components.inline.anchorBtn', [
+                    'href' => route('homepage.notification.show'),
+                    'classes' => 'btn-outline-info',
+                    'icon' => 'keyboard_arrow_left'
+                ])
+
+                Back
+            @endcomponent
         @endif
     @endslot
 @endcomponent
@@ -150,7 +161,7 @@
                 @endslot
             @endcomponent
 
-            <nav class="my-3 d-flex justify-content-between">
+            <nav class="my-3">
                 {{ $pagination }}
             </nav>
         @endif

@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Department;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 use App\CustomHelper;
 use App\Models\Department;
 
-class DepartmentController extends Controller {
+class MainController extends Controller {
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
      *
@@ -41,13 +40,9 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function saveInSession(Request $request, Department $dept) {
+    public function saveInSession(Department $dept) {
         session([$this->sessionKeys['selectedDepartment'] => $dept]);
-        $redirectRouteName = $request->input('redirect');
-
-        return Route::has($redirectRouteName)
-            ? redirect()->route($redirectRouteName, $dept)
-            : redirect()->route('department.home', $dept);
+        return redirect()->route('department.home', $dept);
     }
 
     public function home(Department $dept) {
