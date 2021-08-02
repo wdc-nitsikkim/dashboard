@@ -19,7 +19,7 @@ class BatchPolicy {
     protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
     protected $create_roles = ['admin'];
     protected $update_roles = ['admin'];
-    protected $delete_roles = ['admin'];
+    protected $delete_roles = [];
 
     public function __construct() {
         $this->permission = CustomHelper::getPermissionConstants();
