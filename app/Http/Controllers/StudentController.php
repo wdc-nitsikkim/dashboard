@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Department;
+namespace App\Http\Controllers;
 
 use Validator;
 
@@ -22,27 +22,43 @@ class StudentController extends Controller {
      */
     private $paginate = 10;
 
-    public function selectBatch(Department $dept) {
-        $this->authorize('view', [Student::class, $dept]);
+    /**
+     * Stores session keys received from \CustomHelper::getSessionConstants()
+     *
+     * @var null|array
+     */
+    private $sessionKeys = null;
 
-        $btechBatches = Batch::where('type', 'b')->orderByDesc('id')->get();
-        $mtechBatches = Batch::where('type', 'm')->orderByDesc('id')->get();
+    function __construct() {
+        $this->sessionKeys = CustomHelper::getSessionConstants();
+    }
 
-        return view('department.students.selectBatch', [
-            'department' => $dept,
-            'btechBatches' => $btechBatches,
-            'mtechBatches' => $mtechBatches
+    public function handleRedirect() {
+        if (!session()->has($this->sessionKeys['selectedDepartment'])) {
+            return redirect()->route('department.select', [
+                'redirect' => 'students.handleRedirect'
+            ]);
+        }
+
+        if (!session()->has($this->sessionKeys['selectedBatch'])) {
+            return redirect()->route('batch.select', [
+                'redirect' => 'students.handleRedirect'
+            ]);
+        }
+
+        return redirect()->route('students.show', [
+            'dept' => session($this->sessionKeys['selectedDepartment']),
+            'batch' => session($this->sessionKeys['selectedBatch'])
         ]);
     }
 
     public function show(Department $dept, Batch $batch) {
         $this->authorize('view', [Student::class, $dept]);
 
-        $students = $batch->students()->where(
-            'department_id', $dept->id
-        )->withTrashed()->paginate($this->paginate);
+        $students = $batch->students()->where('department_id', $dept->id)
+            ->withTrashed()->paginate($this->paginate);
 
-        return view('department.students.show', [
+        return view('students.show', [
             'batch' => $batch,
             'department' => $dept,
             'students' => $students->toArray(),
@@ -53,7 +69,7 @@ class StudentController extends Controller {
     public function add(Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 
-        return view('department.students.add', [
+        return view('students.add', [
             'batch' => $batch,
             'department' => $dept
         ]);
@@ -80,7 +96,7 @@ class StudentController extends Controller {
             ])->withInput();
         }
 
-        return redirect()->route('department.students.show', [
+        return redirect()->route('students.show', [
             'dept' => $dept,
             'batch' => $batch
         ])->with([
@@ -93,7 +109,7 @@ class StudentController extends Controller {
         $this->authorize('update', [Student::class, $dept]);
 
         $departmentList = Department::all();
-        return view('department.students.edit', [
+        return view('students.edit', [
             'batch' => $batch,
             'department' => $dept,
             'student' => $student,

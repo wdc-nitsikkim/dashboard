@@ -90,32 +90,45 @@ Route::name('homepage.')->prefix('homepage')->middleware(['auth'])->group(functi
 });
 
 /* department routes */
-Route::name('department.')->prefix('department')->middleware(['auth'])
-    ->namespace('Department')->group(function() {
+Route::name('department.')->prefix('department')->middleware(['auth'])->group(function() {
+    Route::get('/', 'DepartmentController@index')->name('index');
+    Route::get('/select', 'DepartmentController@select')->name('select');
+    Route::post('/save-in-session/{dept}', 'DepartmentController@saveInSession')->name('saveInSession');
+    Route::get('/test', 'DepartmentController@test');
+    Route::get('/{dept}', 'DepartmentController@home')->name('home');
+});
 
-    /* department home routes */
-    Route::get('/', 'MainController@index')->name('index');
-    Route::get('/select', 'MainController@select')->name('select');
-    Route::post('/save-in-session/{dept}', 'MainController@saveInSession')->name('saveInSession');
-    Route::get('/test', 'MainController@test');
-    Route::get('/{dept}', 'MainController@home')->name('home');
+/* student routes */
+Route::name('students.')->prefix('students')->middleware(['auth'])->group(function() {
+    Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
+    Route::get('/test', 'StudentController@test');
 
-    /* student routes */
-    Route::name('students.')->prefix('{dept}/students')->group(function() {
-        Route::get('/', 'StudentController@selectBatch')->name('selectBatch');
-        Route::get('/test/{student?}', 'StudentController@test');
-
-        Route::prefix('{batch}')->group(function() {
-            Route::get('/', 'StudentController@show')->name('show');
-            Route::get('/add', 'StudentController@add')->name('add');
-            Route::post('/save', 'StudentController@saveNew')->name('saveNew');
-            Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
-            Route::post('/update/{student}', 'StudentController@update')->name('update');
-            Route::delete('/soft-delete/{student}', 'StudentController@softDelete')->name('softDelete');
-            Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
-            Route::delete('/delete/{id}', 'StudentController@delete')->name('delete');
-        });
+    Route::prefix('{dept}/{batch}')->group(function() {
+        Route::get('/', 'StudentController@show')->name('show');
+        Route::get('/add', 'StudentController@add')->name('add');
+        Route::post('/save', 'StudentController@saveNew')->name('saveNew');
+        Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
+        Route::post('/update/{student}', 'StudentController@update')->name('update');
+        Route::delete('/soft-delete/{student}', 'StudentController@softDelete')->name('softDelete');
+        Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
+        Route::delete('/delete/{id}', 'StudentController@delete')->name('delete');
     });
+});
+
+/* batch routes */
+Route::name('batch.')->prefix('batch')->middleware(['auth'])->group(function() {
+    Route::get('/', 'BatchController@show')->name('show');
+    Route::get('/select', 'BatchController@select')->name('select');
+    Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
+    Route::get('/test', 'BatchController@test')->name('test');
+
+    Route::get('/add', 'BatchController@add')->name('add');
+    Route::post('/save', 'BatchController@saveNew')->name('saveNew');
+    Route::get('/edit/{batch}', 'BatchController@edit')->name('edit');
+    Route::post('/update/{batch}', 'BatchController@update')->name('update');
+    Route::delete('/soft-delete/{batch}', 'BatchController@softDelete')->name('softDelete');
+    Route::post('/restore/{id}', 'BatchController@restore')->name('restore');
+    Route::delete('/delete/{id}', 'BatchController@delete')->name('delete');
 });
 
 /* framewrok version */
