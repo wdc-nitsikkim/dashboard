@@ -52,7 +52,7 @@
     @endslot
 
     @slot('sideButtons')
-        @include('partials.sessionModBtns', [
+        @include('partials.pageSideBtns', [
             'help' => '#!',
             'deptRedirect' => $redirectHandler,
             'batchRedirect' => $redirectHandler

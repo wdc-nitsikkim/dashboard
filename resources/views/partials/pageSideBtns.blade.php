@@ -11,10 +11,10 @@
             'classes' => 'btn-outline-info',
             'tooltip' => true
         ])
-    @slot('attr')
-        data-bs-placement="left" title="Change Department"
-    @endslot
-    Department
+        @slot('attr')
+            data-bs-placement="left" title="Change Department"
+        @endslot
+        Department
     @endcomponent
 @endisset
 
@@ -25,10 +25,10 @@
             'classes' => 'btn-outline-info',
             'tooltip' => true
         ])
-    @slot('attr')
-        data-bs-placement="left" title="Change Batch"
-    @endslot
-    Batch
+        @slot('attr')
+            data-bs-placement="left" title="Change Batch"
+        @endslot
+        Batch
     @endcomponent
 @endisset
 
@@ -43,5 +43,26 @@
             data-bs-placement="left" title="Change Subject"
         @endslot
         Subject
+    @endcomponent
+@endisset
+
+@isset($trashRedirect)
+    @component('components.inline.anchorBtn', [
+            'icon' => 'restore_from_trash',
+            'href' => $trashRedirect,
+            'classes' => 'btn-outline-info'
+        ])
+        Trashed
+    @endcomponent
+@endisset
+
+
+@isset($backRedirect)
+    @component('components.inline.anchorBtn', [
+            'icon' => 'keyboard_arrow_left',
+            'href' => $backRedirect,
+            'classes' => 'btn-outline-info'
+        ])
+        Back
     @endcomponent
 @endisset
