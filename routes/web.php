@@ -121,6 +121,14 @@ Route::name('batch.')->prefix('batch')->middleware(['auth'])->group(function() {
     Route::get('/select', 'BatchController@select')->name('select');
     Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
     Route::get('/test', 'BatchController@test')->name('test');
+
+    Route::get('/add', 'BatchController@add')->name('add');
+    Route::post('/save', 'BatchController@saveNew')->name('saveNew');
+    Route::get('/edit/{batch}', 'BatchController@edit')->name('edit');
+    Route::post('/update/{batch}', 'BatchController@update')->name('update');
+    Route::delete('/soft-delete/{batch}', 'BatchController@softDelete')->name('softDelete');
+    Route::post('/restore/{id}', 'BatchController@restore')->name('restore');
+    Route::delete('/delete/{id}', 'BatchController@delete')->name('delete');
 });
 
 /* framewrok version */
