@@ -50,9 +50,9 @@ class BatchController extends Controller {
         $btechPage = $request->btech;
         $mtechPage = $request->mtech;
 
-        $btechBatches = Batch::where('type', 'b')->orderByDesc('id')
+        $btechBatches = Batch::withTrashed()->where('type', 'b')->orderByDesc('id')
             ->paginate($this->paginate, ['*'], 'btech', $btechPage);
-        $mtechBatches = Batch::where('type', 'm')->orderByDesc('id')
+        $mtechBatches = Batch::withTrashed()->where('type', 'm')->orderByDesc('id')
             ->paginate($this->paginate, ['*'], 'mtech', $mtechPage);
 
         $btechBatches->setPageName('btech');

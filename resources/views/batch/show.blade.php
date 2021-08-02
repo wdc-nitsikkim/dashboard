@@ -33,8 +33,8 @@
         @slot('subheading')
             It is recommended to leave these values in their default states<br>
             @can('delete', $batchModel)
-                <span class="text-danger fw-bolder">NOTE: Removing a batch will remove all data
-                    associated with it (students, etc...)! Proceed with extreme caution.</span>
+                <span class="text-danger fw-bolder">NOTE: Removing a batch permanently will remove
+                    all data associated with it (students, etc...)! Proceed with extreme caution.</span>
             @endcan
         @endslot
     @endslot
@@ -87,14 +87,28 @@
                                     </td>
                                     <td>
 
-                                        @can('update', $batchModel)
-                                            @include('components.table.actionBtn.edit', [
-                                                'href' => route('batch.edit', $batch['id'])
-                                            ])
-                                            @include('components.table.actionBtn.delete', [
-                                                'href' => route('batch.delete', $batch['id'])
-                                            ])
-                                        @endcan
+                                        @if ($batch['deleted_at'] == null)
+                                            @can('update', $batchModel)
+                                                @include('components.table.actionBtn.edit', [
+                                                    'href' => route('batch.edit', $batch['id'])
+                                                ])
+                                                @include('components.table.actionBtn.trash', [
+                                                    'href' => route('batch.softDelete', $batch['id'])
+                                                ])
+                                            @endcan
+                                        @else
+                                            @can('update', $batchModel)
+                                                @include('components.table.actionBtn.restore', [
+                                                    'href' => route('batch.restore', $batch['id'])
+                                                ])
+                                            @endcan
+
+                                            @can('delete', $batchModel)
+                                                @include('components.table.actionBtn.delete', [
+                                                    'href' => route('batch.delete', $batch['id'])
+                                                ])
+                                            @endcan
+                                        @endif
 
                                     </td>
                                 </tr>
@@ -147,14 +161,28 @@
                                     </td>
                                     <td>
 
-                                        @can('update', $batchModel)
-                                            @include('components.table.actionBtn.edit', [
-                                                'href' => route('batch.edit', $batch['id'])
-                                            ])
-                                            @include('components.table.actionBtn.delete', [
-                                                'href' => route('batch.delete', $batch['id'])
-                                            ])
-                                        @endcan
+                                        @if ($batch['deleted_at'] == null)
+                                            @can('update', $batchModel)
+                                                @include('components.table.actionBtn.edit', [
+                                                    'href' => route('batch.edit', $batch['id'])
+                                                ])
+                                                @include('components.table.actionBtn.trash', [
+                                                    'href' => route('batch.softDelete', $batch['id'])
+                                                ])
+                                            @endcan
+                                        @else
+                                            @can('update', $batchModel)
+                                                @include('components.table.actionBtn.restore', [
+                                                    'href' => route('batch.restore', $batch['id'])
+                                                ])
+                                            @endcan
+
+                                            @can('delete', $batchModel)
+                                                @include('components.table.actionBtn.delete', [
+                                                    'href' => route('batch.delete', $batch['id'])
+                                                ])
+                                            @endcan
+                                        @endif
 
                                     </td>
                                 </tr>
