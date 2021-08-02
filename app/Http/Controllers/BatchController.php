@@ -150,6 +150,12 @@ class BatchController extends Controller {
             ]);
         }
 
+        /**
+         * removing selected batch from session to prevent 404 page
+         * from showing up (if removed batch was selected batch)
+         */
+        session()->forget($this->sessionKeys['selectedBatch']);
+
         return back()->with([
             'status' => 'success',
             'message' => 'Moved to trash!'
