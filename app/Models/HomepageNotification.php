@@ -5,8 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\CustomHelper;
+use App\Traits\GlobalMutators;
+use App\Traits\GlobalAccessors;
+
 class HomepageNotification extends Model {
     use softDeletes;
+    use GlobalMutators, GlobalAccessors;
 
     protected $table = 'homepage_notifications';
     protected $dates = ['deleted_at'];

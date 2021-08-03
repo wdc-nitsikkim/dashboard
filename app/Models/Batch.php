@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Student;
+use App\Traits\GlobalMutators;
+use App\Traits\GlobalAccessors;
 
 class Batch extends Model {
     use softDeletes;
+    use GlobalMutators, GlobalAccessors;
 
     protected $table = 'batches';
 
