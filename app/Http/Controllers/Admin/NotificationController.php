@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Homepage;
+namespace App\Http\Controllers\Admin;
 
 use Validator;
 
