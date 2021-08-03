@@ -44,8 +44,8 @@
          */
         public static function formatFileName($str, $appendTimestamp = true) {
             define('FILENAME_MAX_LEN', 15);
-            $tmp = camel_case(mb_substr(\pathinfo($str, PATHINFO_FILENAME), 0, FILENAME_MAX_LEN));
-            return ($appendTimestamp ? $tmp . '_' . time() : $tmp);
+            $tmp = kebab_case(mb_substr(\pathinfo($str, PATHINFO_FILENAME), 0, FILENAME_MAX_LEN));
+            return ($appendTimestamp ? $tmp . '-' . time() : $tmp);
         }
 
         /**

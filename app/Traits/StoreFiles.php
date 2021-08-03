@@ -11,7 +11,7 @@ use App\CustomHelper;
  * Class contaning pre-defined functions to store files at proper locations
  */
 trait StoreFiles {
-    protected $notificationBasePath = 'homepage/files/';
+    protected $notificationBasePath = 'files/homepage/';
 
     /**
      * Handles homepage notification attachments (always saved as public files)
