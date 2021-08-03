@@ -94,7 +94,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 
     /* department routes */
-    Route::name('department.')->prefix('department')->group(function() {
+    Route::name('department.')->prefix('departments')->group(function() {
         Route::get('/', 'DepartmentController@show')->name('show');
         Route::get('/index', 'DepartmentController@index')->name('index');
         Route::get('/select', 'DepartmentController@select')->name('select');
@@ -130,7 +130,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 
     /* batch routes */
-    Route::name('batch.')->prefix('batch')->group(function() {
+    Route::name('batch.')->prefix('batches')->group(function() {
         Route::get('/', 'BatchController@show')->name('show');
         Route::get('/select', 'BatchController@select')->name('select');
         Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
