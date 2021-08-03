@@ -71,7 +71,7 @@ Route::name('root.')->group(function() {
 });
 
 /* admin routes --> all roles except student */
-Route::namespace('Admin')->middleware(['auth'])->group(function() {
+Route::namespace('Admin')->prefix('admin')->middleware(['auth'])->group(function() {
     /* homepage routes */
     Route::name('homepage.')->prefix('homepage')->group(function() {
         /* notification routes */
