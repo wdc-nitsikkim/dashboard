@@ -1,6 +1,8 @@
 <?php
     namespace App;
 
+    use Carbon\Carbon;
+
     class CustomHelper {
         /**
          * Contains constant values to be provided globally
@@ -62,6 +64,18 @@
          */
         public static function getSessionConstants() {
             return self::$GLOBAL_CONSTS['sessionMap'];
+        }
+
+        /**
+         * Converts given UTC date string to app timezone date string
+         *
+         * @param string $date
+         * @return string
+         */
+        public static function utcToAppTimezone($date) {
+            return $date ? Carbon::createFromTimestamp(strtotime($date))
+                ->timezone(env('APP_TIMEZONE'))
+                ->toDateTimeString() : null;
         }
 
         public static function test() {
