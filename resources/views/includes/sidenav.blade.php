@@ -164,8 +164,8 @@
                                 <span class="sidebar-text">Home</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
+                        <li class="nav-item {{ Route::is('department.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('department.show') }}">
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
