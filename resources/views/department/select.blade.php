@@ -19,7 +19,7 @@
 
                     @can('create', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
-                            href="">
+                            href="{{ route('department.add') }}">
                             <span class="material-icons">add_circle</span>
                             Create New Department
                         </a>
@@ -27,7 +27,7 @@
 
                     @can('update', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
-                            href="">
+                            href="{{ route('department.show') }}">
                             <span class="material-icons">edit</span>
                             Edit Existing
                         </a>

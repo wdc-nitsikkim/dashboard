@@ -19,7 +19,7 @@
 
                     @can('create', $batchModel)
                         <a class="dropdown-item d-flex align-items-center"
-                            href="">
+                            href="{{ route('batch.add') }}">
                             <span class="material-icons">add_circle</span>
                             Add New Batch
                         </a>
@@ -27,7 +27,7 @@
 
                     @can('update', $batchModel)
                         <a class="dropdown-item d-flex align-items-center"
-                            href="">
+                            href="{{ route('batch.show') }}">
                             <span class="material-icons">edit</span>
                             Edit Existing
                         </a>
