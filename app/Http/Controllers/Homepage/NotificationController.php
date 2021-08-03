@@ -194,7 +194,7 @@ class NotificationController extends Controller {
     public function restore($id) {
         $this->authorize('update', Noti::class);
 
-        $notification = Noti::withTrashed()->findOrFail($id);
+        $notification = Noti::onlyTrashed()->findOrFail($id);
         try {
             $notification->restore();
         } catch (\Exception $e) {

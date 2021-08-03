@@ -171,7 +171,7 @@ class DepartmentController extends Controller {
     public function restore($id) {
         $this->authorize('update', Department::class);
 
-        $department = Department::withTrashed()->findOrFail($id);
+        $department = Department::onlyTrashed()->findOrFail($id);
         try {
             $department->restore();
         } catch (\Exception $e) {

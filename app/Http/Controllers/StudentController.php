@@ -173,7 +173,7 @@ class StudentController extends Controller {
     public function restore(Department $dept, Batch $batch, $student_id) {
         $this->authorize('update', [Student::class, $dept]);
 
-        $student = Student::withTrashed()->findOrFail($student_id);
+        $student = Student::onlyTrashed()->findOrFail($student_id);
         try {
             $student->restore();
         } catch (\Exception $e) {

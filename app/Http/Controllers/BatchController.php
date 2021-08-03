@@ -165,7 +165,7 @@ class BatchController extends Controller {
     public function restore($id) {
         $this->authorize('update', Batch::class);
 
-        $batch = Batch::withTrashed()->findOrFail($id);
+        $batch = Batch::onlyTrashed()->findOrFail($id);
         try {
             $batch->restore();
         } catch (\Exception $e) {
