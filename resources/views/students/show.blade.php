@@ -42,7 +42,7 @@
 
 @component('components.page.heading')
     @slot('heading')
-        Student List - {{ $batch['full_name'] }}
+        Student List - {{ $batch['name'] }}
     @endslot
 
     @slot('subheading')

@@ -79,8 +79,8 @@
                                     </td>
                                     <td>
                                         <span class="d-inline-block text-truncate" style="max-width: 200px" data-bs-toggle="tooltip"
-                                            title="{{ $batch['full_name'] }}">
-                                            {{ $batch['full_name'] }}</span>
+                                            title="{{ $batch['name'] }}">
+                                            {{ $batch['name'] }}</span>
                                     </td>
                                     <td>
                                         {{ $batch['start_year'] }}
@@ -153,8 +153,8 @@
                                     </td>
                                     <td>
                                         <span class="d-inline-block text-truncate" style="max-width: 200px" data-bs-toggle="tooltip"
-                                            title="{{ $batch['full_name'] }}">
-                                            {{ $batch['full_name'] }}</span>
+                                            title="{{ $batch['name'] }}">
+                                            {{ $batch['name'] }}</span>
                                     </td>
                                     <td>
                                         {{ $batch['start_year'] }}

@@ -77,14 +77,14 @@
                 <div class="col-sm-6 mb-2">
                     <div class="form-floating">
                         <input type="text"
-                            class="form-control {{ $errors->has('full_name') ? 'is-invalid' : '' }}"
-                            id="full_name" placeholder="Full Name" name="full_name"
-                            value="{{ old('full_name') }}" required>
-                        <label for="full_name">Full Name</label>
+                            class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
+                            id="name" placeholder="Name of Batch" name="name"
+                            value="{{ old('name') }}" required>
+                        <label for="name">Name of Batch</label>
 
-                        @if ($errors->has('full_name'))
+                        @if ($errors->has('name'))
                             <div class="invalid-feedback">
-                                {{ $errors->first('full_name') }}
+                                {{ $errors->first('name') }}
                             </div>
                         @endif
 

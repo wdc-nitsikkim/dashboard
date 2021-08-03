@@ -18,7 +18,7 @@ class Batch extends Model {
      * @var array
      */
     protected $fillable = [
-        'type', 'batch', 'full_name', 'start_year'
+        'type', 'batch', 'name', 'start_year'
     ];
 
     /**

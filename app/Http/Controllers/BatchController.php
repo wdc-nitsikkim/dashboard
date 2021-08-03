@@ -83,7 +83,7 @@ class BatchController extends Controller {
             'type' => 'required | in:b,m',
             'batch' => 'required | max:5',
             'start_year' => 'required | numeric | min:2010',
-            'full_name' => 'required | min:3'
+            'name' => 'required | min:3'
         ]);
 
         try {
@@ -119,7 +119,7 @@ class BatchController extends Controller {
             'type' => 'required | in:b,m',
             'batch' => 'required | max:5',
             'start_year' => 'required | numeric | min:2010',
-            'full_name' => 'required | min:3'
+            'name' => 'required | min:3'
         ]);
 
         try {

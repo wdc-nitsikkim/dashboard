@@ -4,7 +4,7 @@
 
 @component('components.page.heading')
     @slot('heading')
-        Add Student - {{ $batch['full_name'] }}
+        Add Student - {{ $batch['name'] }}
     @endslot
 
     @slot('subheading')
@@ -98,7 +98,7 @@
                 <div class="col-sm-4 mb-2">
                     <div class="form-floating">
                         <input type="text" class="form-control"
-                            id="batch" value="{{ $batch['full_name'] }}" disabled>
+                            id="batch" value="{{ $batch['name'] }}" disabled>
                         <label for="batch">Batch</label>
                     </div>
                 </div>

@@ -17,7 +17,7 @@ class CreateBatchesTable extends Migration
             $table->smallIncrements('id');
             $table->enum('type', ['b', 'm'])->default('b')->nullable(false);  /* b => btech, m => mtech */
             $table->string('batch', 10)->nullable(false);
-            $table->string('full_name', 100)->nullable(false);
+            $table->string('name', 100)->nullable(false);
             $table->integer('start_year')->nullable(false);
 
             $table->timestamps();
