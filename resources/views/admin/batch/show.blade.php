@@ -17,7 +17,7 @@
                 </button>
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                     <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('batch.add') }}">
+                        href="{{ route('admin.batch.add') }}">
                         <span class="material-icons">format_list_numbered</span>
                         Batch
                     </a>
@@ -58,7 +58,7 @@
                     <h5 class="text-danger text-center">No results found!</h5>
                     <p class="text-center">
                         @component('components.inline.anchorBack', [
-                                'href' => route('batch.show')
+                                'href' => route('admin.batch.show')
                             ])
                         @endcomponent
                     </p>
@@ -96,22 +96,22 @@
                                         @if ($batch['deleted_at'] == null)
                                             @can('update', $batchModel)
                                                 @include('components.table.actionBtn.edit', [
-                                                    'href' => route('batch.edit', $batch['id'])
+                                                    'href' => route('admin.batch.edit', $batch['id'])
                                                 ])
                                                 @include('components.table.actionBtn.trash', [
-                                                    'href' => route('batch.softDelete', $batch['id'])
+                                                    'href' => route('admin.batch.softDelete', $batch['id'])
                                                 ])
                                             @endcan
                                         @else
                                             @can('update', $batchModel)
                                                 @include('components.table.actionBtn.restore', [
-                                                    'href' => route('batch.restore', $batch['id'])
+                                                    'href' => route('admin.batch.restore', $batch['id'])
                                                 ])
                                             @endcan
 
                                             @can('delete', $batchModel)
                                                 @include('components.table.actionBtn.delete', [
-                                                    'href' => route('batch.delete', $batch['id'])
+                                                    'href' => route('admin.batch.delete', $batch['id'])
                                                 ])
                                             @endcan
                                         @endif
@@ -138,7 +138,7 @@
                     <h5 class="text-danger text-center">No results found!</h5>
                     <p class="text-center">
                         @component('components.inline.anchorBack', [
-                                'href' => route('batch.show')
+                                'href' => route('admin.batch.show')
                             ])
                         @endcomponent
                     </p>
@@ -176,22 +176,22 @@
                                         @if ($batch['deleted_at'] == null)
                                             @can('update', $batchModel)
                                                 @include('components.table.actionBtn.edit', [
-                                                    'href' => route('batch.edit', $batch['id'])
+                                                    'href' => route('admin.batch.edit', $batch['id'])
                                                 ])
                                                 @include('components.table.actionBtn.trash', [
-                                                    'href' => route('batch.softDelete', $batch['id'])
+                                                    'href' => route('admin.batch.softDelete', $batch['id'])
                                                 ])
                                             @endcan
                                         @else
                                             @can('update', $batchModel)
                                                 @include('components.table.actionBtn.restore', [
-                                                    'href' => route('batch.restore', $batch['id'])
+                                                    'href' => route('admin.batch.restore', $batch['id'])
                                                 ])
                                             @endcan
 
                                             @can('delete', $batchModel)
                                                 @include('components.table.actionBtn.delete', [
-                                                    'href' => route('batch.delete', $batch['id'])
+                                                    'href' => route('admin.batch.delete', $batch['id'])
                                                 ])
                                             @endcan
                                         @endif

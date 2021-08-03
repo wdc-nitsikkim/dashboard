@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Validator;
 
@@ -36,18 +36,18 @@ class StudentController extends Controller {
 
     public function handleRedirect() {
         if (!session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('department.select', [
+            return redirect()->route('admin.department.select', [
                 'redirect' => 'students.handleRedirect'
             ]);
         }
 
         if (!session()->has($this->sessionKeys['selectedBatch'])) {
-            return redirect()->route('batch.select', [
+            return redirect()->route('admin.batch.select', [
                 'redirect' => 'students.handleRedirect'
             ]);
         }
 
-        return redirect()->route('students.show', [
+        return redirect()->route('admin.students.show', [
             'dept' => session($this->sessionKeys['selectedDepartment']),
             'batch' => session($this->sessionKeys['selectedBatch'])
         ]);
@@ -59,7 +59,7 @@ class StudentController extends Controller {
         $students = $batch->students()->where('department_id', $dept->id)
             ->withTrashed()->paginate($this->paginate);
 
-        return view('students.show', [
+        return view('admin.students.show', [
             'batch' => $batch,
             'department' => $dept,
             'students' => $students->toArray(),
@@ -70,7 +70,7 @@ class StudentController extends Controller {
     public function add(Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 
-        return view('students.add', [
+        return view('admin.students.add', [
             'batch' => $batch,
             'department' => $dept
         ]);
@@ -98,7 +98,7 @@ class StudentController extends Controller {
             ])->withInput();
         }
 
-        return redirect()->route('students.show', [
+        return redirect()->route('admin.students.show', [
             'dept' => $dept,
             'batch' => $batch
         ])->with([
@@ -111,7 +111,7 @@ class StudentController extends Controller {
         $this->authorize('update', [Student::class, $dept]);
 
         $departmentList = Department::all();
-        return view('students.edit', [
+        return view('admin.students.edit', [
             'batch' => $batch,
             'department' => $dept,
             'student' => $student,

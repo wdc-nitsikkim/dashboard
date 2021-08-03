@@ -16,7 +16,7 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
-        <form class="form-floating" action="{{ route('department.update', $department['id']) }}" method="POST">
+        <form class="form-floating" action="{{ route('admin.department.update', $department['id']) }}" method="POST">
             {{ csrf_field() }}
 
             <div class="row g-2 mb-3">
@@ -64,7 +64,7 @@
 
             @component('components.form.footerEdit')
                 @slot('returnRoute')
-                    {{ route('department.show') }}
+                    {{ route('admin.department.show') }}
                 @endslot
             @endcomponent
 

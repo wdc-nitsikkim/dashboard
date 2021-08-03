@@ -16,7 +16,7 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
-        <form class="form-floating" action="{{ route('homepage.notification.update', $notification['id']) }}"
+        <form class="form-floating" action="{{ route('admin.homepage.notification.update', $notification['id']) }}"
             enctype="multipart/form-data" method="POST">
             {{ csrf_field() }}
 
@@ -113,7 +113,7 @@
 
             @component('components.form.footerEdit')
                 @slot('returnRoute')
-                    {{ route('homepage.notification.show') }}
+                    {{ route('admin.homepage.notification.show') }}
                 @endslot
             @endcomponent
 

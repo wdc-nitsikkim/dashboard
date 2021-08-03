@@ -128,9 +128,9 @@
                             </a>
                         </li>
                         <li class="nav-item
-                            {{ Route::is('homepage.notification.show', 'homepage.notification.showTrashed')
+                            {{ Route::is('admin.homepage.notification.show', 'admin.homepage.notification.showTrashed')
                                 ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('homepage.notification.show') }}">
+                            <a class="nav-link" href="{{ route('admin.homepage.notification.show') }}">
                                 <span class="sidebar-text">Notifications</span>
                             </a>
                         </li>
@@ -138,7 +138,7 @@
                 </div>
             </li>
 
-            <li class="nav-item {{ Route::is('department.select') ? 'active' : '' }}">
+            <li class="nav-item {{ Route::is('admin.department.select') ? 'active' : '' }}">
                 <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-department">
                     <span>
@@ -153,19 +153,19 @@
                 </span>
 
                 @php
-                    $routeUrl = $isDeptSelected ? route('department.home', $department) : route('department.index');
+                    $routeUrl = $isDeptSelected ? route('admin.department.home', $department) : route('admin.department.index');
                 @endphp
 
                 <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
                     <ul class="flex-column nav">
                         <li class="nav-item
-                            {{ Route::is('department.home') ? 'active' : '' }}">
+                            {{ Route::is('admin.department.home') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
                                 <span class="sidebar-text">Home</span>
                             </a>
                         </li>
-                        <li class="nav-item {{ Route::is('department.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('department.show') }}">
+                        <li class="nav-item {{ Route::is('admin.department.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.department.show') }}">
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
@@ -225,14 +225,14 @@
 
                         @php
                             $routeUrl = ($isDeptSelected && $isBatchSelected)
-                                ? route('students.show', [
+                                ? route('admin.students.show', [
                                         'dept' => $department,
                                         'batch' => $batch
                                     ])
-                                : route('students.handleRedirect');
+                                : route('admin.students.handleRedirect');
                         @endphp
 
-                        <li class="nav-item {{ Route::is('students.show') ? 'active' : '' }}">
+                        <li class="nav-item {{ Route::is('admin.students.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
                                 <span class="sidebar-text">List</span>
                             </a>
@@ -294,7 +294,7 @@
                 </div>
             </li>
 
-            <li class="nav-item {{ Route::is('batch.select') ? 'active' : '' }}">
+            <li class="nav-item {{ Route::is('admin.batch.select') ? 'active' : '' }}">
                 <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-batch">
                     <span>
@@ -309,8 +309,8 @@
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-batch" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item {{ Route::is('batch.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('batch.show') }}">
+                        <li class="nav-item {{ Route::is('admin.batch.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.batch.show') }}">
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>

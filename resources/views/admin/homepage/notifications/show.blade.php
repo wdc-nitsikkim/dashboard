@@ -17,23 +17,23 @@
                 </button>
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                     <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('homepage.notification.add', 'announcement') }}">
+                        href="{{ route('admin.homepage.notification.add', 'announcement') }}">
                         <span class="material-icons">campaign</span>
                         Announcement
                     </a>
                     <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('homepage.notification.add', 'download') }}">
+                        href="{{ route('admin.homepage.notification.add', 'download') }}">
                         <span class="material-icons">download_done</span>
                         Download
                     </a>
                     <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('homepage.notification.add', 'notice') }}">
+                        href="{{ route('admin.homepage.notification.add', 'notice') }}">
                         <span class="material-icons">description</span>
                         Notice
                     </a>
                     <div role="separator" class="dropdown-divider my-1"></div>
                     <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('homepage.notification.add', 'tender') }}">
+                        href="{{ route('admin.homepage.notification.add', 'tender') }}">
                         <span class="material-icons">apartment</span>
                         Tender
                     </a>
@@ -51,11 +51,11 @@
     @slot('sideButtons')
         @if (Route::is('homepage.notification.show'))
             @include('partials.pageSideBtns', [
-                'trashRedirect' => route('homepage.notification.showTrashed')
+                'trashRedirect' => route('admin.homepage.notification.showTrashed')
             ])
         @else
             @include('partials.pageSideBtns', [
-                'backRedirect' => route('homepage.notification.show')
+                'backRedirect' => route('admin.homepage.notification.show')
             ])
         @endif
     @endslot
@@ -68,7 +68,7 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                        'href' => route('homepage.notification.show')
+                        'href' => route('admin.homepage.notification.show')
                     ])
                 @endcomponent
             </p>
@@ -120,7 +120,7 @@
                                     }
                                 @endphp
 
-                                <a href="{{ route('homepage.notification.changeStatus', ['id' => $notice['id'], 'status' => $query_param]) }}"
+                                <a href="{{ route('admin.homepage.notification.changeStatus', ['id' => $notice['id'], 'status' => $query_param]) }}"
                                     class="btn btn-xs {{ $btn_class }}" spoof spoof-method="POST">
                                     {{ $btn_text }}
                                 </a>
@@ -130,22 +130,22 @@
                                 @if ($notice['deleted_at'] == null)
                                     @can('update', $notiModel)
                                         @include('components.table.actionBtn.edit', [
-                                            'href' => route('homepage.notification.edit', $notice['id'])
+                                            'href' => route('admin.homepage.notification.edit', $notice['id'])
                                         ])
                                         @include('components.table.actionBtn.trash', [
-                                            'href' => route('homepage.notification.softDelete', $notice['id'])
+                                            'href' => route('admin.homepage.notification.softDelete', $notice['id'])
                                         ])
                                     @endcan
                                 @else
                                     @can('update', $notiModel)
                                         @include('components.table.actionBtn.restore', [
-                                            'href' => route('homepage.notification.restore', $notice['id'])
+                                            'href' => route('admin.homepage.notification.restore', $notice['id'])
                                         ])
                                     @endcan
 
                                     @can('delete', $notiModel)
                                         @include('components.table.actionBtn.delete', [
-                                            'href' => route('homepage.notification.delete', $notice['id'])
+                                            'href' => route('admin.homepage.notification.delete', $notice['id'])
                                         ])
                                     @endcan
                                 @endif

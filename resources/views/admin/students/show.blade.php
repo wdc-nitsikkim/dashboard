@@ -25,7 +25,7 @@
 
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                     <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('students.add', $baseRouteParams) }}">
+                        href="{{ route('admin.students.add', $baseRouteParams) }}">
                         <span class="material-icons">face</span>
                         Student
                     </a>
@@ -46,7 +46,7 @@
     @endslot
 
     @slot('subheading')
-        @include('students.partials.subheading', ['batch' => $batch])
+        @include('admin.students.partials.subheading', ['batch' => $batch])
 
         {{ $department['name'] }}
     @endslot
@@ -67,7 +67,7 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                        'href' => route('students.show', $baseRouteParams)
+                        'href' => route('admin.students.show', $baseRouteParams)
                     ])
                 @endcomponent
             </p>
@@ -117,22 +117,22 @@
                                 @if ($student['deleted_at'] == null)
                                     @can('update', [$studentModel, $department])
                                         @include('components.table.actionBtn.edit', [
-                                            'href' => route('students.edit', $routeParamsWithId)
+                                            'href' => route('admin.students.edit', $routeParamsWithId)
                                         ])
                                         @include('components.table.actionBtn.trash', [
-                                            'href' => route('students.softDelete', $routeParamsWithId)
+                                            'href' => route('admin.students.softDelete', $routeParamsWithId)
                                         ])
                                     @endcan
                                 @else
                                     @can('update', [$studentModel, $department])
                                         @include('components.table.actionBtn.restore', [
-                                            'href' => route('students.restore', $routeParamsWithId)
+                                            'href' => route('admin.students.restore', $routeParamsWithId)
                                         ])
                                     @endcan
 
                                     @can('delete', [$studentModel, $department])
                                         @include('components.table.actionBtn.delete', [
-                                            'href' => route('students.delete', $routeParamsWithId)
+                                            'href' => route('admin.students.delete', $routeParamsWithId)
                                         ])
                                     @endcan
                                 @endif

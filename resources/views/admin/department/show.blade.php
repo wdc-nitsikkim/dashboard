@@ -17,7 +17,7 @@
                 </button>
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                     <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('department.add') }}">
+                        href="{{ route('admin.department.add') }}">
                         <span class="material-icons">business</span>
                         Department
                     </a>
@@ -53,7 +53,7 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                        'href' => route('department.show')
+                        'href' => route('admin.department.show')
                     ])
                 @endcomponent
             </p>
@@ -89,22 +89,22 @@
                                 @if ($department['deleted_at'] == null)
                                     @can('update', $deptModel)
                                         @include('components.table.actionBtn.edit', [
-                                            'href' => route('department.edit', $department['id'])
+                                            'href' => route('admin.department.edit', $department['id'])
                                         ])
                                         @include('components.table.actionBtn.trash', [
-                                            'href' => route('department.softDelete', $department['id'])
+                                            'href' => route('admin.department.softDelete', $department['id'])
                                         ])
                                     @endcan
                                 @else
                                     @can('update', $deptModel)
                                         @include('components.table.actionBtn.restore', [
-                                            'href' => route('department.restore', $department['id'])
+                                            'href' => route('admin.department.restore', $department['id'])
                                         ])
                                     @endcan
 
                                     @can('delete', $deptModel)
                                         @include('components.table.actionBtn.delete', [
-                                            'href' => route('department.delete', $department['id'])
+                                            'href' => route('admin.department.delete', $department['id'])
                                         ])
                                     @endcan
                                 @endif

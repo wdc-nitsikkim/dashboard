@@ -1,10 +1,10 @@
-@extends('layouts.admin', ['title' => 'Add Batch'])
+@extends('layouts.admin', ['title' => 'Edit Batch'])
 
 @section('content')
 
 @component('components.page.heading')
     @slot('heading')
-        Add New Batch
+        Edit Batch
     @endslot
 
     @slot('sideButtons')
@@ -14,9 +14,13 @@
     @endslot
 @endcomponent
 
+@php
+    $type = old('type') ?? $batch['type'];
+@endphp
+
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
-        <form class="form-floating" action="{{ route('batch.saveNew') }}" method="POST">
+        <form class="form-floating" action="{{ route('admin.batch.update', $batch['id']) }}" method="POST">
             {{ csrf_field() }}
 
             <div class="row g-2 mb-3">
@@ -24,8 +28,8 @@
                     <div class="form-floating">
                         <select class="form-select {{ $errors->has('type') ? 'is-invalid' : '' }}"
                             id="type" name="type" required>
-                            <option value="b" selected>B.Tech</option>
-                            <option value="m">M.Tech</option>
+                            <option value="b" {{ $type == 'b' ? 'selected' : '' }}>B.Tech</option>
+                            <option value="m" {{ $type == 'm' ? 'selected' : '' }}>M.Tech</option>
                         </select>
                         <label for="Type">Type</label>
 
@@ -43,7 +47,7 @@
                         <input type="text"
                             class="form-control {{ $errors->has('code') ? 'is-invalid' : '' }}"
                             id="code" placeholder="Batch Code" name="code"
-                            value="{{ old('code') }}" required>
+                            value="{{ old('code') ?? $batch['code'] }}" required>
                         <label for="code">Batch Code</label>
                         <small class="text-muted">Eg.: b23, m22 - Unique, concise & meaningful</small>
 
@@ -61,7 +65,7 @@
                         <input type="number"
                             class="form-control {{ $errors->has('start_year') ? 'is-invalid' : '' }}"
                             id="start_year" placeholder="Start Year" name="start_year"
-                            value="{{ old('start_year') }}" required>
+                            value="{{ old('start_year') ?? $batch['start_year'] }}" required>
                         <label for="start_year">Start Year</label>
 
                         @if ($errors->has('start_year'))
@@ -79,7 +83,7 @@
                         <input type="text"
                             class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
                             id="name" placeholder="Name of Batch" name="name"
-                            value="{{ old('name') }}" required>
+                            value="{{ old('name') ?? $batch['name'] }}" required>
                         <label for="name">Name of Batch</label>
 
                         @if ($errors->has('name'))
@@ -92,13 +96,15 @@
                 </div>
             </div>
 
-            @component('components.form.footerAdd')
-                @slot('returnRoute')
-                    {{ route('batch.show') }}
-                @endslot
+            @component('components.form.timestamps', [
+                    'createdAt' => $batch['created_at'],
+                    'updatedAt' => $batch['updated_at']
+                ])
+            @endcomponent
 
-                @slot('submitBtnTxt')
-                    Add Batch
+            @component('components.form.footerEdit')
+                @slot('returnRoute')
+                    {{ route('admin.batch.show') }}
                 @endslot
             @endcomponent
 

@@ -70,79 +70,80 @@ Route::name('root.')->group(function() {
     Route::post('/clear-session', 'RootController@clearSession')->name('clearSession');
 });
 
-/* homepage routes */
-Route::name('homepage.')->prefix('homepage')->middleware(['auth'])->group(function() {
-    /* notification routes */
-    Route::name('notification.')->prefix('notifications')->namespace('Homepage')
-        ->group(function() {
+/* admin routes --> all roles except student */
+Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])->group(function() {
+    /* homepage routes */
+    Route::name('homepage.')->prefix('homepage')->group(function() {
+        /* notification routes */
+        Route::name('notification.')->prefix('notifications')->group(function() {
+            Route::get('/', 'NotificationController@show')->name('show');
+            Route::get('/add/{type?}', 'NotificationController@add')
+                ->where('type', 'announcement|download|notice|tender')->name('add');
+            Route::post('/save', 'NotificationController@saveNew')->name('saveNew');
+            Route::get('/trashed', 'NotificationController@showTrashed')->name('showTrashed');
+            Route::get('/edit/{notification}', 'NotificationController@edit')->name('edit');
+            Route::post('/update/{notification}', 'NotificationController@update')->name('update');
+            Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
+                ->where('status', 'enable|disable')->name('changeStatus');
+            Route::post('/restore/{id}', 'NotificationController@restore')->name('restore');
+            Route::delete('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');
 
-        Route::get('/', 'NotificationController@show')->name('show');
-        Route::get('/add/{type?}', 'NotificationController@add')
-            ->where('type', 'announcement|download|notice|tender')->name('add');
-        Route::post('/save', 'NotificationController@saveNew')->name('saveNew');
-        Route::get('/trashed', 'NotificationController@showTrashed')->name('showTrashed');
-        Route::get('/edit/{notification}', 'NotificationController@edit')->name('edit');
-        Route::post('/update/{notification}', 'NotificationController@update')->name('update');
-        Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
-            ->where('status', 'enable|disable')->name('changeStatus');
-        Route::post('/restore/{id}', 'NotificationController@restore')->name('restore');
-        Route::delete('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');
-
-        Route::delete('/delete/{id}', 'NotificationController@delete')->name('delete');
-        Route::get('/test', 'NotificationController@test');
+            Route::delete('/delete/{id}', 'NotificationController@delete')->name('delete');
+            Route::get('/test', 'NotificationController@test');
+        });
     });
-});
 
-/* department routes */
-Route::name('department.')->prefix('department')->middleware(['auth'])->group(function() {
-    Route::get('/', 'DepartmentController@show')->name('show');
-    Route::get('/index', 'DepartmentController@index')->name('index');
-    Route::get('/select', 'DepartmentController@select')->name('select');
-    Route::post('/save-in-session/{dept}', 'DepartmentController@saveInSession')->name('saveInSession');
-    Route::get('/test', 'DepartmentController@test');
+    /* department routes */
+    Route::name('department.')->prefix('departments')->group(function() {
+        Route::get('/', 'DepartmentController@show')->name('show');
+        Route::get('/index', 'DepartmentController@index')->name('index');
+        Route::get('/select', 'DepartmentController@select')->name('select');
+        Route::post('/save-in-session/{dept}', 'DepartmentController@saveInSession')->name('saveInSession');
+        Route::get('/test', 'DepartmentController@test');
 
-    Route::get('/add', 'DepartmentController@add')->name('add');
-    Route::post('/save', 'DepartmentController@saveNew')->name('saveNew');
-    Route::get('/edit/{id}', 'DepartmentController@edit')->name('edit');
-    Route::post('/update/{id}', 'DepartmentController@update')->name('update');
-    Route::delete('/soft-delete/{id}', 'DepartmentController@softDelete')->name('softDelete');
-    Route::post('/restore/{id}', 'DepartmentController@restore')->name('restore');
-    Route::delete('/delete/{id}', 'DepartmentController@delete')->name('delete');
+        Route::get('/add', 'DepartmentController@add')->name('add');
+        Route::post('/save', 'DepartmentController@saveNew')->name('saveNew');
+        Route::get('/edit/{id}', 'DepartmentController@edit')->name('edit');
+        Route::post('/update/{id}', 'DepartmentController@update')->name('update');
+        Route::delete('/soft-delete/{id}', 'DepartmentController@softDelete')->name('softDelete');
+        Route::post('/restore/{id}', 'DepartmentController@restore')->name('restore');
+        Route::delete('/delete/{id}', 'DepartmentController@delete')->name('delete');
 
-    Route::get('/{dept}', 'DepartmentController@home')->name('home');
-});
-
-/* student routes */
-Route::name('students.')->prefix('students')->middleware(['auth'])->group(function() {
-    Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
-    Route::get('/test', 'StudentController@test');
-
-    Route::prefix('{dept}/{batch}')->group(function() {
-        Route::get('/', 'StudentController@show')->name('show');
-        Route::get('/add', 'StudentController@add')->name('add');
-        Route::post('/save', 'StudentController@saveNew')->name('saveNew');
-        Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
-        Route::post('/update/{student}', 'StudentController@update')->name('update');
-        Route::delete('/soft-delete/{student}', 'StudentController@softDelete')->name('softDelete');
-        Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
-        Route::delete('/delete/{id}', 'StudentController@delete')->name('delete');
+        Route::get('/{dept}', 'DepartmentController@home')->name('home');
     });
-});
 
-/* batch routes */
-Route::name('batch.')->prefix('batch')->middleware(['auth'])->group(function() {
-    Route::get('/', 'BatchController@show')->name('show');
-    Route::get('/select', 'BatchController@select')->name('select');
-    Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
-    Route::get('/test', 'BatchController@test')->name('test');
+    /* student routes */
+    Route::name('students.')->prefix('students')->group(function() {
+        Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
+        Route::get('/test', 'StudentController@test');
 
-    Route::get('/add', 'BatchController@add')->name('add');
-    Route::post('/save', 'BatchController@saveNew')->name('saveNew');
-    Route::get('/edit/{id}', 'BatchController@edit')->name('edit');
-    Route::post('/update/{id}', 'BatchController@update')->name('update');
-    Route::delete('/soft-delete/{id}', 'BatchController@softDelete')->name('softDelete');
-    Route::post('/restore/{id}', 'BatchController@restore')->name('restore');
-    Route::delete('/delete/{id}', 'BatchController@delete')->name('delete');
+        Route::prefix('{dept}/{batch}')->group(function() {
+            Route::get('/', 'StudentController@show')->name('show');
+            Route::get('/add', 'StudentController@add')->name('add');
+            Route::post('/save', 'StudentController@saveNew')->name('saveNew');
+            Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
+            Route::post('/update/{student}', 'StudentController@update')->name('update');
+            Route::delete('/soft-delete/{student}', 'StudentController@softDelete')->name('softDelete');
+            Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
+            Route::delete('/delete/{id}', 'StudentController@delete')->name('delete');
+        });
+    });
+
+    /* batch routes */
+    Route::name('batch.')->prefix('batches')->group(function() {
+        Route::get('/', 'BatchController@show')->name('show');
+        Route::get('/select', 'BatchController@select')->name('select');
+        Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
+        Route::get('/test', 'BatchController@test')->name('test');
+
+        Route::get('/add', 'BatchController@add')->name('add');
+        Route::post('/save', 'BatchController@saveNew')->name('saveNew');
+        Route::get('/edit/{id}', 'BatchController@edit')->name('edit');
+        Route::post('/update/{id}', 'BatchController@update')->name('update');
+        Route::delete('/soft-delete/{id}', 'BatchController@softDelete')->name('softDelete');
+        Route::post('/restore/{id}', 'BatchController@restore')->name('restore');
+        Route::delete('/delete/{id}', 'BatchController@delete')->name('delete');
+    });
 });
 
 /* framewrok version */
