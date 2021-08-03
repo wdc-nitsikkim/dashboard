@@ -11,8 +11,11 @@ use Illuminate\Support\Facades\Storage;
 
 use App\CustomHelper;
 use App\Models\HomepageNotification as Noti;
+use App\Traits\StoreFiles;
 
 class NotificationController extends Controller {
+    use StoreFiles;
+
     /**
      * Items per page
      *
@@ -57,12 +60,7 @@ class NotificationController extends Controller {
             return back()->withErrors($validator->errors())->withInput();
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
-            $fileName = CustomHelper::formatFileName($file->getClientOriginalName());
-            $extension = $file->extension();
-            $fileName .= '.' . $extension;
-            $storagePath = $this->getStoragePath($request->input('type'));
-            $path = $file->storeAs($storagePath, $fileName, 'public');
-            $link = asset(Storage::url($path));
+            $link = $this->storeNotification($file, $request->type);
         } else {
             $link = $request->input('link');
         }
@@ -125,12 +123,7 @@ class NotificationController extends Controller {
             return back()->withErrors($validator->errors())->withInput();
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
-            $fileName = CustomHelper::formatFileName($file->getClientOriginalName());
-            $extension = $file->extension();
-            $fileName .= '.' . $extension;
-            $storagePath = $this->getStoragePath($request->input('type'));
-            $path = $file->storeAs($storagePath, $fileName, 'public');
-            $link = asset(Storage::url($path));
+            $link = $this->storeNotification($file, $request->type);
         } else {
             $link = $request->input('link');
         }
