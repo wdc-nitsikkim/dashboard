@@ -61,7 +61,7 @@
                         @slot('head')
                             @component('components.table.head', [
                                     'items' => [
-                                        '#', 'Batch', 'Name', 'Start Year',
+                                        '#', 'Code', 'Name', 'Start Year',
                                         'Actions'
                                     ]
                                 ])
@@ -75,7 +75,7 @@
                                         <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                                     </td>
                                     <td>
-                                        {{ $batch['batch'] }}
+                                        {{ $batch['code'] }}
                                     </td>
                                     <td>
                                         <span class="d-inline-block text-truncate" style="max-width: 200px" data-bs-toggle="tooltip"
@@ -135,7 +135,7 @@
                         @slot('head')
                             @component('components.table.head', [
                                     'items' => [
-                                        '#', 'Batch', 'Name', 'Start Year',
+                                        '#', 'Code', 'Name', 'Start Year',
                                         'Actions'
                                     ]
                                 ])
@@ -149,7 +149,7 @@
                                         <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                                     </td>
                                     <td>
-                                        {{ $batch['batch'] }}
+                                        {{ $batch['code'] }}
                                     </td>
                                     <td>
                                         <span class="d-inline-block text-truncate" style="max-width: 200px" data-bs-toggle="tooltip"

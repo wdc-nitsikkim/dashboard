@@ -81,7 +81,7 @@ class BatchController extends Controller {
 
         $request->validate([
             'type' => 'required | in:b,m',
-            'batch' => 'required | max:5',
+            'code' => 'required | max:5',
             'start_year' => 'required | numeric | min:2010',
             'name' => 'required | min:3'
         ]);
@@ -117,7 +117,7 @@ class BatchController extends Controller {
 
         $request->validate([
             'type' => 'required | in:b,m',
-            'batch' => 'required | max:5',
+            'code' => 'required | max:5',
             'start_year' => 'required | numeric | min:2010',
             'name' => 'required | min:3'
         ]);

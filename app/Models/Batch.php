@@ -18,7 +18,7 @@ class Batch extends Model {
      * @var array
      */
     protected $fillable = [
-        'type', 'batch', 'name', 'start_year'
+        'type', 'code', 'name', 'start_year'
     ];
 
     /**
@@ -28,7 +28,7 @@ class Batch extends Model {
      * @return string
      */
     public function getRouteKeyName() {
-        return 'batch';
+        return 'code';
     }
 
     /**

@@ -65,7 +65,7 @@
                     @foreach ($btechBatches as $batch)
                         @component('components.inline.anchorBtn', [
                                 'href' => route('batch.saveInSession', [
-                                        'batch' => $batch['batch'],
+                                        'batch' => $batch['code'],
                                         'redirect' => $redirect
                                     ]),
                                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
@@ -89,7 +89,7 @@
                     @foreach ($mtechBatches as $batch)
                         @component('components.inline.anchorBtn', [
                                 'href' => route('batch.saveInSession', [
-                                        'batch' => $batch['batch'],
+                                        'batch' => $batch['code'],
                                         'redirect' => $redirect
                                     ]),
                                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
