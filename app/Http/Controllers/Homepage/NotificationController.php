@@ -11,8 +11,11 @@ use Illuminate\Support\Facades\Storage;
 
 use App\CustomHelper;
 use App\Models\HomepageNotification as Noti;
+use App\Traits\StoreFiles;
 
 class NotificationController extends Controller {
+    use StoreFiles;
+
     /**
      * Items per page
      *
@@ -57,12 +60,7 @@ class NotificationController extends Controller {
             return back()->withErrors($validator->errors())->withInput();
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
-            $fileName = CustomHelper::formatFileName($file->getClientOriginalName());
-            $extension = $file->extension();
-            $fileName .= '.' . $extension;
-            $storagePath = $this->getStoragePath($request->input('type'));
-            $path = $file->storeAs($storagePath, $fileName, 'public');
-            $link = asset(Storage::url($path));
+            $link = $this->storeNotification($file, $request->type);
         } else {
             $link = $request->input('link');
         }
@@ -125,12 +123,7 @@ class NotificationController extends Controller {
             return back()->withErrors($validator->errors())->withInput();
         } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
-            $fileName = CustomHelper::formatFileName($file->getClientOriginalName());
-            $extension = $file->extension();
-            $fileName .= '.' . $extension;
-            $storagePath = $this->getStoragePath($request->input('type'));
-            $path = $file->storeAs($storagePath, $fileName, 'public');
-            $link = asset(Storage::url($path));
+            $link = $this->storeNotification($file, $request->type);
         } else {
             $link = $request->input('link');
         }
@@ -194,7 +187,7 @@ class NotificationController extends Controller {
     public function restore($id) {
         $this->authorize('update', Noti::class);
 
-        $notification = Noti::withTrashed()->findOrFail($id);
+        $notification = Noti::onlyTrashed()->findOrFail($id);
         try {
             $notification->restore();
         } catch (\Exception $e) {
@@ -245,8 +238,9 @@ class NotificationController extends Controller {
      * @return bool
      */
     private function checkLinkAndFileBothMissing() {
-        $file_status = CustomHelper::checkFileInput('attachment');
-        $link_status = isset($_POST['link']) && !empty($_POST['link']);
+        $file_status = request()->has('attachment')
+            && request()->file('attachment')->isValid();
+        $link_status = request('link');
         return ($file_status == false && $link_status == false);
     }
 

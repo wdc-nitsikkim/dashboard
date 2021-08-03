@@ -33,7 +33,7 @@
         @slot('subheading')
             It is recommended to leave these values in their default states<br>
             @can('delete', $deptModel)
-                <span class="text-danger fw-bolder">NOTE: Removing a department permanently will remove
+                <span class="text-danger fw-bolder">WARNING: Removing a department permanently will remove
                     all data associated with it (students, faculty, ...)! Proceed with extreme caution.</span>
             @endcan
         @endslot
@@ -50,7 +50,13 @@
     <div class="card-body">
 
         @if (count($departments['data']) == 0)
-            <h5 class="text-danger">No results found!</h5>
+            <h5 class="text-center text-danger">No results found!</h5>
+            <p class="text-center">
+                @component('components.inline.anchorBack', [
+                        'href' => route('department.show')
+                    ])
+                @endcomponent
+            </p>
         @else
             @component('components.table.main')
                 @slot('head')

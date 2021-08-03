@@ -19,7 +19,7 @@
 
                     @can('create', $batchModel)
                         <a class="dropdown-item d-flex align-items-center"
-                            href="">
+                            href="{{ route('batch.add') }}">
                             <span class="material-icons">add_circle</span>
                             Add New Batch
                         </a>
@@ -27,7 +27,7 @@
 
                     @can('update', $batchModel)
                         <a class="dropdown-item d-flex align-items-center"
-                            href="">
+                            href="{{ route('batch.show') }}">
                             <span class="material-icons">edit</span>
                             Edit Existing
                         </a>
@@ -65,7 +65,7 @@
                     @foreach ($btechBatches as $batch)
                         @component('components.inline.anchorBtn', [
                                 'href' => route('batch.saveInSession', [
-                                        'batch' => $batch['batch'],
+                                        'batch' => $batch['code'],
                                         'redirect' => $redirect
                                     ]),
                                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
@@ -89,7 +89,7 @@
                     @foreach ($mtechBatches as $batch)
                         @component('components.inline.anchorBtn', [
                                 'href' => route('batch.saveInSession', [
-                                        'batch' => $batch['batch'],
+                                        'batch' => $batch['code'],
                                         'redirect' => $redirect
                                     ]),
                                 'classes' => 'btn-lg btn-outline-tertiary mb-2'

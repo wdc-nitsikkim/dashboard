@@ -9,10 +9,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\UserRole;
 use App\Models\UserRolePermission;
 use App\Models\UserAccessDepartment;
+use App\Traits\GlobalMutators;
+use App\Traits\GlobalAccessors;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use GlobalMutators, GlobalAccessors;
 
     /**
      * The attributes that are mass assignable.

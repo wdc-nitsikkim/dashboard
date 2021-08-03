@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Route;
 
 use App\CustomHelper;
@@ -81,9 +82,9 @@ class BatchController extends Controller {
 
         $request->validate([
             'type' => 'required | in:b,m',
-            'batch' => 'required | max:5',
+            'code' => ['required', 'max:5', Rule::unique('batches', 'code')],
             'start_year' => 'required | numeric | min:2010',
-            'full_name' => 'required | min:3'
+            'name' => 'required | min:3'
         ]);
 
         try {
@@ -117,9 +118,9 @@ class BatchController extends Controller {
 
         $request->validate([
             'type' => 'required | in:b,m',
-            'batch' => 'required | max:5',
+            'code' => ['required', 'max:5', Rule::unique('batches', 'code')->ignore($batch->id)],
             'start_year' => 'required | numeric | min:2010',
-            'full_name' => 'required | min:3'
+            'name' => 'required | min:3'
         ]);
 
         try {
@@ -165,7 +166,7 @@ class BatchController extends Controller {
     public function restore($id) {
         $this->authorize('update', Batch::class);
 
-        $batch = Batch::withTrashed()->findOrFail($id);
+        $batch = Batch::onlyTrashed()->findOrFail($id);
         try {
             $batch->restore();
         } catch (\Exception $e) {

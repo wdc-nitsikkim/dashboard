@@ -56,6 +56,12 @@
                 </div>
             </div>
 
+            @component('components.form.timestamps', [
+                    'createdAt' => $department['created_at'],
+                    'updatedAt' => $department['updated_at']
+                ])
+            @endcomponent
+
             @component('components.form.footerEdit')
                 @slot('returnRoute')
                     {{ route('department.show') }}

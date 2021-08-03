@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Department;
 use App\Models\Batch;
+use App\Traits\GlobalMutators;
+use App\Traits\GlobalAccessors;
 
 class Student extends Model {
     use softDeletes;
+    use GlobalMutators, GlobalAccessors;
 
     protected $table = 'students';
     protected $dates = ['deleted_at'];
@@ -35,5 +38,16 @@ class Student extends Model {
      */
     public function batch() {
         return $this->belongsTo(Batch::class, 'batch_id')->withDefault();
+    }
+
+    /**
+     * Model mutator
+     * Set the students roll_number
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setRollNumberAttribute($value) {
+        $this->attributes['roll_number'] = strtoupper($value);
     }
 }

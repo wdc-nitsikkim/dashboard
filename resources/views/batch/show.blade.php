@@ -33,7 +33,7 @@
         @slot('subheading')
             It is recommended to leave these values in their default states<br>
             @can('delete', $batchModel)
-                <span class="text-danger fw-bolder">NOTE: Removing a batch permanently will remove
+                <span class="text-danger fw-bolder">WARNING: Removing a batch permanently will remove
                     all data associated with it (students, etc...)! Proceed with extreme caution.</span>
             @endcan
         @endslot
@@ -55,13 +55,19 @@
                 </div>
 
                 @if (count($btechBatches['data']) == 0)
-                    <h5 class="text-danger">No results found!</h5>
+                    <h5 class="text-danger text-center">No results found!</h5>
+                    <p class="text-center">
+                        @component('components.inline.anchorBack', [
+                                'href' => route('batch.show')
+                            ])
+                        @endcomponent
+                    </p>
                 @else
                     @component('components.table.main')
                         @slot('head')
                             @component('components.table.head', [
                                     'items' => [
-                                        '#', 'Batch', 'Name', 'Start Year',
+                                        '#', 'Code', 'Name', 'Start Year',
                                         'Actions'
                                     ]
                                 ])
@@ -75,12 +81,12 @@
                                         <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                                     </td>
                                     <td>
-                                        {{ $batch['batch'] }}
+                                        {{ $batch['code'] }}
                                     </td>
                                     <td>
                                         <span class="d-inline-block text-truncate" style="max-width: 200px" data-bs-toggle="tooltip"
-                                            title="{{ $batch['full_name'] }}">
-                                            {{ $batch['full_name'] }}</span>
+                                            title="{{ $batch['name'] }}">
+                                            {{ $batch['name'] }}</span>
                                     </td>
                                     <td>
                                         {{ $batch['start_year'] }}
@@ -129,13 +135,19 @@
                 </div>
 
                 @if (count($mtechBatches['data']) == 0)
-                    <h5 class="text-danger">No results found!</h5>
+                    <h5 class="text-danger text-center">No results found!</h5>
+                    <p class="text-center">
+                        @component('components.inline.anchorBack', [
+                                'href' => route('batch.show')
+                            ])
+                        @endcomponent
+                    </p>
                 @else
                     @component('components.table.main')
                         @slot('head')
                             @component('components.table.head', [
                                     'items' => [
-                                        '#', 'Batch', 'Name', 'Start Year',
+                                        '#', 'Code', 'Name', 'Start Year',
                                         'Actions'
                                     ]
                                 ])
@@ -149,12 +161,12 @@
                                         <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                                     </td>
                                     <td>
-                                        {{ $batch['batch'] }}
+                                        {{ $batch['code'] }}
                                     </td>
                                     <td>
                                         <span class="d-inline-block text-truncate" style="max-width: 200px" data-bs-toggle="tooltip"
-                                            title="{{ $batch['full_name'] }}">
-                                            {{ $batch['full_name'] }}</span>
+                                            title="{{ $batch['name'] }}">
+                                            {{ $batch['name'] }}</span>
                                     </td>
                                     <td>
                                         {{ $batch['start_year'] }}
