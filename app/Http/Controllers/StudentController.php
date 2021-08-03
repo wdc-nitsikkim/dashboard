@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -78,10 +79,11 @@ class StudentController extends Controller {
     public function saveNew(Request $request, Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 
+        /* TODO: add regex validation to roll_number */
         $request->validate([
             'name' => 'required | string | min:3',
-            'roll_number' => 'required',  /* TODO: add regex validation */
-            'email' => 'required | email'
+            'roll_number' => ['required', Rule::unique('students', 'roll_number')],
+            'email' => ['required', 'email', Rule::unique('students', 'email')]
         ]);
 
         try {
@@ -124,8 +126,8 @@ class StudentController extends Controller {
 
         $validator = $request->validate([
             'name' => 'required | string | min:3',
-            'roll_number' => 'required',  /* TODO: add regex validation */
-            'email' => 'required | email',
+            'roll_number' => ['required', Rule::unique('students', 'roll_number')->ignore($student->id)],
+            'email' => ['required', 'email', Rule::unique('students', 'email')->ignore($student->id)],
             'department' => 'required | numeric'
         ]);
 

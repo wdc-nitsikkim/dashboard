@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
@@ -89,7 +90,9 @@ class DepartmentController extends Controller {
         $this->authorize('create', Department::class);
 
         $request->validate([
-            'code' => 'required | min:2 | max:4',
+            'code' => ['required', 'min:2', 'max:4',
+                    Rule::unique('departments', 'code')
+                ],
             'name' => 'required | min:5 | max:50'
         ]);
 
@@ -124,7 +127,9 @@ class DepartmentController extends Controller {
         $department = Department::findOrFail($id);
 
         $request->validate([
-            'code' => 'required | min:2 | max:4',
+            'code' => ['required', 'min:2', 'max:4',
+                    Rule::unique('departments', 'code')->ignore($department->id)
+                ],
             'name' => 'required | max:50'
         ]);
 

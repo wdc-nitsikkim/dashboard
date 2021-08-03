@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Route;
 
 use App\CustomHelper;
@@ -81,7 +82,7 @@ class BatchController extends Controller {
 
         $request->validate([
             'type' => 'required | in:b,m',
-            'code' => 'required | max:5',
+            'code' => ['required', 'max:5', Rule::unique('batches', 'code')],
             'start_year' => 'required | numeric | min:2010',
             'name' => 'required | min:3'
         ]);
@@ -117,7 +118,7 @@ class BatchController extends Controller {
 
         $request->validate([
             'type' => 'required | in:b,m',
-            'code' => 'required | max:5',
+            'code' => ['required', 'max:5', Rule::unique('batches', 'code')->ignore($batch->id)],
             'start_year' => 'required | numeric | min:2010',
             'name' => 'required | min:3'
         ]);
