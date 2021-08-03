@@ -245,8 +245,9 @@ class NotificationController extends Controller {
      * @return bool
      */
     private function checkLinkAndFileBothMissing() {
-        $file_status = CustomHelper::checkFileInput('attachment');
-        $link_status = isset($_POST['link']) && !empty($_POST['link']);
+        $file_status = request()->has('attachment')
+            && request()->file('attachment')->isValid();
+        $link_status = request('link');
         return ($file_status == false && $link_status == false);
     }
 
