@@ -65,6 +65,12 @@
 
         @if (count($students['data']) == 0)
             <h5 class="text-center text-danger">No results found!</h5>
+            <p class="text-center">
+                @component('components.inline.anchorBack', [
+                        'href' => route('students.show', $baseRouteParams)
+                    ])
+                @endcomponent
+            </p>
         @else
             @component('components.table.main')
                 @slot('head')

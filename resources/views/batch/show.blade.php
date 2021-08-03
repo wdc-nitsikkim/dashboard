@@ -55,7 +55,13 @@
                 </div>
 
                 @if (count($btechBatches['data']) == 0)
-                    <h5 class="text-danger">No results found!</h5>
+                    <h5 class="text-danger text-center">No results found!</h5>
+                    <p class="text-center">
+                        @component('components.inline.anchorBack', [
+                                'href' => route('batch.show')
+                            ])
+                        @endcomponent
+                    </p>
                 @else
                     @component('components.table.main')
                         @slot('head')
@@ -129,7 +135,13 @@
                 </div>
 
                 @if (count($mtechBatches['data']) == 0)
-                    <h5 class="text-danger">No results found!</h5>
+                    <h5 class="text-danger text-center">No results found!</h5>
+                    <p class="text-center">
+                        @component('components.inline.anchorBack', [
+                                'href' => route('batch.show')
+                            ])
+                        @endcomponent
+                    </p>
                 @else
                     @component('components.table.main')
                         @slot('head')

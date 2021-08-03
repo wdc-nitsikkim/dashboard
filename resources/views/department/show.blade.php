@@ -50,7 +50,13 @@
     <div class="card-body">
 
         @if (count($departments['data']) == 0)
-            <h5 class="text-danger">No results found!</h5>
+            <h5 class="text-center text-danger">No results found!</h5>
+            <p class="text-center">
+                @component('components.inline.anchorBack', [
+                        'href' => route('department.show')
+                    ])
+                @endcomponent
+            </p>
         @else
             @component('components.table.main')
                 @slot('head')
