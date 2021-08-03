@@ -127,7 +127,7 @@ class BatchController extends Controller {
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',
-                'message' => 'Failed to add batch!'
+                'message' => 'Failed to update batch!'
             ])->withInput();
         }
 
@@ -152,7 +152,7 @@ class BatchController extends Controller {
 
         /**
          * removing selected batch from session to prevent 404 page
-         * from showing up (if removed batch was selected batch)
+         * from showing up (if removed batch was the selected batch)
          */
         session()->forget($this->sessionKeys['selectedBatch']);
 
