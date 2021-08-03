@@ -20,7 +20,7 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
-        <form class="form-floating" action="{{ route('batch.update', $batch['id']) }}" method="POST">
+        <form class="form-floating" action="{{ route('admin.batch.update', $batch['id']) }}" method="POST">
             {{ csrf_field() }}
 
             <div class="row g-2 mb-3">
@@ -104,7 +104,7 @@
 
             @component('components.form.footerEdit')
                 @slot('returnRoute')
-                    {{ route('batch.show') }}
+                    {{ route('admin.batch.show') }}
                 @endslot
             @endcomponent
 

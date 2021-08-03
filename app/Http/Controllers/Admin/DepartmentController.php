@@ -33,9 +33,9 @@ class DepartmentController extends Controller {
 
     public function index() {
         if (session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('department.home', session($this->sessionKeys['selectedDepartment']));
+            return redirect()->route('admin.department.home', session($this->sessionKeys['selectedDepartment']));
         }
-        return redirect()->route('department.select');
+        return redirect()->route('admin.department.select');
     }
 
     public function select() {
@@ -55,7 +55,7 @@ class DepartmentController extends Controller {
 
         return Route::has($redirectRouteName)
             ? redirect()->route($redirectRouteName, $dept)
-            : redirect()->route('department.home', $dept);
+            : redirect()->route('admin.department.home', $dept);
     }
 
     public function home(Department $dept) {
@@ -105,7 +105,7 @@ class DepartmentController extends Controller {
             ])->withInput();
         }
 
-        return redirect()->route('department.show')->with([
+        return redirect()->route('admin.department.show')->with([
             'status' => 'success',
             'message' => 'Department added!'
         ]);

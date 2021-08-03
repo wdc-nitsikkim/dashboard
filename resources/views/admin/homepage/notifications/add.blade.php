@@ -16,7 +16,7 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
-        <form class="form-floating" action="{{ route('homepage.notification.saveNew') }}"
+        <form class="form-floating" action="{{ route('admin.homepage.notification.saveNew') }}"
             enctype="multipart/form-data" method="POST">
             {{ csrf_field() }}
 
@@ -94,7 +94,7 @@
 
             @component('components.form.footerAdd')
                 @slot('returnRoute')
-                    {{ route('homepage.notification.show') }}
+                    {{ route('admin.homepage.notification.show') }}
                 @endslot
 
                 @slot('submitBtnTxt')

@@ -36,18 +36,18 @@ class StudentController extends Controller {
 
     public function handleRedirect() {
         if (!session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('department.select', [
+            return redirect()->route('admin.department.select', [
                 'redirect' => 'students.handleRedirect'
             ]);
         }
 
         if (!session()->has($this->sessionKeys['selectedBatch'])) {
-            return redirect()->route('batch.select', [
+            return redirect()->route('admin.batch.select', [
                 'redirect' => 'students.handleRedirect'
             ]);
         }
 
-        return redirect()->route('students.show', [
+        return redirect()->route('admin.students.show', [
             'dept' => session($this->sessionKeys['selectedDepartment']),
             'batch' => session($this->sessionKeys['selectedBatch'])
         ]);
@@ -98,7 +98,7 @@ class StudentController extends Controller {
             ])->withInput();
         }
 
-        return redirect()->route('students.show', [
+        return redirect()->route('admin.students.show', [
             'dept' => $dept,
             'batch' => $batch
         ])->with([

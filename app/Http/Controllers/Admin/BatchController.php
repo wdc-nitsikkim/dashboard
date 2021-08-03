@@ -45,7 +45,7 @@ class BatchController extends Controller {
 
         return Route::has($redirectRouteName)
             ? redirect()->route($redirectRouteName, $batch)
-            : redirect()->route('batch.show');
+            : redirect()->route('admin.batch.show');
     }
 
     public function show(Request $request) {
@@ -97,7 +97,7 @@ class BatchController extends Controller {
             ])->withInput();
         }
 
-        return redirect()->route('batch.show')->with([
+        return redirect()->route('admin.batch.show')->with([
             'status' => 'success',
             'message' => 'Batch added!'
         ]);

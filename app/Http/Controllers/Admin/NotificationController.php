@@ -78,7 +78,7 @@ class NotificationController extends Controller {
             ])->withInput();
         }
 
-        return redirect()->route('homepage.notification.show')->with([
+        return redirect()->route('admin.homepage.notification.show')->with([
             'status' => 'success',
             'message' => 'Notification added!'
         ]);

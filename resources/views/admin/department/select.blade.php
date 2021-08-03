@@ -19,7 +19,7 @@
 
                     @can('create', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
-                            href="{{ route('department.add') }}">
+                            href="{{ route('admin.department.add') }}">
                             <span class="material-icons">add_circle</span>
                             Create New Department
                         </a>
@@ -27,7 +27,7 @@
 
                     @can('update', $departmentModel)
                         <a class="dropdown-item d-flex align-items-center"
-                            href="{{ route('department.show') }}">
+                            href="{{ route('admin.department.show') }}">
                             <span class="material-icons">edit</span>
                             Edit Existing
                         </a>
@@ -63,7 +63,7 @@
             @if ($preferred->count() > 0)
                 @foreach ($preferred as $dept)
                     @component('components.inline.anchorBtn', [
-                            'href' => route('department.saveInSession', [
+                            'href' => route('admin.department.saveInSession', [
                                     'dept' => $dept['code'],
                                     'redirect' => $redirect
                                 ]),
@@ -88,7 +88,7 @@
             @if ($departments->count() > 0)
                 @foreach ($departments as $dept)
                     @component('components.inline.anchorBtn', [
-                            'href' => route('department.saveInSession', [
+                            'href' => route('admin.department.saveInSession', [
                                     'dept' => $dept['code'],
                                     'redirect' => $redirect
                                 ]),

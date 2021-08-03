@@ -7,7 +7,7 @@
 @isset($deptRedirect)
     @component('components.inline.anchorBtn', [
             'icon' => 'import_export',
-            'href' => route('department.select', ['redirect' => $deptRedirect]),
+            'href' => route('admin.department.select', ['redirect' => $deptRedirect]),
             'classes' => 'btn-outline-info',
             'tooltip' => true
         ])
@@ -21,7 +21,7 @@
 @isset($batchRedirect)
     @component('components.inline.anchorBtn', [
             'icon' => 'import_export',
-            'href' => route('batch.select', ['redirect' => $batchRedirect]),
+            'href' => route('admin.batch.select', ['redirect' => $batchRedirect]),
             'classes' => 'btn-outline-info',
             'tooltip' => true
         ])
@@ -35,7 +35,7 @@
 @isset($subjectRedirect)
     @component('components.inline.anchorBtn', [
             'icon' => 'import_export',
-            'href' => route('subject.select', ['redirect' => $subjectRedirect]),
+            'href' => route('admin.subject.select', ['redirect' => $subjectRedirect]),
             'classes' => 'btn-outline-info',
             'tooltip' => true
         ])
