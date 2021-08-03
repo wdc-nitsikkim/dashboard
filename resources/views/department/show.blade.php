@@ -33,7 +33,7 @@
         @slot('subheading')
             It is recommended to leave these values in their default states<br>
             @can('delete', $deptModel)
-                <span class="text-danger fw-bolder">NOTE: Removing a department permanently will remove
+                <span class="text-danger fw-bolder">WARNING: Removing a department permanently will remove
                     all data associated with it (students, faculty, ...)! Proceed with extreme caution.</span>
             @endcan
         @endslot
