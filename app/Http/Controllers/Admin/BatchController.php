@@ -33,7 +33,7 @@ class BatchController extends Controller {
         $btechBatches = Batch::where('type', 'b')->orderByDesc('id')->get();
         $mtechBatches = Batch::where('type', 'm')->orderByDesc('id')->get();
 
-        return view('batch.select', [
+        return view('admin.batch.select', [
             'btechBatches' => $btechBatches,
             'mtechBatches' => $mtechBatches
         ]);
@@ -64,7 +64,7 @@ class BatchController extends Controller {
         $mtechBatches->setPageName('mtech');
         $mtechBatches->appends(['btech' => $btechPage]);
 
-        return view('batch.show', [
+        return view('admin.batch.show', [
             'btechBatches' => $btechBatches->toArray(),
             'btechPagination' => $btechBatches->links('vendor.pagination.default'),
             'mtechBatches' => $mtechBatches->toArray(),
@@ -75,7 +75,7 @@ class BatchController extends Controller {
     public function add() {
         $this->authorize('create', Batch::class);
 
-        return view('batch.add');
+        return view('admin.batch.add');
     }
 
     public function saveNew(Request $request) {
@@ -107,7 +107,7 @@ class BatchController extends Controller {
         $this->authorize('update', Batch::class);
 
         $batch = Batch::findOrFail($id);
-        return view('batch.edit', [
+        return view('admin.batch.edit', [
             'batch' => $batch
         ]);
     }

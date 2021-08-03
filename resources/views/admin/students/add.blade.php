@@ -8,7 +8,7 @@
     @endslot
 
     @slot('subheading')
-        @include('students.partials.subheading', ['batch' => $batch])
+        @include('admin.students.partials.subheading', ['batch' => $batch])
 
         {{ $department['name'] }}
     @endslot

@@ -59,7 +59,7 @@ class StudentController extends Controller {
         $students = $batch->students()->where('department_id', $dept->id)
             ->withTrashed()->paginate($this->paginate);
 
-        return view('students.show', [
+        return view('admin.students.show', [
             'batch' => $batch,
             'department' => $dept,
             'students' => $students->toArray(),
@@ -70,7 +70,7 @@ class StudentController extends Controller {
     public function add(Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 
-        return view('students.add', [
+        return view('admin.students.add', [
             'batch' => $batch,
             'department' => $dept
         ]);
@@ -111,7 +111,7 @@ class StudentController extends Controller {
         $this->authorize('update', [Student::class, $dept]);
 
         $departmentList = Department::all();
-        return view('students.edit', [
+        return view('admin.students.edit', [
             'batch' => $batch,
             'department' => $dept,
             'student' => $student,

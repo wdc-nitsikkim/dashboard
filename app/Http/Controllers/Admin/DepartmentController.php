@@ -43,7 +43,7 @@ class DepartmentController extends Controller {
             Auth::user()->allowedDepartments->pluck('department_id')->toArray())->get();
 
         $departments = Department::all();
-        return view('department.select', [
+        return view('admin.department.select', [
             'preferred' => $preferred,
             'departments' => $departments
         ]);
@@ -63,7 +63,7 @@ class DepartmentController extends Controller {
         /* new page model required */
         $advancedAccess = false;
 
-        return view('department.home', [
+        return view('admin.department.home', [
             'department' => $dept,
             'advancedAccess' => $advancedAccess
         ]);
@@ -74,7 +74,7 @@ class DepartmentController extends Controller {
 
         $departments = Department::withTrashed()->paginate($this->paginate);
 
-        return view('department.show', [
+        return view('admin.department.show', [
             'departments' => $departments->toArray(),
             'pagination' => $departments->links('vendor.pagination.default')
         ]);
@@ -83,7 +83,7 @@ class DepartmentController extends Controller {
     public function add() {
         $this->authorize('create', Department::class);
 
-        return view('department.add');
+        return view('admin.department.add');
     }
 
     public function saveNew(Request $request) {
@@ -116,7 +116,7 @@ class DepartmentController extends Controller {
 
         $department = Department::findOrFail($id);
 
-        return view('department.edit', [
+        return view('admin.department.edit', [
             'department' => $department
         ]);
     }
