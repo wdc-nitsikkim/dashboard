@@ -96,21 +96,10 @@
                 </div>
             </div>
 
-            <div class="row g-2 mb-3">
-                <div class="col-sm-4 mb-2">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="created_at" placeholder="Created At"
-                            value="{{ date('d-m-Y, H:i:s', strtotime($notification['created_at'])) }}" disabled>
-                        <label for="created_at">Created At</label>
-                    </div>
-                </div>
-                <div class="col-sm-4 mb-2">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="updated_at" placeholder="Updated At"
-                            value="{{ date('d-m-Y, H:i:s', strtotime($notification['updated_at'])) }}" disabled>
-                        <label for="updated_at">Last Updated</label>
-                    </div>
-                </div>
+            @component('components.form.timestamps', [
+                    'createdAt' => $notification['created_at'],
+                    'updatedAt' => $notification['updated_at']
+                ])
                 <div class="col-sm-4 mb-2">
                     <div class="form-floating">
                         <input type="text" class="form-control {{ $notification['status'] == '1' ? 'is-valid' : 'is-invalid' }}"
@@ -119,7 +108,8 @@
                         <label for="status">Visibility</label>
                     </div>
                 </div>
-            </div>
+            @endcomponent
+
 
             @component('components.form.footerEdit')
                 @slot('returnRoute')

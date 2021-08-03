@@ -141,6 +141,12 @@
                 </div>
             </div>
 
+            @component('components.form.timestamps', [
+                    'createdAt' => $student['created_at'],
+                    'updatedAt' => $student['updated_at']
+                ])
+            @endcomponent
+
             @component('components.form.footerEdit')
                 @slot('returnRoute')
                     {{ route('students.show', $baseRouteParams) }}

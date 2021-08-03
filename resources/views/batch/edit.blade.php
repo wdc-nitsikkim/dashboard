@@ -96,6 +96,12 @@
                 </div>
             </div>
 
+            @component('components.form.timestamps', [
+                    'createdAt' => $batch['created_at'],
+                    'updatedAt' => $batch['updated_at']
+                ])
+            @endcomponent
+
             @component('components.form.footerEdit')
                 @slot('returnRoute')
                     {{ route('batch.show') }}
