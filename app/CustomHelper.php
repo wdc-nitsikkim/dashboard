@@ -70,12 +70,24 @@
          * Converts given UTC date string to app timezone date string
          *
          * @param string $date
+         * @param string $format (optional)
          * @return string
          */
-        public static function utcToAppTimezone($date) {
+        public static function utcToAppTimezone($date, $format = null) {
             return $date ? Carbon::createFromTimestamp(strtotime($date))
-                ->timezone(env('APP_TIMEZONE'))
-                ->toDateTimeString() : null;
+                ->timezone(config('app.timezone_local'))
+                ->format($format ?? config('app.date_format')) : null;
+        }
+
+        /**
+         * Get current datetime string according to app timezone
+         *
+         * @param string $format (optional)
+         * @return string
+         */
+        public static function getCurrentDate($format = null) {
+            return Carbon::now(config('app.timezone_local'))
+                ->format($format ?? config('app.date_format'));
         }
 
         public static function test() {
