@@ -75,6 +75,10 @@ const globalHandler = (function ($, window) {
     }
 
     jQuery(function() {
+        /* trigger sidenav only for large screens */
         $(window).width() >= breakPoints.lg ? modifySideNav() : console.log('Sidenav trigger cancelled!');
+
+        /* custom readonly rdio buttons */
+        $(':radio:not(:checked)[readonly]').attr('disabled', true);
     });
 })(jQuery, window);

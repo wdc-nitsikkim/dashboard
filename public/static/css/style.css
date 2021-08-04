@@ -121,6 +121,11 @@ div.page-loader {
 .scale-on-hover:hover {
     transform: scale(1.4);
 }
+
+/* disable selection of readonly checkboxes */
+input[type="checkbox"][readonly] {
+    pointer-events: none;
+}
 /* General classes --end */
 
 /* animation classes --start */
