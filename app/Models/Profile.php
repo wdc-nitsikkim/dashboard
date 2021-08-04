@@ -12,6 +12,15 @@ class Profile extends Model {
     protected $table = 'profiles';
 
     /**
+     * The attributes that are not mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [
+        'id', 'type', 'department_id', 'created_at', 'updated_at', 'deleted_at'
+    ];
+
+    /**
      * Defines one-to-one relationship
      */
     public function userLink() {
