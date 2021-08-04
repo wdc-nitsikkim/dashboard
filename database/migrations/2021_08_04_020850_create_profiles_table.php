@@ -15,7 +15,9 @@ class CreateProfilesTable extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type')->nullable(false);
+            $table->enum('type', [
+                    'faculty', 'staff', 'other'
+                ])->nullable(false);
             $table->unsignedSmallInteger('department_id');
             $table->string('name')->nullable(false);
             $table->string('mobile')->nullable(false);
