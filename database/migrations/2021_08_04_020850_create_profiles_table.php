@@ -22,13 +22,13 @@ class CreateProfilesTable extends Migration
             $table->string('name')->nullable(false);
             $table->string('mobile')->nullable(false);
             $table->string('email')->nullable(false);
-            $table->string('designation');
-            $table->text('academic_qualifications');
-            $table->text('areas_of_interest');
-            $table->text('work_experience');
-            $table->text('teachings');
-            $table->text('office_address');
-            $table->longText('publications');
+            $table->string('designation')->nullable(true)->default(null);
+            $table->text('academic_qualifications')->nullable(true)->default(null);
+            $table->text('areas_of_interest')->nullable(true)->default(null);
+            $table->text('work_experience')->nullable(true)->default(null);
+            $table->text('teachings')->nullable(true)->default(null);
+            $table->text('office_address')->nullable(true)->default(null);
+            $table->longText('publications')->nullable(true)->default(null);
 
             $table->timestamps();
             $table->softDeletes();
