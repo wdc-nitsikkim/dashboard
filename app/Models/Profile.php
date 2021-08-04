@@ -8,7 +8,7 @@ use App\Models\UserProfileLink;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
-class ProfileModel extends Model {
+class Profile extends Model {
     protected $table = 'profiles';
 
     /**
