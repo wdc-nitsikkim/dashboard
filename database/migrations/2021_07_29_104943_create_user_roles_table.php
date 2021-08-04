@@ -16,9 +16,10 @@ class CreateUserRolesTable extends Migration
         Schema::create('user_roles', function (Blueprint $table) {
             $table->smallIncrements('id');
             $table->unsignedInteger('user_id');
-            $table->enum('role',
-                ['root', 'admin', 'office', 'hod', 'faculty', 'tnp', 'ecell'])
-                ->nullable(false);
+            $table->enum('role', [
+                    'root', 'admin', 'office', 'tnp', 'ecell',
+                    'hod', 'faculty', 'staff', 'student'
+                ])->nullable(false);
 
             $table->timestamps();
 
