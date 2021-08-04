@@ -22,7 +22,7 @@ class CreateAnnouncementsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('department')->references('id')->on('departments')
-                ->onUpdate('no action')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

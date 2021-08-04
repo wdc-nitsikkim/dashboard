@@ -21,9 +21,9 @@ class CreateUserAccessDepartmentsTable extends Migration
 
             $table->unique(['user_id', 'department_id']);
             $table->foreign('user_id')->references('id')->on('users')
-                ->onUpdate('no action')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('department_id')->references('id')->on('departments')
-                ->onUpdate('no action')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
