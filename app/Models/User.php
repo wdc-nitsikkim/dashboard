@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Models\UserRole;
+use App\Models\UserProfileLink;
 use App\Models\UserRolePermission;
 use App\Models\UserAccessDepartment;
 use App\Traits\GlobalMutators;
@@ -48,6 +49,22 @@ class User extends Authenticatable
      */
     public function roles() {
         return $this->hasMany(UserRole::class, 'user_id');
+    }
+
+    /**
+     * Defines one-to-one relationship
+     */
+    public function profileLink() {
+        return $this->hasOne(UserProfileLink::class, 'user_id');
+    }
+
+    /**
+     * Check whether user has linked a profile
+     *
+     * @return boolean
+     */
+    public function hasProfile() {
+        return !is_null($this->profileLink);
     }
 
     /**
