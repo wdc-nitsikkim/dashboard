@@ -15,6 +15,6 @@ class Profile extends Model {
      * Defines one-to-one relationship
      */
     public function userLink() {
-        return $this->hasOne(UserProfileLink::class, 'user_id');
+        return $this->hasOne(UserProfileLink::class, 'profile_id');
     }
 }
