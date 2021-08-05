@@ -227,7 +227,7 @@
 
                         <div class="row mb-3">
                             <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                <a class="btn btn-primary" href="#!">
+                                <a class="btn btn-primary" href="{{ route('admin.profiles.show') }}">
                                     Cancel
                                     <span class="material-icons ms-1">cancel</span>
                                 </a>
