@@ -57,13 +57,13 @@ class ProfilePolicy {
      * Users with roles 'hod', 'faculty', 'staff' can only update thier own profiles
      *
      * @param App\Models\User $user
-     * @param App\Models\Profile $profile
+     * @param int $profile_id
      * @return boolean
      */
-    public function update(User $user, Profile $profile) {
+    public function update(User $user, $profile_id) {
         $isAllowed = false;
         if ($user->hasRole('hod', 'faculty', 'staff') && $user->hasProfile()) {
-            $isAllowed = $user->profileLink->profile_id === $profile->id;
+            $isAllowed = $user->profileLink->profile_id === $profile_id;
         }
         if ($user->isPermissionValid($this->update_roles, $this->permission['update'])) {
             $isAllowed = true;
@@ -72,7 +72,7 @@ class ProfilePolicy {
         return $isAllowed;
     }
 
-    public function delete(User $user, Profile $profile) {
+    public function delete(User $user, $profile_id) {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
     }
 
