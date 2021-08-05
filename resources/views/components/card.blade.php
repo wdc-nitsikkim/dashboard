@@ -21,7 +21,8 @@
                 <div class="d-none d-sm-block">
                     <h5 class="fw-bold text-truncate mb-2" data-bs-toggle="tooltip"
                         title="{{ $name }}">{{ $name }}</h5>
-                    <h6 class="text-gray-500 text-truncate mb-0">{{ $designation }}</h6>
+                    <h6 class="text-gray-500 text-truncate mb-0">
+                        {{ ucfirst($type) . ', ' . $designation }}</h6>
                 </div>
                 <small class="d-flex align-items-center text-gray-500">
                     <span class="text-truncate">{{ $department }}</span>
@@ -39,4 +40,6 @@
             </div>
         </div>
     </div>
+
+    {{ $slot ?? '' }}
 </div>
