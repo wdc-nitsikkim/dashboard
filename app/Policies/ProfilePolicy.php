@@ -42,26 +42,34 @@ class ProfilePolicy {
      * @return boolean
      */
     public function create(User $user) {
+        $isAllowed = false;
         if ($user->hasRole('hod', 'faculty', 'staff')) {
-            return is_null($user->profileLink);
+            $isAllowed = is_null($user->profileLink);
         }
-        return $user->isPermissionValid($this->create_roles, $this->permission['create']);
+        if ($user->isPermissionValid($this->create_roles, $this->permission['create'])) {
+            $isAllowed = true;
+        }
+        return $isAllowed;
     }
 
     /**
      * Whether user is authorized to update profiles
-     * * Users with roles 'hod', 'faculty', 'staff' can only update thier own profiles
+     * Users with roles 'hod', 'faculty', 'staff' can only update thier own profiles
      *
      * @param App\Models\User $user
      * @param App\Models\Profile $profile
      * @return boolean
      */
     public function update(User $user, Profile $profile) {
+        $isAllowed = false;
         if ($user->hasRole('hod', 'faculty', 'staff') && $user->hasProfile()) {
-            return $user->profileLink->profile_id === $profile->id;
+            $isAllowed = $user->profileLink->profile_id === $profile->id;
+        }
+        if ($user->isPermissionValid($this->update_roles, $this->permission['update'])) {
+            $isAllowed = true;
         }
 
-        return $user->isPermissionValid($this->update_roles, $this->permission['update']);
+        return $isAllowed;
     }
 
     public function delete(User $user, Profile $profile) {
