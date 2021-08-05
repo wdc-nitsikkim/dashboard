@@ -1,4 +1,4 @@
-const profileHandler = (function ($, window) {
+const profileHandler = (function ($, window, main) {
     'use strict';
 
     const triggerCopyInput = $('#copy_user_data');
@@ -20,4 +20,4 @@ const profileHandler = (function ($, window) {
             }
         });
     });
-}(jQuery, window));
+}(jQuery, window, main));
