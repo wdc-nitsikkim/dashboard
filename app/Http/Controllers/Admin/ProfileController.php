@@ -19,7 +19,7 @@ class ProfileController extends Controller {
      *
      * @var int
      */
-    private $paginate = 5;
+    private $paginate = 20;
 
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
@@ -33,7 +33,18 @@ class ProfileController extends Controller {
     }
 
     public function show() {
-        return 'All profiles in table';
+        $this->authorize('view', Profile::class);
+
+        $departmentMap = Department::all()->mapWithKeys(function ($row) {
+            return [$row['id'] => $row['name']];
+        })->toArray();
+        $profiles = Profile::paginate($this->paginate);
+
+        return view('admin.profiles.show', [
+            'profiles' => $profiles->toArray(),
+            'pagination' => $profiles->links('vendor.pagination.default'),
+            'departmentMap' => $departmentMap
+        ]);
     }
 
     public function add() {
@@ -110,7 +121,7 @@ class ProfileController extends Controller {
                 'message' => 'Failed to create profile!'
             ])->withInput();
         }
-        return redirect('/default')->with([
+        return redirect()->route('admin.profiles.show')->with([
             'status' => 'success',
             'message' => $msg
         ]);

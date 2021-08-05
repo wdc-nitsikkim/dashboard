@@ -131,6 +131,10 @@ div.form-check input[type="checkbox"], div.form-check label,
 div.form-check input[type="radio"], div.form-check label {
     cursor: pointer;
 }
+
+.icon-xxx-large {
+    font-size: xxx-large;
+}
 /* General classes --end */
 
 /* animation classes --start */
