@@ -193,8 +193,8 @@
                 </span>
                 <div class="multi-level collapse" role="list" id="submenu-people" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item {{ false ? 'active' : '' }}">
-                            <a class="nav-link" href="#!">
+                        <li class="nav-item {{ Route::is('admin.profiles.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.profiles.show') }}">
                                 <span class="sidebar-text">Faculty / Staff</span>
                             </a>
                         </li>
