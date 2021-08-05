@@ -126,6 +126,11 @@ div.page-loader {
 input[type="checkbox"][readonly] {
     pointer-events: none;
 }
+
+div.form-check input[type="checkbox"], div.form-check label,
+div.form-check input[type="radio"], div.form-check label {
+    cursor: pointer;
+}
 /* General classes --end */
 
 /* animation classes --start */
