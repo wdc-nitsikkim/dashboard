@@ -19,7 +19,7 @@ class ProfileController extends Controller {
      *
      * @var int
      */
-    private $paginate = 20;
+    private $paginate = 12;
 
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
@@ -128,7 +128,7 @@ class ProfileController extends Controller {
     }
 
     /**
-     * Gets profile type to be created according to user role
+     * Returns profile type to be created according to user role
      *
      * @param App\Models\User $user
      * @param string $chosen
