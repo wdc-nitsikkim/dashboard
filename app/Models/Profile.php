@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\UserProfileLink;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
 class Profile extends Model {
+    use softDeletes;
+    use GlobalMutators, GlobalAccessors;
+
     protected $table = 'profiles';
 
     /**
@@ -25,5 +29,15 @@ class Profile extends Model {
      */
     public function userLink() {
         return $this->hasOne(UserProfileLink::class, 'profile_id');
+    }
+
+    /**
+     * Set designation
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setDesignationAttribute($value) {
+        $this->attributes['designation'] = ucwords($value);
     }
 }
