@@ -51,7 +51,7 @@ class ProfileController extends Controller {
             $type = 'staff';
         }
 
-        return view('admin.profile.add', [
+        return view('admin.profiles.add', [
             'canChooseType' => $canChooseType,
             'canCustomizeLink' => $canCustomizeLink,
             'departments' => $departments,
