@@ -7,7 +7,6 @@ namespace App\Traits;
  */
 trait GlobalMutators {
     /**
-     * Model mutator
      * Set name
      *
      * @param string $value
@@ -28,7 +27,6 @@ trait GlobalMutators {
     }
 
     /**
-     * Model mutator
      * Set code
      *
      * @param string $value
