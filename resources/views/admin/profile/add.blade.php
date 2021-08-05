@@ -26,9 +26,22 @@
     {{ csrf_field() }}
 
     <div class="row">
-        <div class="col-12 col-xl-8 col-md-6">
+        <div class="col-12 col-lg-8 col-md-12">
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">Basic information</h2>
+                <div class="d-flex align-items-start justify-content-between">
+                    <h2 class="h5 mb-4 me-4">Basic information</h2>
+                    <div class="float-end">
+                        <div class="form-check form-switch" data-bs-toggle="tooltip"
+                            title="Copy data from user account"
+                            data-bs-placement="left">
+                            <input class="form-check-input" type="checkbox"
+                                id="copy_user_data">
+                            <label class="small form-check-label" for="copy_user_data">
+                                Copy
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row g-2 mb-2">
                     <div class="col-md-6 mb-2">
@@ -36,7 +49,8 @@
                             <input type="text"
                                 class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
                                 id="name" placeholder="Name" name="name"
-                                value="{{ old('name') }}" required>
+                                value="{{ old('name') }}"
+                                data-account-value="{{ Auth::user()->name }}" required>
                             <label for="name">Name</label>
 
                             @if ($errors->has('name'))
@@ -71,7 +85,8 @@
                             <input type="email"
                                 class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
                                 id="email" placeholder="E-mail" name="email"
-                                value="{{ old('email') }}" required>
+                                value="{{ old('email') }}"
+                                data-account-value="{{ Auth::user()->email }}" required>
                             <label for="email">E-mail</label>
                             <small class="small">Use '@nitsikkim.ac.in' email addresses</small>
 
@@ -91,7 +106,8 @@
                             <input type="number"
                                 class="form-control {{ $errors->has('mobile') ? 'is-invalid' : '' }}"
                                 id="mobile" placeholder="Mobile Number" name="mobile"
-                                value="{{ old('mobile') }}" required>
+                                value="{{ old('mobile') }}"
+                                data-account-value="{{ Auth::user()->mobile }}" required>
                             <label for="mobile">Mobile Number</label>
 
                             @if ($errors->has('mobile'))
@@ -167,7 +183,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-xl-4">
+        <div class="col-12 col-lg-4 col-md-12">
             <div class="row">
                 <div class="col-12">
                     <div class="card card-body border-0 shadow">
@@ -183,15 +199,25 @@
                             </div>
                             <div>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox"
-                                        name="link_account" id="link_account"
-                                        {{ $canCustomizeLink ? '' : 'checked readonly' }}>
-                                    <label class="form-check-label" for="link_account"></label>
+
+                                    @if (Auth::user()->hasProfile())
+                                        <input class="form-check-input" type="checkbox"
+                                            name="link_account" id="link_account" disabled>
+                                    @else
+                                        <input class="form-check-input" type="checkbox"
+                                            name="link_account" id="link_account"
+                                            {{ $canCustomizeLink ? '' : 'checked readonly' }}>
+                                    @endif
+
                                 </div>
                             </div>
                         </li>
 
-                        @if (Auth::user()->hasRole('hod', 'faculty', 'staff'))
+                        @if (Auth::user()->hasProfile())
+                            <p class="small fw-bold text-danger">This account is already linked to
+                                a profile. Cannot link to another!
+                            </p>
+                        @elseif (Auth::user()->hasRole('hod', 'faculty', 'staff'))
                             <p class="small fw-bold text-success">This profile will be linked to your
                                 account. You can edit it later</p>
                         @endif
@@ -222,3 +248,7 @@
 </form>
 
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('static/js/profile.js') }}"></script>
+@endpush
