@@ -18,6 +18,7 @@ class CreateUserProfileLinksTable extends Migration
             $table->unsignedInteger('profile_id');
 
             $table->unique('user_id');
+            $table->unique('profile_id');
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('profile_id')->references('id')->on('profiles')
