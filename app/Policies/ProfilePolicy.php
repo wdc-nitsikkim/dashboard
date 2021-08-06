@@ -82,4 +82,8 @@ class ProfilePolicy {
     public function customizeLinkOption(User $user) {
         return $user->hasRole('admin');
     }
+
+    public function updateDepartment(User $user) {
+        return $user->hasRole('admin');
+    }
 }

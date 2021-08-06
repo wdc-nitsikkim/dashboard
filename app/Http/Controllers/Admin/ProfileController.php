@@ -57,7 +57,7 @@ class ProfileController extends Controller {
         $canCustomizeLink = $user->can('customizeLinkOption', Profile::class);
         $departments = Department::all();
 
-        $type= '';
+        $type = '';
         if ($user->hasRole('hod', 'faculty')) {
             $type = 'faculty';
         } else if ($user->hasRole('staff')) {
@@ -127,6 +127,34 @@ class ProfileController extends Controller {
             'status' => 'success',
             'message' => $msg
         ]);
+    }
+
+    /**
+     * Type conversion required to 'int' as profile policy does strict comparison
+     *
+     * @param int $id
+     */
+    public function edit(int $id) {
+        $this->authorize('update', [Profile::class, $id]);
+
+        $profile = Profile::with(['department:id,name', 'userLink'])->findOrFail($id);
+        $user = Auth::user();
+        $canChooseType = $user->can('chooseType', Profile::class);
+        $canCustomizeLink = $user->can('customizeLinkOption', Profile::class);
+        $departments = Department::all();
+
+        return view('admin.profiles.edit', [
+            'profile' => $profile,
+            'canChooseType' => $canChooseType,
+            'canCustomizeLink' => $canCustomizeLink,
+            'departments' => $departments
+        ]);
+    }
+
+    public function update(Request $request, Profile $profile) {
+        $this->authorize('update', [Profile::class, $profile->id]);
+
+        dd($request->all());
     }
 
     /**
