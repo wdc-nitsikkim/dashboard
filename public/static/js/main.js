@@ -33,10 +33,15 @@ const main = (function ($, window) {
         return false;
     }
 
+    function verifyImageRatio(image) {
+        return image.height == image.width;
+    }
+
     return Object.freeze({
         breakPoints,
         spoofMethod,
-        modifySideNav
+        modifySideNav,
+        verifyImageRatio
     });
 }(jQuery, window));
 
