@@ -39,6 +39,25 @@
     @endslot
 @endcomponent
 
+@if ($ownProfile)
+    <div class="row g-0 mb-3">
+        <div class="col alert alert-success" role="alert">
+            You have a profile linked to your account. Manage it directly from
+            <a href="{{ route('admin.profiles.edit', $ownProfile) }}" target="_blank">here
+                <span class="material-icons">open_in_new</span>
+            </a>
+        </div>
+    </div>
+@elseif (Auth::user()->hasRole('hod', 'faculty', 'staff'))
+    <div class="row g-0 mb-3">
+        <div class="col alert alert-info" role="alert">
+            Looks like you haven't created a profile yet. Create now using the
+            <a class="fw-bolder px-1 text-info"
+                href="{{ route('admin.profiles.add') }}">New</a> button.
+        </div>
+    </div>
+@endif
+
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2 mb-3">
 
     @foreach ($profiles['data'] as $profile)
@@ -60,7 +79,7 @@
                 @if (Auth::user()->can('update', [$profileModel, $profileId])
                     || Auth::user()->can('delete', [$profileModel, $profileId]))
 
-                    <div class="card-footer d-flex justify-content-end p-3">
+                    <div class="card-footer d-flex justify-content-end p-2 mx-1">
 
                         @if ($profile['deleted_at'] == null)
                             @can('update', [$profileModel, $profileId])

@@ -40,10 +40,16 @@ class ProfileController extends Controller {
         })->toArray();
         $profiles = Profile::paginate($this->paginate);
 
+        $ownProfile = false;
+        if (Auth::user()->hasProfile()) {
+            $ownProfile = Auth::user()->profileLink->profile_id;
+        }
+
         return view('admin.profiles.show', [
             'profiles' => $profiles->toArray(),
             'pagination' => $profiles->links('vendor.pagination.default'),
-            'departmentMap' => $departmentMap
+            'departmentMap' => $departmentMap,
+            'ownProfile' => $ownProfile
         ]);
     }
 
