@@ -17,7 +17,7 @@ class ProfilePolicy {
      *
      * @var array
      */
-    protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
+    protected $view_roles = ['admin', 'office', 'ecell', 'tnp', 'hod', 'faculty', 'staff'];
     protected $create_roles = ['admin'];
     protected $update_roles = ['admin'];
     protected $delete_roles = ['admin'];
@@ -36,7 +36,6 @@ class ProfilePolicy {
     /**
      * Whether user is authorized to create profiles
      * Users with roles 'hod', 'faculty', 'staff' can create a single profile only
-     * which belongs to them
      *
      * @param App\Models\User $user
      * @return boolean

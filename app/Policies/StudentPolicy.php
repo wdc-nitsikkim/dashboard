@@ -17,7 +17,7 @@ class StudentPolicy {
      *
      * @var array
      */
-    protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
+    protected $view_roles = ['admin', 'office', 'ecell', 'tnp', 'hod', 'faculty', 'staff'];
     protected $create_roles = ['admin', 'hod'];
     protected $update_roles = ['admin', 'hod'];
     protected $delete_roles = ['admin'];
