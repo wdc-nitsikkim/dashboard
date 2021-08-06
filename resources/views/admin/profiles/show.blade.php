@@ -73,7 +73,7 @@
                 'image' => $profile['image'],
                 'email' => $profile['email'],
                 'mobile' => $profile['mobile'],
-                'department' => $departmentMap[$profile['department_id']]
+                'department' => $profile['department']['name']
             ])
 
                 @if (Auth::user()->can('update', [$profileModel, $profileId])

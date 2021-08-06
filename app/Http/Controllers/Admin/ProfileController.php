@@ -35,10 +35,7 @@ class ProfileController extends Controller {
     public function show() {
         $this->authorize('view', Profile::class);
 
-        $departmentMap = Department::all()->mapWithKeys(function ($row) {
-            return [$row['id'] => $row['name']];
-        })->toArray();
-        $profiles = Profile::paginate($this->paginate);
+        $profiles = Profile::with('department')->paginate($this->paginate);
 
         $ownProfile = false;
         if (Auth::user()->hasProfile()) {
@@ -48,7 +45,6 @@ class ProfileController extends Controller {
         return view('admin.profiles.show', [
             'profiles' => $profiles->toArray(),
             'pagination' => $profiles->links('vendor.pagination.default'),
-            'departmentMap' => $departmentMap,
             'ownProfile' => $ownProfile
         ]);
     }

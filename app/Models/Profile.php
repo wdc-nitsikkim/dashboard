@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Department;
 use App\Models\UserProfileLink;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
@@ -29,6 +30,13 @@ class Profile extends Model {
      */
     public function userLink() {
         return $this->hasOne(UserProfileLink::class, 'profile_id');
+    }
+
+    /**
+     * Defines many-to-one relationship
+     */
+    public function department() {
+        return $this->belongsTo(Department::class, 'department_id')->withDefault();
     }
 
     /**
