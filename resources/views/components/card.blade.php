@@ -1,3 +1,13 @@
+{{--
+    $image -> string (public storage path)
+    $name -> string
+    $designation -> string
+    $department -> string
+    $type -> string
+    $mobile -> string
+    $email -> string
+--}}
+
 <div class="card border-0 shadow h-100">
     <div class="card-body">
         <div class="row d-block d-xl-flex align-items-center">

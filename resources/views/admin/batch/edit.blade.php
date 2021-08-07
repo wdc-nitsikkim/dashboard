@@ -1,3 +1,7 @@
+{{--
+    $batch -> single batch model
+--}}
+
 @extends('layouts.admin', ['title' => 'Edit Batch'])
 
 @section('content')

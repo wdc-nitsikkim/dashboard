@@ -1,3 +1,7 @@
+{{--
+    $returnRoute -> route url
+--}}
+
 <div class="row mb-3">
     <div class="col-sm-3 d-grid mx-auto mb-3">
         <a class="btn btn-primary" href="{{ $returnRoute }}">

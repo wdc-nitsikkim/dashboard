@@ -1,3 +1,8 @@
+{{--
+    $btechBatches -> collection of batch model
+    $mtechBatches -> collection of batch model
+--}}
+
 @extends('layouts.admin', ['title' => 'Select Batch'])
 
 @section('content')

@@ -1,3 +1,8 @@
+{{--
+    $departments -> paginated (in array) collection of department model
+    $pagination -> pagination links view
+--}}
+
 @extends('layouts.admin', ['title' => 'View Department List'])
 
 @section('content')

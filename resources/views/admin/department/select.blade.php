@@ -1,3 +1,8 @@
+{{--
+    $preferred -> collection of department model
+    $departments -> collection of department model
+--}}
+
 @extends('layouts.admin', ['title' => 'Select Department'])
 
 @section('content')

@@ -1,3 +1,10 @@
+{{--
+    $canChooseType -> boolean
+    $canCustomizeLink -> boolean
+    $departments -> collection of department model
+    $userType -> string
+--}}
+
 @extends('layouts.admin', ['title' => 'Create Profile'])
 
 @section('content')

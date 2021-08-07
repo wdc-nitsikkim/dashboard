@@ -1,3 +1,7 @@
+{{--
+    $paginator -> paginator instance
+--}}
+
 @if ($paginator->hasPages())
     <div class="text-muted">
         Showing {{ $paginator->firstItem() . ' - ' . $paginator->lastItem() }} of

@@ -1,3 +1,8 @@
+{{--
+    $updatedAt -> datetime string
+    $createdAt -> datetime string
+--}}
+
 @php
     $currentTime = strtotime(CustomHelper::getCurrentDate());
     $lastUpdated = strtotime($updatedAt);
@@ -6,7 +11,7 @@
         $classes = 'is-invalid';
         $smallText = 'Update failed!';
         $smallTextClass = 'text-danger';
-    } else if ($currentTime - $lastUpdated <= 60) {
+    } else if ($currentTime - $lastUpdated <= 90) {
         $classes = 'is-valid';
         $smallText = 'Recently updated';
         $smallTextClass = 'text-success';

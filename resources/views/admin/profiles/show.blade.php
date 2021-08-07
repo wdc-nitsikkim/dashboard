@@ -1,3 +1,9 @@
+{{--
+    $profiles -> collection of profile model
+    $pagination -> pagination links view
+    $ownProfile -> boolean| unsigned_int
+--}}
+
 @extends('layouts.admin', ['title' => 'Profiles'])
 
 @section('content')

@@ -1,3 +1,7 @@
+{{--
+    $type -> string
+--}}
+
 @extends('layouts.admin', ['title' => 'Add New ' . $type])
 
 @section('content')

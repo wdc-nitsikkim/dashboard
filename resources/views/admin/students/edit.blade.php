@@ -1,3 +1,10 @@
+{{--
+    $department -> single department model
+    $batch -> single batch model
+    $student -> single student model
+    $departmentList -> collection of department model
+--}}
+
 @extends('layouts.admin', ['title' => 'Edit Student - ' . $department['name']])
 
 @section('content')
