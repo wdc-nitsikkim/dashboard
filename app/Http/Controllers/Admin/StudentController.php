@@ -126,8 +126,12 @@ class StudentController extends Controller {
 
         $validator = $request->validate([
             'name' => 'required | string | min:3',
-            'roll_number' => ['required', 'alpha_num', Rule::unique('students', 'roll_number')->ignore($student->id)],
-            'email' => ['required', 'email', Rule::unique('students', 'email')->ignore($student->id)],
+            'roll_number' => ['required', 'alpha_num',
+                Rule::unique('students', 'roll_number')->ignore($student->id)
+            ],
+            'email' => ['required', 'email',
+                Rule::unique('students', 'email')->ignore($student->id)
+            ],
             'department' => 'required | numeric'
         ]);
 

@@ -33,7 +33,8 @@ class DepartmentController extends Controller {
 
     public function index() {
         if (session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.home', session($this->sessionKeys['selectedDepartment']));
+            return redirect()->route('admin.department.home',
+                session($this->sessionKeys['selectedDepartment']));
         }
         return redirect()->route('admin.department.select');
     }
@@ -91,8 +92,8 @@ class DepartmentController extends Controller {
 
         $request->validate([
             'code' => ['required', 'min:2', 'max:4',
-                    Rule::unique('departments', 'code')
-                ],
+                Rule::unique('departments', 'code')
+            ],
             'name' => 'required | min:5 | max:50'
         ]);
 
@@ -128,8 +129,8 @@ class DepartmentController extends Controller {
 
         $request->validate([
             'code' => ['required', 'min:2', 'max:4',
-                    Rule::unique('departments', 'code')->ignore($department->id)
-                ],
+                Rule::unique('departments', 'code')->ignore($department->id)
+            ],
             'name' => 'required | max:50'
         ]);
 
