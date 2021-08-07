@@ -202,7 +202,21 @@
                 <div class="col-12 mb-4">
                     <div class="card card-body border-0 shadow">
 
-                        <h5 class="mb-3">Change profile photo</h5>
+                        <div class="d-flex mx-1 align-items-start justify-content-between">
+                            <h5 class="h5 mb-3 me-2">Profile photo</h5>
+                            <div class="me-sm-0 me-3">
+                                <div class="form-check form-switch" data-bs-toggle="tooltip"
+                                    title="This will remove the picture even if you have
+                                    selected a new one" data-bs-placement="left">
+                                    <input class="form-check-input" type="checkbox"
+                                        id="remove_profile_image" name="remove_profile_image">
+                                    <label class="small form-check-label" for="remove_profile_image">
+                                        Remove
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row mb-2 d-flex align-items-center">
                             <div class="col-4 text-center mb-3 mb-xl-0 d-flex
                                 align-items-center justify-content-center">
@@ -233,7 +247,7 @@
                                             accept=".jpg, .jpeg, .png">
                                         <div class="d-md-block text-left">
                                             <div class="fw-normal text-dark mb-1">Choose Image</div>
-                                            <div class="text-gray-500 small">JPG or PNG. Max size of 800 kB</div>
+                                            <div class="text-gray-500 small">JPG, PNG, GIF. Max size of 800 kB</div>
                                         </div>
                                     </div>
                                 </div>

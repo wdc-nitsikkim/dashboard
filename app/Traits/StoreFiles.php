@@ -45,4 +45,18 @@ trait StoreFiles {
 
         return $path;
     }
+
+    /**
+     * Remove unused profile image
+     *
+     * @param $path  Public path of image to be removed
+     * @return void
+     */
+    public function removeProfileImage($path) {
+        try {
+            return Storage::disk('public')->delete($path);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

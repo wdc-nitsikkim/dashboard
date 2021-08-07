@@ -140,7 +140,7 @@ class ProfileController extends Controller {
     public function edit(int $id) {
         $this->authorize('update', [Profile::class, $id]);
 
-        $profile = Profile::with(['department:id,name', 'userLink'])->findOrFail($id);
+        $profile = Profile::withTrashed()->with(['department:id,name', 'userLink'])->findOrFail($id);
         $user = Auth::user();
         $canChooseType = $user->can('chooseType', Profile::class);
         $canCustomizeLink = $user->can('customizeLinkOption', Profile::class);
@@ -154,8 +154,10 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function update(Request $request, Profile $profile) {
-        $this->authorize('update', [Profile::class, $profile->id]);
+    public function update(Request $request, int $id) {
+        $this->authorize('update', [Profile::class, $id]);
+
+        $profile = Profile::withTrashed()->findOrFail($id);
 
         $data = $request->validate([
             'name' => 'required | string | min:3',
@@ -170,7 +172,8 @@ class ProfileController extends Controller {
             'department_id' => ['required',
                 Rule::exists('departments', 'id')
             ],
-            'profile_image' => 'filled | mimes:jpg,jpeg,png | max:800',
+            'remove_profile_image' => 'filled | in:on',
+            'profile_image' => 'filled | image | max:800',
             'work_experience' => 'nullable',
             'academic_qualifications' => 'nullable',
             'office_address' => 'nullable',
@@ -182,9 +185,15 @@ class ProfileController extends Controller {
         $user = Auth::user();
         try {
             $profile->update($data);
-            if ($request->hasFile('profile_image') && $request->file('profile_image')->isValid()) {
+
+            if (isset($data['remove_profile_image'])) {
+                $this->removeProfileImage($profile->image);
+                $profile->image = null;
+            } else if ($request->hasFile('profile_image') && $request->file('profile_image')->isValid()) {
+                $this->removeProfileImage($profile->image);
                 $profile->image = $this->storeProfileImage($request->file('profile_image'), $profile->id);
             }
+
             if ($user->can('chooseType', Profile::class)) {
                 $profile->type = $data['type'];
             }
