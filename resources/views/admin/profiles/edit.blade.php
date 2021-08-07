@@ -229,6 +229,7 @@
                                         <span class="material-icons align-items-center me-2">
                                             add_a_photo</span>
                                         <input type="file" name="profile_image" id="profile_image"
+                                            class="{{ $errors->has('profile_image') ? 'is-invalid' : '' }}"
                                             accept=".jpg, .jpeg, .png">
                                         <div class="d-md-block text-left">
                                             <div class="fw-normal text-dark mb-1">Choose Image</div>
@@ -238,11 +239,13 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="d-flex justify-content-end">
-                            <a class="btn btn-sm btn-outline-danger">
-                                <span class="material-icons">delete</span>
-                                Remove</a>
-                        </div> --}}
+
+                        @if ($errors->has('profile_image'))
+                            <div class="my-2 text-danger">
+                                {{ $errors->first('profile_image') }}
+                            </div>
+                        @endif
+
                     </div>
                 </div>
 
@@ -294,15 +297,15 @@
                     <div class="col-12 mb-2">
                         <div class="form-floating">
                             <input type="text"
-                                class="form-control {{ $errors->has('experience') ? 'is-invalid' : '' }}"
-                                id="experience" placeholder="Experience" name="experience"
-                                value="{{ old('experience') ?? $profile['experience'] }}">
-                            <label for="experience">Experience</label>
+                                class="form-control {{ $errors->has('work_experience') ? 'is-invalid' : '' }}"
+                                id="work_experience" placeholder="Experience" name="work_experience"
+                                value="{{ old('work_experience') ?? $profile['work_experience'] }}">
+                            <label for="work_experience">Experience</label>
                             <small class="small text-gray-500">Eg. 4 years</small>
 
-                            @if ($errors->has('experience'))
+                            @if ($errors->has('work_experience'))
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('experience') }}
+                                    {{ $errors->first('work_experience') }}
                                 </div>
                             @endif
 
