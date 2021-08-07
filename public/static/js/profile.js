@@ -127,6 +127,7 @@ const editorJsInit = (function ($, window, ls) {
     function storeData() {
         editor.save().then(savedData => {
             if (savedData.blocks.length == 0) {
+                formInput.val('');
                 return;
             }
             json = JSON.stringify(savedData);
