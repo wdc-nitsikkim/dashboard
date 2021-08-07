@@ -49,7 +49,7 @@
     @endslot
 
     @slot('sideButtons')
-        @if (Route::is('homepage.notification.show'))
+        @if (Route::is('admin.homepage.notification.show'))
             @include('partials.pageSideBtns', [
                 'trashRedirect' => route('admin.homepage.notification.showTrashed')
             ])
@@ -105,7 +105,7 @@
                                     {{ $notice['link'] }}</a>
                             </td>
                             <td>
-                                {{ date('d-m-Y', strtotime($notice['created_at'])) }}
+                                {{ $notice['created_at'] }}
                             </td>
                             <td>
 

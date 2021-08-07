@@ -116,10 +116,12 @@
 
                             </select>
                         @else
+                            <input type="hidden" name="department"
+                                value="{{ $department['id'] }}" readonly>
                             <input type="text"
                                 class="form-control {{ $errors->has('department') ? 'is-invalid' : '' }}"
-                                id="department" placeholder="Department" name="department"
-                                value="{{ old('department') ?? $department['name'] }}" readonly>
+                                id="department" placeholder="Department"
+                                value="{{ $department['name'] }}" readonly>
                         @endcan
 
                         <label for="department">Department</label>

@@ -15,14 +15,14 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->increments('id');
-            $table->mediumText('message')->nullable(false);
+            $table->text('message')->nullable(false);
             $table->unsignedSmallInteger('department');
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('department')->references('id')->on('departments')
-                ->onUpdate('no action')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

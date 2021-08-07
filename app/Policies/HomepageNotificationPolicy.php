@@ -16,7 +16,7 @@ class HomepageNotificationPolicy {
      *
      * @var array
      */
-    protected $view_roles = ['admin', 'office', 'hod', 'ecell', 'faculty', 'tnp'];
+    protected $view_roles = ['admin', 'office', 'ecell', 'tnp', 'hod', 'faculty', 'staff'];
     protected $create_roles = ['admin', 'office'];
     protected $update_roles = ['admin', 'office'];
     protected $delete_roles = ['admin'];

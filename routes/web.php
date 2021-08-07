@@ -112,6 +112,21 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/{dept}', 'DepartmentController@home')->name('home');
     });
 
+    /* profile routes */
+    Route::name('profiles.')->prefix('profiles')->group(function() {
+        Route::get('/', 'ProfileController@show')->name('show');
+        Route::get('/trashed', 'ProfileController@showTrashed')->name('showTrashed');
+        Route::get('/add', 'ProfileController@add')->name('add');
+        Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
+        Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
+        Route::post('/update/{id}', 'ProfileController@update')->name('update');
+        Route::delete('/soft-delete/{id}', 'ProfileController@softDelete')->name('softDelete');
+        Route::post('/restore/{id}', 'ProfileController@restore')->name('restore');
+        Route::delete('/delete/{id}', 'ProfileController@delete')->name('delete');
+
+        Route::get('/test', 'ProfileController@test');
+    });
+
     /* student routes */
     Route::name('students.')->prefix('students')->group(function() {
         Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');

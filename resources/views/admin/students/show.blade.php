@@ -5,7 +5,7 @@
 @php
     $batchModel = 'App\\Models\\Batch';
     $studentModel = 'App\\Models\\Student';
-    $redirectHandler = 'students.handleRedirect';
+    $redirectHandler = 'admin.students.handleRedirect';
 
     $baseRouteParams = [
         'dept' => $department,
