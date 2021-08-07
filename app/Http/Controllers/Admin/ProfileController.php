@@ -12,8 +12,11 @@ use App\CustomHelper;
 use App\Models\Profile;
 use App\Models\Department;
 use App\Models\UserProfileLink;
+use App\Traits\StoreFiles;
 
 class ProfileController extends Controller {
+    use StoreFiles;
+
     /**
      * Items per page
      *
@@ -154,7 +157,52 @@ class ProfileController extends Controller {
     public function update(Request $request, Profile $profile) {
         $this->authorize('update', [Profile::class, $profile->id]);
 
-        dd($request->all());
+        $data = $request->validate([
+            'name' => 'required | string | min:3',
+            'designation' => 'required | string',
+            'email' => ['required', 'email',
+                Rule::unique('profiles', 'email')->ignore($profile->id)
+            ],
+            'mobile' => ['required', 'numeric', 'digits:10',
+                Rule::unique('profiles', 'mobile')->ignore($profile->id)
+            ],
+            'type' => 'required | in:faculty,staff',
+            'department_id' => ['required',
+                Rule::exists('departments', 'id')
+            ],
+            'profile_image' => 'filled | mimes:jpg,jpeg,png | max:800',
+            'work_experience' => 'nullable',
+            'academic_qualifications' => 'nullable',
+            'office_address' => 'nullable',
+            'areas_of_interest' => 'nullable',
+            'teachings' => 'nullable',
+            'publications' => 'nullable'
+        ]);
+
+        $user = Auth::user();
+        try {
+            $profile->update($data);
+            if ($request->hasFile('profile_image') && $request->file('profile_image')->isValid()) {
+                $profile->image = $this->storeProfileImage($request->file('profile_image'), $profile->id);
+            }
+            if ($user->can('chooseType', Profile::class)) {
+                $profile->type = $data['type'];
+            }
+            if ($user->can('updateDepartment', Profile::class)) {
+                $profile->department_id = $data['department_id'];
+            }
+            $profile->save();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to update profile!'
+            ])->withInput();
+        }
+
+        return back()->with([
+            'status' =>'success',
+            'message' => 'Profile updated'
+        ]);
     }
 
     /**
