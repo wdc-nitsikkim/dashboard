@@ -98,50 +98,72 @@ const editorJsInit = (function ($, window, ls) {
 
     const statusContainer= $('#editor_status');
     const localRestoreBtn = $('#editor_local_restore');
+    const serverRestoreBtn = $('#editor_server_restore');
+    const resetEditorBtn = $('#editor_failsafe');
     const localStorageKey = holderId;
     const formInput = $('#publications');
 
-    localRestoreBtn.on('click', function(e) {
-        try {
-            let data = JSON.parse(ls.get(localStorageKey)) ?? undefined;
-            if (typeof data === 'undefined') {
-                throw new Error('Data empty or corrupt!');
-            }
-            statusContainer.removeClass('text-danger').addClass('text-success')
-                .html('Loaded from local storage');
-            editor.render(data);
-        } catch (e) {
-            statusContainer.removeClass('text-success').addClass('text-danger')
-                .html('Data empty or corrupt!');
+    resetEditorBtn.on('click', () => {
+        editor.clear();
+        return statusMessage('success', 'Editor reinitialized');
+    });
+
+    serverRestoreBtn.on('click', () => {
+        if (loadData(formInput.attr('original'))) {
+            return statusMessage('success', 'Copied server data');
         }
-        clearStatus();
+        editor.clear();
+        return statusMessage('fail', 'Data empty or corrupt!');
+    });
+
+    localRestoreBtn.on('click', function(e) {
+        if (loadData(ls.get(localStorageKey))) {
+            return statusMessage('success', 'Loaded from localstorage');
+        }
+        loadData(defaultObj);
+        return statusMessage('fail', 'Data empty or corrupt!');
     });
 
     function storeData() {
         editor.save().then(savedData => {
+            if (savedData.blocks.length == 0) {
+                return;
+            }
             json = JSON.stringify(savedData);
             ls.set(localStorageKey, json);
             formInput.val(json);
-            statusContainer.removeClass('text-danger').addClass('text-success')
-                .html('Saved');
+            statusMessage('success', 'Saved');
         });
-        clearStatus();
     };
 
     function editorReady() {
         $(`#${holderId}`).removeClass('d-none');
 
-        statusContainer.removeClass('text-danger').addClass('text-success')
-            .html('Editor loaded');
-        clearStatus();
+        loadData(formInput.val());
+        statusMessage('success', 'Editor loaded');
+    }
+
+    function loadData(jsonString) {
+        try {
+            let json = JSON.parse(jsonString) ?? undefined;
+            if (typeof json === 'undefined') {
+                throw new Error('Data empty or corrupt!');
+            } else if (json.blocks.length == 0) {
+                throw new Error('Empty data');
+            }
+            editor.render(json);
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 
     let timer = null;
-    function clearStatus() {
+    function statusMessage(status, msg) {
+        statusContainer.removeClass(status == 'success' ? 'text-danger' : 'text-success')
+            .addClass(status == 'success' ? 'text-success' : 'text-danger').html(msg);
         clearTimeout(timer);
-        setTimeout(() => {
-            statusContainer.html('');
-        }, 3000);
+        timer = setTimeout(() => { statusContainer.html('') }, 2000);
     }
 
     return editor;

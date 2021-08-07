@@ -358,19 +358,36 @@
         <div class="col-12">
             <div class="card card-body border-0 shadow mb-4">
 
-                <div class="d-flex align-items-start justify-content-between">
-                    <h2 class="h5 mb-4 me-4">Publications & Extras</h2>
-                    <div>
+                <div class="d-flex mx-1 align-items-start justify-content-between">
+                    <h2 class="h5 mb-4 me-3">Publications & Extras</h2>
+                    <div class="me-sm-0 me-3">
                         <span class="me-2 small" id="editor_status">Initializing Editor...</span>
-                        <span class="material-icons cur-pointer text-info d-inline me-2"
-                            data-bs-toggle="tooltip" title="Restore from local storage"
-                            data-bs-placement="left" id="editor_local_restore">
-                            settings_backup_restore</span>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-outline-gray"
+                                data-bs-toggle="tooltip" title="Restore server data"
+                                data-bs-placement="left" id="editor_server_restore">
+                                <span class="material-icons text-success">
+                                    cloud_done</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-gray"
+                                data-bs-toggle="tooltip" title="Restore from local storage"
+                                data-bs-placement="left" id="editor_local_restore">
+                                <span class="material-icons text-info">
+                                    settings_backup_restore</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-gray"
+                                data-bs-toggle="tooltip" title="Reset Editor"
+                                data-bs-placement="left" id="editor_failsafe">
+                                <span class="material-icons text-danger">
+                                    close</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <input type="hidden" id="publications" name="publications"
-                    value='{{ old('publications') ?? $profile['publications'] }}'>
+                    value='{{ old('publications') ?? $profile['publications'] }}'
+                    original='{{ $profile['publications'] }}'>
 
                 <div class="row mx-1 g-2 mb-2">
                     <div class="col-sm-12 border border-2 rounded mb-3">
