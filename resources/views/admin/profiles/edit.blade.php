@@ -315,16 +315,18 @@
                         <div class="mb-2">
                             <label for="textarea" class="form-label">
                                 Academic Qualifications</label>
-                            <textarea class="form-control" id="textarea" name="academic_qualifications"
-                                rows="3" placeholder="Enter your academic qualifications here"></textarea>
+                            <textarea class="form-control" name="academic_qualifications"
+                                placeholder="Enter your academic qualifications here"
+                                rows="3">{{ old('academic_qualifications') ?? $profile['academic_qualifications'] }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-6 mb-2">
                         <div class="mb-2">
                             <label for="textarea" class="form-label">
                                 Office Address</label>
-                            <textarea class="form-control" id="textarea" name="office_address"
-                                rows="3" placeholder="Your office address"></textarea>
+                            <textarea class="form-control" name="office_address"
+                                placeholder="Your office address"
+                                rows="3">{{ old('office_address') ?? $profile['office_address'] }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -334,16 +336,18 @@
                         <div class="mb-2">
                             <label for="textarea" class="form-label">
                                 Areas of Interest</label>
-                            <textarea class="form-control" id="textarea" name="areas_of_interest"
-                                rows="3" placeholder="Add your areas of interest"></textarea>
+                            <textarea class="form-control" name="areas_of_interest"
+                                placeholder="Add your areas of interest"
+                                rows="3">{{ old('areas_of_interest') ?? $profile['areas_of_interest'] }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-6 mb-2">
                         <div class="mb-2">
                             <label for="textarea" class="form-label">
                                 Teachings</label>
-                            <textarea class="form-control" id="textarea" name="office_address"
-                                rows="3" placeholder="Subjects/Topics you teach"></textarea>
+                            <textarea class="form-control" name="teachings"
+                                placeholder="Subjects/Topics you teach"
+                                rows="3" >{{ old('teachings') ?? $profile['teachings'] }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -354,22 +358,26 @@
         <div class="col-12">
             <div class="card card-body border-0 shadow mb-4">
 
-                <h5 class="mb-4">Publications & Extras</h5>
+                <div class="d-flex align-items-start justify-content-between">
+                    <h2 class="h5 mb-4 me-4">Publications & Extras</h2>
+                    <div>
+                        <span class="me-2 small" id="editor_status">Initializing Editor...</span>
+                        <span class="material-icons cur-pointer text-info d-inline me-2"
+                            data-bs-toggle="tooltip" title="Restore from local storage"
+                            data-bs-placement="left" id="editor_local_restore">
+                            settings_backup_restore</span>
+                    </div>
+                </div>
 
-                <input type="hidden" name="db" value="{{ $profile['publications'] }}">
                 <input type="hidden" id="publications" name="publications"
-                    value="{{ $profile['publications'] }}">
+                    value='{{ old('publications') ?? $profile['publications'] }}'>
 
-                <div class="row g-3 mb-2">
-                    <div class="col-12 border border-2 p-3 rounded mb-3">
+                <div class="row mx-1 g-2 mb-2">
+                    <div class="col-sm-12 border border-2 rounded mb-3">
                         <div class="p-2" id="publications-editor">
 
                         </div>
                     </div>
-                </div>
-
-                <div class="row g-2 mb-2">
-                    <button type="button" class="btn btn-outline-success" id="editor-save">Save</button>
                 </div>
 
                 @include('components.form.footerEdit', [
@@ -388,4 +396,7 @@
     @include('includes.editorjs-scripts')
 
     <script src="{{ asset('static/js/profile.js') }}"></script>
+    <script>
+        let check = {!! $profile['publications'] !!};
+    </script>
 @endpush

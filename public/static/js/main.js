@@ -1,3 +1,47 @@
+const lsMod = (function (window) {
+    this.ls = window.localStorage;
+
+    function state() {
+        const tmpKey = "checkLs";
+        const tmpVal = "checking-LocalStorage";
+        try {
+            ls.setItem(tmpKey, tmpVal);
+            if (ls.getItem(tmpKey) === tmpVal) {
+                unsetKey(tmpKey);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function setKey(key, val) {
+        return ls.setItem(key, val);
+    }
+
+    function unsetKey(key) {
+        return ls.removeItem(key);
+    }
+
+    function getKey(key) {
+        return ls.getItem(key);
+    }
+
+    function clear() {
+        return ls.clear();
+    }
+
+    return Object.freeze({
+        state,
+        set: setKey,
+        unset: unsetKey,
+        get: getKey,
+        clear
+    });
+})(window);
+
 const main = (function ($, window) {
     const breakPoints = {
         sm: 540,

@@ -63,7 +63,7 @@ const profileHandler = (function ($, window, main) {
     });
 }(jQuery, window, main));
 
-const editorJsInit = (function ($, window, main) {
+const editorJsInit = (function ($, window, ls) {
     const tools = {
         header: {
             class: window.Header,
@@ -91,13 +91,58 @@ const editorJsInit = (function ($, window, main) {
     const editor = new window.EditorJS({
         holder: holderId,
         tools: tools,
-        placeholder: 'Add your publications & all other meritorious achievements/activites here'
+        placeholder: 'Add your publications & all other meritorious achievements/activites here',
+        onChange: storeData,
+        onReady: editorReady
     });
 
-    const saveBtn = $('#editor-save');
-    saveBtn.on('click', function () {
-        editor.save().then(savedData => {
-            console.log(savedData);
-        })
+    const statusContainer= $('#editor_status');
+    const localRestoreBtn = $('#editor_local_restore');
+    const localStorageKey = holderId;
+    const formInput = $('#publications');
+
+    localRestoreBtn.on('click', function(e) {
+        try {
+            let data = JSON.parse(ls.get(localStorageKey)) ?? undefined;
+            if (typeof data === 'undefined') {
+                throw new Error('Data empty or corrupt!');
+            }
+            statusContainer.removeClass('text-danger').addClass('text-success')
+                .html('Loaded from local storage');
+            editor.render(data);
+        } catch (e) {
+            statusContainer.removeClass('text-success').addClass('text-danger')
+                .html('Data empty or corrupt!');
+        }
+        clearStatus();
     });
-}(jQuery, window, main));
+
+    function storeData() {
+        editor.save().then(savedData => {
+            json = JSON.stringify(savedData);
+            ls.set(localStorageKey, json);
+            formInput.val(json);
+            statusContainer.removeClass('text-danger').addClass('text-success')
+                .html('Saved');
+        });
+        clearStatus();
+    };
+
+    function editorReady() {
+        $(`#${holderId}`).removeClass('d-none');
+
+        statusContainer.removeClass('text-danger').addClass('text-success')
+            .html('Editor loaded');
+        clearStatus();
+    }
+
+    let timer = null;
+    function clearStatus() {
+        clearTimeout(timer);
+        setTimeout(() => {
+            statusContainer.html('');
+        }, 3000);
+    }
+
+    return editor;
+}(jQuery, window, lsMod));
