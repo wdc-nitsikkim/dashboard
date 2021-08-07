@@ -123,6 +123,12 @@
                     </div>
                 </div>
 
+                @component('components.form.timestamps', [
+                    'createdAt' => $profile['created_at'],
+                    'updatedAt' => $profile['updated_at']
+                ])
+            @endcomponent
+
             </div>
 
             <div class="card card-body border-0 shadow mb-4 mb-xl-0">
