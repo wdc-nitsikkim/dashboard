@@ -62,3 +62,42 @@ const profileHandler = (function ($, window, main) {
         }
     });
 }(jQuery, window, main));
+
+const editorJsInit = (function ($, window, main) {
+    const tools = {
+        header: {
+            class: window.Header,
+            config: {
+                levels: [2, 3, 4, 5],
+                defaultLevel: 4
+            },
+            inlineToolbar: true
+        },
+        delimiter: window.Delimiter,
+        table: {
+            class: window.Table,
+            inlineToolbar: true
+        },
+        list: {
+            class: window.List,
+            inlineToolbar: true
+        },
+        marker: window.Marker,
+        inlineCode: InlineCode,
+        code: CodeTool
+    };
+    const holderId = 'publications-editor';
+
+    const editor = new window.EditorJS({
+        holder: holderId,
+        tools: tools,
+        placeholder: 'Add your publications & all other meritorious achievements/activites here'
+    });
+
+    const saveBtn = $('#editor-save');
+    saveBtn.on('click', function () {
+        editor.save().then(savedData => {
+            console.log(savedData);
+        })
+    });
+}(jQuery, window, main));

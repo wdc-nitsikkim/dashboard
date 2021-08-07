@@ -348,15 +348,28 @@
                     </div>
                 </div>
 
-                <div class="row g-2 mb-2">
-                    <div class="col-md-12 mb-2">
-                        <div class="mb-2">
-                            <label for="textarea" class="form-label">
-                                Publications</label>
-                            <textarea class="form-control" id="textarea" name="office_address"
-                                rows="10" placeholder="Pubs"></textarea>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card card-body border-0 shadow mb-4">
+
+                <h5 class="mb-4">Publications & Extras</h5>
+
+                <input type="hidden" name="db" value="{{ $profile['publications'] }}">
+                <input type="hidden" id="publications" name="publications"
+                    value="{{ $profile['publications'] }}">
+
+                <div class="row g-3 mb-2">
+                    <div class="col-12 border border-2 p-3 rounded mb-3">
+                        <div class="p-2" id="publications-editor">
+
                         </div>
                     </div>
+                </div>
+
+                <div class="row g-2 mb-2">
+                    <button type="button" class="btn btn-outline-success" id="editor-save">Save</button>
                 </div>
 
                 @include('components.form.footerEdit', [
@@ -372,8 +385,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('static/vendor/editorjs/editorjs-2.22.2.min.js') }}"></script>
-    <script src="{{ asset('static/vendor/editorjs/plugins/header-2.0.0.min.js') }}"></script>
-    <script src="{{ asset('static/vendor/editorjs/plugins/list-1.6.2.min.js') }}"></script>
+    @include('includes.editorjs-scripts')
+
     <script src="{{ asset('static/js/profile.js') }}"></script>
 @endpush
