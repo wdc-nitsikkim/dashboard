@@ -115,7 +115,7 @@ class ProfileController extends Controller {
         $link = true;
         $extract = ['name', 'designation', 'email', 'mobile'];
         try {
-            $profile = new Profile($data);
+            $profile = new Profile(collect($data)->only($extract)->toArray());
             $profile->department_id = $data['department_id'];
             $profile->type = $this->getProfileType($user, $data['type']);
             $profile->save();
