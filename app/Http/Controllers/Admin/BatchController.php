@@ -81,7 +81,7 @@ class BatchController extends Controller {
     public function saveNew(Request $request) {
         $this->authorize('create', Batch::class);
 
-        $request->validate([
+        $data = $request->validate([
             'type' => 'required | in:b,m',
             'code' => ['required', 'max:5', Rule::unique('batches', 'code')],
             'start_year' => 'required | numeric | min:2010',
@@ -89,7 +89,7 @@ class BatchController extends Controller {
         ]);
 
         try {
-            Batch::create($request->all());
+            Batch::create($data);
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',
@@ -117,7 +117,7 @@ class BatchController extends Controller {
 
         $batch = Batch::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'type' => 'required | in:b,m',
             'code' => ['required', 'max:5', Rule::unique('batches', 'code')->ignore($batch->id)],
             'start_year' => 'required | numeric | min:2010',
@@ -125,7 +125,7 @@ class BatchController extends Controller {
         ]);
 
         try {
-            $batch->update($request->all());
+            $batch->update($data);
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',

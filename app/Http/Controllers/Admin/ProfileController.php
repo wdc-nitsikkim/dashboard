@@ -113,10 +113,9 @@ class ProfileController extends Controller {
 
         $user = Auth::user();
         $link = true;
-        $data = collect($data);
         $extract = ['name', 'designation', 'email', 'mobile'];
         try {
-            $profile = new Profile($data->only($extract)->toArray());
+            $profile = new Profile($data);
             $profile->department_id = $data['department_id'];
             $profile->type = $this->getProfileType($user, $data['type']);
             $profile->save();

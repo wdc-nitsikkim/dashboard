@@ -79,15 +79,14 @@ class StudentController extends Controller {
     public function saveNew(Request $request, Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 
-        /* TODO: add regex validation to roll_number */
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required | string | min:3',
             'roll_number' => ['required', 'alpha_num', Rule::unique('students', 'roll_number')],
             'email' => ['required', 'email', Rule::unique('students', 'email')]
         ]);
 
         try {
-            $student = new Student($request->all());
+            $student = new Student($data);
             $student->department_id = $dept->id;
             $student->batch_id = $batch->id;
             $student->save();
@@ -124,7 +123,7 @@ class StudentController extends Controller {
 
         $this->authorize('update', [Student::class, $dept]);
 
-        $validator = $request->validate([
+        $data = $request->validate([
             'name' => 'required | string | min:3',
             'roll_number' => ['required', 'alpha_num',
                 Rule::unique('students', 'roll_number')->ignore($student->id)

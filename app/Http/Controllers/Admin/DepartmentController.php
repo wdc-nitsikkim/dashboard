@@ -90,7 +90,7 @@ class DepartmentController extends Controller {
     public function saveNew(Request $request) {
         $this->authorize('create', Department::class);
 
-        $request->validate([
+        $data = $request->validate([
             'code' => ['required', 'min:2', 'max:4',
                 Rule::unique('departments', 'code')
             ],
@@ -98,7 +98,7 @@ class DepartmentController extends Controller {
         ]);
 
         try {
-            Department::create($request->all());
+            Department::create($data);
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',
@@ -127,7 +127,7 @@ class DepartmentController extends Controller {
 
         $department = Department::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'code' => ['required', 'min:2', 'max:4',
                 Rule::unique('departments', 'code')->ignore($department->id)
             ],
@@ -135,7 +135,7 @@ class DepartmentController extends Controller {
         ]);
 
         try {
-            $department->update($request->all());
+            $department->update($data);
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',
