@@ -36,6 +36,16 @@
         @include('partials.pageSideBtns', [
             'help' => '#!'
         ])
+
+        @if (Route::is('admin.profiles.show'))
+            @include('partials.pageSideBtns', [
+                'trashRedirect' => route('admin.profiles.showTrashed')
+            ])
+        @else
+            @include('partials.pageSideBtns', [
+                'backRedirect' => route('admin.profiles.show')
+            ])
+        @endif
     @endslot
 @endcomponent
 
@@ -60,56 +70,71 @@
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2 mb-3">
 
-    @foreach ($profiles['data'] as $profile)
-        @php
-            $profileId = $profile['id'];
-        @endphp
-
-        <div class="col">
-            @component('components.card', [
-                'name' => $profile['name'],
-                'type' => $profile['type'],
-                'designation' => $profile['designation'],
-                'image' => $profile['image'],
-                'email' => $profile['email'],
-                'mobile' => $profile['mobile'],
-                'department' => $profile['department']['name']
-            ])
-
-                @if (Auth::user()->can('update', [$profileModel, $profileId])
-                    || Auth::user()->can('delete', [$profileModel, $profileId]))
-
-                    <div class="card-footer d-flex justify-content-end p-2 mx-1">
-
-                        @if ($profile['deleted_at'] == null)
-                            @can('update', [$profileModel, $profileId])
-                                @include('components.table.actionBtn.edit', [
-                                    'href' => route('admin.profiles.edit', $profileId)
-                                ])
-                                @include('components.table.actionBtn.trash', [
-                                    'href' => route('admin.profiles.softDelete', $profileId)
-                                ])
-                            @endcan
-                        @else
-                            @can('update', [$profileModel, $profileId])
-                                @include('components.table.actionBtn.restore', [
-                                    'href' => route('admin.profiles.restore', $profileId)
-                                ])
-                            @endcan
-
-                            @can('delete', [$profileModel, $profileId])
-                                @include('components.table.actionBtn.delete', [
-                                    'href' => route('admin.profiles.delete', $profileId)
-                                ])
-                            @endcan
-                        @endif
-
-                    </div>
-
-                @endif
-            @endcomponent
+    @if (count($profiles['data']) == 0)
+        <div class="col-12">
+            <h5 class="text-center text-danger">No results found!</h5>
+            <p class="text-center">
+                @component('components.inline.anchorBack', [
+                        'href' => route('admin.profiles.show')
+                    ])
+                @endcomponent
+            </p>
         </div>
-    @endforeach
+    @else
+        @foreach ($profiles['data'] as $profile)
+            @php
+                $profileId = $profile['id'];
+            @endphp
+
+            <div class="col">
+                @component('components.card', [
+                    'name' => $profile['name'],
+                    'type' => $profile['type'],
+                    'designation' => $profile['designation'],
+                    'image' => $profile['image'],
+                    'email' => $profile['email'],
+                    'mobile' => $profile['mobile'],
+                    'department' => $profile['department']['name']
+                ])
+
+                    @if (Auth::user()->can('update', [$profileModel, $profileId])
+                        || Auth::user()->can('delete', [$profileModel, $profileId]))
+
+                        <div class="card-footer d-flex justify-content-end p-2 mx-1">
+
+                            @if ($profile['deleted_at'] == null)
+                                @can('update', [$profileModel, $profileId])
+                                    @include('components.table.actionBtn.edit', [
+                                        'href' => route('admin.profiles.edit', $profileId)
+                                    ])
+                                    @include('components.table.actionBtn.trash', [
+                                        'href' => route('admin.profiles.softDelete', $profileId)
+                                    ])
+                                @endcan
+                            @else
+                                @can('update', [$profileModel, $profileId])
+                                    @include('components.table.actionBtn.edit', [
+                                        'href' => route('admin.profiles.edit', $profileId)
+                                    ])
+                                    @include('components.table.actionBtn.restore', [
+                                        'href' => route('admin.profiles.restore', $profileId)
+                                    ])
+                                @endcan
+
+                                @can('delete', [$profileModel, $profileId])
+                                    @include('components.table.actionBtn.delete', [
+                                        'href' => route('admin.profiles.delete', $profileId)
+                                    ])
+                                @endcan
+                            @endif
+
+                        </div>
+
+                    @endif
+                @endcomponent
+            </div>
+        @endforeach
+    @endif
 
 </div>
 

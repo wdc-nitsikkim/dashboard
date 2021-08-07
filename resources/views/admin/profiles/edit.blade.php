@@ -293,6 +293,25 @@
                                     <span class="material-icons ms-1">update</span>
                                 </button>
                             </div>
+
+                            @if (is_null($profile['deleted_at']))
+                                <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
+                                    <a class="btn btn-danger" href="{{ route('admin.profiles.softDelete', $profile['id']) }}"
+                                        confirm alert-title="Mark profile as deleted?"
+                                        alert-text="Your profile won't show up in results" spoof
+                                        spoof-method="DELETE">
+                                        Delete
+                                    </a>
+                                </div>
+                            @else
+                                <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
+                                    <a class="btn btn-info" href="{{ route('admin.profiles.restore', $profile['id']) }}"
+                                        confirm alert-title="Restore profile?" alert-text="-" spoof
+                                        spoof-method="POST">
+                                        Restore
+                                    </a>
+                                </div>
+                            @endif
                         </div>
 
                     </div>

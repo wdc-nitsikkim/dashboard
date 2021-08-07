@@ -52,6 +52,23 @@ class ProfileController extends Controller {
         ]);
     }
 
+    public function showTrashed() {
+        $this->authorize('view', Profile::class);
+
+        $profiles = Profile::with('department')->onlyTrashed()->paginate($this->paginate);
+
+        $ownProfile = false;
+        if (Auth::user()->hasProfile()) {
+            $ownProfile = Auth::user()->profileLink->profile_id;
+        }
+
+        return view('admin.profiles.show', [
+            'profiles' => $profiles->toArray(),
+            'pagination' => $profiles->links('vendor.pagination.default'),
+            'ownProfile' => $ownProfile
+        ]);
+    }
+
     public function add() {
         $this->authorize('create', Profile::class);
 
@@ -211,6 +228,65 @@ class ProfileController extends Controller {
         return back()->with([
             'status' =>'success',
             'message' => 'Profile updated'
+        ]);
+    }
+
+    public function softDelete(int $id) {
+        $this->authorize('update', [Profile::class, $id]);
+
+        $profile = Profile::findOrFail($id);
+        try {
+            $profile->delete();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to delete!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Moved to trash!'
+        ]);
+    }
+
+    public function restore(int $id) {
+        $this->authorize('update', [Profile::class, $id]);
+
+        $profile = Profile::onlyTrashed()->findOrFail($id);
+        try {
+            $profile->restore();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to restore!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Restored successfully!'
+        ]);
+    }
+
+    public function delete(int $id) {
+        $this->authorize('delete', [Profile::class, $id]);
+
+        $profile = Profile::onlyTrashed()->findOrFail($id);
+        try {
+            $image = $profile->image;
+            $profile->forceDelete();
+            $this->removeProfileImage($image);
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to delete!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Deleted permanently!'
         ]);
     }
 
