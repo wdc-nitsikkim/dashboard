@@ -25,7 +25,24 @@ class LoginController extends Controller {
     }
 
     public function defaultLogin(Request $request) {
-        return 'Default login';
+        $request->validate([
+            'email' => 'required | email',
+            'password' => 'required',
+            'remember' => 'nullable'
+        ]);
+
+        $remember = $request->remember ? true : false;
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
+            return redirect()->route('root.default')->with([
+                'status' => 'success',
+                'message' => 'Logged in'
+            ]);
+        }
+        return back()->with([
+            'status' => 'fail',
+            'message' => 'Invalid credentials!'
+        ])->withInput($request->all());
     }
 
     public function withGoogle(Request $request) {
@@ -107,6 +124,12 @@ class LoginController extends Controller {
             'status' => 'info',
             'message' => 'No account found'
         ]);
+    }
+
+    public function logout() {
+        Auth::logout();
+        session()->flush();
+        return redirect('/home');
     }
 
     public function test() {

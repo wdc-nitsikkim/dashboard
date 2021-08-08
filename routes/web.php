@@ -27,12 +27,6 @@ Route::get('/auth-dev/{id?}', function($id = 1) {
     return "Logged in";
 });
 
-Route::get('/logout', function() {
-    Auth::logout();
-    session()->flush();
-    return "Logged out!";
-})->name('logout');
-
 Route::get('/hash/{str}', function($str) {
     return \Hash::make($str);
 });
@@ -75,6 +69,9 @@ Route::middleware('guest')->group(function() {
         Route::get('/test', 'LoginController@test');
     });
 });
+
+/* logout */
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 /* root routes */
 Route::name('root.')->middleware('auth')->group(function() {

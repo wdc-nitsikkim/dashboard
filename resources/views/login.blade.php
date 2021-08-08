@@ -30,7 +30,7 @@
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">Sign in</h1>
                             </div>
-                            <form action="" class="mt-4" method="POST">
+                            <form action="{{ route('auth.singin.default') }}" class="mt-4" method="POST">
                                 {{ csrf_field() }}
 
                                 <div class="form-group mb-3">
@@ -60,7 +60,7 @@
 
                                     <div class="d-flex justify-content-between align-items-top mb-4">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
+                                            <input class="form-check-input" type="checkbox" value="true"
                                                 name="remember" id="remember">
                                             <label class="form-check-label mb-0" for="remember">
                                                 Remember me
