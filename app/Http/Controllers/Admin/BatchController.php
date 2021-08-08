@@ -30,8 +30,9 @@ class BatchController extends Controller {
     }
 
     public function select() {
-        $btechBatches = Batch::where('type', 'b')->orderByDesc('id')->get();
-        $mtechBatches = Batch::where('type', 'm')->orderByDesc('id')->get();
+        $batches = Batch::all();
+        $btechBatches = $batches->where('type', 'b')->sortByDesc('id');
+        $mtechBatches = $batches->where('type', 'm')->sortByDesc('id');
 
         return view('admin.batch.select', [
             'btechBatches' => $btechBatches,

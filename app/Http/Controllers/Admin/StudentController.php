@@ -109,7 +109,7 @@ class StudentController extends Controller {
     public function edit(Department $dept, Batch $batch, Student $student) {
         $this->authorize('update', [Student::class, $dept]);
 
-        $departmentList = Department::all();
+        $departmentList = Department::select('id', 'name')->get();
         return view('admin.students.edit', [
             'batch' => $batch,
             'department' => $dept,

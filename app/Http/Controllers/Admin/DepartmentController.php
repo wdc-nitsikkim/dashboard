@@ -40,10 +40,10 @@ class DepartmentController extends Controller {
     }
 
     public function select() {
-        $preferred = Department::whereIn('id',
-            Auth::user()->allowedDepartments->pluck('department_id')->toArray())->get();
-
         $departments = Department::all();
+        $preferred = $departments->whereIn('id',
+            Auth::user()->allowedDepartments->pluck('department_id')->toArray());
+
         return view('admin.department.select', [
             'preferred' => $preferred,
             'departments' => $departments

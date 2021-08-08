@@ -75,7 +75,7 @@ class ProfileController extends Controller {
         $user = Auth::user();
         $canChooseType = $user->can('chooseType', Profile::class);
         $canCustomizeLink = $user->can('customizeLinkOption', Profile::class);
-        $departments = Department::all();
+        $departments = Department::select('id', 'name')->get();
 
         $type = '';
         if ($user->hasRole('hod', 'faculty')) {
@@ -160,7 +160,7 @@ class ProfileController extends Controller {
         $user = Auth::user();
         $canChooseType = $user->can('chooseType', Profile::class);
         $canCustomizeLink = $user->can('customizeLinkOption', Profile::class);
-        $departments = Department::all();
+        $departments = Department::select('id', 'name')->get();
 
         return view('admin.profiles.edit', [
             'profile' => $profile,
