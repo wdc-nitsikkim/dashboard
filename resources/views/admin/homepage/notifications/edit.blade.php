@@ -1,3 +1,7 @@
+{{--
+    $notification -> single HomepageNotification model
+--}}
+
 @extends('layouts.admin', ['title' => 'Edit Notification'])
 
 @section('content')

@@ -1,3 +1,7 @@
+{{--
+    $href -> route url
+--}}
+
 @component('components.inline.anchorLink', [
         'route' => $href,
         'icon' => 'edit',

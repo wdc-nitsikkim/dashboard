@@ -1,3 +1,10 @@
+{{--
+    $btechBatches -> paginated (in array) collection of batch model
+    $mtechBatches -> paginated (in array) collection of batch model
+    $btechPagination -> pagination links view
+    $mtechPagination -> pagination links view
+--}}
+
 @extends('layouts.admin', ['title' => 'View Batch List'])
 
 @section('content')

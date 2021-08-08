@@ -1,3 +1,8 @@
+{{--
+    $btechBatches -> collection of batch model
+    $mtechBatches -> collection of batch model
+--}}
+
 @extends('layouts.admin', ['title' => 'Select Batch'])
 
 @section('content')
@@ -45,9 +50,9 @@
     @endslot
 
     @slot('sideButtons')
-        <a href="#!" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-            <span class="material-icons mx-1">help</span>
-        </a>
+        @include('partials.pageSideBtns', [
+            'help' => '#!'
+        ])
     @endslot
 @endcomponent
 

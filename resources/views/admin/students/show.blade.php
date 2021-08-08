@@ -1,3 +1,10 @@
+{{--
+    $department -> single department model
+    $batch -> single batch model
+    $students -> collection of student model
+    $pagination -> pagination links view
+--}}
+
 @extends('layouts.admin', ['title' => 'View Students - ' . $department['name']])
 
 @section('content')

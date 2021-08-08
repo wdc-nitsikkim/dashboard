@@ -79,15 +79,14 @@ class StudentController extends Controller {
     public function saveNew(Request $request, Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 
-        /* TODO: add regex validation to roll_number */
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required | string | min:3',
-            'roll_number' => ['required', Rule::unique('students', 'roll_number')],
+            'roll_number' => ['required', 'alpha_num', Rule::unique('students', 'roll_number')],
             'email' => ['required', 'email', Rule::unique('students', 'email')]
         ]);
 
         try {
-            $student = new Student($request->all());
+            $student = new Student($data);
             $student->department_id = $dept->id;
             $student->batch_id = $batch->id;
             $student->save();
@@ -110,7 +109,7 @@ class StudentController extends Controller {
     public function edit(Department $dept, Batch $batch, Student $student) {
         $this->authorize('update', [Student::class, $dept]);
 
-        $departmentList = Department::all();
+        $departmentList = Department::select('id', 'name')->get();
         return view('admin.students.edit', [
             'batch' => $batch,
             'department' => $dept,
@@ -124,10 +123,14 @@ class StudentController extends Controller {
 
         $this->authorize('update', [Student::class, $dept]);
 
-        $validator = $request->validate([
+        $data = $request->validate([
             'name' => 'required | string | min:3',
-            'roll_number' => ['required', Rule::unique('students', 'roll_number')->ignore($student->id)],
-            'email' => ['required', 'email', Rule::unique('students', 'email')->ignore($student->id)],
+            'roll_number' => ['required', 'alpha_num',
+                Rule::unique('students', 'roll_number')->ignore($student->id)
+            ],
+            'email' => ['required', 'email',
+                Rule::unique('students', 'email')->ignore($student->id)
+            ],
             'department' => 'required | numeric'
         ]);
 

@@ -33,16 +33,17 @@ class DepartmentController extends Controller {
 
     public function index() {
         if (session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.home', session($this->sessionKeys['selectedDepartment']));
+            return redirect()->route('admin.department.home',
+                session($this->sessionKeys['selectedDepartment']));
         }
         return redirect()->route('admin.department.select');
     }
 
     public function select() {
-        $preferred = Department::whereIn('id',
-            Auth::user()->allowedDepartments->pluck('department_id')->toArray())->get();
-
         $departments = Department::all();
+        $preferred = $departments->whereIn('id',
+            Auth::user()->allowedDepartments->pluck('department_id')->toArray());
+
         return view('admin.department.select', [
             'preferred' => $preferred,
             'departments' => $departments
@@ -89,15 +90,15 @@ class DepartmentController extends Controller {
     public function saveNew(Request $request) {
         $this->authorize('create', Department::class);
 
-        $request->validate([
+        $data = $request->validate([
             'code' => ['required', 'min:2', 'max:4',
-                    Rule::unique('departments', 'code')
-                ],
+                Rule::unique('departments', 'code')
+            ],
             'name' => 'required | min:5 | max:50'
         ]);
 
         try {
-            Department::create($request->all());
+            Department::create($data);
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',
@@ -126,15 +127,15 @@ class DepartmentController extends Controller {
 
         $department = Department::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'code' => ['required', 'min:2', 'max:4',
-                    Rule::unique('departments', 'code')->ignore($department->id)
-                ],
+                Rule::unique('departments', 'code')->ignore($department->id)
+            ],
             'name' => 'required | max:50'
         ]);
 
         try {
-            $department->update($request->all());
+            $department->update($data);
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',

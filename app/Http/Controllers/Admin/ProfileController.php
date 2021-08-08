@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\CustomHelper;
+use App\Models\User;
 use App\Models\Profile;
 use App\Models\Department;
 use App\Models\UserProfileLink;
@@ -75,7 +76,7 @@ class ProfileController extends Controller {
         $user = Auth::user();
         $canChooseType = $user->can('chooseType', Profile::class);
         $canCustomizeLink = $user->can('customizeLinkOption', Profile::class);
-        $departments = Department::all();
+        $departments = Department::select('id', 'name')->get();
 
         $type = '';
         if ($user->hasRole('hod', 'faculty')) {
@@ -113,10 +114,9 @@ class ProfileController extends Controller {
 
         $user = Auth::user();
         $link = true;
-        $data = collect($data);
         $extract = ['name', 'designation', 'email', 'mobile'];
         try {
-            $profile = new Profile($data->only($extract)->toArray());
+            $profile = new Profile(collect($data)->only($extract)->toArray());
             $profile->department_id = $data['department_id'];
             $profile->type = $this->getProfileType($user, $data['type']);
             $profile->save();
@@ -161,13 +161,61 @@ class ProfileController extends Controller {
         $user = Auth::user();
         $canChooseType = $user->can('chooseType', Profile::class);
         $canCustomizeLink = $user->can('customizeLinkOption', Profile::class);
-        $departments = Department::all();
+        $departments = Department::select('id', 'name')->get();
 
         return view('admin.profiles.edit', [
             'profile' => $profile,
             'canChooseType' => $canChooseType,
             'canCustomizeLink' => $canCustomizeLink,
             'departments' => $departments
+        ]);
+    }
+
+    public function link(int $user_id, int $profile_id) {
+        $this->authorize('customizeLinkOption', Profile::class);
+
+        $user = User::with('profileLink')->findOrFail($user_id);
+        if (!is_null($user->profileLink)) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Conflict! User already has a profile'
+            ]);
+        }
+
+        try {
+            UserProfileLink::create([
+                'user_id' => $user_id,
+                'profile_id' => $profile_id
+            ]);
+        } catch (\Exception $e) {
+            return back()->withError([
+                'status' => 'fail',
+                'message' => 'Link failed'
+            ]);
+        }
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Profile linked'
+        ]);
+    }
+
+    public function unlink(int $user_id, int $profile_id) {
+        $this->authorize('customizeLinkOption', Profile::class);
+
+        try {
+            UserProfileLink::where([
+                'user_id' => $user_id,
+                'profile_id' => $profile_id
+            ])->delete();
+        } catch (\Exception $e) {
+            return back()->withError([
+                'status' => 'fail',
+                'message' => 'Unlink failed'
+            ]);
+        }
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Profile unlinked'
         ]);
     }
 

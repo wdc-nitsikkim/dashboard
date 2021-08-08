@@ -223,16 +223,6 @@ class NotificationController extends Controller {
     }
 
     /**
-     * Returns file storage path for this class
-     *
-     * @param string $type
-     * @return string
-     */
-    private function getStoragePath($type) {
-        return 'homepage/files/' . $type;
-    }
-
-    /**
      * Checks whether link & file both are missing from input
      *
      * @return bool

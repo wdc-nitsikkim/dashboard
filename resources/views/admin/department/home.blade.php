@@ -1,3 +1,8 @@
+{{--
+    $department -> single department model
+    $advancedAccess -> boolean
+--}}
+
 @extends('layouts.admin', ['title' => 'Home - ' . $department['name']])
 
 @section('content')

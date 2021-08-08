@@ -1,3 +1,7 @@
+{{--
+    $items -> array
+--}}
+
 <thead class="{{ $classes ?? 'thead-light' }}">
     <tr>
         @foreach ($items as $item)

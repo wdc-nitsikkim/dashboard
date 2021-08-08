@@ -1,3 +1,8 @@
+{{--
+    $notifications -> paginated (in array) collection of HomepageNotification model
+    $pagination -> pagination links view
+--}}
+
 @extends('layouts.admin', ['title' => 'View Homepage Notifications'])
 
 @section('content')
