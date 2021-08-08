@@ -21,12 +21,8 @@ Route::get('/', function () {
 /* redirect routes */
 Route::redirect('/home', '/', 301);
 
-/* view routes */
-Route::view('/login', 'login')->middleware('guest')->name('login');
-Route::view('/register', 'register')->middleware('guest')->name('register');
-
 /* test routes */
-Route::get('/auth/{id?}', function($id = 1) {
+Route::get('/auth-dev/{id?}', function($id = 1) {
     Auth::loginUsingId($id);
     return "Logged in";
 });
@@ -61,6 +57,22 @@ Route::name('artisan.')->middleware('auth')->group(function() {
         $shortcut = '/home/ntskm85i/domains/nitsikkim.ac.in/public_html/admin-dashboard-laravel/storage';
         echo symlink($target, $shortcut) ? 'Linked' : 'Failed';
         //echo $_SERVER['DOCUMENT_ROOT'];
+    });
+});
+
+/* auth routes */
+Route::middleware('guest')->group(function() {
+    Route::view('/login', 'login')->name('login');
+    Route::view('/register', 'register')->name('register');
+
+    Route::name('auth.')->prefix('auth')->namespace('Auth')->group(function() {
+        Route::post('/signin/default', 'LoginController@defaultLogin')->name('singin.default');
+        Route::post('/signin/google', 'LoginController@withGoogle')->name('signin.withgoogle');
+
+        Route::post('/signup/default')->name('signup.default');
+        Route::post('/signup/google')->name('signup.withgoogle');
+
+        Route::get('/test', 'LoginController@test');
     });
 });
 
