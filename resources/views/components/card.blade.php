@@ -17,6 +17,9 @@
                     @if (isset($image) && Storage::disk('public')->exists($image))
                         <img class="rounded-circle" alt="{{ $name }}"
                             src="{{ asset(Storage::url($image)) }}"/>
+                    @elseif (isset($image) && filter_var($image, FILTER_VALIDATE_URL))
+                        <img class="rounded-circle" alt="url-image"
+                            src="{{ $image }}"/>
                     @else
                         <span class="material-icons icon-xxx-large">person_outline</span>
                     @endif

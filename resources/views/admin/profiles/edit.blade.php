@@ -240,6 +240,10 @@
                                             src="{{ asset(Storage::url($profile['image'])) }}"
                                             original-src="{{ asset(Storage::url($profile['image'])) }}"
                                             id="image_preview" />
+                                    @elseif (isset($profile['image']) && filter_var($profile['image'], FILTER_VALIDATE_URL))
+                                        <img class="rounded-circle" alt="url-image"
+                                            src="{{ $profile['image'] }}" original-src="{{ $profile['image'] }}"
+                                            id="image_preview"/>
                                     @else
                                         <img class="rounded-circle" alt="default-image"
                                             src="{{ asset('static/images/user-default.png') }}"
