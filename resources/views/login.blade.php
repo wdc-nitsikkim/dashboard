@@ -7,7 +7,7 @@
         <section class="vh-lg-100 mt-5 mt-lg-0 bg-soft d-flex align-items-center">
             <div class="container">
                 <p class="text-center">
-                    <a href="#!" class="d-flex align-items-center justify-content-center">
+                    <a href="/" class="d-flex align-items-center justify-content-center">
                         <span class="material-icons">keyboard_arrow_left</span>
                         Back to homepage
                     </a>
@@ -28,7 +28,8 @@
                                         <span class="input-group-text">
                                             <span class="material-icons">email</span>
                                         </span>
-                                        <input type="email" class="form-control" placeholder="example@nitsikkim.ac.in"
+                                        <input type="email" class="form-control"
+                                            placeholder="example@nitsikkim.ac.in"
                                             name="email" id="email" autofocus required>
                                     </div>
                                 </div>
@@ -40,7 +41,8 @@
                                             <span class="input-group-text">
                                                 <span class="material-icons">lock</span>
                                             </span>
-                                            <input type="password" placeholder="Password" class="form-control"
+                                            <input type="password" placeholder="Password"
+                                                class="form-control"
                                                 name="password" id="password" required>
                                         </div>
                                     </div>
@@ -64,14 +66,27 @@
                             <div class="mt-3 mb-4 text-center">
                                 <span class="fw-normal">or login with</span>
                             </div>
-                            <div class="d-flex justify-content-center my-4">
-                                <a href="#" class="btn btn-outline-gray-500 me-2"
-                                    aria-label="facebook button" title="facebook button">
-                                    <img class="icon icon-xxs" src="{{ asset('static/images/google.png') }}" aria-hidden="true" data-prefix="fab"
-                                        data-icon="facebook-f" role="img">
-                                        <span class="mx-2">Google</span>
-                                </a>
+
+                            <div id="g_id_onload"
+                                data-client_id="{{ config('app.g_signin_client_id') }}"
+                                data-context="signin"
+                                data-ux_mode="redirect"
+                                data-login_uri="{{ config('app.g_signin_redirect_uri') }}"
+                                data-nonce=""
+                                data-close_on_tap_outside="false">
                             </div>
+
+                            <div class="d-flex justify-content-center my-3">
+                                <div class="g_id_signin"
+                                    data-type="standard"
+                                    data-shape="pill"
+                                    data-theme="filled_black"
+                                    data-text="signin_with"
+                                    data-size="large"
+                                    data-logo_alignment="left">
+                                </div>
+                            </div>
+
                             {{-- <div class="d-flex justify-content-center align-items-center mt-4">
                                 <span class="fw-normal">
                                     Not registered?
@@ -85,3 +100,7 @@
         </section>
     </main>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('static/vendor/google/gsi-client.min.js') }}" async defer></script>
+@endpush
