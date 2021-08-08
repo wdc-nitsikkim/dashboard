@@ -307,6 +307,69 @@
                                 </button>
                             </div>
 
+                            @php
+                                $linkParams = [
+                                    'user_id' => Auth::id(),
+                                    'profile_id' => $profile['id']
+                                ];
+                            @endphp
+
+                            @if (is_null($profile['userLink']))
+                                @if (Auth::user()->hasProfile())
+                                    <div class="col-6 d-grid gap-1 mx-auto mb-3" data-bs-placement="left"
+                                        data-bs-toggle="tooltip" title="Your account is already linked
+                                        to another profile">
+                                        <a class="btn btn-info disabled"
+                                            href="#!">
+                                            Current account
+                                        </a>
+                                    </div>
+                                @else
+                                    <div class="col-6 d-grid gap-1 mx-auto mb-3" data-bs-placement="left"
+                                        data-bs-toggle="tooltip" title="Link to current account?">
+                                        <a class="btn btn-info"
+                                            href="{{ route('admin.profiles.link', $linkParams) }}"
+                                            confirm alert-title="Link to current account?"
+                                            alert-text="This profile will be linked to current account.
+                                            Continue?" spoof spoof-method="POST">
+                                            Current account
+                                        </a>
+                                    </div>
+                                @endif
+
+                                <div class="col-6 d-grid gap-1 mx-auto mb-3" data-bs-placement="left"
+                                    data-bs-toggle="tooltip" title="Option unavailable currently">
+                                    <a class="btn btn-info disabled" href="#!">
+                                        Other account
+                                    </a>
+                                </div>
+
+                            @elseif ($canCustomizeLink)
+                                <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
+                                    <a class="btn btn-info"
+                                        href="{{ route('admin.profiles.unlink', [
+                                            'user_id' => $profile['userLink']['user_id'],
+                                            'profile_id' => $profile['id']
+                                        ]) }}"
+                                        confirm alert-title="Unlink this profile?"
+                                        alert-text="The owner of this profile won't be able to
+                                        access it after this"
+                                        spoof spoof-method="POST">
+                                        Unlink
+                                        <span class="material-icons ms-1">link_off</span>
+                                    </a>
+                                </div>
+                            @else
+                                <div class="col-sm-12 d-grid gap-1 mx-auto mb-3" data-bs-placement="left"
+                                    data-bs-toggle="tooltip" title="You are not authorized to perform this
+                                    action">
+                                    <a class="btn btn-info disabled" href="#!">
+                                        Unlink
+                                        <span class="material-icons ms-1">link_off</span>
+                                    </a>
+                                </div>
+                            @endif
+
                             @if (is_null($profile['deleted_at']))
                                 <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
                                     <a class="btn btn-danger" href="{{ route('admin.profiles.softDelete', $profile['id']) }}"
@@ -462,7 +525,4 @@
     @include('includes.editorjs-scripts')
 
     <script src="{{ asset('static/js/profile.js') }}"></script>
-    <script>
-        let check = {!! $profile['publications'] !!};
-    </script>
 @endpush

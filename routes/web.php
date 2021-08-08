@@ -22,7 +22,6 @@ Route::get('/', function () {
 Route::redirect('/home', '/', 301);
 
 /* view routes */
-Route::view('/default', 'layouts.admin');
 Route::view('/login', 'login')->middleware('guest')->name('login');
 Route::view('/register', 'register')->middleware('guest')->name('register');
 
@@ -66,8 +65,10 @@ Route::name('artisan.')->middleware('auth')->group(function() {
 });
 
 /* root routes */
-Route::name('root.')->group(function() {
+Route::name('root.')->middleware('auth')->group(function() {
+    Route::view('/default', 'layouts.admin');
     Route::post('/clear-session', 'RootController@clearSession')->name('clearSession');
+    Route::get('/test', 'RootController@test');
 });
 
 /* admin routes --> all roles except student */
@@ -119,6 +120,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/add', 'ProfileController@add')->name('add');
         Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
         Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
+        Route::post('/link/{user_id}/{profile_id}', 'ProfileController@link')->name('link');
+        Route::post('/unlink/{user_id}/{profile_id}', 'ProfileController@unlink')->name('unlink');
         Route::post('/update/{id}', 'ProfileController@update')->name('update');
         Route::delete('/soft-delete/{id}', 'ProfileController@softDelete')->name('softDelete');
         Route::post('/restore/{id}', 'ProfileController@restore')->name('restore');
