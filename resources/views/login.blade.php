@@ -4,25 +4,36 @@
     <main>
 
         <!-- Section -->
-        <section class="vh-lg-100 mt-5 mt-lg-0 bg-soft d-flex align-items-center">
+        <section class="mt-3 mt-lg-4 mb-3 bg-soft d-flex align-items-center">
             <div class="container">
                 <p class="text-center">
                     <a href="/" class="d-flex align-items-center justify-content-center">
                         <span class="material-icons">keyboard_arrow_left</span>
-                        Back to homepage
+                        Go Back
                     </a>
                 </p>
 
                 <div class="row justify-content-center">
-                    <div class="col-12 d-flex align-items-center justify-content-center">
-                        <div class="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500">
+
+                    <div class="col-12 mb-3 d-flex align-items-center justify-content-center">
+                        <div class="bg-white shadow border-0 rounded border-light p-4
+                            p-lg-5 w-100 fmxw-500">
+
+                            @if (session()->has('status'))
+                                <div class="text-center text-md-center mb-3 mt-md-0">
+                                    <div class="alert alert-danger">
+                                        {{ session('message') }}
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">Sign in</h1>
                             </div>
                             <form action="" class="mt-4" method="POST">
                                 {{ csrf_field() }}
 
-                                <div class="form-group mb-4">
+                                <div class="form-group mb-3">
                                     <label for="email">Email</label>
                                     <div class="input-group">
                                         <span class="input-group-text">
@@ -55,8 +66,8 @@
                                                 Remember me
                                             </label>
                                         </div>
-                                        {{-- <div><a href="#!" class="small text-right">Lost
-                                                password?</a></div> --}}
+                                        <div><a href="#!" class="small text-right">Lost
+                                                password?</a></div>
                                     </div>
                                 </div>
                                 <div class="d-grid">
@@ -64,7 +75,7 @@
                                 </div>
                             </form>
                             <div class="mt-3 mb-4 text-center">
-                                <span class="fw-normal">or login with</span>
+                                <span class="fw-normal">or</span>
                             </div>
 
                             <div id="g_id_onload"

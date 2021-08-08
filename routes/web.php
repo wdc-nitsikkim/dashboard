@@ -78,7 +78,7 @@ Route::middleware('guest')->group(function() {
 
 /* root routes */
 Route::name('root.')->middleware('auth')->group(function() {
-    Route::view('/default', 'layouts.admin');
+    Route::view('/default', 'layouts.admin')->name('default');
     Route::post('/clear-session', 'RootController@clearSession')->name('clearSession');
     Route::get('/test', 'RootController@test');
 });
