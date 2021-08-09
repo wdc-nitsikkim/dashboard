@@ -21,12 +21,6 @@ Route::get('/', function () {
 /* redirect routes */
 Route::redirect('/home', '/', 301);
 
-/* test routes */
-Route::get('/auth-dev/{id?}', function($id = 1) {
-    Auth::loginUsingId($id);
-    return "Logged in";
-});
-
 Route::get('/hash/{str}', function($str) {
     return \Hash::make($str);
 });
