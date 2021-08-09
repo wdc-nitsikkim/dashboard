@@ -54,7 +54,7 @@ class StudentController extends Controller {
     }
 
     public function show(Department $dept, Batch $batch) {
-        $this->authorize('view', [Student::class, $dept]);
+        $this->authorize('view', Student::class);
 
         $students = $batch->students()->where('department_id', $dept->id)
             ->withTrashed()->paginate($this->paginate);
@@ -107,7 +107,7 @@ class StudentController extends Controller {
     }
 
     public function edit(Department $dept, Batch $batch, Student $student) {
-        $this->authorize('update', [Student::class, $dept]);
+        $this->authorize('update', [Student::class, $student]);
 
         $departmentList = Department::select('id', 'name')->get();
         return view('admin.students.edit', [
@@ -121,7 +121,7 @@ class StudentController extends Controller {
     public function update(Request $request, Department $dept, Batch $batch,
         Student $student) {
 
-        $this->authorize('update', [Student::class, $dept]);
+        $this->authorize('update', [Student::class, $student]);
 
         $data = $request->validate([
             'name' => 'required | string | min:3',
@@ -158,7 +158,7 @@ class StudentController extends Controller {
     }
 
     public function softDelete(Department $dept, Batch $batch, Student $student) {
-        $this->authorize('update', [Student::class, $dept]);
+        $this->authorize('update', [Student::class, $student]);
 
         try {
             $student->delete();
@@ -176,9 +176,9 @@ class StudentController extends Controller {
     }
 
     public function restore(Department $dept, Batch $batch, $student_id) {
-        $this->authorize('update', [Student::class, $dept]);
-
         $student = Student::onlyTrashed()->findOrFail($student_id);
+        $this->authorize('update', [Student::class, $student]);
+
         try {
             $student->restore();
         } catch (\Exception $e) {
@@ -195,9 +195,9 @@ class StudentController extends Controller {
     }
 
     public function delete(Department $dept, Batch $batch, $student_id) {
-        $this->authorize('delete', [Student::class, $dept]);
-
         $student = Student::onlyTrashed()->findOrFail($student_id);
+        $this->authorize('delete', [Student::class, $student]);
+
         try {
             $student->forceDelete();
         } catch (\Exception $e) {

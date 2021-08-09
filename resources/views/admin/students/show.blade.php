@@ -122,7 +122,7 @@
                                 @endphp
 
                                 @if ($student['deleted_at'] == null)
-                                    @can('update', [$studentModel, $department])
+                                    @can('update', [$studentModel, $student])
                                         @include('components.table.actionBtn.edit', [
                                             'href' => route('admin.students.edit', $routeParamsWithId)
                                         ])
@@ -131,13 +131,13 @@
                                         ])
                                     @endcan
                                 @else
-                                    @can('update', [$studentModel, $department])
+                                    @can('update', [$studentModel, $student])
                                         @include('components.table.actionBtn.restore', [
                                             'href' => route('admin.students.restore', $routeParamsWithId)
                                         ])
                                     @endcan
 
-                                    @can('delete', [$studentModel, $department])
+                                    @can('delete', [$studentModel, $student])
                                         @include('components.table.actionBtn.delete', [
                                             'href' => route('admin.students.delete', $routeParamsWithId)
                                         ])

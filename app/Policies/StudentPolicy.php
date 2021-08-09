@@ -28,11 +28,11 @@ class StudentPolicy {
 
     /**
      * @param App\Models\User $user
-     * @param App\Models\Department $department
+     * @param array $student  Single student model converted to array
      */
-    public function view(User $user, Department $department) {
-        return $user->isPermissionValid($this->view_roles, $this->permission['read'])
-            && $user->hasDepartmentAccess($department->id);
+
+    public function view(User $user) {
+        return $user->isPermissionValid($this->view_roles, $this->permission['read']);
     }
 
     public function create(User $user, Department $department) {
@@ -40,14 +40,14 @@ class StudentPolicy {
             && $user->hasDepartmentAccess($department->id);
     }
 
-    public function update(User $user, Department $department) {
+    public function update(User $user, $student) {
         return $user->isPermissionValid($this->update_roles, $this->permission['update'])
-            && $user->hasDepartmentAccess($department->id);
+            && $user->hasDepartmentAccess($student['department_id']);
     }
 
-    public function delete(User $user, Department $department) {
+    public function delete(User $user, $student) {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete'])
-            && $user->hasDepartmentAccess($department->id);
+            && $user->hasDepartmentAccess($student['department_id']);
     }
 
     public function updateDepartment(User $user) {
