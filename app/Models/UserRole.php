@@ -9,6 +9,12 @@ use App\Models\UserRolePermission;
 
 class UserRole extends Model {
     protected $table = 'user_roles';
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass-assignable
+     */
+    protected $fillable = ['user_id', 'role'];
 
     /**
      * Returns list of permissions belonging to role
