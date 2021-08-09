@@ -21,16 +21,27 @@ class NotificationController extends Controller {
      *
      * @var int
      */
-    private $paginate = 5;
+    private $paginate = 10;
 
-    public function show(Request $request) {
+    public function show(Request $request, $trashed = null) {
         $this->authorize('view', Noti::class);
 
-        $notifications = Noti::orderBy('created_at', 'desc')->paginate($this->paginate);
+        if (is_null($trashed)) {
+            $notifications = Noti::orderBy('created_at', 'desc')->paginate($this->paginate);
+        } else {
+            $notifications = Noti::onlyTrashed()->orderBy('created_at', 'desc')
+                ->paginate($this->paginate);
+        }
+
+        $user = Auth::user();
+        $canUpdate = $user->can('update', Noti::class);
+        $canDelete = $user->can('delete', Noti::class);
 
         return view('admin.homepage.notifications.show')->with([
             'notifications' => $notifications->toArray(),
-            'pagination' => $notifications->links('vendor.pagination.default')
+            'pagination' => $notifications->links('vendor.pagination.default'),
+            'canUpdate' => $canUpdate,
+            'canDelete' => $canDelete
         ]);
     }
 
@@ -82,17 +93,6 @@ class NotificationController extends Controller {
             'status' => 'success',
             'message' => 'Notification added!'
         ]);
-    }
-
-    public function showTrashed() {
-        $this->authorize('view', Noti::class);
-
-        $notifications = Noti::onlyTrashed()->paginate($this->paginate);
-
-        return view('admin.homepage.notifications.show')->with([
-            'notifications' => $notifications->toArray(),
-            'pagination' => $notifications->links('vendor.pagination.default')]
-        );
     }
 
     public function edit(Noti $notification) {

@@ -78,11 +78,11 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     Route::name('homepage.')->prefix('homepage')->group(function() {
         /* notification routes */
         Route::name('notification.')->prefix('notifications')->group(function() {
-            Route::get('/', 'NotificationController@show')->name('show');
+            Route::get('/{trashed?}', 'NotificationController@show')
+                ->where('trashed', 'trashed')->name('show');
             Route::get('/add/{type?}', 'NotificationController@add')
                 ->where('type', 'announcement|download|notice|tender')->name('add');
             Route::post('/save', 'NotificationController@saveNew')->name('saveNew');
-            Route::get('/trashed', 'NotificationController@showTrashed')->name('showTrashed');
             Route::get('/edit/{notification}', 'NotificationController@edit')->name('edit');
             Route::post('/update/{notification}', 'NotificationController@update')->name('update');
             Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
