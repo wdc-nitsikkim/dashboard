@@ -57,16 +57,14 @@ Route::name('artisan.')->middleware('auth')->group(function() {
 /* auth routes */
 Route::middleware('guest')->group(function() {
     Route::view('/login', 'login')->name('login');
-    Route::view('/register', 'register')->name('register');
+    Route::get('/register/{role?}', 'Auth\RegisterController@index')->name('register');
 
     Route::name('auth.')->prefix('auth')->namespace('Auth')->group(function() {
         Route::post('/signin/default', 'LoginController@defaultLogin')->name('signin.default');
         Route::post('/signin/google', 'LoginController@withGoogle')->name('signin.withgoogle');
 
-        Route::post('/signup/default')->name('signup.default');
-        Route::post('/signup/google')->name('signup.withgoogle');
-
-        Route::get('/test', 'LoginController@test');
+        Route::post('/signup/default', 'RegisterController@defaultSignup')->name('signup.default');
+        Route::get('/test', 'RegisterController@test');
     });
 });
 
