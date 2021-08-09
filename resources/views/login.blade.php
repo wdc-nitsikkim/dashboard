@@ -21,7 +21,8 @@
 
                             @if (session()->has('status'))
                                 <div class="text-center text-md-center mb-3 mt-md-0">
-                                    <div class="alert alert-danger">
+                                    <div class="alert
+                                        alert-{{ session('status') == 'fail' ? 'danger' : session('status') }}">
                                         {{ session('message') }}
                                     </div>
                                 </div>

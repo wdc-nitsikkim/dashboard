@@ -8,6 +8,7 @@ use Google_Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 use App\CustomHelper;
@@ -33,18 +34,40 @@ class LoginController extends Controller {
 
         $remember = $request->remember ? true : false;
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password,
-            'deleted_at' => null], $remember)) {
+        $user = User::where('email', $request->email)->first();
 
-            return redirect()->route('root.default')->with([
-                'status' => 'success',
-                'message' => 'Logged in'
+        if (is_null($user)) {
+            return back()->with([
+                'status' => 'info',
+                'message' => 'User does not exist!'
             ]);
         }
-        return back()->with([
-            'status' => 'fail',
-            'message' => 'Invalid credentials!'
-        ])->withInput($request->except('password'));
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Invalid credentials!'
+            ])->withInput($request->except('password'));
+        }
+
+        if (!is_null($user->deleted_at)) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Account suspended / Not yet activated!'
+            ])->withInput($request->except('password'));
+        }
+
+        if (Hash::needsRehash($user->password)) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+        }
+
+        Auth::login($user, $remember);
+
+        return redirect()->route('root.default')->with([
+            'status' => 'success',
+            'message' => 'Logged in'
+        ]);
     }
 
     public function withGoogle(Request $request) {
