@@ -33,7 +33,9 @@ class LoginController extends Controller {
 
         $remember = $request->remember ? true : false;
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password,
+            'deleted_at' => null], $remember)) {
+
             return redirect()->route('root.default')->with([
                 'status' => 'success',
                 'message' => 'Logged in'
