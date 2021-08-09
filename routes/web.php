@@ -60,7 +60,7 @@ Route::middleware('guest')->group(function() {
     Route::view('/register', 'register')->name('register');
 
     Route::name('auth.')->prefix('auth')->namespace('Auth')->group(function() {
-        Route::post('/signin/default', 'LoginController@defaultLogin')->name('singin.default');
+        Route::post('/signin/default', 'LoginController@defaultLogin')->name('signin.default');
         Route::post('/signin/google', 'LoginController@withGoogle')->name('signin.withgoogle');
 
         Route::post('/signup/default')->name('signup.default');

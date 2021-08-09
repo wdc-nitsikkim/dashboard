@@ -30,7 +30,7 @@
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">Sign in</h1>
                             </div>
-                            <form action="{{ route('auth.singin.default') }}" class="mt-4" method="POST">
+                            <form action="{{ route('auth.signin.default') }}" class="mt-4" method="POST">
                                 {{ csrf_field() }}
 
                                 <div class="form-group mb-3">
