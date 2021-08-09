@@ -68,12 +68,12 @@
             @if ($preferred->count() > 0)
                 @foreach ($preferred as $dept)
                     @component('components.inline.anchorBtn', [
-                            'href' => route('admin.department.saveInSession', [
-                                    'dept' => $dept['code'],
-                                    'redirect' => $redirect
-                                ]),
-                            'classes' => 'btn-lg btn-outline-tertiary mb-2'
-                        ])
+                        'href' => route('admin.department.saveInSession', [
+                                'dept' => $dept['code'],
+                                'redirect' => $redirect
+                            ]),
+                        'classes' => 'btn-lg btn-outline-tertiary mb-2'
+                    ])
                         @slot('attr')
                             spoof spoof-method="POST"
                         @endslot
@@ -93,12 +93,12 @@
             @if ($departments->count() > 0)
                 @foreach ($departments as $dept)
                     @component('components.inline.anchorBtn', [
-                            'href' => route('admin.department.saveInSession', [
-                                    'dept' => $dept['code'],
-                                    'redirect' => $redirect
-                                ]),
-                            'classes' => 'btn-lg btn-outline-tertiary mb-2'
-                        ])
+                        'href' => route('admin.department.saveInSession', [
+                                'dept' => $dept['code'],
+                                'redirect' => $redirect
+                            ]),
+                        'classes' => 'btn-lg btn-outline-tertiary mb-2'
+                    ])
                         @slot('attr')
                             spoof spoof-method="POST"
                         @endslot

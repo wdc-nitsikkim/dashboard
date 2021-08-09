@@ -61,9 +61,9 @@
             </div>
 
             @component('components.form.timestamps', [
-                    'createdAt' => $department['created_at'],
-                    'updatedAt' => $department['updated_at']
-                ])
+                'createdAt' => $department['created_at'],
+                'updatedAt' => $department['updated_at']
+            ])
             @endcomponent
 
             @component('components.form.footerEdit')

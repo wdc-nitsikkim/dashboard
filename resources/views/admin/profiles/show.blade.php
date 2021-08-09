@@ -81,8 +81,8 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                        'href' => route('admin.profiles.show')
-                    ])
+                    'href' => route('admin.profiles.show')
+                ])
                 @endcomponent
             </p>
         </div>

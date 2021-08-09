@@ -73,19 +73,19 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                        'href' => route('admin.homepage.notification.show')
-                    ])
+                    'href' => route('admin.homepage.notification.show')
+                ])
                 @endcomponent
             </p>
         @else
             @component('components.table.main')
                 @slot('head')
                     @component('components.table.head', [
-                            'items' => [
-                                '#', 'Type', 'Display Text', 'Link',
-                                'Created At', 'Status', 'Actions'
-                            ]
-                        ])
+                        'items' => [
+                            '#', 'Type', 'Display Text', 'Link',
+                            'Created At', 'Status', 'Actions'
+                        ]
+                    ])
                     @endcomponent
                 @endslot
 

@@ -65,19 +65,19 @@
                     <h5 class="text-danger text-center">No results found!</h5>
                     <p class="text-center">
                         @component('components.inline.anchorBack', [
-                                'href' => route('admin.batch.show')
-                            ])
+                            'href' => route('admin.batch.show')
+                        ])
                         @endcomponent
                     </p>
                 @else
                     @component('components.table.main')
                         @slot('head')
                             @component('components.table.head', [
-                                    'items' => [
-                                        '#', 'Code', 'Name', 'Start Year',
-                                        'Actions'
-                                    ]
-                                ])
+                                'items' => [
+                                    '#', 'Code', 'Name', 'Start Year',
+                                    'Actions'
+                                ]
+                            ])
                             @endcomponent
                         @endslot
 
@@ -145,19 +145,19 @@
                     <h5 class="text-danger text-center">No results found!</h5>
                     <p class="text-center">
                         @component('components.inline.anchorBack', [
-                                'href' => route('admin.batch.show')
-                            ])
+                            'href' => route('admin.batch.show')
+                        ])
                         @endcomponent
                     </p>
                 @else
                     @component('components.table.main')
                         @slot('head')
                             @component('components.table.head', [
-                                    'items' => [
-                                        '#', 'Code', 'Name', 'Start Year',
-                                        'Actions'
-                                    ]
-                                ])
+                                'items' => [
+                                    '#', 'Code', 'Name', 'Start Year',
+                                    'Actions'
+                                ]
+                            ])
                             @endcomponent
                         @endslot
 

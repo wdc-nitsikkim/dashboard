@@ -58,18 +58,18 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                        'href' => route('admin.department.show')
-                    ])
+                    'href' => route('admin.department.show')
+                ])
                 @endcomponent
             </p>
         @else
             @component('components.table.main')
                 @slot('head')
                     @component('components.table.head', [
-                            'items' => [
-                                '#', 'Code', 'Name', 'Created At', 'Actions'
-                            ]
-                        ])
+                        'items' => [
+                            '#', 'Code', 'Name', 'Created At', 'Actions'
+                        ]
+                    ])
                     @endcomponent
                 @endslot
 

@@ -69,12 +69,12 @@
                 @if ($btechBatches->count() > 0)
                     @foreach ($btechBatches as $batch)
                         @component('components.inline.anchorBtn', [
-                                'href' => route('admin.batch.saveInSession', [
-                                        'batch' => $batch['code'],
-                                        'redirect' => $redirect
-                                    ]),
-                                'classes' => 'btn-lg btn-outline-tertiary mb-2'
-                            ])
+                            'href' => route('admin.batch.saveInSession', [
+                                    'batch' => $batch['code'],
+                                    'redirect' => $redirect
+                                ]),
+                            'classes' => 'btn-lg btn-outline-tertiary mb-2'
+                        ])
                             @slot('attr')
                                 spoof spoof-method="POST"
                             @endslot
@@ -93,12 +93,12 @@
                 @if ($mtechBatches->count() > 0)
                     @foreach ($mtechBatches as $batch)
                         @component('components.inline.anchorBtn', [
-                                'href' => route('admin.batch.saveInSession', [
-                                        'batch' => $batch['code'],
-                                        'redirect' => $redirect
-                                    ]),
-                                'classes' => 'btn-lg btn-outline-tertiary mb-2'
-                            ])
+                            'href' => route('admin.batch.saveInSession', [
+                                    'batch' => $batch['code'],
+                                    'redirect' => $redirect
+                                ]),
+                            'classes' => 'btn-lg btn-outline-tertiary mb-2'
+                        ])
                             @slot('attr')
                                 spoof spoof-method="POST"
                             @endslot

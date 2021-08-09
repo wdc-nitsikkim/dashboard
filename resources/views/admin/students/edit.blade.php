@@ -151,9 +151,9 @@
             </div>
 
             @component('components.form.timestamps', [
-                    'createdAt' => $student['created_at'],
-                    'updatedAt' => $student['updated_at']
-                ])
+                'createdAt' => $student['created_at'],
+                'updatedAt' => $student['updated_at']
+            ])
             @endcomponent
 
             @component('components.form.footerEdit')

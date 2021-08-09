@@ -3,9 +3,9 @@
 --}}
 
 @component('components.inline.anchorLink', [
-        'route' => $href,
-        'icon' => 'edit',
-        'tooltip' => 'Edit',
-        'scale' => true
-    ])
+    'route' => $href,
+    'icon' => 'edit',
+    'tooltip' => 'Edit',
+    'scale' => true
+])
 @endcomponent

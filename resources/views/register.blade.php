@@ -48,9 +48,9 @@
 
                                     @foreach ($roles as $role)
                                         @component('components.inline.anchorBtn', [
-                                                'href' => route('register', $role),
-                                                'classes' => 'btn btn-outline-tertiary mx-1 mb-2'
-                                            ])
+                                            'href' => route('register', $role),
+                                            'classes' => 'btn btn-outline-tertiary mx-1 mb-2'
+                                        ])
                                             @slot('attr')
                                                 style="width: fit-content"
                                             @endslot

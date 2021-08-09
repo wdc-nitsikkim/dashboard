@@ -74,19 +74,19 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                        'href' => route('admin.students.show', $baseRouteParams)
-                    ])
+                    'href' => route('admin.students.show', $baseRouteParams)
+                ])
                 @endcomponent
             </p>
         @else
             @component('components.table.main')
                 @slot('head')
                     @component('components.table.head', [
-                            'items' => [
-                                '#', 'Roll Number', 'Name',
-                                'Email', 'Actions'
-                            ]
-                        ])
+                        'items' => [
+                            '#', 'Roll Number', 'Name',
+                            'Email', 'Actions'
+                        ]
+                    ])
                     @endcomponent
                 @endslot
 
