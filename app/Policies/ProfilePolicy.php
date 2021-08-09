@@ -63,6 +63,8 @@ class ProfilePolicy {
         $isAllowed = false;
         if ($user->hasRole('hod', 'faculty', 'staff') && $user->hasProfile()) {
             $isAllowed = $user->profileLink->profile_id === $profile_id;
+        } else if ($user->hasProfile()) {
+            $isAllowed = $user->profileLink->profile_id === $profile_id;
         }
         if ($user->isPermissionValid($this->update_roles, $this->permission['update'])) {
             $isAllowed = true;
@@ -80,10 +82,12 @@ class ProfilePolicy {
     }
 
     public function customizeLinkOption(User $user) {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin') &&
+            $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
     public function updateDepartment(User $user) {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin') &&
+            $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 }
