@@ -7,6 +7,9 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+## Documentation
+- [Laravel v5.5](https://laravel.com/docs/5.5)
+
 ## Setting up local environment
 
 - Download PHP `v.7.0.33` from [here](https://drive.google.com/file/d/1lJrBvpO-SGr1FLaiV9sFtrK3dhgpj2hr/view?usp=sharing)
