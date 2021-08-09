@@ -90,6 +90,19 @@
                 ->format($format ?? config('app.date_format'));
         }
 
+        /**
+         * Convert date to utc datetime string
+         *
+         * @param string $date
+         * @param string $format
+         * @return string
+         */
+        public static function dateToUtc($date, $format = 'Y-m-d H:i:s') {
+            return $date ? Carbon::createFromTimestamp(strtotime($date))
+                ->timezone('UTC')
+                ->format($format ?? config('app.date_format')) : null;
+        }
+
         public static function test() {
             return 'Test';
         }
