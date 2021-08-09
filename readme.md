@@ -14,7 +14,7 @@
 - Add this to folder to your path
   - Remove any other versions of PHP if present -> just removing them from your path will work
 - Open `php.ini`, which can be found in the root directory of the newly extracted PHP folder
-- Replace all occurences of `D:\Program Files\php-7.0.33` to whatever the absolute path of the PHP installation folder is
+- Replace all occurences of `D:\Program Files\php-7.0.33` with the absolute path of your PHP installation folder
 - Open a terminal and run `php -v`. If it looks something like below, you can continue else follow the above step more carefully or try restarting your PC
 - ![php-v](https://user-images.githubusercontent.com/43738236/128649946-22e2197a-0d82-4100-ab5d-ae1d4086858c.png)
 - After this, download **Composer**
