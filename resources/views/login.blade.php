@@ -41,7 +41,8 @@
                                         </span>
                                         <input type="email" class="form-control"
                                             placeholder="example@nitsikkim.ac.in"
-                                            name="email" id="email" autofocus required>
+                                            name="email" id="email" value="{{ old('email') }}"
+                                            autofocus required>
                                     </div>
                                 </div>
 

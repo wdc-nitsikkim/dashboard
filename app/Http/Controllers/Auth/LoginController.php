@@ -42,7 +42,7 @@ class LoginController extends Controller {
         return back()->with([
             'status' => 'fail',
             'message' => 'Invalid credentials!'
-        ])->withInput($request->all());
+        ])->withInput($request->except('password'));
     }
 
     public function withGoogle(Request $request) {
