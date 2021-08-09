@@ -165,7 +165,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 });
 
-/* framewrok version */
+/* framework version */
 Route::get('/version', function() {
     return "Laravel v" . Illuminate\Foundation\Application::VERSION . " working on PHP v" . \phpversion();
 });
