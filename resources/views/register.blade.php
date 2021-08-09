@@ -84,7 +84,7 @@
                                                 {{ $errors->has('name') ? 'is-invalid' : '' }}"
                                                 placeholder="Name"
                                                 name="name" id="name" autofocus required
-                                                value="{{ old('name') }}">
+                                                value="{{ Session::get('name', null) ?? old('name') }}">
 
                                             @if ($errors->has('name'))
                                                 <div class="invalid-feedback">
@@ -105,7 +105,7 @@
                                                 {{ $errors->has('email') ? 'is-invalid' : '' }}"
                                                 placeholder="example@nitsikkim.ac.in"
                                                 name="email" id="email" required
-                                                value="{{ old('email') }}">
+                                                value="{{ Session::get('email', null) ?? old('email') }}">
 
                                             @if ($errors->has('email'))
                                                 <div class="invalid-feedback">

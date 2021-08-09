@@ -19,7 +19,9 @@ class RegisterController extends Controller {
 
     protected $allowedRoles = ['office', 'hod', 'faculty', 'staff'];
 
-    public function index($role = null) {
+    public function index(Request $request, $role = null) {
+        \Session::keep(['name', 'email']);
+
         if (in_array($role, $this->allowedRoles)) {
             return view('register', [
                 'role' => $role

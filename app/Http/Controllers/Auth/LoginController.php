@@ -142,10 +142,10 @@ class LoginController extends Controller {
     }
 
     public function redirectRegister($data = null) {
-        return redirect()->route('register')->withInput([
-            'name' => $data['name'] ?? '',
-            'email' => $data['email'] ?? ''
-        ])->with([
+        \Session::flash('name', $data['name'] ?? '');
+        \Session::flash('email', $data['email'] ?? '');
+
+        return redirect()->route('register')->with([
             'status' => 'info',
             'message' => 'No account found'
         ]);
