@@ -21,21 +21,11 @@ Route::get('/', function () {
 /* redirect routes */
 Route::redirect('/home', '/', 301);
 
-/* view routes */
-Route::view('/login', 'login')->middleware('guest')->name('login');
-Route::view('/register', 'register')->middleware('guest')->name('register');
-
 /* test routes */
-Route::get('/auth/{id?}', function($id = 1) {
+Route::get('/auth-dev/{id?}', function($id = 1) {
     Auth::loginUsingId($id);
     return "Logged in";
 });
-
-Route::get('/logout', function() {
-    Auth::logout();
-    session()->flush();
-    return "Logged out!";
-})->name('logout');
 
 Route::get('/hash/{str}', function($str) {
     return \Hash::make($str);
@@ -64,9 +54,26 @@ Route::name('artisan.')->middleware('auth')->group(function() {
     });
 });
 
+/* auth routes */
+Route::middleware('guest')->group(function() {
+    Route::view('/login', 'login')->name('login');
+    Route::get('/register/{role?}', 'Auth\RegisterController@index')->name('register');
+
+    Route::name('auth.')->prefix('auth')->namespace('Auth')->group(function() {
+        Route::post('/signin/default', 'LoginController@defaultLogin')->name('signin.default');
+        Route::post('/signin/google', 'LoginController@withGoogle')->name('signin.withgoogle');
+
+        Route::post('/signup/default', 'RegisterController@defaultSignup')->name('signup.default');
+        Route::get('/test', 'RegisterController@test');
+    });
+});
+
+/* logout */
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
 /* root routes */
 Route::name('root.')->middleware('auth')->group(function() {
-    Route::view('/default', 'layouts.admin');
+    Route::view('/default', 'layouts.admin')->name('default');
     Route::post('/clear-session', 'RootController@clearSession')->name('clearSession');
     Route::get('/test', 'RootController@test');
 });

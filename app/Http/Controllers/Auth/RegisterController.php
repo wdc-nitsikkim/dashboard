@@ -2,70 +2,73 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rule;
 
-class RegisterController extends Controller
-{
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
+use App\CustomHelper;
+use App\Models\User;
+use App\Models\UserRole;
 
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+class RegisterController extends Controller {
+    public function __contruct() {
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+    protected $allowedRoles = ['office', 'hod', 'faculty', 'staff'];
+
+    public function index(Request $request, $role = null) {
+        \Session::keep(['name', 'email']);
+
+        if (in_array($role, $this->allowedRoles)) {
+            return view('register', [
+                'role' => $role
+            ]);
+        }
+        return view('register', [
+            'select' => true,
+            'roles' => $this->allowedRoles
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+    public function defaultSignup(Request $request) {
+        $data = $request->validate([
+            'role' => ['required', 'in:' . implode(',', $this->allowedRoles)],
+            'name' => 'required | string | min:3',
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'mobile' => ['required', 'numeric', 'digits:10',
+                Rule::unique('users', 'mobile')
+            ],
+            'password' => 'required | min:6 | confirmed'
         ]);
+
+        $data['password'] = \Hash::make($data['password']);
+
+        try {
+            $user = new User($data);
+            $user->deleted_at = date('Y-m-d H:i:s', time());
+            $user->save();
+            $user_id = $user->id;
+            UserRole::create([
+                'user_id' => $user_id,
+                'role' => $data['role']
+            ]);
+        } catch (\Exception $e) {
+            return back()->withInput($request->all())->with([
+                'status' => 'fail',
+                'message' => 'An error occurred while signing you up!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Account created & role assigned. It will be activated within 24 hours'
+        ]);
+    }
+
+    public function test() {
+        return 'Test';
     }
 }

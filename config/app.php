@@ -237,6 +237,8 @@ return [
     */
 
     'date_format' => 'd-m-Y, H:i:s',
-    'timezone_local' => env('APP_TIMEZONE', 'Asia/Kolkata')
+    'timezone_local' => env('APP_TIMEZONE', 'Asia/Kolkata'),
+    'g_signin_client_id' => env('G_SIGNIN_CLIENT_ID'),
+    'g_signin_redirect_uri' => env('G_SIGNIN_REDIRECT_URI')
 
 ];
