@@ -129,9 +129,10 @@
                         </div>
                     </a>
                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
-                        <a class="dropdown-item d-flex align-items-center" href="#!">
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('user.profile', Auth::id()) }}">
                             <span class="material-icons">account_circle</span>
-                            My Profile
+                            My Account
                         </a>
                         <a class="dropdown-item d-flex align-items-center" href="#!">
                             <span class="material-icons">settings</span>
