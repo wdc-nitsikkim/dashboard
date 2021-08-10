@@ -82,6 +82,37 @@ class UserController extends Controller {
         ]);
     }
 
+    public function changePassword(Request $request, int $id) {
+        $user = User::findOrFail($id);
+        $this->authorize('update', [User::class, $id]);
+
+        $request->validate([
+            'password' => 'required',
+            'new_password' => 'required | min:6 | confirmed'
+        ]);
+
+        if (! \Hash::check($request->password, $user->password)) {
+            return back()->withErrors([
+                'password' => 'Current password is incorrect!'
+            ]);
+        }
+
+        try {
+            $user->password = \Hash::make($request->new_password);
+            $user->save();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'An unknown error occurred!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Password updated!'
+        ])->withInput();
+    }
+
     public function test() {
         return 'Test';
     }

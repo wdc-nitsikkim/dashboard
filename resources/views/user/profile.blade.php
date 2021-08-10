@@ -22,7 +22,7 @@
     @endslot
 @endcomponent
 
-<form method="POST" action="{{ route('user.update', $user['id']) }}"
+<form method="POST" action="{{ route('user.update', $user->id) }}"
     enctype="multipart/form-data">
 
     {{ csrf_field() }}
@@ -255,7 +255,7 @@
 
                             @if (is_null($user['deleted_at']))
                                 <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                    <a class="btn btn-danger" href="#!'"
+                                    <a class="btn btn-danger disabled" href="#!'"
                                         confirm alert-title="Close account?"
                                         alert-text="You will be logged out & won't be able to login again!"
                                         spoof spoof-method="DELETE">
@@ -314,7 +314,9 @@
         <div class="card card-body border-0 shadow mb-4">
             <h5 class="mb-4">Change Password</h5>
 
-            <form class="form-floating" action="" method="POST">
+            <form class="form-floating" action="{{ route('user.changePassword', $user->id) }}" method="POST">
+                {{ csrf_field() }}
+
                 <div class="row g-2 mb-2">
                     <div class="col-12 col-sm-4 mb-2">
                         <div class="form-floating">
