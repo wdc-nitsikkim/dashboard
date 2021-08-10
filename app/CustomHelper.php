@@ -138,6 +138,45 @@
             return $base;
         }
 
+        /**
+         * Get a random string according to the rules specified
+         *
+         * @param int $len  Length of random string
+         * @param int $mixMode  Conditions. String will only contain characters according to the mode
+         * @return string
+         */
+        public static function getRandomStr(int $len = 8, int $mixMode = 6) {
+            $numArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            $charArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+                'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+            $specialArr = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_',
+                '+', '=', '{', '}', '[', ']', ':', ';', '<', '>', '.', '?', '/', '|', '~'];
+            $tmpArr = [];
+            $randomStr = '';
+
+            switch ($mixMode) {
+                case 6: $tmpArr = array_merge($numArr, $charArr); break;
+                case 7: $tmpArr = array_merge($numArr, $charArr, $specialArr); break;
+                case 4: $tmpArr = $numArr; break;
+                case 2: $tmpArr = $charArr; break;
+                case 5: $tmpArr = array_merge($numArr, $specialArr); break;
+                case 3: $tmpArr = array_merge($charArr, $specialArr); break;
+                case 1: $tmpArr = $specialArr;
+                default: $tmpArr = array_merge($numArr, $charArr, $specialArr); break;
+            }
+
+            shuffle($tmpArr);
+            $arrMaxLen = count($tmpArr) - 1;
+
+            for ($i = 0; $i < $len; $i++) {
+                $randomStr .= $tmpArr[mt_rand(0, $arrMaxLen)];
+            }
+
+            return $randomStr;
+        }
+
         public static function test() {
             return 'Test';
         }
