@@ -23,6 +23,7 @@ class CreateProfilesTable extends Migration
             $table->string('mobile')->nullable(false);
             $table->string('email')->nullable(false);
             $table->string('designation')->nullable(true)->default(null);
+            $table->string('image')->nullable(true)->default(null);
             $table->text('academic_qualifications')->nullable(true)->default(null);
             $table->text('areas_of_interest')->nullable(true)->default(null);
             $table->text('work_experience')->nullable(true)->default(null);
