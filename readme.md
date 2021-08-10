@@ -9,6 +9,8 @@
 
 ## Documentation
 - [Laravel v5.5](https://laravel.com/docs/5.5)
+- [Volt Bootstrap 5 Demo](https://demo.themesberg.com/volt/pages/dashboard/dashboard.html)
+- [Template Docs](https://themesberg.com/docs/volt-bootstrap-5-dashboard/getting-started/quick-start/)
 
 ## Setting up local environment
 
