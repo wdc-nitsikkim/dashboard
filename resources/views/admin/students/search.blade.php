@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="col-sm-4 mb-2">
-                    <select class="form-select" id="type" name="type">
+                    <select class="form-select" id="department_id" name="department_id">
                         <option value="" selected>In department (All)</option>
 
                         @foreach ($departments as $dept)
@@ -47,7 +47,7 @@
                     </select>
                 </div>
                 <div class="col-sm-4 mb-2">
-                    <select class="form-select" id="type" name="type">
+                    <select class="form-select" id="batch_id" name="batch_id">
                         <option value="" selected>In batch (All)</option>
 
                         @foreach ($batches as $batch)

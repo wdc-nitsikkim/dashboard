@@ -90,8 +90,8 @@ class StudentController extends Controller {
 
         $data = $request->validate([
             'name' => 'nullable',
-            'department' => 'nullable',
-            'batch' => 'nullable',
+            'department_id' => 'nullable',
+            'batch_id' => 'nullable',
             'trash_options' => 'nullable | in:only_trash,only_active',
             'created_at' => 'nullable | date_format:Y-m-d',
             'created_at_compare' => 'nullable | in:after,before'
@@ -107,8 +107,8 @@ class StudentController extends Controller {
 
         $map = [
             'name' => 'like',
-            'department' => 'strict',
-            'batch' => 'strict',
+            'department_id' => 'strict',
+            'batch_id' => 'strict',
             'created_at' => 'date'
         ];
 
