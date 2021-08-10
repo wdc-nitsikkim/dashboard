@@ -136,6 +136,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     /* student routes */
     Route::name('students.')->prefix('students')->group(function() {
         Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
+        Route::get('/search', 'StudentController@searchForm')->name('searchForm');
+        Route::get('/search/results', 'StudentController@search')->name('search');
         Route::get('/test', 'StudentController@test');
 
         Route::prefix('{dept}/{batch}')->group(function() {
