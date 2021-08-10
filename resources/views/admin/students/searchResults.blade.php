@@ -13,7 +13,7 @@
 
 @component('components.page.heading')
     @slot('heading')
-        Student List
+        Student List - Search Results
     @endslot
 
     @slot('sideButtons')
