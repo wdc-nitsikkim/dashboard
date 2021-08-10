@@ -40,8 +40,7 @@
                             <input type="text"
                                 class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
                                 id="name" placeholder="Name" name="name"
-                                value="{{ old('name') ?? $user['name'] }}"
-                                data-account-value="{{ Auth::user()->name }}" required>
+                                value="{{ old('name') ?? $user['name'] }}" required>
                             <label for="name">Name</label>
 
                             @if ($errors->has('name'))
@@ -60,8 +59,7 @@
                             <input type="email"
                                 class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
                                 id="email" placeholder="E-mail" name="email"
-                                value="{{ old('email') ?? $user['email'] }}"
-                                data-account-value="{{ Auth::user()->email }}" required>
+                                value="{{ old('email') ?? $user['email'] }}" required>
                             <label for="email">E-mail</label>
                             <small class="small">Use '@nitsikkim.ac.in' email address
                                 to enable login via Google</small>
@@ -80,8 +78,7 @@
                             <input type="number"
                                 class="form-control {{ $errors->has('mobile') ? 'is-invalid' : '' }}"
                                 id="mobile" placeholder="Mobile Number" name="mobile"
-                                value="{{ old('mobile') ?? $user['mobile'] }}"
-                                data-account-value="{{ Auth::user()->mobile }}" required>
+                                value="{{ old('mobile') ?? $user['mobile'] }}" required>
                             <label for="mobile">Mobile Number</label>
 
                             @if ($errors->has('mobile'))
