@@ -529,4 +529,5 @@
     @include('includes.editorjs-scripts')
 
     <script src="{{ asset('static/js/profile.js') }}"></script>
+    <script src="{{ asset('static/js/image-selector.js') }}"></script>
 @endpush
