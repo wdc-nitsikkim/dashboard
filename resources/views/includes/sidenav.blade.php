@@ -237,6 +237,11 @@
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
+                        <li class="nav-item {{ Route::is('admin.students.searchForm', 'admin.students.search') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.students.searchForm') }}">
+                                <span class="sidebar-text">Find</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
