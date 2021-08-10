@@ -57,9 +57,8 @@
 
     @slot('sideButtons')
         @include('partials.pageSideBtns', [
-            'backRedirect' => route('admin.homepage.notification.show')
-        ])
-        @include('partials.pageSideBtns', [
+            'searchRedirect' => route('admin.homepage.notification.searchForm'),
+            'backRedirect' => route('admin.homepage.notification.show'),
             'trashRedirect' => route('admin.homepage.notification.show', 'trashed')
         ])
     @endslot

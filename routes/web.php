@@ -80,6 +80,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::name('notification.')->prefix('notifications')->group(function() {
             Route::get('/{trashed?}', 'NotificationController@show')
                 ->where('trashed', 'trashed')->name('show');
+            Route::get('/search', 'NotificationController@searchForm')->name('searchForm');
+            Route::get('/search/results', 'NotificationController@search')->name('search');
             Route::get('/add/{type?}', 'NotificationController@add')
                 ->where('type', 'announcement|download|notice|tender')->name('add');
             Route::post('/save', 'NotificationController@saveNew')->name('saveNew');

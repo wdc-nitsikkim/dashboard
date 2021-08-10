@@ -45,6 +45,69 @@ class NotificationController extends Controller {
         ]);
     }
 
+    public function searchForm() {
+        $this->authorize('view', Noti::class);
+
+        return view('admin.homepage.notifications.search');
+    }
+
+    public function search(Request $request) {
+        $data = $request->validate([
+            'display_text' => 'nullable',
+            'type' => 'nullable',
+            'link' => 'nullable',
+            'status' => 'nullable | in:active,hidden',
+            'trash_options' => 'nullable | in:only_trash,only_active',
+            'created_at' => 'nullable | date_format:Y-m-d',
+            'created_at_compare' => 'nullable | in:after,before'
+        ]);
+
+        $search = Noti::withTrashed();
+        if (!is_null($data['trash_options'] ?? null)) {
+            if ($data['trash_options'] == 'only_trash')
+                $search = Noti::onlyTrashed();
+            else if ($data['trash_options'] == 'only_active')
+                $search = Noti::where('deleted_at', null);
+        }
+
+        if (!is_null($data['display_text'] ?? null)) {
+            $search->where('display_text', 'like', '%' . $data['display_text'] . '%');
+        }
+        if (!is_null($data['type'] ?? null)) {
+            $search->where('type', $data['type']);
+        }
+        if (!is_null($data['link'] ?? null)) {
+            $search->where('link', 'like', '%' . $data['link'] . '%');
+        }
+        if (!is_null($data['status'] ?? null)) {
+            $search->where('status', ($data['status'] == 'active' ? '1' : '0'));
+        }
+        if (!is_null($data['created_at'] ?? null)) {
+            $date = CustomHelper::dateToUtc($data['created_at']);;
+            if (is_null($data['created_at_compare'] ?? null))
+                $search->whereDate('created_at', $date);
+            else if ($data['created_at_compare'] == 'before')
+                $search->whereDate('created_at', '<=', $date);
+            else
+                $search->whereDate('created_at', '>=', $date);
+        }
+
+        $search = $search->paginate($this->paginate);
+        foreach ($data as $key => $val) {
+            $search->appends([$key => $val]);
+        }
+        $user = Auth::user();
+        $canUpdate = $user->can('update', Noti::class);
+        $canDelete = $user->can('delete', Noti::class);
+
+        return view('admin.homepage.notifications.show')->with([
+            'notifications' => $search->toArray(),
+            'pagination' => $search->links('vendor.pagination.default'),
+            'canUpdate' => $canUpdate,
+            'canDelete' => $canDelete
+        ]);
+    }
+
     public function add($type = null) {
         $this->authorize('create', Noti::class);
 
