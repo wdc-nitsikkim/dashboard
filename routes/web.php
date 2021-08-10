@@ -120,6 +120,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     Route::name('profiles.')->prefix('profiles')->group(function() {
         Route::get('/', 'ProfileController@show')->name('show');
         Route::get('/trashed', 'ProfileController@showTrashed')->name('showTrashed');
+        Route::get('/search', 'ProfileController@searchForm')->name('searchForm');
+        Route::get('/search/results', 'ProfileController@search')->name('search');
         Route::get('/add', 'ProfileController@add')->name('add');
         Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
         Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
