@@ -58,8 +58,8 @@
                 <div class="col-4 mb-2">
                     <select class="form-select" name="status">
                         <option value="" selected>Having status (All)</option>
-                        <option value="active">Active</option>
-                        <option value="hidden">Hidden</option>
+                        <option value="1">Active</option>
+                        <option value="0">Hidden</option>
                     </select>
                 </div>
                 <div class="col-4 mb-2">
