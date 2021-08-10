@@ -72,6 +72,13 @@ Route::name('root.')->middleware('auth')->group(function() {
     Route::get('/test', 'RootController@test');
 });
 
+Route::name('user.')->prefix('users')->middleware('auth')->group(function() {
+    Route::get('/', 'UserController@show')->name('show');
+    Route::get('/profile/{id}', 'UserController@profile')->name('profile');
+
+    Route::get('/test', 'UserController@test')->name('show');
+});
+
 /* admin routes --> all roles except student */
 Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])->group(function() {
     /* homepage routes */
