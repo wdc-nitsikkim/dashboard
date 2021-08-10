@@ -72,9 +72,15 @@ Route::name('root.')->middleware('auth')->group(function() {
     Route::get('/test', 'RootController@test');
 });
 
+/* user account routes */
 Route::name('user.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/', 'UserController@show')->name('show');
-    Route::get('/profile/{id}', 'UserController@profile')->name('profile');
+
+    Route::prefix('profile/{id}')->group(function () {
+        Route::get('/', 'UserController@profile')->name('profile');
+        Route::post('/update', 'UserController@update')->name('update');
+        Route::post('/change-password', 'UserController@changePassword')->name('changePassword');
+    });
 
     Route::get('/test', 'UserController@test')->name('show');
 });

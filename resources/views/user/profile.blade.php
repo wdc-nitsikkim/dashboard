@@ -22,7 +22,7 @@
     @endslot
 @endcomponent
 
-<form method="POST" action=""
+<form method="POST" action="{{ route('user.update', $user['id']) }}"
     enctype="multipart/form-data">
 
     {{ csrf_field() }}
@@ -295,7 +295,7 @@
                             @foreach ($user->allowedDepartments as $dept)
                                 <a href="{{ route('admin.department.home', $dept->department->code) }}"
                                     target="_blank">
-                                    {{ $dept->department->name . ($loop->last ? '' : ', ') }}
+                                    {{ '-> ' . $dept->department->name . ($loop->last ? '' : ', ') }}
                                 </a>
                             @endforeach
                         @endif
