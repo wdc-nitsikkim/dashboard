@@ -1,10 +1,3 @@
-{{--
-    $notifications -> paginated (in array) collection of HomepageNotification model
-    $pagination -> pagination links view
-    $canUpdate -> boolean
-    $canDelete -> boolean
---}}
-
 @extends('layouts.admin', ['title' => 'Search Notifications'])
 
 @section('content')
@@ -27,9 +20,8 @@
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
-        <form class="form-floating" action="{{ route('admin.homepage.notification.search') }}"
+        <form action="{{ route('admin.homepage.notification.search') }}"
             method="GET">
-            {{-- {{ csrf_field() }} --}}
 
             <div class="row mb-3">
                 <div class="col-sm-4 mb-2">
