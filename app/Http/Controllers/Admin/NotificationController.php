@@ -52,6 +52,8 @@ class NotificationController extends Controller {
     }
 
     public function search(Request $request) {
+        $this->authorize('view', Noti::class);
+
         $data = $request->validate([
             'display_text' => 'nullable',
             'type' => 'nullable',

@@ -86,6 +86,8 @@ class StudentController extends Controller {
     }
 
     public function search(Request $request) {
+        $this->authorize('view', Student::class);
+
         $data = $request->validate([
             'name' => 'nullable',
             'department' => 'nullable',
