@@ -67,6 +67,61 @@ class StudentController extends Controller {
         ]);
     }
 
+    public function searchForm() {
+        $this->authorize('view', Student::class);
+
+        $departments = Department::select('id', 'name')->get();
+        $batches = Batch::select('id', 'type', 'name')->get();
+        $batches->transform(function ($batch) {
+            return [
+                'id' => $batch->id,
+                'name' => ($batch->type == 'b' ? 'B.Tech' : 'M.Tech') . ', ' . $batch->name
+            ];
+        });
+
+        return view('admin.students.search', [
+            'departments' => $departments,
+            'batches' => $batches
+        ]);
+    }
+
+    public function search(Request $request) {
+        $this->authorize('view', Student::class);
+
+        $data = $request->validate([
+            'name' => 'nullable',
+            'department_id' => 'nullable',
+            'batch_id' => 'nullable',
+            'trash_options' => 'nullable | in:only_trash,only_active',
+            'created_at' => 'nullable | date_format:Y-m-d',
+            'created_at_compare' => 'nullable | in:after,before'
+        ]);
+
+        $search = Student::withTrashed();
+        if (!is_null($data['trash_options'] ?? null)) {
+            if ($data['trash_options'] == 'only_trash')
+                $search = Student::onlyTrashed();
+            else if ($data['trash_options'] == 'only_active')
+                $search = Student::whereNull('deleted_at');
+        }
+
+        $map = [
+            'name' => 'like',
+            'department_id' => 'strict',
+            'batch_id' => 'strict',
+            'created_at' => 'date'
+        ];
+
+        $search->with(['department:id,code,name', 'batch:id,code,type,start_year']);
+        $search = CustomHelper::getSearchQuery($search, $data, $map)->paginate($this->paginate);
+        $search->appends($data);
+
+        return view('admin.students.searchResults')->with([
+            'students' => $search->toArray(),
+            'pagination' => $search->links('vendor.pagination.default')
+        ]);
+    }
+
     public function add(Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 

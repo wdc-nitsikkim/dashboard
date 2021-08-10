@@ -1,69 +1,25 @@
 {{--
-    $department -> single department model
-    $batch -> single batch model
     $students -> collection of student model
     $pagination -> pagination links view
 --}}
 
-@extends('layouts.admin', ['title' => 'View Students - ' . $department['name']])
+@extends('layouts.admin', ['title' => 'Search Students'])
 
 @section('content')
 
 @php
-    $batchModel = 'App\\Models\\Batch';
     $studentModel = 'App\\Models\\Student';
-    $redirectHandler = 'admin.students.handleRedirect';
-
-    $baseRouteParams = [
-        'dept' => $department,
-        'batch' => $batch
-    ];
 @endphp
-
-@can('create', [$studentModel, $department])
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
-        <div>
-            <div class="dropdown">
-                <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="material-icons mx-1">add</span>
-                    New
-                </button>
-
-                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('admin.students.add', $baseRouteParams) }}">
-                        <span class="material-icons">face</span>
-                        Student
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="#!">
-                        <span class="material-icons">group_add</span>
-                        Bulk Add
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-@endcan
 
 @component('components.page.heading')
     @slot('heading')
-        Student List - {{ $batch['name'] }}
-    @endslot
-
-    @slot('subheading')
-        @include('admin.students.partials.subheading', ['batch' => $batch])
-
-        {{ $department['name'] }}
+        Student List - Search Results
     @endslot
 
     @slot('sideButtons')
         @include('partials.pageSideBtns', [
             'help' => '#!',
-            'searchRedirect' => route('admin.students.searchForm'),
-            'deptRedirect' => $redirectHandler,
-            'batchRedirect' => $redirectHandler
+            'backRedirect' => route('admin.students.searchForm')
         ])
     @endslot
 @endcomponent
@@ -75,7 +31,7 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                    'href' => route('admin.students.show', $baseRouteParams)
+                    'href' => route('admin.students.searchForm')
                 ])
                 @endcomponent
             </p>
@@ -85,7 +41,7 @@
                     @component('components.table.head', [
                         'items' => [
                             '#', 'Roll Number', 'Name',
-                            'Email', 'Actions'
+                            'Department', 'Batch', 'Actions'
                         ]
                     ])
                     @endcomponent
@@ -108,39 +64,47 @@
                                     {{ ucwords($student['name']) }}</span>
                             </td>
                             <td>
-                                <a class="d-inline-block text-truncate text-info" style="max-width: 200px"
-                                    href="mailto:{{ strtolower($student['email']) }}">
-                                    {{ strtolower($student['email']) }}</a>
+                                <span class="d-inline-block text-truncate" style="max-width: 200px"
+                                    data-bs-toggle="tooltip"
+                                    title="{{ $student['department']['name'] }}">
+                                    {{ $student['department']['name'] }}</span>
+                            </td>
+                            <td>
+                                <span class="d-inline-block text-truncate" style="max-width: 150px">
+                                    {{ ($student['batch']['type'] == 'b' ? 'B.Tech' : 'M.Tech') . ', ' .
+                                    $student['batch']['start_year'] }}
+                                </span>
                             </td>
 
                             <td>
 
                                 @php
-                                    $routeParamsWithId = array_merge(
-                                        $baseRouteParams,
-                                        ['id' => $student['id']]
-                                    );
+                                    $routeParams = [
+                                        'dept' => $student['department']['code'],
+                                        'batch' => $student['batch']['code'],
+                                        'id' => $student['id']
+                                    ];
                                 @endphp
 
                                 @if ($student['deleted_at'] == null)
                                     @can('update', [$studentModel, $student])
                                         @include('components.table.actionBtn.edit', [
-                                            'href' => route('admin.students.edit', $routeParamsWithId)
+                                            'href' => route('admin.students.edit', $routeParams)
                                         ])
                                         @include('components.table.actionBtn.trash', [
-                                            'href' => route('admin.students.softDelete', $routeParamsWithId)
+                                            'href' => route('admin.students.softDelete', $routeParams)
                                         ])
                                     @endcan
                                 @else
                                     @can('update', [$studentModel, $student])
                                         @include('components.table.actionBtn.restore', [
-                                            'href' => route('admin.students.restore', $routeParamsWithId)
+                                            'href' => route('admin.students.restore', $routeParams)
                                         ])
                                     @endcan
 
                                     @can('delete', [$studentModel, $student])
                                         @include('components.table.actionBtn.delete', [
-                                            'href' => route('admin.students.delete', $routeParamsWithId)
+                                            'href' => route('admin.students.delete', $routeParams)
                                         ])
                                     @endcan
                                 @endif

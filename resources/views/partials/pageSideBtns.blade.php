@@ -4,6 +4,16 @@
     </a>
 @endisset
 
+@isset($searchRedirect)
+    @component('components.inline.anchorBtn', [
+        'icon' => 'search',
+        'href' => $searchRedirect,
+        'classes' => 'btn-outline-primary'
+    ])
+        Search
+    @endcomponent
+@endisset
+
 @isset($deptRedirect)
     @component('components.inline.anchorBtn', [
         'icon' => 'import_export',

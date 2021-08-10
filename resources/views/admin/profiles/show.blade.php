@@ -40,7 +40,8 @@
 
     @slot('sideButtons')
         @include('partials.pageSideBtns', [
-            'help' => '#!'
+            'help' => '#!',
+            'searchRedirect' => route('admin.profiles.searchForm')
         ])
 
         @if (Route::is('admin.profiles.show'))

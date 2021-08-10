@@ -78,11 +78,13 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     Route::name('homepage.')->prefix('homepage')->group(function() {
         /* notification routes */
         Route::name('notification.')->prefix('notifications')->group(function() {
-            Route::get('/', 'NotificationController@show')->name('show');
+            Route::get('/{trashed?}', 'NotificationController@show')
+                ->where('trashed', 'trashed')->name('show');
+            Route::get('/search', 'NotificationController@searchForm')->name('searchForm');
+            Route::get('/search/results', 'NotificationController@search')->name('search');
             Route::get('/add/{type?}', 'NotificationController@add')
                 ->where('type', 'announcement|download|notice|tender')->name('add');
             Route::post('/save', 'NotificationController@saveNew')->name('saveNew');
-            Route::get('/trashed', 'NotificationController@showTrashed')->name('showTrashed');
             Route::get('/edit/{notification}', 'NotificationController@edit')->name('edit');
             Route::post('/update/{notification}', 'NotificationController@update')->name('update');
             Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
@@ -118,6 +120,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     Route::name('profiles.')->prefix('profiles')->group(function() {
         Route::get('/', 'ProfileController@show')->name('show');
         Route::get('/trashed', 'ProfileController@showTrashed')->name('showTrashed');
+        Route::get('/search', 'ProfileController@searchForm')->name('searchForm');
+        Route::get('/search/results', 'ProfileController@search')->name('search');
         Route::get('/add', 'ProfileController@add')->name('add');
         Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
         Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
@@ -134,6 +138,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     /* student routes */
     Route::name('students.')->prefix('students')->group(function() {
         Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
+        Route::get('/search', 'StudentController@searchForm')->name('searchForm');
+        Route::get('/search/results', 'StudentController@search')->name('search');
         Route::get('/test', 'StudentController@test');
 
         Route::prefix('{dept}/{batch}')->group(function() {
@@ -165,7 +171,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 });
 
-/* framewrok version */
+/* framework version */
 Route::get('/version', function() {
     return "Laravel v" . Illuminate\Foundation\Application::VERSION . " working on PHP v" . \phpversion();
 });

@@ -23,7 +23,7 @@ class ProfileController extends Controller {
      *
      * @var int
      */
-    private $paginate = 12;
+    private $paginate = 9;
 
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
@@ -66,6 +66,65 @@ class ProfileController extends Controller {
         return view('admin.profiles.show', [
             'profiles' => $profiles->toArray(),
             'pagination' => $profiles->links('vendor.pagination.default'),
+            'ownProfile' => $ownProfile
+        ]);
+    }
+
+    public function searchForm() {
+        $this->authorize('view', Profile::class);
+
+        $departments = Department::select('id', 'name')->get();
+
+        return view('admin.profiles.search', [
+            'departments' => $departments
+        ]);
+    }
+
+    public function search(Request $request) {
+        $this->authorize('view', Profile::class);
+
+        $data = $request->validate([
+            'name' => 'nullable',
+            'mobile' => 'nullable',
+            'email' => 'nullable',
+            'designation' => 'nullable',
+            'type' => 'nullable',
+            'department_id' => 'nullable',
+            'trash_options' => 'nullable | in:only_trash,only_active',
+            'created_at' => 'nullable | date_format:Y-m-d',
+            'created_at_compare' => 'nullable | in:after,before'
+        ]);
+
+        $search = Profile::withTrashed();
+        if (!is_null($data['trash_options'] ?? null)) {
+            if ($data['trash_options'] == 'only_trash')
+                $search =Profile::onlyTrashed();
+            else if ($data['trash_options'] == 'only_active')
+                $search =Profile::whereNull('deleted_at');
+        }
+
+        $map = [
+            'name' => 'like',
+            'mobile' => 'like',
+            'email' => 'like',
+            'designation' => 'like',
+            'type' => 'strict',
+            'department_id' => 'strict',
+            'created_at' => 'date'
+        ];
+
+        $search->with('department');
+        $search = CustomHelper::getSearchQuery($search, $data, $map)->paginate($this->paginate);
+        $search->appends($data);
+
+        $ownProfile = false;
+        if (Auth::user()->hasProfile()) {
+            $ownProfile = Auth::user()->profileLink->profile_id;
+        }
+
+        return view('admin.profiles.show', [
+            'profiles' => $search->toArray(),
+            'pagination' => $search->links('vendor.pagination.default'),
             'ownProfile' => $ownProfile
         ]);
     }

@@ -1,6 +1,8 @@
 {{--
     $notifications -> paginated (in array) collection of HomepageNotification model
     $pagination -> pagination links view
+    $canUpdate -> boolean
+    $canDelete -> boolean
 --}}
 
 @extends('layouts.admin', ['title' => 'View Homepage Notifications'])
@@ -54,15 +56,11 @@
     @endslot
 
     @slot('sideButtons')
-        @if (Route::is('admin.homepage.notification.show'))
-            @include('partials.pageSideBtns', [
-                'trashRedirect' => route('admin.homepage.notification.showTrashed')
-            ])
-        @else
-            @include('partials.pageSideBtns', [
-                'backRedirect' => route('admin.homepage.notification.show')
-            ])
-        @endif
+        @include('partials.pageSideBtns', [
+            'searchRedirect' => route('admin.homepage.notification.searchForm'),
+            'backRedirect' => route('admin.homepage.notification.show'),
+            'trashRedirect' => route('admin.homepage.notification.show', 'trashed')
+        ])
     @endslot
 @endcomponent
 
@@ -126,33 +124,34 @@
                                 @endphp
 
                                 <a href="{{ route('admin.homepage.notification.changeStatus', ['id' => $notice['id'], 'status' => $query_param]) }}"
-                                    class="btn btn-xs {{ $btn_class }}" spoof spoof-method="POST">
+                                    class="btn btn-xs {{ $btn_class }} {{ $canUpdate ? '' : 'disabled' }}"
+                                    spoof spoof-method="POST">
                                     {{ $btn_text }}
                                 </a>
                             </td>
                             <td>
 
                                 @if ($notice['deleted_at'] == null)
-                                    @can('update', $notiModel)
+                                    @if ($canUpdate)
                                         @include('components.table.actionBtn.edit', [
                                             'href' => route('admin.homepage.notification.edit', $notice['id'])
                                         ])
                                         @include('components.table.actionBtn.trash', [
                                             'href' => route('admin.homepage.notification.softDelete', $notice['id'])
                                         ])
-                                    @endcan
+                                    @endif
                                 @else
-                                    @can('update', $notiModel)
+                                    @if ($canUpdate)
                                         @include('components.table.actionBtn.restore', [
                                             'href' => route('admin.homepage.notification.restore', $notice['id'])
                                         ])
-                                    @endcan
+                                    @endif
 
-                                    @can('delete', $notiModel)
+                                    @if ($canDelete)
                                         @include('components.table.actionBtn.delete', [
                                             'href' => route('admin.homepage.notification.delete', $notice['id'])
                                         ])
-                                    @endcan
+                                    @endif
                                 @endif
 
                             </td>

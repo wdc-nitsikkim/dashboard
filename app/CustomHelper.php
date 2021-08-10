@@ -90,6 +90,54 @@
                 ->format($format ?? config('app.date_format'));
         }
 
+        /**
+         * Convert date to utc datetime string
+         *
+         * @param string $date
+         * @param string $format
+         * @return string
+         */
+        public static function dateToUtc($date, $format = 'Y-m-d H:i:s') {
+            return $date ? Carbon::createFromTimestamp(strtotime($date))
+                ->timezone('UTC')
+                ->format($format ?? config('app.date_format')) : null;
+        }
+
+        /**
+         * Prepare a search query using submitted data & map
+         *
+         * @param Illuminate\Database\Eloquent\Builder $base
+         * @param array $data  Submitted data by user
+         * @param array $map  Comparison type map
+         * @return Illuminate\Database\Eloquent\Builder
+         */
+        public static function getSearchQuery($base, $data, $map) {
+            foreach ($map as $key => $val) {
+                if (is_null($data[$key] ?? null)) {
+                    continue;
+                }
+                $curr = $data[$key];
+
+                switch ($val) {
+                    case 'strict': $base->where($key, $curr); break;
+                    case 'like': $base->where($key, 'like', '%' . $curr . '%'); break;
+                    case 'date':
+                        $compareKey = $key . '_compare';
+                        $compare = (isset($data[$compareKey]) && !is_null($data[$compareKey]))
+                            ? $data[$compareKey] : 'strict';
+                        if ($compare == 'before')
+                            $base->whereDate($key, '<=', $curr);
+                        else if ($compare == 'after')
+                            $base->whereDate($key, '>=', $curr);
+                        else
+                            $base->whereDate($key, $curr);
+                        break;
+                    default: break;
+                }
+            }
+            return $base;
+        }
+
         public static function test() {
             return 'Test';
         }

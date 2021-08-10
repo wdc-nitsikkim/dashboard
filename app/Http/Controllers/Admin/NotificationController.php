@@ -21,16 +21,77 @@ class NotificationController extends Controller {
      *
      * @var int
      */
-    private $paginate = 5;
+    private $paginate = 10;
 
-    public function show(Request $request) {
+    public function show(Request $request, $trashed = null) {
         $this->authorize('view', Noti::class);
 
-        $notifications = Noti::orderBy('created_at', 'desc')->paginate($this->paginate);
+        if (is_null($trashed)) {
+            $notifications = Noti::orderBy('created_at', 'desc')->paginate($this->paginate);
+        } else {
+            $notifications = Noti::onlyTrashed()->orderBy('created_at', 'desc')
+                ->paginate($this->paginate);
+        }
+
+        $user = Auth::user();
+        $canUpdate = $user->can('update', Noti::class);
+        $canDelete = $user->can('delete', Noti::class);
 
         return view('admin.homepage.notifications.show')->with([
             'notifications' => $notifications->toArray(),
-            'pagination' => $notifications->links('vendor.pagination.default')
+            'pagination' => $notifications->links('vendor.pagination.default'),
+            'canUpdate' => $canUpdate,
+            'canDelete' => $canDelete
+        ]);
+    }
+
+    public function searchForm() {
+        $this->authorize('view', Noti::class);
+
+        return view('admin.homepage.notifications.search');
+    }
+
+    public function search(Request $request) {
+        $this->authorize('view', Noti::class);
+
+        $data = $request->validate([
+            'display_text' => 'nullable',
+            'type' => 'nullable',
+            'link' => 'nullable',
+            'status' => 'nullable | in:0,1',
+            'trash_options' => 'nullable | in:only_trash,only_active',
+            'created_at' => 'nullable | date_format:Y-m-d',
+            'created_at_compare' => 'nullable | in:after,before'
+        ]);
+
+        $search = Noti::withTrashed();
+        if (!is_null($data['trash_options'] ?? null)) {
+            if ($data['trash_options'] == 'only_trash')
+                $search = Noti::onlyTrashed();
+            else if ($data['trash_options'] == 'only_active')
+                $search = Noti::whereNull('deleted_at');
+        }
+
+        $map = [
+            'display_text' => 'like',
+            'link' => 'like',
+            'type' => 'strict',
+            'status' => 'strict',
+            'created_at' => 'date'
+        ];
+
+        $search = CustomHelper::getSearchQuery($search, $data, $map)->paginate($this->paginate);
+        $search->appends($data);
+
+        $user = Auth::user();
+        $canUpdate = $user->can('update', Noti::class);
+        $canDelete = $user->can('delete', Noti::class);
+
+        return view('admin.homepage.notifications.show')->with([
+            'notifications' => $search->toArray(),
+            'pagination' => $search->links('vendor.pagination.default'),
+            'canUpdate' => $canUpdate,
+            'canDelete' => $canDelete
         ]);
     }
 
@@ -82,17 +143,6 @@ class NotificationController extends Controller {
             'status' => 'success',
             'message' => 'Notification added!'
         ]);
-    }
-
-    public function showTrashed() {
-        $this->authorize('view', Noti::class);
-
-        $notifications = Noti::onlyTrashed()->paginate($this->paginate);
-
-        return view('admin.homepage.notifications.show')->with([
-            'notifications' => $notifications->toArray(),
-            'pagination' => $notifications->links('vendor.pagination.default')]
-        );
     }
 
     public function edit(Noti $notification) {
