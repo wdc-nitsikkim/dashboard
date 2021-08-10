@@ -57,6 +57,10 @@
             return self::$GLOBAL_CONSTS['permissionMap'];
         }
 
+        public static function getInversePermissionMap() {
+            return array_flip(self::$GLOBAL_CONSTS['permissionMap']);
+        }
+
         /**
          * Returns common session keys used in app
          *
