@@ -311,10 +311,10 @@ class ProfileController extends Controller {
             $profile->update($data);
 
             if (isset($data['remove_profile_image'])) {
-                $this->removeProfileImage($profile->image);
+                $this->removeUploadedImage($profile->image);
                 $profile->image = null;
             } else if ($request->hasFile('profile_image') && $request->file('profile_image')->isValid()) {
-                $this->removeProfileImage($profile->image);
+                $this->removeUploadedImage($profile->image);
                 $profile->image = $this->storeProfileImage($request->file('profile_image'), $profile->id);
             }
 
@@ -383,7 +383,7 @@ class ProfileController extends Controller {
         try {
             $image = $profile->image;
             $profile->forceDelete();
-            $this->removeProfileImage($image);
+            $this->removeUploadedImage($image);
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',

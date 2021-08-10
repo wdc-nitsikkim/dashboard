@@ -52,7 +52,7 @@ trait StoreFiles {
      * @param $path  Public path of image to be removed
      * @return void
      */
-    public function removeProfileImage($path) {
+    public function removeUploadedImage($path) {
         try {
             return Storage::disk('public')->delete($path);
         } catch (\Exception $e) {
