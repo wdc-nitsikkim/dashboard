@@ -11,7 +11,7 @@ use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
 class Student extends Model {
-    use softDeletes;
+    use SoftDeletes;
     use GlobalMutators, GlobalAccessors;
 
     protected $table = 'students';

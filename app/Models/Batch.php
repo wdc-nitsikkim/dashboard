@@ -10,7 +10,7 @@ use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
 class Batch extends Model {
-    use softDeletes;
+    use SoftDeletes;
     use GlobalMutators, GlobalAccessors;
 
     protected $table = 'batches';
