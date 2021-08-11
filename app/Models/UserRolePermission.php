@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\UserRole;
+use App\Traits\GlobalAccessors;
 
 class UserRolePermission extends Model {
+    use GlobalAccessors;
+
     protected $table = 'user_role_permissions';
 
     /**

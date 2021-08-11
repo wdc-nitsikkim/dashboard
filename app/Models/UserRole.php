@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
 use App\Models\UserRolePermission;
+use App\Traits\GlobalAccessors;
 
 class UserRole extends Model {
+    use GlobalAccessors;
+
     protected $table = 'user_roles';
-    public $timestamps = false;
 
     /**
      * The attributes that are mass-assignable
