@@ -41,7 +41,7 @@ class UserController extends Controller {
         $canUpdate = Auth::user()->can('update', [User::class, $id]);
         $canDelete = Auth::user()->can('delete', [User::class, $id]);
 
-        return view('user.profile', [
+        return view('users.profile', [
             'user' => $user,
             'canManage' => $canManage,
             'canUpdate' => $canUpdate,

@@ -25,7 +25,7 @@
     @endslot
 @endcomponent
 
-<form method="POST" action="{{ route('user.update', $user->id) }}"
+<form method="POST" action="{{ route('users.update', $user->id) }}"
     enctype="multipart/form-data">
 
     {{ csrf_field() }}
@@ -259,7 +259,7 @@
                             @if (is_null($user['deleted_at']))
                                 @if ($canManage)
                                     <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                        <a class="btn btn-danger" href="{{ route('user.softDelete', $user->id) }}"
+                                        <a class="btn btn-danger" href="{{ route('users.softDelete', $user->id) }}"
                                             confirm alert-title="Suspend account?"
                                             alert-text="Account will be suspended & you/user won't be able to
                                             login again!"
@@ -279,7 +279,7 @@
                             @else
                                 @if ($canManage)
                                     <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                        <a class="btn btn-info" href="{{ route('user.restore', $user->id) }}"
+                                        <a class="btn btn-info" href="{{ route('users.restore', $user->id) }}"
                                             confirm alert-title="Restore account?" alert-text="-" spoof
                                             spoof-method="POST">
                                             Restore
@@ -289,7 +289,7 @@
 
                                 @if ($canDelete)
                                     <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                        <a class="btn btn-danger" href="{{ route('user.delete', $user->id) }}"
+                                        <a class="btn btn-danger" href="{{ route('users.delete', $user->id) }}"
                                             confirm alert-title="Permanently delete this account?"
                                             alert-text="Action is irreversible!" spoof
                                             spoof-method="DELETE">
@@ -341,7 +341,7 @@
         <div class="card card-body border-0 shadow mb-4">
             <h5 class="mb-4">Change Password</h5>
 
-            <form class="form-floating" action="{{ route('user.changePassword', $user->id) }}" method="POST">
+            <form class="form-floating" action="{{ route('users.changePassword', $user->id) }}" method="POST">
                 {{ csrf_field() }}
 
                 <div class="row g-2 mb-2">

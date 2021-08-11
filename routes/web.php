@@ -74,7 +74,7 @@ Route::name('root.')->middleware('auth')->group(function() {
 });
 
 /* user account routes */
-Route::name('user.')->prefix('users')->middleware('auth')->group(function() {
+Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/', 'UserController@show')->name('show');
 
     Route::prefix('profile')->group(function () {
@@ -86,7 +86,7 @@ Route::name('user.')->prefix('users')->middleware('auth')->group(function() {
         Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
     });
 
-    Route::get('/test', 'UserController@test')->name('show');
+    Route::get('/test', 'UserController@test');
 });
 
 /* admin routes --> all roles except student */
