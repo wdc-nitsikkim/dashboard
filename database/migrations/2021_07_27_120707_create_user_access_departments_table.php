@@ -16,8 +16,7 @@ class CreateUserAccessDepartmentsTable extends Migration
         Schema::create('user_access_departments', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
             $table->unsignedSmallInteger('department_id');
-
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
 
             $table->unique(['user_id', 'department_id']);
             $table->foreign('user_id')->references('id')->on('users')

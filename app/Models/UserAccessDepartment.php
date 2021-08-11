@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
 use App\Models\Department;
+use App\Traits\GlobalAccessors;
 
 class UserAccessDepartment extends Model {
+    use GlobalAccessors;
+
     protected $table = 'user_access_departments';
 
     /**

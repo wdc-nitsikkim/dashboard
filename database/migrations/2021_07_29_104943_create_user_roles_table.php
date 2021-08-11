@@ -20,7 +20,8 @@ class CreateUserRolesTable extends Migration
                     'root', 'admin', 'office', 'tnp', 'ecell',
                     'hod', 'faculty', 'staff', 'student'
                 ])->nullable(false);
-            $table->timestamp('created_at')->useCurrent();
+
+            $table->timestamps();
 
             $table->unique(['user_id', 'role']);
             $table->foreign('user_id')->references('id')->on('users')
