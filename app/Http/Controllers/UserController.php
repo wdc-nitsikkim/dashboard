@@ -28,14 +28,10 @@ class UserController extends Controller {
         $this->authorize('view', User::class);
 
         $users = User::with('roles')->paginate($this->paginate);
-        $canManage = Auth::user()->can('manage', User::class);
-        $canDelete = Auth::user()->can('delete', User::class);
 
         return view('users.show', [
             'users' => $users,
-            'pagination' => $users->links('vendor.pagination.default'),
-            'canManage' => $canManage,
-            'canDelete' => $canDelete
+            'pagination' => $users->links('vendor.pagination.default')
         ]);
     }
 
@@ -83,14 +79,9 @@ class UserController extends Controller {
         $search = $search->paginate($this->paginate);
         $search->appends($data);
 
-        $canManage = Auth::user()->can('manage', User::class);
-        $canDelete = Auth::user()->can('delete', User::class);
-
         return view('users.show', [
             'users' => $search,
-            'pagination' => $search->links('vendor.pagination.default'),
-            'canManage' => $canManage,
-            'canDelete' => $canDelete
+            'pagination' => $search->links('vendor.pagination.default')
         ]);
     }
 
@@ -103,9 +94,9 @@ class UserController extends Controller {
             'profileLink'
         ])->withTrashed()->findOrFail($id);
 
-        $canManage = Auth::user()->can('manage', [User::class, $id]);
-        $canUpdate = Auth::user()->can('update', [User::class, $id]);
-        $canDelete = Auth::user()->can('delete', [User::class, $id]);
+        $canManage = Auth::user()->can('manage', [User::class, $user]);
+        $canUpdate = Auth::user()->can('update', [User::class, $user]);
+        $canDelete = Auth::user()->can('delete', [User::class, $user]);
 
         return view('users.account', [
             'user' => $user,
@@ -117,7 +108,7 @@ class UserController extends Controller {
 
     public function update(Request $request, int $id) {
         $user = User::findOrFail($id);
-        $this->authorize('update', [User::class, $id]);
+        $this->authorize('update', [User::class, $user]);
 
         $data = $request->validate([
             'name' => 'required | min:3',
@@ -157,7 +148,7 @@ class UserController extends Controller {
 
     public function changePassword(Request $request, int $id) {
         $user = User::findOrFail($id);
-        $this->authorize('update', [User::class, $id]);
+        $this->authorize('update', [User::class, $user]);
 
         $request->validate([
             'password' => 'required',
@@ -188,14 +179,7 @@ class UserController extends Controller {
 
     public function softDelete(int $id) {
         $user = User::findOrFail($id);
-        $this->authorize('manage', [User::class, $id]);
-
-        if ($user->hasRole('root', 'admin') && !Auth::user()->hasRole('root')) {
-            return back()->with([
-                'status' => 'fail',
-                'message' => 'Admin accounts cannot be suspended!'
-            ]);
-        }
+        $this->authorize('manage', [User::class, $user]);
 
         try {
             $user->delete();
@@ -222,7 +206,7 @@ class UserController extends Controller {
 
     public function restore(int $id) {
         $user = User::onlyTrashed()->findOrFail($id);
-        $this->authorize('manage', [User::class, $id]);
+        $this->authorize('manage', [User::class, $user]);
 
         try {
             $user->restore();
@@ -241,14 +225,7 @@ class UserController extends Controller {
 
     public function delete(int $id) {
         $user = User::onlyTrashed()->findOrFail($id);
-        $this->authorize('delete', [User::class, $id]);
-
-        if ($user->hasRole('root', 'admin') && !Auth::user()->hasRole('root')) {
-            return back()->with([
-                'status' => 'fail',
-                'message' => 'Admin accounts cannot be deleted!'
-            ]);
-        }
+        $this->authorize('delete', [User::class, $user]);
 
         try {
             $user->forceDelete();

@@ -51,6 +51,10 @@
 
                 @php
                     $roleList = '';
+                    $canManage = Auth::user()->can('manage', [$userModel, $user]);
+                    $canUpdate = $user->id == Auth::id()
+                        || Auth::user()->can('update', [$userModel, $user]);
+                    $canDelete = Auth::user()->can('delete', [$userModel, $user]);
                 @endphp
 
                 @foreach ($user->roles as $role)

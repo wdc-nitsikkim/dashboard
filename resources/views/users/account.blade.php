@@ -127,8 +127,9 @@
                                     <button class="accordion-button collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#{{ $rowId }}"
                                         aria-expanded="false" aria-controls="{{ $rowId }}">
-                                        <span class="material-icons"></span>
                                         {{'-> ' . ucfirst($role->role) }}
+                                        <small class="ms-2 text-info">
+                                            (Assigned on: {{ $role->created_at }})</small>
                                     </button>
                                 </h2>
 
@@ -143,7 +144,9 @@
                                             </span>
                                         @else
                                             @foreach ($role->permissions as $permission)
-                                                <span class="badge bg-purple text-dark me-1">
+                                                <span class="badge bg-purple text-dark me-1 cur-pointer"
+                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                    title="{{ $permission->created_at }}">
                                                     {{ ucfirst(CustomHelper::getInversePermissionMap()[$permission->permission]) }}
                                                 </span>
                                             @endforeach
@@ -261,9 +264,9 @@
                                     <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
                                         <a class="btn btn-danger" href="{{ route('users.softDelete', $user->id) }}"
                                             confirm alert-title="Suspend account?"
-                                            alert-text="Account will be suspended & you/user won't be able to
+                                            alert-text="Account will be suspended & user won't be able to
                                             login again!"
-                                            spoof spoof-method="DELETE">
+                                            spoof spoof-method="DELETE" alert-timer="3600" >
                                             Suspend Account
                                         </a>
                                     </div>
@@ -292,7 +295,7 @@
                                         <a class="btn btn-danger" href="{{ route('users.delete', $user->id) }}"
                                             confirm alert-title="Permanently delete this account?"
                                             alert-text="Action is irreversible!" spoof
-                                            spoof-method="DELETE">
+                                            spoof-method="DELETE" alert-timer="3600" >
                                             Remove Permanently
                                         </a>
                                     </div>

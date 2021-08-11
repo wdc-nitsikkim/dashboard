@@ -42,23 +42,28 @@ class UserPolicy {
         return $isAllowed;
     }
 
-    public function update(User $user, $id) {
+    public function update(User $user, User $curr) {
         $isAllowed = false;
-        if ($user->id === $id) {
+
+        if ($user->id === $curr->id) {
             $isAllowed = true;
         }
-        if ($user->isPermissionValid($this->update_roles, $this->permission['update'])) {
+        if ($user->isPermissionValid($this->update_roles, $this->permission['update'])
+            && !$curr->hasRole('root', 'admin')) {
+
             $isAllowed = true;
         }
 
         return $isAllowed;
     }
 
-    public function manage(User $user) {
-        return $user->isPermissionValid($this->update_roles, $this->permission['update']);
+    public function manage(User $user, User $curr) {
+        return $user->isPermissionValid($this->update_roles, $this->permission['update'])
+            && !$curr->hasRole('root', 'admin');
     }
 
-    public function delete(User $user) {
-        return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
+    public function delete(User $user, User $curr) {
+        return $user->isPermissionValid($this->delete_roles, $this->permission['delete'])
+            && !$curr->hasRole('root', 'admin');
     }
 }
