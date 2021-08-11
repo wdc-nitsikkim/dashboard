@@ -20,7 +20,9 @@
                 'create' => 'c',
                 'update' => 'u',
                 'delete' => 'd'
-            ]
+            ],
+            'roles' => ['admin', 'office', 'ecell', 'tnp', 'hod',
+                'faculty', 'staff', 'student']
         ];
 
         /**
@@ -59,6 +61,15 @@
 
         public static function getInversePermissionMap() {
             return array_flip(self::$GLOBAL_CONSTS['permissionMap']);
+        }
+
+        /**
+         * Returns array of roles used in database
+         *
+         * @return array
+         */
+        public static function getRoles() {
+            return self::$GLOBAL_CONSTS['roles'];
         }
 
         /**

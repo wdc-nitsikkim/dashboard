@@ -39,6 +39,61 @@ class UserController extends Controller {
         ]);
     }
 
+    public function searchForm() {
+        $this->authorize('view', User::class);
+
+        $roles = CustomHelper::getRoles();
+        return view('users.search', [
+            'roles' => $roles
+        ]);
+    }
+
+    public function search(Request $request) {
+        $this->authorize('view', User::class);
+
+        $data = $request->validate([
+            'name' => 'nullable',
+            'role' => ['nullable', 'in:' . implode(',', CustomHelper::getRoles())],
+            'trash_options' => 'nullable | in:only_trash,only_active',
+            'created_at' => 'nullable | date_format:Y-m-d',
+            'created_at_compare' => 'nullable | in:after,before'
+        ]);
+
+        $search = User::withTrashed();
+        if (!is_null($data['trash_options'] ?? null)) {
+            if ($data['trash_options'] == 'only_trash')
+                $search = User::onlyTrashed();
+            else if ($data['trash_options'] == 'only_active')
+                $search = User::whereNull('deleted_at');
+        }
+
+        $map = [
+            'name' => 'like',
+            'created_at' => 'date'
+        ];
+
+        $search->with('roles');
+        $search = CustomHelper::getSearchQuery($search, $data, $map);
+        if (!is_null($data['role'] ?? null)) {
+            $search->whereHas('roles', function ($query) use ($data) {
+                $query->where('role', $data['role']);
+            });
+        }
+
+        $search = $search->paginate($this->paginate);
+        $search->appends($data);
+
+        $canManage = Auth::user()->can('manage', User::class);
+        $canDelete = Auth::user()->can('delete', User::class);
+
+        return view('users.show', [
+            'users' => $search,
+            'pagination' => $search->links('vendor.pagination.default'),
+            'canManage' => $canManage,
+            'canDelete' => $canDelete
+        ]);
+    }
+
     public function profile(int $id) {
         $this->authorize('view_account', [User::class, $id]);
 
