@@ -77,8 +77,8 @@ Route::name('root.')->middleware('auth')->group(function() {
 Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/', 'UserController@show')->name('show');
 
-    Route::prefix('profile')->group(function () {
-        Route::get('/{id}', 'UserController@profile')->name('profile');
+    Route::prefix('')->group(function () {
+        Route::get('/{id}', 'UserController@profile')->name('account');
         Route::post('/update/{id}', 'UserController@update')->name('update');
         Route::post('/change-password/{id}', 'UserController@changePassword')->name('changePassword');
         Route::delete('/soft-delete/{id}', 'UserController@softDelete')->name('softDelete');

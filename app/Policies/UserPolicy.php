@@ -58,7 +58,7 @@ class UserPolicy {
         return $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
-    public function delete(User $user, $id) {
+    public function delete(User $user) {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
     }
 }

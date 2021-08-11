@@ -130,13 +130,9 @@
                     </a>
                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
                         <a class="dropdown-item d-flex align-items-center"
-                            href="{{ route('users.profile', Auth::id()) }}">
-                            <span class="material-icons">account_circle</span>
+                            href="{{ route('users.account', Auth::id()) }}">
+                            <span class="material-icons">manage_accounts</span>
                             My Account
-                        </a>
-                        <a class="dropdown-item d-flex align-items-center" href="#!">
-                            <span class="material-icons">settings</span>
-                            Settings
                         </a>
                         <a class="dropdown-item d-flex align-items-center"
                             href="{{ route('root.clearSession') }}" confirm alert-title="Clear Session?"
