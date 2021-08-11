@@ -34,7 +34,7 @@ class LoginController extends Controller {
 
         $remember = $request->remember ? true : false;
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::withTrashed()->where('email', $request->email)->first();
 
         if (is_null($user)) {
             return back()->with([
