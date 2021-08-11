@@ -190,6 +190,13 @@ class UserController extends Controller {
         $user = User::findOrFail($id);
         $this->authorize('manage', [User::class, $id]);
 
+        if ($user->hasRole('root', 'admin') && !Auth::user()->hasRole('root')) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Admin accounts cannot be suspended!'
+            ]);
+        }
+
         try {
             $user->delete();
         } catch (\Exception $e) {
@@ -235,6 +242,13 @@ class UserController extends Controller {
     public function delete(int $id) {
         $user = User::onlyTrashed()->findOrFail($id);
         $this->authorize('delete', [User::class, $id]);
+
+        if ($user->hasRole('root', 'admin') && !Auth::user()->hasRole('root')) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Admin accounts cannot be deleted!'
+            ]);
+        }
 
         try {
             $user->forceDelete();
