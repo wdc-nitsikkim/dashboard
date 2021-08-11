@@ -19,7 +19,7 @@
     @slot('sideButtons')
         @include('partials.pageSideBtns', [
             'help' => '#!',
-            'searchRedirect' => ''
+            'searchRedirect' => route('users.searchForm')
         ])
     @endslot
 @endcomponent

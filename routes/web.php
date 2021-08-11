@@ -76,6 +76,8 @@ Route::name('root.')->middleware('auth')->group(function() {
 /* user account routes */
 Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/', 'UserController@show')->name('show');
+    Route::get('/search', 'UserController@searchForm')->name('searchForm');
+    Route::get('/search/results', 'UserController@search')->name('search');
 
     Route::prefix('')->group(function () {
         Route::get('/{id}', 'UserController@profile')->name('account');
