@@ -1,9 +1,11 @@
 {{--
     $user -> single user model with all its relations (nested++)
-    $canSuspend -> boolean
+    $canManage -> boolean
+    $canUpdate -> boolean
+    $canDelete -> boolean
 --}}
 
-@extends('layouts.admin', ['title' => 'My Account'])
+@extends('layouts.admin', ['title' => 'Account Settings - ' . $user->name])
 
 @section('content')
 
@@ -248,14 +250,14 @@
 
                         <div class="row mb-3">
                             <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                <button class="btn btn-success" type="submit">
+                                <button class="btn btn-success" type="submit" {{ $canUpdate ? '' : 'disabled' }}>
                                     Save Changes
                                     <span class="material-icons ms-1">update</span>
                                 </button>
                             </div>
 
                             @if (is_null($user['deleted_at']))
-                                @if ($canSuspend)
+                                @if ($canManage)
                                     <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
                                         <a class="btn btn-danger" href="{{ route('user.softDelete', $user->id) }}"
                                             confirm alert-title="Suspend account?"
@@ -275,21 +277,26 @@
                                 </div>
                                 @endif
                             @else
-                                <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                    <a class="btn btn-info" href="#!"
-                                        confirm alert-title="Restore account?" alert-text="-" spoof
-                                        spoof-method="POST">
-                                        Restore
-                                    </a>
-                                </div>
-                                <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                    <a class="btn btn-danger" href="#!"
-                                        confirm alert-title="Permanently delete this account?"
-                                        alert-text="Action is irreversible!" spoof
-                                        spoof-method="DELETE">
-                                        Remove Permanently
-                                    </a>
-                                </div>
+                                @if ($canManage)
+                                    <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
+                                        <a class="btn btn-info" href="{{ route('user.restore', $user->id) }}"
+                                            confirm alert-title="Restore account?" alert-text="-" spoof
+                                            spoof-method="POST">
+                                            Restore
+                                        </a>
+                                    </div>
+                                @endif
+
+                                @if ($canDelete)
+                                    <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
+                                        <a class="btn btn-danger" href="{{ route('user.delete', $user->id) }}"
+                                            confirm alert-title="Permanently delete this account?"
+                                            alert-text="Action is irreversible!" spoof
+                                            spoof-method="DELETE">
+                                            Remove Permanently
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
 
                         </div>
@@ -382,7 +389,7 @@
                     </div>
 
                     <div class="col-12 d-grid gap-1 mx-auto mb-3">
-                        <button class="btn btn-success" type="submit">
+                        <button class="btn btn-success" type="submit" {{ $canUpdate ? '' : 'disabled' }}>
                             <span class="material-icons me-1">verified_user</span>
                             Change Password
                         </button>

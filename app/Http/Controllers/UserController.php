@@ -37,11 +37,15 @@ class UserController extends Controller {
             'profileLink'
         ])->withTrashed()->findOrFail($id);
 
-        $canSuspend = Auth::user()->can('suspend', [User::class, $id]);
+        $canManage = Auth::user()->can('manage', [User::class, $id]);
+        $canUpdate = Auth::user()->can('update', [User::class, $id]);
+        $canDelete = Auth::user()->can('delete', [User::class, $id]);
 
         return view('user.profile', [
             'user' => $user,
-            'canSuspend' => $canSuspend
+            'canManage' => $canManage,
+            'canUpdate' => $canUpdate,
+            'canDelete' => $canDelete
         ]);
     }
 
@@ -118,7 +122,7 @@ class UserController extends Controller {
 
     public function softDelete(int $id) {
         $user = User::findOrFail($id);
-        $this->authorize('update', [User::class, $id]);
+        $this->authorize('manage', [User::class, $id]);
 
         try {
             $user->delete();
@@ -140,6 +144,44 @@ class UserController extends Controller {
         return back()->with([
             'status' => 'success',
             'message' => 'Account suspended'
+        ]);
+    }
+
+    public function restore(int $id) {
+        $user = User::onlyTrashed()->findOrFail($id);
+        $this->authorize('manage', [User::class, $id]);
+
+        try {
+            $user->restore();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Account restoration failed!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Account restored'
+        ]);
+    }
+
+    public function delete(int $id) {
+        $user = User::onlyTrashed()->findOrFail($id);
+        $this->authorize('delete', [User::class, $id]);
+
+        try {
+            $user->forceDelete();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Account deletion failed!'
+            ]);
+        }
+
+        return redirect()->route('root.default')->with([
+            'status' => 'success',
+            'message' => 'Account deleted'
         ]);
     }
 

@@ -54,7 +54,7 @@ class UserPolicy {
         return $isAllowed;
     }
 
-    public function suspend(User $user) {
+    public function manage(User $user) {
         return $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
