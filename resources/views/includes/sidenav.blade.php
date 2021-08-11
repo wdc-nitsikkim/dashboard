@@ -81,6 +81,18 @@
                     <span class="sidebar-text">Dashboard</span>
                 </a>
             </li>
+
+            @if (Auth::user()->can('view', 'App\\Models\User'))
+                <li class="nav-item {{ Route::is('users.show') ? 'active' : '' }}">
+                    <a href="{{ route('users.show') }}" class="nav-link">
+                        <span class="material-icons sidebar-icon">
+                            admin_panel_settings
+                        </span>
+                        <span class="sidebar-text">Manage</span>
+                    </a>
+                </li>
+            @endif
+
             {{-- <li class="nav-item">
                 <a href="#!" class="nav-link d-flex justify-content-between">
                     <span>

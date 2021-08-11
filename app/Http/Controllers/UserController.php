@@ -25,7 +25,18 @@ class UserController extends Controller {
     }
 
     public function show() {
+        $this->authorize('view', User::class);
 
+        $users = User::with('roles')->paginate($this->paginate);
+        $canManage = Auth::user()->can('manage', User::class);
+        $canDelete = Auth::user()->can('delete', User::class);
+
+        return view('users.show', [
+            'users' => $users,
+            'pagination' => $users->links('vendor.pagination.default'),
+            'canManage' => $canManage,
+            'canDelete' => $canDelete
+        ]);
     }
 
     public function profile(int $id) {
@@ -41,7 +52,7 @@ class UserController extends Controller {
         $canUpdate = Auth::user()->can('update', [User::class, $id]);
         $canDelete = Auth::user()->can('delete', [User::class, $id]);
 
-        return view('users.profile', [
+        return view('users.account', [
             'user' => $user,
             'canManage' => $canManage,
             'canUpdate' => $canUpdate,
