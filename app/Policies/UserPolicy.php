@@ -54,6 +54,10 @@ class UserPolicy {
         return $isAllowed;
     }
 
+    public function suspend(User $user) {
+        return $user->isPermissionValid($this->update_roles, $this->permission['update']);
+    }
+
     public function delete(User $user, $id) {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
     }

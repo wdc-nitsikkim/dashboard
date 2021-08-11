@@ -1,5 +1,6 @@
 {{--
-    $user -> single user model
+    $user -> single user model with all its relations (nested++)
+    $canSuspend -> boolean
 --}}
 
 @extends('layouts.admin', ['title' => 'My Account'])
@@ -140,7 +141,7 @@
                                             </span>
                                         @else
                                             @foreach ($role->permissions as $permission)
-                                                <span class="badge bg-success text-dark me-1">
+                                                <span class="badge bg-purple text-dark me-1">
                                                     {{ ucfirst(CustomHelper::getInversePermissionMap()[$permission->permission]) }}
                                                 </span>
                                             @endforeach
@@ -254,25 +255,44 @@
                             </div>
 
                             @if (is_null($user['deleted_at']))
-                                <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
-                                    <a class="btn btn-danger disabled" href="#!'"
-                                        confirm alert-title="Close account?"
-                                        alert-text="You will be logged out & won't be able to login again!"
-                                        spoof spoof-method="DELETE">
-                                        Close Account
-                                    </a>
+                                @if ($canSuspend)
+                                    <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
+                                        <a class="btn btn-danger" href="{{ route('user.softDelete', $user->id) }}"
+                                            confirm alert-title="Suspend account?"
+                                            alert-text="Account will be suspended & you/user won't be able to
+                                            login again!"
+                                            spoof spoof-method="DELETE">
+                                            Suspend Account
+                                        </a>
+                                    </div>
+                                @else
+                                    <div class="col-sm-12 d-grid gap-1 mx-auto mb-3" data-bs-toggle="tooltip"
+                                        data-bs-placement="left" title="You are not authorized to perform this action">
+                                        <a class="btn btn-danger disabled" href="#!">
+                                            Suspend Account
+                                        </a>
+                                    </div>
                                 </div>
+                                @endif
                             @else
                                 <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
                                     <a class="btn btn-info" href="#!"
-                                        confirm alert-title="Restore profile?" alert-text="-" spoof
+                                        confirm alert-title="Restore account?" alert-text="-" spoof
                                         spoof-method="POST">
                                         Restore
                                     </a>
                                 </div>
+                                <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">
+                                    <a class="btn btn-danger" href="#!"
+                                        confirm alert-title="Permanently delete this account?"
+                                        alert-text="Action is irreversible!" spoof
+                                        spoof-method="DELETE">
+                                        Remove Permanently
+                                    </a>
+                                </div>
                             @endif
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>

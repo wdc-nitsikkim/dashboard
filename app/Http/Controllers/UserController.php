@@ -37,8 +37,11 @@ class UserController extends Controller {
             'profileLink'
         ])->withTrashed()->findOrFail($id);
 
+        $canSuspend = Auth::user()->can('suspend', [User::class, $id]);
+
         return view('user.profile', [
-            'user' => $user
+            'user' => $user,
+            'canSuspend' => $canSuspend
         ]);
     }
 
@@ -111,6 +114,33 @@ class UserController extends Controller {
             'status' => 'success',
             'message' => 'Password updated!'
         ])->withInput();
+    }
+
+    public function softDelete(int $id) {
+        $user = User::findOrFail($id);
+        $this->authorize('update', [User::class, $id]);
+
+        try {
+            $user->delete();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Account suspension failed!'
+            ]);
+        }
+
+        if ($user->id === Auth::id()) {
+            Auth::logout();
+            session()->flush();
+            return redirect()->route('login')->with([
+                'status' => 'info',
+                'message' => 'Account suspended'
+            ]);
+        }
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Account suspended'
+        ]);
     }
 
     public function test() {
