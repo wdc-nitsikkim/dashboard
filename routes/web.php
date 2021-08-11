@@ -58,6 +58,7 @@ Route::middleware('guest')->group(function() {
         Route::post('/signin/google', 'LoginController@withGoogle')->name('signin.withgoogle');
 
         Route::post('/signup/default', 'RegisterController@defaultSignup')->name('signup.default');
+
         Route::get('/test', 'RegisterController@test');
     });
 });
@@ -76,10 +77,13 @@ Route::name('root.')->middleware('auth')->group(function() {
 Route::name('user.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/', 'UserController@show')->name('show');
 
-    Route::prefix('profile/{id}')->group(function () {
-        Route::get('/', 'UserController@profile')->name('profile');
-        Route::post('/update', 'UserController@update')->name('update');
-        Route::post('/change-password', 'UserController@changePassword')->name('changePassword');
+    Route::prefix('profile')->group(function () {
+        Route::get('/{id}', 'UserController@profile')->name('profile');
+        Route::post('/update/{id}', 'UserController@update')->name('update');
+        Route::post('/change-password/{id}', 'UserController@changePassword')->name('changePassword');
+        Route::delete('/soft-delete/{id}', 'UserController@softDelete')->name('softDelete');
+        Route::post('/restore/{id}', 'UserController@restore')->name('restore');
+        Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
     });
 
     Route::get('/test', 'UserController@test')->name('show');
@@ -102,10 +106,10 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
             Route::post('/update/{notification}', 'NotificationController@update')->name('update');
             Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
                 ->where('status', 'enable|disable')->name('changeStatus');
-            Route::post('/restore/{id}', 'NotificationController@restore')->name('restore');
             Route::delete('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');
-
+            Route::post('/restore/{id}', 'NotificationController@restore')->name('restore');
             Route::delete('/delete/{id}', 'NotificationController@delete')->name('delete');
+
             Route::get('/test', 'NotificationController@test');
         });
     });
@@ -116,6 +120,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/index', 'DepartmentController@index')->name('index');
         Route::get('/select', 'DepartmentController@select')->name('select');
         Route::post('/save-in-session/{dept}', 'DepartmentController@saveInSession')->name('saveInSession');
+
         Route::get('/test', 'DepartmentController@test');
 
         Route::get('/add', 'DepartmentController@add')->name('add');
@@ -153,6 +158,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
         Route::get('/search', 'StudentController@searchForm')->name('searchForm');
         Route::get('/search/results', 'StudentController@search')->name('search');
+
         Route::get('/test', 'StudentController@test');
 
         Route::prefix('{dept}/{batch}')->group(function() {
@@ -172,6 +178,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/', 'BatchController@show')->name('show');
         Route::get('/select', 'BatchController@select')->name('select');
         Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
+
         Route::get('/test', 'BatchController@test')->name('test');
 
         Route::get('/add', 'BatchController@add')->name('add');
