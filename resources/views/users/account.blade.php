@@ -103,7 +103,20 @@
             </div>
 
             <div class="card card-body border-0 shadow mb-4 mb-xl-0">
-                <h5 class="mb-4">Account roles & permissions</h5>
+                <div class="d-flex justify-content-between">
+                    <h5 class="mb-4">Account roles & permissions</h5>
+
+                    <div>
+                        @if ($canManage)
+                            <a href="{{ route('users.manage', $user->id) }}"
+                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                title="Manage Permissions">
+                                <span class="material-icons">settings</span>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+
 
                 @if ($user->roles->count() == 0)
                     <div class="alert alert-warning fade show my-2" role="alert">

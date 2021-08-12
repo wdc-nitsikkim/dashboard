@@ -85,6 +85,19 @@
                             @endslot
                         @endcomponent
 
+                        @if ($canManage)
+                            @component('components.inline.anchorLink', [
+                                'route' => route('users.manage', $user->id),
+                                'icon' => 'settings',
+                                'tooltip' => 'Manage',
+                                'scale' => true
+                            ])
+                                @slot('attr')
+                                    target="_blank"
+                                @endslot
+                            @endcomponent
+                        @endif
+
                         @if ($user->deleted_at == null && $canManage)
                             @component('components.inline.anchorLink', [
                                 'route' => route('users.softDelete', $user->id),
