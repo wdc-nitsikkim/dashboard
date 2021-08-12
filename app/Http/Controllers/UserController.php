@@ -107,7 +107,7 @@ class UserController extends Controller {
     }
 
     public function update(Request $request, int $id) {
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
         $this->authorize('update', [User::class, $user]);
 
         $data = $request->validate([
@@ -147,7 +147,7 @@ class UserController extends Controller {
     }
 
     public function changePassword(Request $request, int $id) {
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
         $this->authorize('update', [User::class, $user]);
 
         $request->validate([
@@ -178,7 +178,7 @@ class UserController extends Controller {
     }
 
     public function softDelete(int $id) {
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
         $this->authorize('manage', [User::class, $user]);
 
         try {
