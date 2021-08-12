@@ -168,7 +168,7 @@ class ProfileController extends Controller {
             'department_id' => ['required',
                 Rule::exists('departments', 'id')
             ],
-            'link_account' => 'filled | in:on'
+            'link_account' => 'filled | accepted'
         ]);
 
         $user = Auth::user();

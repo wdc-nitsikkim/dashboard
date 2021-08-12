@@ -116,7 +116,7 @@ class UserController extends Controller {
             'mobile' => ['required', 'numeric', 'digits:10',
                 Rule::unique('users', 'mobile')->ignore($user->id)
             ],
-            'remove_profile_image' => 'filled | in:on',
+            'remove_profile_image' => 'filled | accepted',
             'profile_image' => 'filled | image | max:800'
         ]);
 
