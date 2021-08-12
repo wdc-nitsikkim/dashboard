@@ -13,6 +13,7 @@ use App\CustomHelper;
 trait StoreFiles {
     protected $notificationBasePath = 'files/homepage';
     protected $profileImageBasePath = 'images/profiles';
+    protected $userImageBasePath = 'images/users';
 
     /**
      * Handles homepage notification attachments (always saved as public files)
@@ -47,12 +48,27 @@ trait StoreFiles {
     }
 
     /**
+     * Handles uploading of user images
+     *
+     * @param Illuminate\Http\UploadedFile $image  Image to be uploaded
+     * @param int $user_id
+     * @return string  Path of saved image
+     */
+    public function storeUserImage($image, $user_id) {
+        $fileName = $user_id . '.' . $image->extension();
+        $storagePath = $this->userImageBasePath;
+        $path = $image->storeAs($storagePath, $fileName, 'public');
+
+        return $path;
+    }
+
+    /**
      * Remove unused profile image
      *
      * @param $path  Public path of image to be removed
      * @return void
      */
-    public function removeProfileImage($path) {
+    public function removeUploadedImage($path) {
         try {
             return Storage::disk('public')->delete($path);
         } catch (\Exception $e) {

@@ -11,7 +11,7 @@
 ])
 
     @slot('attr')
-        confirm alert-title="Move to Trash?" alert-text="-""
+        confirm alert-title="Move to Trash?" alert-text="-"
         alert-timer="3600" spoof spoof-method="DELETE"
     @endslot
 @endcomponent

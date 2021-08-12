@@ -98,12 +98,18 @@ const globalHandler = (function ($, window, main) {
         }
     });
 
-    $('a[confirm]').on('click', function (e) {
+    $('a[confirm], button[confirm]').on('click', function (e, bypass = false) {
+        const btn = $(this);
+
+        if (bypass) {
+            btn.off('click');
+            btn[0].click();
+            return;
+        }
+
         e.preventDefault();
         /* prevent other click handlers of same type from running */
         e.stopImmediatePropagation();
-
-        const btn = $(this);
 
         window.Swal.fire({
             title: btn.attr('alert-title') ?? 'Sure to continue?',
@@ -118,10 +124,7 @@ const globalHandler = (function ($, window, main) {
             confirmButtonText: 'Confirm'
         }).then((result) => {
             if (result.isConfirmed) {
-                if (btn[0].hasAttribute('spoof')) {
-                    return main.spoofMethod(btn, e);
-                }
-                window.location.href = btn.attr('href');
+                btn.trigger('click', true);
             }
         });
     });

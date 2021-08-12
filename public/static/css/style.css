@@ -140,6 +140,10 @@ div.form-check input[type="radio"], div.form-check label {
     font-size: xxx-large;
 }
 
+.bg-purple {
+    background-color: #7b1fa2 !important;
+}
+
 /* increasing editor-js default width */
 .ce-block__content, .ce-toolbar__content {
     max-width: calc(100% - 100px) !important;
@@ -152,6 +156,17 @@ div.form-check input[type="radio"], div.form-check label {
 /* decreasing editor-js default height */
 div.codex-editor > div.codex-editor__redactor {
     padding-bottom: 200px !important;
+}
+
+/* override template default settings to bootstrap 5 default */
+div.accordion-item > .accordion-header > .accordion-button::after {
+    content: "" !important;
+    font-family: inherit !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23374151'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+}
+
+div.accordion-item > .accordion-header > .accordion-button:not(.collapsed)::after {
+    transform: rotate(180deg) !important;
 }
 /* General classes --end */
 

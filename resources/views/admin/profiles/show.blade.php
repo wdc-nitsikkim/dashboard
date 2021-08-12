@@ -96,12 +96,11 @@
             <div class="col">
                 @component('components.card', [
                     'name' => $profile['name'],
-                    'type' => $profile['type'],
-                    'designation' => $profile['designation'],
                     'image' => $profile['image'],
                     'email' => $profile['email'],
                     'mobile' => $profile['mobile'],
-                    'department' => $profile['department']['name']
+                    'primaryText' => ucfirst($profile['type']) . ', ' . $profile['designation'],
+                    'secondaryText' => $profile['department']['name']
                 ])
 
                     @if (Auth::user()->can('update', [$profileModel, $profileId])
