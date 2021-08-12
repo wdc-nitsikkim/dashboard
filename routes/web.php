@@ -79,18 +79,24 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/search', 'UserController@searchForm')->name('searchForm');
     Route::get('/search/results', 'UserController@search')->name('search');
 
-    Route::prefix('')->group(function () {
-        Route::get('/{id}', 'UserController@profile')->name('account');
-        Route::post('/update/{id}', 'UserController@update')->name('update');
-        Route::post('/change-password/{id}', 'UserController@changePassword')->name('changePassword');
-        Route::delete('/soft-delete/{id}', 'UserController@softDelete')->name('softDelete');
-        Route::post('/restore/{id}', 'UserController@restore')->name('restore');
-        Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
-
-        Route::get('/manage/{id}', 'ManageUserController@manage')->name('manage');
+    Route::name('manage.')->prefix('manage')->group(function() {
+        Route::get('/{id}', 'ManageUserController@manage')->name('page');
         Route::post('/save-permissions/{id}', 'ManageUserController@savePermissions')
             ->name('savePermissions');
+        Route::post('/revoke-role/{user_id}/{role_id}', 'ManageUserController@revokeRole')
+            ->name('revokeRole');
+        Route::post('/grant-department-access/{id}', 'ManageUserController@grantDepartmentAccess')
+            ->name('grantDeptAccess');
+        Route::delete('/revoke-department-access/{user_id}/{dept_id}',
+            'ManageUserController@revokeDepartmentAccess')->name('revokeDeptAccess');
     });
+
+    Route::get('/{id}', 'UserController@profile')->name('account');
+    Route::post('/update/{id}', 'UserController@update')->name('update');
+    Route::post('/change-password/{id}', 'UserController@changePassword')->name('changePassword');
+    Route::delete('/soft-delete/{id}', 'UserController@softDelete')->name('softDelete');
+    Route::post('/restore/{id}', 'UserController@restore')->name('restore');
+    Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
 
     Route::get('/test', 'UserController@test');
 });

@@ -87,7 +87,7 @@
 
                         @if ($canManage)
                             @component('components.inline.anchorLink', [
-                                'route' => route('users.manage', $user->id),
+                                'route' => route('users.manage.page', $user->id),
                                 'icon' => 'settings',
                                 'tooltip' => 'Manage',
                                 'scale' => true

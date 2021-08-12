@@ -108,7 +108,7 @@
 
                     <div>
                         @if ($canManage)
-                            <a href="{{ route('users.manage', $user->id) }}"
+                            <a href="{{ route('users.manage.page', $user->id) }}"
                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                 title="Manage Permissions">
                                 <span class="material-icons">settings</span>
