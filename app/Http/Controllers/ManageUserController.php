@@ -11,7 +11,7 @@ use App\CustomHelper;
 use App\Models\User;
 use App\Models\UserRolePermission;
 
-class UserRolePermissionController extends Controller {
+class ManageUserController extends Controller {
     public function manage($id) {
         $user = User::with([
             'allowedDepartments.department:id,code,name',

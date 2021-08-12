@@ -87,8 +87,8 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
         Route::post('/restore/{id}', 'UserController@restore')->name('restore');
         Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
 
-        Route::get('/manage/{id}', 'UserRolePermissionController@manage')->name('manage');
-        Route::post('/save-permissions/{id}', 'UserRolePermissionController@savePermissions')
+        Route::get('/manage/{id}', 'ManageUserController@manage')->name('manage');
+        Route::post('/save-permissions/{id}', 'ManageUserController@savePermissions')
             ->name('savePermissions');
     });
 
