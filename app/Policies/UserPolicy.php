@@ -66,4 +66,8 @@ class UserPolicy {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete'])
             && !$curr->hasRole('root', 'admin');
     }
+
+    public function manage_site(User $user) {
+        return false;
+    }
 }

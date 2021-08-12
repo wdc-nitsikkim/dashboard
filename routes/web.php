@@ -25,27 +25,11 @@ Route::get('/hash/{str}', function($str) {
     return \Hash::make($str);
 });
 
-/* artisan routes */
-Route::name('artisan.')->middleware('auth')->group(function() {
-    Route::get('/link-storage', function() {
-        $exit_code = Artisan::call('storage:link');
-        return "Storage linked!";
-    })->name('linkStorage');
-
-    Route::get('/clear-route-cache', function() {
-        $exit_code = Artisan::call('cache:clear');
-        return "Route cache cleared!";
-    })->name('clearCache');
-
-    Route::get('/link-storage-server', function () {
-        /* !!! for server use only !!! */
-        /* actual storage path */
-        $target = '/home/ntskm85i/domains/nitsikkim.ac.in/laravel-5/storage/app/public';
-        /* public storage path */
-        $shortcut = '/home/ntskm85i/domains/nitsikkim.ac.in/public_html/admin-dashboard-laravel/storage';
-        echo symlink($target, $shortcut) ? 'Linked' : 'Failed';
-        //echo $_SERVER['DOCUMENT_ROOT'];
-    });
+/* site-settings routes */
+Route::middleware('auth')->group(function() {
+    Route::get('/site-settings', 'RootController@siteSettings')->name('siteSettings');
+    Route::post('/execute/{command}', 'RootController@executeArtisanCommand')
+        ->name('artisan.command');
 });
 
 /* auth routes */
