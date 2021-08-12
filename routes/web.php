@@ -86,6 +86,10 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
         Route::delete('/soft-delete/{id}', 'UserController@softDelete')->name('softDelete');
         Route::post('/restore/{id}', 'UserController@restore')->name('restore');
         Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
+
+        Route::get('/manage/{id}', 'UserRolePermissionController@manage')->name('manage');
+        Route::post('/save-permissions/{id}', 'UserRolePermissionController@savePermissions')
+            ->name('savePermissions');
     });
 
     Route::get('/test', 'UserController@test');
