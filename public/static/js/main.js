@@ -98,7 +98,12 @@ const globalHandler = (function ($, window, main) {
         }
     });
 
-    $('a[confirm]').on('click', function (e) {
+    $('a[confirm], button[confirm]').on('click', function (e, data) {
+        if (data?.bypass == 'anchor-confirm') {
+            console.log('Bypassing event handler: anchor-confirm');
+            return;
+        }
+
         e.preventDefault();
         /* prevent other click handlers of same type from running */
         e.stopImmediatePropagation();
@@ -118,10 +123,7 @@ const globalHandler = (function ($, window, main) {
             confirmButtonText: 'Confirm'
         }).then((result) => {
             if (result.isConfirmed) {
-                if (btn[0].hasAttribute('spoof')) {
-                    return main.spoofMethod(btn, e);
-                }
-                window.location.href = btn.attr('href');
+                btn.trigger('click', { bypass: 'anchor-confirm' });
             }
         });
     });
