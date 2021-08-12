@@ -83,7 +83,9 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
         Route::get('/{id}', 'ManageUserController@manage')->name('page');
         Route::post('/save-permissions/{id}', 'ManageUserController@savePermissions')
             ->name('savePermissions');
-        Route::post('/revoke-role/{user_id}/{role_id}', 'ManageUserController@revokeRole')
+        Route::post('/grant-role/{id}', 'ManageUserController@grantRole')
+            ->name('grantRole');
+        Route::delete('/revoke-role/{role_id}', 'ManageUserController@revokeRole')
             ->name('revokeRole');
         Route::post('/grant-department-access/{id}', 'ManageUserController@grantDepartmentAccess')
             ->name('grantDeptAccess');

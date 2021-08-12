@@ -1,5 +1,7 @@
 {{--
     $user -> single user model (with nested relations)
+    $roles -> array
+    $departments -> collection of department model
 --}}
 
 @extends('layouts.admin', ['title' => 'Manage Roles - ' . $user->name])
@@ -15,18 +17,19 @@
                 New
             </button>
             <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                <a class="dropdown-item d-flex align-items-center">
+                <a class="dropdown-item d-flex align-items-center"
+                    data-bs-toggle="modal" data-bs-target="#add-role-modal">
                     <span class="material-icons">gpp_maybe</span>
                     Role
                 </a>
                 <div role="separator" class="dropdown-divider my-1"></div>
                 <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('admin.homepage.notification.add', 'download') }}">
+                    data-bs-toggle="modal" data-bs-target="#add-dept-access-modal">
                     <span class="material-icons">business</span>
                     Department Access
                 </a>
                 <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('admin.homepage.notification.add', 'notice') }}">
+                    data-bs-toggle="modal" data-bs-target="#add-sub-access-modal">
                     <span class="material-icons">auto_stories</span>
                     Subject Access
                 </a>
@@ -56,7 +59,7 @@
                 @if ($user->roles->count() == 0)
                     <p class="text-danger">No roles have been assigned to this account!</p>
                 @else
-                    <form method="POST" action="{{ route('users.savePermissions', $user->id) }}">
+                    <form method="POST" action="{{ route('users.manage.savePermissions', $user->id) }}">
                         {{ csrf_field() }}
 
                         @component('components.table.main')
@@ -64,7 +67,7 @@
                                 @component('components.table.head', [
                                     'items' => [
                                         '#', 'Role', 'Create', 'Read', 'Update', 'Delete',
-                                        'Granted On'
+                                        'Granted On', 'Revoke'
                                     ]
                                 ])
                                 @endcomponent
@@ -106,6 +109,11 @@
                                         <td>
                                             {{ $role->created_at }}
                                         </td>
+                                        <td>
+                                            @include('components.table.actionBtn.delete', [
+                                                'href' => route('users.manage.revokeRole', $role->id)
+                                            ])
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endslot
@@ -127,14 +135,14 @@
             <div class="card-body">
                 <h5 class="mb-2">Department Access</h5>
 
-                @if ($user->roles->count() == 0)
+                @if ($user->allowedDepartments->count() == 0)
                     <p class="text-danger">No Results / Not Applicable</p>
                 @else
                     @component('components.table.main')
                         @slot('head')
                             @component('components.table.head', [
                                 'items' => [
-                                    '#', 'Name', 'Granted on'
+                                    'Name', 'Granted on', 'Revoke'
                                 ]
                             ])
                             @endcomponent
@@ -143,10 +151,17 @@
                         @slot('body')
                             @foreach ($user->allowedDepartments as $dept)
                                 <tr>
-                                    <td class="fw-bolder">{{ $loop->iteration }}</td>
                                     <td class="fw-bolder">{{ $dept->department->name }}</td>
                                     <td>
                                         {{ $dept->created_at }}
+                                    </td>
+                                    <td>
+                                        @include('components.table.actionBtn.delete', [
+                                            'href' => route('users.manage.revokeDeptAccess', [
+                                                'user_id' => $user->id,
+                                                'dept_id' => $dept->department_id
+                                            ])
+                                        ])
                                     </td>
                                 </tr>
                             @endforeach
@@ -164,6 +179,70 @@
                 <h5 class="mb-2">Subject Access</h5>
                 <p class="text-info">-> Feature under development</p>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-role-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('users.manage.grantRole', $user->id) }}" method="POST">
+                {{ csrf_field() }}
+
+                <div class="modal-body">
+                    <div class="col-12 mb-2">
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="" selected>Select a role</option>
+
+                            @foreach ($roles as $role)
+                                <option value="{{ $role }}">{{ ucfirst($role) }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" confirm alert-title="Add role?"
+                        alert-text="You won't be able to manage this user for certain roles!">
+                        Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-dept-access-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Give access to department</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('users.manage.grantDeptAccess', $user->id) }}" method="POST">
+                {{ csrf_field() }}
+
+                <div class="modal-body">
+                    <div class="col-12 mb-2">
+                        <select class="form-select" id="department_id" name="department_id" required>
+                            <option value="" selected>Select a department</option>
+
+                            @foreach ($departments as $dept)
+                                <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
