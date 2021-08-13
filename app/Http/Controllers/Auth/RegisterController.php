@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
@@ -46,16 +47,18 @@ class RegisterController extends Controller {
 
         $data['password'] = \Hash::make($data['password']);
 
+        DB::beginTransaction();
         try {
             $user = new User($data);
             $user->deleted_at = date('Y-m-d H:i:s', time());
             $user->save();
-            $user_id = $user->id;
             UserRole::create([
-                'user_id' => $user_id,
+                'user_id' => $user->id,
                 'role' => $data['role']
             ]);
+            DB::commit();
         } catch (\Exception $e) {
+            DB::rollback();
             return back()->withInput($request->all())->with([
                 'status' => 'fail',
                 'message' => 'An error occurred while signing you up!'
