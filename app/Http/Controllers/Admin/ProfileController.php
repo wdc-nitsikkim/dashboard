@@ -404,7 +404,7 @@ class ProfileController extends Controller {
      * @param string $chosen
      * @return string
      */
-    private function getProfileType(\App\Models\User $user, $chosen) {
+    private function getProfileType(User $user, $chosen) {
         if ($user->can('chooseType', Profile::class)) {
             return $chosen;
         } else if ($user->hasRole('hod', 'faculty')) {
