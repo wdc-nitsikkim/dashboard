@@ -231,10 +231,15 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function link(int $user_id, int $profile_id) {
+    public function link(Request $request) {
         $this->authorize('customizeLinkOption', Profile::class);
 
-        $user = User::with('profileLink')->findOrFail($user_id);
+        $request->validate([
+            'user_id' => 'required | numeric',
+            'profile_id' => 'required | numeric'
+        ]);
+
+        $user = User::with('profileLink')->findOrFail($request->user_id);
         if (!is_null($user->profileLink)) {
             return back()->with([
                 'status' => 'fail',
@@ -244,8 +249,8 @@ class ProfileController extends Controller {
 
         try {
             UserProfileLink::create([
-                'user_id' => $user_id,
-                'profile_id' => $profile_id
+                'user_id' => $request->user_id,
+                'profile_id' => $request->profile_id
             ]);
         } catch (\Exception $e) {
             return back()->withError([
@@ -259,15 +264,20 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function unlink(int $user_id, int $profile_id) {
+    public function unlink(Request $request) {
         $this->authorize('customizeLinkOption', Profile::class);
+
+        $request->validate([
+            'user_id' => 'required | numeric',
+            'profile_id' => 'required | numeric'
+        ]);
 
         try {
             UserProfileLink::where([
-                'user_id' => $user_id,
-                'profile_id' => $profile_id
+                'user_id' => $request->user_id,
+                'profile_id' => $request->profile_id
             ])->delete();
-            Log::info('Profile unlinked', [Auth::user(), $user_id, $profile_id]);
+            Log::info('Profile unlinked', [Auth::user(), $request->user_id, $request->profile_id]);
         } catch (\Exception $e) {
             return back()->withError([
                 'status' => 'fail',

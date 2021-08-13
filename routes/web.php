@@ -143,8 +143,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/add', 'ProfileController@add')->name('add');
         Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
         Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
-        Route::post('/link/{user_id}/{profile_id}', 'ProfileController@link')->name('link');
-        Route::post('/unlink/{user_id}/{profile_id}', 'ProfileController@unlink')->name('unlink');
+        Route::post('/link', 'ProfileController@link')->name('link');
+        Route::post('/unlink', 'ProfileController@unlink')->name('unlink');
         Route::post('/update/{id}', 'ProfileController@update')->name('update');
         Route::delete('/soft-delete/{id}', 'ProfileController@softDelete')->name('softDelete');
         Route::post('/restore/{id}', 'ProfileController@restore')->name('restore');
