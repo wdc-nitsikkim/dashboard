@@ -5,9 +5,9 @@ namespace App\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 use App\Models\User;
-use App\CustomHelper;
 use App\Models\Profile;
 use App\Models\UserProfileLink;
+use App\CustomHelper;
 
 class ProfilePolicy {
     use HandlesAuthorization;

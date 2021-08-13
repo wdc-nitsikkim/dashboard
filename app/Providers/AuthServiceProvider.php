@@ -14,8 +14,8 @@ use App\Models\HomepageNotification;
 use App\Policies\UserPolicy;
 use App\Policies\BatchPolicy;
 use App\Policies\ProfilePolicy;
-use App\Policies\DepartmentPolicy;
 use App\Policies\StudentPolicy;
+use App\Policies\DepartmentPolicy;
 use App\Policies\HomepageNotificationPolicy as NotificationPolicy;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,12 +26,12 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        HomepageNotification::class => NotificationPolicy::class,
-        Department::class => DepartmentPolicy::class,
-        Profile::class => ProfilePolicy::class,
-        Student::class => StudentPolicy::class,
+        User::class => UserPolicy::class,
         Batch::class => BatchPolicy::class,
-        User::class => UserPolicy::class
+        Student::class => StudentPolicy::class,
+        Profile::class => ProfilePolicy::class,
+        Department::class => DepartmentPolicy::class,
+        HomepageNotification::class => NotificationPolicy::class,
     ];
 
     /**

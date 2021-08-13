@@ -10,8 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 use App\CustomHelper;
-use App\Models\HomepageNotification as Noti;
 use App\Traits\StoreFiles;
+use App\Models\HomepageNotification as Noti;
 
 class NotificationController extends Controller {
     use StoreFiles;

@@ -26,16 +26,6 @@ class UserRole extends Model {
     }
 
     /**
-     * Checks whether role has given permission
-     *
-     * @param string $permissionToCheck
-     * @return bool
-     */
-    public function hasPermission($permissionToCheck) {
-        return false;
-    }
-
-    /**
      * Defines many-to-one relationship
      */
     public function user() {

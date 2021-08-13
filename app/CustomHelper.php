@@ -3,6 +3,9 @@
 
     use Carbon\Carbon;
 
+    /**
+     * Custom globally accessible helper functions for this app
+     */
     class CustomHelper {
         /**
          * Contains constant values to be provided globally
@@ -11,9 +14,9 @@
          */
         private static $GLOBAL_CONSTS = [
             'sessionMap' => [
-                'selectedDepartment' => 'department.selected',
+                'selectedBatch' => 'batch.selected',
                 'selectedSubject' => 'subject.selected',
-                'selectedBatch' => 'batch.selected'
+                'selectedDepartment' => 'department.selected'
             ],
             'permissionMap' => [
                 'read' => 'r',
@@ -32,9 +35,9 @@
          * @return bool
          */
         public static function checkFileInput($name) {
-            return (isset($_FILES[$name]) &&
-                $_FILES[$name]['name'] != '' &&
-                $_FILES[$name]['size'] != 0);
+            return (isset($_FILES[$name])
+                && $_FILES[$name]['name'] != ''
+                && $_FILES[$name]['size'] != 0);
         }
 
         /**

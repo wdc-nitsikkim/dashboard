@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
-use App\CustomHelper;
 use App\Models\User;
+use App\CustomHelper;
 use App\Traits\StoreFiles;
 
 class UserController extends Controller {

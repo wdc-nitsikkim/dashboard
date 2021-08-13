@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\Department;
 use App\Models\Batch;
+use App\Models\Department;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 

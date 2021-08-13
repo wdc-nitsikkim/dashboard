@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use Validator;
 use Google_Client;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;

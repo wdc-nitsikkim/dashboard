@@ -5,9 +5,9 @@ namespace App\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 use App\Models\User;
-use App\CustomHelper;
 use App\Models\Student;
 use App\Models\Department;
+use App\CustomHelper;
 
 class StudentPolicy {
     use HandlesAuthorization;
