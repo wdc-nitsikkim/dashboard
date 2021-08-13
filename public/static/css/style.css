@@ -6,13 +6,6 @@
 }
 
 @font-face {
-    font-family: "Kirvy";
-    font-style: normal;
-    font-weight: 400;
-    src: url(../fonts/Kirvy-Regular.otf) format("opentype");
-}
-
-@font-face {
     font-family: "Manrope";
     font-style: normal;
     font-weight: 400;
@@ -25,10 +18,6 @@ body {
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: "Manrope";
-}
-
-.special-font {
-    font-family: "Kirvy" !important;
 }
 
 /* icons --start */
@@ -52,69 +41,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
             font-feature-settings: "liga";
 }
 /* icons --end */
-
-div.page-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* Back to top button --start */
-#backToTop {
-    display: inline-block;
-    background-color: #292928b0;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border-radius: 4px;
-    position: fixed;
-    bottom: 35px;
-    right: 30px;
-    transition: background-color .3s,
-        opacity .5s, visibility .5s;
-    opacity: 0;
-    visibility: hidden;
-    z-index: 1000;
-    cursor: pointer;
-}
-
-@media (max-width: 500px) {
-    #backToTop {
-        bottom: 25px;
-        right: 15px;
-    }
-}
-
-#backToTop[data-background-color="dark"] {
-    background-color: transparent !important;
-}
-
-#backToTop .material-icons{
-    color: #ffffff;
-    margin-top: 11%;
-    font-size: 32px;
-}
-
-#backToTop[data-background-color="dark"]:hover {
-    cursor: pointer;
-    background-color: #3a4769a1;
-}
-
-#backToTop:hover {
-    cursor: pointer;
-    background-color: #1269DB;
-}
-
-#backToTop:active {
-    background-color: #555;
-}
-
-#backToTop.show {
-    opacity: 1;
-    visibility: visible;
-}
-/* Back to top button --end */
 
 /* General classes --start */
 .cur-pointer {
