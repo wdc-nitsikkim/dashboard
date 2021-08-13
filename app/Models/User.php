@@ -103,10 +103,13 @@ class User extends Authenticatable
      * @param string $permissionToCheck
      */
     public function isPermissionValid(array $roleList, $permissionToCheck) {
-        $role_ids = $this->validRoles($roleList)->pluck('id')->toArray();
-        $perms = UserRolePermission::select('permission')->distinct()
-            ->whereIn('role_id', $role_ids)->where('permission', $permissionToCheck);
-        return $perms->count() > 0;
+        $validRoles = $this->validRoles($roleList);
+        foreach ($validRoles as $role) {
+            if ($role->permissions->contains('permission', $permissionToCheck)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
