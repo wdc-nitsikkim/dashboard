@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
@@ -183,7 +184,9 @@ class UserController extends Controller {
 
         try {
             $user->delete();
+            Log::notice('User soft deleted!', [Auth::user(), $user]);
         } catch (\Exception $e) {
+            Log::debug('User soft deletion failed!', [Auth::user(), $e->getMessage(), $user]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Account suspension failed!'
@@ -229,7 +232,9 @@ class UserController extends Controller {
 
         try {
             $user->forceDelete();
+            Log::alert('User deleted!', [Auth::user(), $user]);
         } catch (\Exception $e) {
+            Log::debug('User deletion failed!', [Auth::user(), $user]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Account deletion failed!'

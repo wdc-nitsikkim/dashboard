@@ -6,6 +6,7 @@ use Validator;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -199,7 +200,9 @@ class StudentController extends Controller {
             }
 
             $student->save();
+            Log::info('Student updated.', [Auth::user(), $student]);
         } catch (\Exception $e) {
+            Log::debug('Student updation failed!', [Auth::user(), $student]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to update!'
@@ -217,7 +220,9 @@ class StudentController extends Controller {
 
         try {
             $student->delete();
+            Log::notice('Student soft deleted!', [Auth::user(), $student]);
         } catch (\Exception $e) {
+            Log::debug('Student updated.', [Auth::user(), $e->getMessage(), $student]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to delete!'
@@ -236,7 +241,9 @@ class StudentController extends Controller {
 
         try {
             $student->restore();
+            Log::info('Student restored.', [Auth::user(), $student]);
         } catch (\Exception $e) {
+            Log::debug('Student restoration failed!', [Auth::user(), $e->getMessage(), $student]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to restore!'
@@ -255,7 +262,9 @@ class StudentController extends Controller {
 
         try {
             $student->forceDelete();
+            Log::alert('Student deleted!.', [Auth::user(), $student]);
         } catch (\Exception $e) {
+            Log::debug('Student deletion failed!', [Auth::user(), $e->getMessage(), $student]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to delete!'

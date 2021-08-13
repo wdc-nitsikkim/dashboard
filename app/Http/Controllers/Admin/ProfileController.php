@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -266,6 +267,7 @@ class ProfileController extends Controller {
                 'user_id' => $user_id,
                 'profile_id' => $profile_id
             ])->delete();
+            Log::info('Profile unlinked', [Auth::user(), $user_id, $profile_id]);
         } catch (\Exception $e) {
             return back()->withError([
                 'status' => 'fail',
@@ -344,7 +346,9 @@ class ProfileController extends Controller {
         $profile = Profile::findOrFail($id);
         try {
             $profile->delete();
+            Log::info('Profile soft deleted', [Auth::user(), $profile]);
         } catch (\Exception $e) {
+            Log::debug('Profile soft deletion failed!', [Auth::user(), $e->getMessage(), $profile]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to delete!'
@@ -363,7 +367,9 @@ class ProfileController extends Controller {
         $profile = Profile::onlyTrashed()->findOrFail($id);
         try {
             $profile->restore();
+            Log::info('Profile restored.', [Auth::user(), $profile]);
         } catch (\Exception $e) {
+            Log::debug('Profile restoration failed!', [Auth::user(), $e->getMessage(), $profile]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to restore!'
@@ -384,7 +390,9 @@ class ProfileController extends Controller {
             $image = $profile->image;
             $profile->forceDelete();
             $this->removeUploadedImage($image);
+            Log::alert('Profile deleted!', [Auth::user(), $profile]);
         } catch (\Exception $e) {
+            Log::debug('Profile deletion failed!', [Auth::user(), $e->getMessage(), $profile]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to delete!'

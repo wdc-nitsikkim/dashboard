@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
@@ -91,7 +92,9 @@ class BatchController extends Controller {
 
         try {
             Batch::create($data);
+            Log::notice('New batch added.', [Auth::user(), $data]);
         } catch (\Exception $e) {
+            Log::debug("Batch addition failed!", [Auth::user(), $e->getMessage(), $data]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to add batch!'
@@ -127,7 +130,9 @@ class BatchController extends Controller {
 
         try {
             $batch->update($data);
+            Log::info('Batch updated.', [Auth::user(), $data]);
         } catch (\Exception $e) {
+            Log::debug('Batch update failed!', [Auth::user(), $e->getMessage(), $data]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to update batch!'
@@ -146,7 +151,9 @@ class BatchController extends Controller {
         $batch = Batch::findOrFail($id);
         try {
             $batch->delete();
+            Log::notice('Batch soft deleted.', [Auth::user(), $batch]);
         } catch (\Exception $e) {
+            Log::debug('Batch soft deletion failed!.', [Auth::user(), $e->getMessage(), $batch]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to delete!'
@@ -171,7 +178,9 @@ class BatchController extends Controller {
         $batch = Batch::onlyTrashed()->findOrFail($id);
         try {
             $batch->restore();
+            Log::info('Batch restored.', [Auth::user(), $batch]);
         } catch (\Exception $e) {
+            Log::debugo('Batch restoration failed!', [Auth::user(), $e->getMessage(), $batch]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to restore!'
@@ -190,7 +199,9 @@ class BatchController extends Controller {
         $batch = Batch::onlyTrashed()->findOrFail($id);
         try {
             $batch->forceDelete();
+            Log::alert('Batch deleted.', [Auth::user(), $batch]);
         } catch (\Exception $e) {
+            Log::debug('Batch deletion failed!', [Auth::user(), $e->getMessage(), $batch]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to delete!'

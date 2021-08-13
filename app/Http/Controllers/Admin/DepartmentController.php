@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -136,7 +137,9 @@ class DepartmentController extends Controller {
 
         try {
             $department->update($data);
+            Log::notice('Department updated.', [Auth::user(), $data]);
         } catch (\Exception $e) {
+            Log::debug('Department updation failed!', [Auth::user(), $e->getMessage(), $data]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to update department!'
@@ -155,7 +158,9 @@ class DepartmentController extends Controller {
         $department = Department::findOrFail($id);
         try {
             $department->delete();
+            Log::notice('Department soft deleted.', [Auth::user(), $department]);
         } catch (\Exception $e) {
+            Log::debug('Department soft deletion failed!', [Auth::user(), $e->getMessage(), $department]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to delete!'
@@ -180,7 +185,9 @@ class DepartmentController extends Controller {
         $department = Department::onlyTrashed()->findOrFail($id);
         try {
             $department->restore();
+            Log::info('Department restored.', [Auth::user(), $department]);
         } catch (\Exception $e) {
+            Log::debug('Department restoration failed!', [Auth::user(), $e->getMessage(), $department]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to restore!'
@@ -199,7 +206,9 @@ class DepartmentController extends Controller {
         $department = Department::onlyTrashed()->findOrFail($id);
         try {
             $department->forceDelete();
+            Log::alert('Department deleted!', [Auth::user(), $department]);
         } catch (\Exception $e) {
+            Log::debug('Department deletion failed!', [Auth::user(), $e->getMessage(), $department]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to delete!'

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 use App\CustomHelper;
@@ -81,7 +82,9 @@ class ManageUserController extends Controller {
             }
 
             DB::commit();
+            Log::notice('User permissions updated.', [Auth::user(), $user, $insert]);
         } catch (\Exception $e) {
+            Log::debug('User permission updation failed!', [Auth::user(), $e->getMessage(), $user, $insert]);
             DB::rollback();
             return back()->withErrors([
                 'status' => 'fail',
@@ -109,7 +112,9 @@ class ManageUserController extends Controller {
                 'user_id' => $user->id,
                 'role' => $request->role
             ]);
+            Log::notice('Role granted.', [Auth::user(), $user]);
         } catch (\Exception $e) {
+            Log::debug('Failed to grant role.', [Auth::user(), $e->getMessage(), $user]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to add role!'
@@ -141,7 +146,9 @@ class ManageUserController extends Controller {
                 'department_id' => $request->department_id,
                 'created_at' => $this->timestamp
             ]);
+            Log::notice('Department access granted.', [Auth::user(), $user]);
         } catch (\Exception $e) {
+            Log::debug('Failed to grant department access!', [Auth::user(), $e->getMessage(), $user]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to give access to department!'
@@ -162,7 +169,9 @@ class ManageUserController extends Controller {
 
         try {
             $role->delete();
+            Log::notice('Role revoked!', [Auth::user(), $role, $user]);
         } catch (\Exception $e) {
+            Log::debug('Failed to revoke role!', [Auth::user(), $e->getMessage(), $role, $user]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to revoke user role!'
@@ -185,7 +194,9 @@ class ManageUserController extends Controller {
                 'user_id' => $user->id,
                 'department_id' => $dept_id
             ])->delete();
+            Log::notice('Department access revoked!', [Auth::user(), $dept_id, $user]);
         } catch (\Exception $e) {
+            Log::debug('Failed to revoke department access!', [Auth::user(), $dept_id, $user]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to revoke department access!'
