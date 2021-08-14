@@ -19,7 +19,7 @@ class HodController extends Controller {
         $departments = Department::select('id', 'name')
             ->whereNotIn('id', $excludeDepts)->get();
 
-        return view('admin.office.hod', [
+        return view('admin.office.hods', [
             'hods' => $hods,
             'departments' => $departments
         ]);

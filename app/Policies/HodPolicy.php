@@ -32,6 +32,7 @@ class HodPolicy {
     }
 
     public function update(User $user) {
-        return $user->isPermissionValid($this->update_roles, $this->permission['update']);
+        return $user->isPermissionValid($this->update_roles, $this->permission['update'])
+            || $user->isPermissionValid($this->update_roles, $this->permission['delete']);
     }
 }
