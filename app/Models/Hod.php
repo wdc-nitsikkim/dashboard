@@ -12,6 +12,11 @@ class Hod extends Model {
     public $timestamps = false;
 
     /**
+     * Attributes that are mass-assignable
+     */
+    protected $fillable = ['department_id', 'profile_id'];
+
+    /**
      * One-to-one relationship on departments table
      */
     public function department() {
