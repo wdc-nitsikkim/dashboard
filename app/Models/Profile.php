@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Hpd;
 use App\Models\Department;
 use App\Models\UserProfileLink;
 use App\Traits\GlobalMutators;
@@ -30,6 +31,13 @@ class Profile extends Model {
      */
     public function userLink() {
         return $this->hasOne(UserProfileLink::class, 'profile_id');
+    }
+
+    /**
+     * Defines one-to-one relationship on 'hods' table
+     */
+    public function hod() {
+        return $this->hasOne(Hod::class, 'profile_id');
     }
 
     /**
