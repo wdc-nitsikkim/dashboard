@@ -87,9 +87,13 @@
                                         @endcomponent
                                     </td>
                                     <td>
-                                        @include('components.table.actionBtn.delete', [
-                                            'href' => route('admin.office.positions.remove', $position->id)
-                                        ])
+
+                                        @can('update', 'App\\Models\Hod')
+                                            @include('components.table.actionBtn.delete', [
+                                                'href' => route('admin.office.positions.remove', $position->id)
+                                            ])
+                                        @endcan
+
                                     </td>
                                 </tr>
                             @endforeach

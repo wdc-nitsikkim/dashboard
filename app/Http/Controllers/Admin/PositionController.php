@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-use App\Models\Profile;
 use App\Models\Position;
 
 class PositionController extends Controller {
