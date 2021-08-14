@@ -22,7 +22,8 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">{{ $submitBtnText ?? 'Submit' }}</button>
+                    <button type="submit" class="btn btn-primary" {!! $submitBtnAttr ?? '' !!}>
+                        {{ $submitBtnText ?? 'Submit' }}</button>
                 </div>
             </form>
 
