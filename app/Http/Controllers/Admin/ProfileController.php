@@ -40,7 +40,7 @@ class ProfileController extends Controller {
     public function show() {
         $this->authorize('view', Profile::class);
 
-        $profiles = Profile::with('department')->paginate($this->paginate);
+        $profiles = Profile::with('department.hod')->paginate($this->paginate);
 
         $ownProfile = false;
         if (Auth::user()->hasProfile()) {
@@ -57,7 +57,7 @@ class ProfileController extends Controller {
     public function showTrashed() {
         $this->authorize('view', Profile::class);
 
-        $profiles = Profile::with('department')->onlyTrashed()->paginate($this->paginate);
+        $profiles = Profile::with('department.hod')->onlyTrashed()->paginate($this->paginate);
 
         $ownProfile = false;
         if (Auth::user()->hasProfile()) {
@@ -114,7 +114,7 @@ class ProfileController extends Controller {
             'created_at' => 'date'
         ];
 
-        $search->with('department');
+        $search->with('department.hod');
         $search = CustomHelper::getSearchQuery($search, $data, $map)->paginate($this->paginate);
         $search->appends($data);
 
@@ -217,7 +217,8 @@ class ProfileController extends Controller {
     public function edit(int $id) {
         $this->authorize('update', [Profile::class, $id]);
 
-        $profile = Profile::withTrashed()->with(['department:id,name', 'userLink'])->findOrFail($id);
+        $profile = Profile::withTrashed()->with(['department:id,name', 'userLink'])
+            ->findOrFail($id);
         $user = Auth::user();
         $canChooseType = $user->can('chooseType', Profile::class);
         $canCustomizeLink = $user->can('customizeLinkOption', Profile::class);
