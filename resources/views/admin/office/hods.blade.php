@@ -108,12 +108,12 @@
     </div>
 
     <div class="row mb-2">
-        <div class="col-9 mb-2">
+        <div class="col-sm-8 mb-2">
             <input type="text" class="form-control" placeholder="Type a name to search"
                 dynamic-list="profile-list" tmp-name="tmp_profile_id" autofill="profile_id"
                 endpoint="{{ route('api.searchProfilesByName') }}">
         </div>
-        <div class="col-3 mb-2">
+        <div class="col-sm-4 mb-2">
             <input type="number" id="profile_id" name="profile_id" class="form-control"
                 placeholder="Profile ID" required>
         </div>

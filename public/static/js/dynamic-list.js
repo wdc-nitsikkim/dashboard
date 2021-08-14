@@ -8,7 +8,7 @@ const dynamicList = (function ($, window, main) {
     const typegap = 750;
 
     function getListItem(item, radioName, autofill) {
-        return `<label class='list-group-item'>
+        return `<label class='list-group-item cur-pointer'>
             <input class='form-check-input me-1' type='radio' name='${radioName}'
                 fill='${autofill}' value='${item.id}'>
             ID: <span class='fw-bolder'>${item.id}</span>,

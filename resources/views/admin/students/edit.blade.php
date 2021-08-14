@@ -5,7 +5,7 @@
     $departmentList -> collection of department model
 --}}
 
-@extends('layouts.admin', ['title' => 'Edit Student - ' . $department['name']])
+@extends('layouts.admin', ['title' => 'Edit Student - ' . $student['name']])
 
 @section('content')
 

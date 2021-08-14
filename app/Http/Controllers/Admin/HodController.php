@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 use App\Models\Hod;
+use App\Models\Profile;
 use App\Models\Department;
 
 class HodController extends Controller {
@@ -32,6 +33,14 @@ class HodController extends Controller {
             'department_id' => 'required | numeric',
             'profile_id' => 'required | numeric'
         ]);
+
+        $profile = Profile::findOrFail($data['profile_id']);
+        if ($request->department_id != $profile['department_id']) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Specified profile does not belong to department!'
+            ]);
+        }
 
         try {
             Hod::create($data);

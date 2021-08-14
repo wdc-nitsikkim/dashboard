@@ -2,7 +2,7 @@
     $department -> single department model
 --}}
 
-@extends('layouts.admin', ['title' => 'Edit Department'])
+@extends('layouts.admin', ['title' => 'Edit Department - ' . $department['name']])
 
 @section('content')
 

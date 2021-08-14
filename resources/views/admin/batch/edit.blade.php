@@ -2,7 +2,7 @@
     $batch -> single batch model
 --}}
 
-@extends('layouts.admin', ['title' => 'Edit Batch'])
+@extends('layouts.admin', ['title' => 'Edit Batch - ' . $batch['start_year']])
 
 @section('content')
 

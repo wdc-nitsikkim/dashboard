@@ -7,7 +7,7 @@
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~3.3",
-        "google/apiclient": "^2.10",
+        "google/apiclient": "2.10",
         "ifsnop/mysqldump-php": "^2.9",
         "itsgoingd/clockwork": "^5.0",
         "laravel/framework": "5.5.*",
@@ -40,12 +40,13 @@
         "laravel": {
             "dont-discover": [
             ]
-        }
+        },
+        "google/apiclient-services": [
+            ""
+        ]
     },
     "scripts": {
-        "scripts": {
-            "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
-        },
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],

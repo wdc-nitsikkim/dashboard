@@ -3,7 +3,7 @@
     $pagination -> pagination links view
 --}}
 
-@extends('layouts.admin', ['title' => 'Accounts'])
+@extends('layouts.admin', ['title' => 'User Accounts'])
 
 @section('content')
 
@@ -28,7 +28,7 @@
     <div class="col alert alert-info" role="alert">
         View your account
         <a href="{{ route('users.account', Auth::id()) }}" target="_blank">
-            <span class="material-icons">open_in_new</span>
+            <span class="material-icons ms-2">open_in_new</span>
         </a>
     </div>
 </div>
@@ -40,7 +40,7 @@
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
-                    'href' => route('root.default')
+                    'href' => route('users.show')
                 ])
                 @endcomponent
             </p>

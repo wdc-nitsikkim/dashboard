@@ -94,7 +94,7 @@ class LoginController extends Controller {
         } catch (\Exception $e) {
             return back()->with([
                 'status' => 'fail',
-                'message' => $e->getMessage()
+                'message' => 'ID Token verification failed!'
             ]);
         }
 
