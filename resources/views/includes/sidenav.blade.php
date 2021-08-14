@@ -124,9 +124,9 @@
                     data-bs-toggle="collapse" data-bs-target="#submenu-homepage">
                     <span>
                         <span class="material-icons sidebar-icon">
-                            home
+                            meeting_room
                         </span>
-                        <span class="sidebar-text">Homepage</span>
+                        <span class="sidebar-text">Office</span>
                     </span>
                     <span class="link-arrow">
                         @include('partials.sidemenuSvg')
@@ -134,16 +134,22 @@
                 </span>
                 <div class="multi-level collapse" role="list" id="submenu-homepage" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
-                                <span class="sidebar-text">Home</span>
-                            </a>
-                        </li>
                         <li class="nav-item
                             {{ Route::is('admin.homepage.notification.show', 'admin.homepage.notification.showTrashed')
                                 ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.homepage.notification.show') }}">
                                 <span class="sidebar-text">Notifications</span>
+                            </a>
+                        </li>
+                        <li class="nav-item
+                            {{ Route::is('admin.office.showHods') ? 'active' : 'hod' }}">
+                            <a class="nav-link" href="{{ route('admin.office.hods.show') }}">
+                                <span class="sidebar-text">HoD's</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#!">
+                                <span class="sidebar-text">PoR's</span>
                             </a>
                         </li>
                     </ul>
