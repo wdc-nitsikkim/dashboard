@@ -142,13 +142,14 @@
                             </a>
                         </li>
                         <li class="nav-item
-                            {{ Route::is('admin.office.showHods') ? 'active' : 'hod' }}">
+                            {{ Route::is('admin.office.hods.show') ? 'active' : 'hod' }}">
                             <a class="nav-link" href="{{ route('admin.office.hods.show') }}">
                                 <span class="sidebar-text">HoD's</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
+                        <li class="nav-item
+                            {{ Route::is('admin.office.positions.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.office.positions.show') }}">
                                 <span class="sidebar-text">PoR's</span>
                             </a>
                         </li>
