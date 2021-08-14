@@ -523,57 +523,44 @@
     </div>
 </form>
 
-<div class="modal fade" id="select-user-modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h5 class="modal-title">Select a user to link this profile to</h5>
+
+@component('components.formModal', [
+    'modalId' => 'select-user-modal',
+    'formAction' => route('admin.profiles.link'),
+    'title' => 'Select a user to link this profile to',
+    'submitBtnText' => 'Link'
+])
+
+    <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+    <div class="row">
+        <div class="col-9 mb-2">
+            <input type="text" class="form-control" placeholder="Type a name to search"
+                dynamic-list="user-list" tmp-name="tmp_user_id" autofill="user_id"
+                endpoint="{{ route('api.searchUsersByName') }}">
+        </div>
+        <div class="col-3 mb-2">
+            <input type="number" id="user_id" name="user_id" class="form-control"
+                placeholder="User ID" required>
+        </div>
+        <div class="col-12 mt-2">
+            <div class="d-flex justify-content-between">
+                <h6>Matched Users:</h6>
+                <div id="user-list-loader" class="d-none text-danger spinner-border spinner-border-sm"
+                    role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('admin.profiles.link') }}" method="POST">
-                {{ csrf_field() }}
 
-                <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+            <div id="user-list" class="list-group list-group-flush">
+                <span class="text-info small">
+                    Type a name to search
+                </span>
+            </div>
 
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-9 mb-2">
-                            <input type="text" class="form-control" placeholder="Type a name to search"
-                                dynamic-list="user-list" tmp-name="tmp_user_id" autofill="user_id"
-                                endpoint="{{ route('api.searchUsersByName') }}">
-                        </div>
-                        <div class="col-3 mb-2">
-                            <input type="number" id="user_id" name="user_id" class="form-control"
-                                placeholder="User ID" required>
-                        </div>
-                        <div class="col-12 mt-2">
-                            <div class="d-flex justify-content-between">
-                                <h6>Matched Users:</h6>
-                                <div id="user-list-loader" class="d-none text-danger spinner-border spinner-border-sm"
-                                    role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-
-                            <div id="user-list" class="list-group list-group-flush">
-                                <span class="text-info small">
-                                    Type a name to search
-                                </span>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Link</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
+
+@endcomponent
 
 @endsection
 
