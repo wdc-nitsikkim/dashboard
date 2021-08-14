@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\Profile;
 
 class PublicApiController extends Controller {
     private $maxResults = 10;
