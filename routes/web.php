@@ -91,6 +91,15 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
 
 /* admin routes --> all roles except student */
 Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])->group(function() {
+    /* office routes */
+    Route::name('office.')->prefix('office')->group(function() {
+        Route::name('hods.')->prefix('hods')->group(function() {
+            Route::get('/', 'HodController@show')->name('show');
+            Route::post('/assign', 'HodController@assign')->name('assign');
+            Route::delete('/remove/{dept_id}', 'HodController@remove')->name('remove');
+        });
+    });
+
     /* homepage routes */
     Route::name('homepage.')->prefix('homepage')->group(function() {
         /* notification routes */
