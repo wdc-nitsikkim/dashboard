@@ -77,6 +77,9 @@ const editorJsInit = (function ($, window, ls) {
 
     localRestoreBtn.on('click', function(e) {
         if (loadData(ls.get(localStorageKey))) {
+            /* 'onChange' event is not fired when restoring data from localStorage
+                so calling 'storeData' manually */
+            storeData();
             return statusMessage('success', 'Loaded from localstorage');
         }
         loadData(defaultObj);
