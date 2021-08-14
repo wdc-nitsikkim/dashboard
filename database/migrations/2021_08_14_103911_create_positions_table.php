@@ -14,6 +14,7 @@ class CreatePositionsTable extends Migration
     public function up()
     {
         Schema::create('positions', function (Blueprint $table) {
+            $table->smallIncrements('id');
             $table->unsignedInteger('profile_id');
             $table->string('position')->nullable(false);
             $table->string('mobile')->nullable(false);
