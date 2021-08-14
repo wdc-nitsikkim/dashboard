@@ -183,68 +183,49 @@
     </div>
 </div>
 
-<div class="modal fade" id="add-role-modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Role</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('users.manage.grantRole', $user->id) }}" method="POST">
-                {{ csrf_field() }}
+@component('components.formModal', [
+    'modalId' => 'add-role-modal',
+    'title' => 'Add Role',
+    'formAction' => route('users.manage.grantRole', $user->id),
+    'submitBtnText' => 'Add'
+])
 
-                <div class="modal-body">
-                    <div class="col-12 mb-2">
-                        <select class="form-select" id="role" name="role" required>
-                            <option value="" selected>Select a role</option>
+    <div class="col-12 mb-2">
+        <select class="form-select" id="role" name="role" required>
+            <option value="" selected>Select a role</option>
 
-                            @foreach ($roles as $role)
-                                <option value="{{ $role }}">{{ ucfirst($role) }}</option>
-                            @endforeach
+            @foreach ($roles as $role)
+                <option value="{{ $role }}">{{ ucfirst($role) }}</option>
+            @endforeach
 
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" confirm alert-title="Add role?"
-                        alert-text="You won't be able to manage this user for certain roles!">
-                        Add</button>
-                </div>
-            </form>
-        </div>
+        </select>
     </div>
-</div>
 
-<div class="modal fade" id="add-dept-access-modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Give access to department</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('users.manage.grantDeptAccess', $user->id) }}" method="POST">
-                {{ csrf_field() }}
+    @slot('submitBtnAttr')
+        confirm alert-title="Add role?"
+        alert-text="You won't be able to manage this user for certain roles!"
+    @endslot
 
-                <div class="modal-body">
-                    <div class="col-12 mb-2">
-                        <select class="form-select" id="department_id" name="department_id" required>
-                            <option value="" selected>Select a department</option>
+@endcomponent
 
-                            @foreach ($departments as $dept)
-                                <option value="{{ $dept->id }}">{{ $dept->name }}</option>
-                            @endforeach
+@component('components.formModal', [
+    'modalId' => 'add-dept-access-modal',
+    'title' => 'Give access to department',
+    'formAction' => route('users.manage.grantDeptAccess', $user->id),
+    'submitBtnText' => 'Add'
+])
 
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
+    <div class="col-12 mb-2">
+        <select class="form-select" id="department_id" name="department_id" required>
+            <option value="" selected>Select a department</option>
+
+            @foreach ($departments as $dept)
+                <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+            @endforeach
+
+        </select>
     </div>
-</div>
+
+@endcomponent
 
 @endsection
