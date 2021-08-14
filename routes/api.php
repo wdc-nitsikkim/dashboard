@@ -20,4 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::name('api.')->group(function () {
     Route::get('/search-users', 'PublicApiController@searchUsersByName')
         ->name('searchUsersByName');
+    Route::get('/search-profiles', 'PublicApiController@searchProfilesByName')
+        ->name('searchProfilesByName');
 });

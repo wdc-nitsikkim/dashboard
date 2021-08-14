@@ -19,4 +19,15 @@ class PublicApiController extends Controller {
             ->take($this->maxResults)->get()->toJson();
         return $users;
     }
+
+    public function searchProfilesByName(Request $request) {
+        $request->validate([
+            'name' => 'required | min:1'
+        ]);
+
+        $name = '%' . $request->name . '%';
+        $profiles = Profile::select('id', 'name')->where('name', 'like', $name)
+            ->take($this->maxResults)->get()->toJson();
+        return $profiles;
+    }
 }
