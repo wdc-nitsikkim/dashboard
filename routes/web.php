@@ -98,6 +98,12 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
             Route::post('/assign', 'HodController@assign')->name('assign');
             Route::delete('/remove/{dept_id}', 'HodController@remove')->name('remove');
         });
+
+        Route::name('positions.')->prefix('positions')->group(function() {
+            Route::get('/', 'PositionController@show')->name('show');
+            Route::post('/assign', 'PositionController@assign')->name('assign');
+            Route::delete('/remove/{id}', 'PositionController@remove')->name('remove');
+        });
     });
 
     /* homepage routes */
