@@ -91,6 +91,21 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
 
 /* admin routes --> all roles except student */
 Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])->group(function() {
+    /* office routes */
+    Route::name('office.')->prefix('office')->group(function() {
+        Route::name('hods.')->prefix('hods')->group(function() {
+            Route::get('/', 'HodController@show')->name('show');
+            Route::post('/assign', 'HodController@assign')->name('assign');
+            Route::delete('/remove/{dept_id}', 'HodController@remove')->name('remove');
+        });
+
+        Route::name('positions.')->prefix('positions')->group(function() {
+            Route::get('/', 'PositionController@show')->name('show');
+            Route::post('/assign', 'PositionController@assign')->name('assign');
+            Route::delete('/remove/{id}', 'PositionController@remove')->name('remove');
+        });
+    });
+
     /* homepage routes */
     Route::name('homepage.')->prefix('homepage')->group(function() {
         /* notification routes */
@@ -143,8 +158,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/add', 'ProfileController@add')->name('add');
         Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
         Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
-        Route::post('/link/{user_id}/{profile_id}', 'ProfileController@link')->name('link');
-        Route::post('/unlink/{user_id}/{profile_id}', 'ProfileController@unlink')->name('unlink');
+        Route::post('/link', 'ProfileController@link')->name('link');
+        Route::post('/unlink', 'ProfileController@unlink')->name('unlink');
         Route::post('/update/{id}', 'ProfileController@update')->name('update');
         Route::delete('/soft-delete/{id}', 'ProfileController@softDelete')->name('softDelete');
         Route::post('/restore/{id}', 'ProfileController@restore')->name('restore');

@@ -16,3 +16,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::name('api.')->group(function () {
+    Route::get('/search-users', 'PublicApiController@searchUsersByName')
+        ->name('searchUsersByName');
+    Route::get('/search-profiles', 'PublicApiController@searchProfilesByName')
+        ->name('searchProfilesByName');
+});

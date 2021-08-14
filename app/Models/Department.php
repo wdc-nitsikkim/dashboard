@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Hod;
 use App\Models\Student;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
@@ -39,5 +40,12 @@ class Department extends Model {
      */
     public function students() {
         return $this->hasMany(Student::class, 'department_id');
+    }
+
+    /**
+     * Defines one-to-one relationship on Hods table
+     */
+    public function hod() {
+        return $this->hasOne(Hod::class, 'department_id');
     }
 }

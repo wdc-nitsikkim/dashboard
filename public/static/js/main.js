@@ -50,6 +50,15 @@ const main = (function ($, window) {
         xl: 1140
     };
 
+    function fillContainer(container, html = '') {
+        container.html(html);
+    }
+
+    function getSpanMsg(html, classes = null) {
+        const defaultClasses = 'text-info small';
+        return `<span class="${classes ?? defaultClasses}">${html}</span>`;
+    }
+
     function spoofMethod(anchorElement, event) {
         const a = anchorElement;
         const form = $('#methodSpoofer');
@@ -83,8 +92,10 @@ const main = (function ($, window) {
 
     return Object.freeze({
         breakPoints,
+        getSpanMsg,
         spoofMethod,
         modifySideNav,
+        fillContainer,
         verifyImageRatio
     });
 }(jQuery, window));

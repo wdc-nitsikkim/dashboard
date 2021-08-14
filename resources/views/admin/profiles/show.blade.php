@@ -91,6 +91,10 @@
         @foreach ($profiles['data'] as $profile)
             @php
                 $profileId = $profile['id'];
+                $canUpdate = Auth::user()->can('update', [$profileModel, $profileId]);
+                $canDelete = Auth::user()->can('delete', [$profileModel, $profileId]);
+                $hod = $profile['hod'] == null ? ''
+                    : '<span class="badge bg-success me-1">HoD</span>';
             @endphp
 
             <div class="col">
@@ -99,12 +103,11 @@
                     'image' => $profile['image'],
                     'email' => $profile['email'],
                     'mobile' => $profile['mobile'],
-                    'primaryText' => ucfirst($profile['type']) . ', ' . $profile['designation'],
+                    'primaryText' => $hod . ucfirst($profile['type']) . ', ' . $profile['designation'],
                     'secondaryText' => $profile['department']['name']
                 ])
 
-                    @if (Auth::user()->can('update', [$profileModel, $profileId])
-                        || Auth::user()->can('delete', [$profileModel, $profileId]))
+                    @if ($canUpdate || $canUpdate)
 
                         <div class="card-footer d-flex justify-content-end p-2 mx-1">
 

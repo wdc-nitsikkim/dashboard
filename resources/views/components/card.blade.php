@@ -35,7 +35,7 @@
                     <h5 class="fw-bold text-truncate mb-2" data-bs-toggle="tooltip"
                         title="{{ $name }}">{{ $name }}</h5>
                     <h6 class="text-gray-500 text-truncate mb-0">
-                        {{ $primaryText ?? '' }}</h6>
+                        {!! $primaryText ?? '' !!}</h6>
                 </div>
                 <small class="d-flex align-items-center text-gray-500">
                     <span class="text-truncate">{!! $secondaryText !!}</span>
