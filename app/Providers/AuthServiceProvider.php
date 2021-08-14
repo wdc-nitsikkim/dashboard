@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Batch;
 use App\Models\Student;
 use App\Models\Profile;
+use App\Models\Position;
 use App\Models\Department;
 use App\Models\HomepageNotification;
 use App\Policies\HodPolicy;
@@ -17,6 +18,7 @@ use App\Policies\UserPolicy;
 use App\Policies\BatchPolicy;
 use App\Policies\ProfilePolicy;
 use App\Policies\StudentPolicy;
+use App\Policies\PositionPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\HomepageNotificationPolicy as NotificationPolicy;
 
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Batch::class => BatchPolicy::class,
         Student::class => StudentPolicy::class,
         Profile::class => ProfilePolicy::class,
+        Position::class => PositionPolicy::class,
         Department::class => DepartmentPolicy::class,
         HomepageNotification::class => NotificationPolicy::class,
     ];
