@@ -93,7 +93,7 @@
                 $profileId = $profile['id'];
                 $canUpdate = Auth::user()->can('update', [$profileModel, $profileId]);
                 $canDelete = Auth::user()->can('delete', [$profileModel, $profileId]);
-                $hod = $profile['department']['hod'] == null ? ''
+                $hod = $profile['hod'] == null ? ''
                     : '<span class="badge bg-success me-1">HoD</span>';
             @endphp
 

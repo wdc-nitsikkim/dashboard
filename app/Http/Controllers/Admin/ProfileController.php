@@ -40,7 +40,7 @@ class ProfileController extends Controller {
     public function show() {
         $this->authorize('view', Profile::class);
 
-        $profiles = Profile::with('department.hod')->paginate($this->paginate);
+        $profiles = Profile::with(['department', 'hod'])->paginate($this->paginate);
 
         $ownProfile = false;
         if (Auth::user()->hasProfile()) {
@@ -57,7 +57,7 @@ class ProfileController extends Controller {
     public function showTrashed() {
         $this->authorize('view', Profile::class);
 
-        $profiles = Profile::with('department.hod')->onlyTrashed()->paginate($this->paginate);
+        $profiles = Profile::with(['department', 'hod'])->onlyTrashed()->paginate($this->paginate);
 
         $ownProfile = false;
         if (Auth::user()->hasProfile()) {
@@ -114,7 +114,7 @@ class ProfileController extends Controller {
             'created_at' => 'date'
         ];
 
-        $search->with('department.hod');
+        $search->with(['department', 'hod']);
         $search = CustomHelper::getSearchQuery($search, $data, $map)->paginate($this->paginate);
         $search->appends($data);
 
