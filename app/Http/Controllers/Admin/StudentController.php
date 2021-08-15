@@ -155,7 +155,34 @@ class StudentController extends Controller {
             'email.*' => ['required', 'distinct', 'email', Rule::unique('students', 'email')]
         ]);
 
-        return $request->all();
+        $countName = count($data['name']);
+        $countRoll = count($data['roll_number']);
+        $countEmail = count($data['email']);
+        if (($countName != $countRoll) || ($countRoll != $countEmail)) {
+            return abort(400);
+        }
+
+        try {
+            for ($i = 0; $i < $countName; $i++) {
+                $student = Student::create([
+                    'name' => $data['name'][$i],
+                    'roll_number' => $data['roll_number'][$i],
+                    'email' => $data['email'][$i],
+                    'department_id' => $dept->id,
+                    'batch_id' => $batch->id
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::debug('Failed to bulk insert students!', [Auth::user(), $dept, $batch]);
+            return abort(500);
+        }
+
+        return response()->json([
+            'redirect' => route('admin.students.show', [
+                'dept' => $dept->code,
+                'batch' => $batch->code
+            ])
+        ], 201);
     }
 
     public function saveNew(Request $request, Department $dept, Batch $batch) {
