@@ -30,6 +30,7 @@ class CreateProfilesTable extends Migration
             $table->text('teachings')->nullable(true)->default(null);
             $table->text('office_address')->nullable(true)->default(null);
             $table->longText('publications')->nullable(true)->default(null);
+            $table->tinyInteger('order')->nullable(true)->default(null);
 
             $table->timestamps();
             $table->softDeletes();
