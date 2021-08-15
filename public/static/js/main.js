@@ -166,12 +166,12 @@ const globalHandler = (function ($, window, main) {
         });
     });
 
-    $('a[spoof]').on('click', function(e) {
+    $('a[spoof]').on('click', function (e) {
         e.preventDefault();
         return main.spoofMethod($(this), e);
     });
 
-    jQuery(function() {
+    jQuery(() => {
         /* trigger sidenav only for large screens */
         $(window).width() >= main.breakPoints.lg ? main.modifySideNav()
             : console.log('Sidenav trigger cancelled!');

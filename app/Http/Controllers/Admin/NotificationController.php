@@ -111,7 +111,7 @@ class NotificationController extends Controller {
             'attachment' => 'filled | mimes:pdf,doc,docx,xls,xlsx | max:5120'
         ]);
 
-        $validator->after(function($validator) {
+        $validator->after(function ($validator) {
             if ($this->checkLinkAndFileBothMissing()) {
                 $validator->errors()->add('link', 'Link required if attachment is not present!');
             }
@@ -163,7 +163,7 @@ class NotificationController extends Controller {
             'attachment' => 'filled | mimes:pdf,doc,docx,xls,xlsx | max:5120'
         ]);
 
-        $validator->after(function($validator) {
+        $validator->after(function ($validator) {
             if ($this->checkLinkAndFileBothMissing()) {
                 $validator->errors()->add('link', 'Link required if attachment is not present!');
             }
