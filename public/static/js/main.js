@@ -117,6 +117,7 @@ const globalHandler = (function ($, window, main) {
         const btn = $(this);
 
         if (bypass) {
+            e.preventDefault();
             btn.off('click');
             btn[0].click();
             return;
