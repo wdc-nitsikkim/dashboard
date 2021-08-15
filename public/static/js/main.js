@@ -113,6 +113,27 @@ const globalHandler = (function ($, window, main) {
         }
     });
 
+    $(window.document).on('ajaxSuccess', function (e, xhr) {
+        if (typeof xhr.responseJSON == 'undefined') {
+            return;
+        }
+
+        const fnList = {
+            'reload': option => {
+                option ? window.location.reload() : false;
+            },
+            'redirect': location => {
+                window.location.href = location;
+            }
+        };
+
+        for (const key in xhr.responseJSON) {
+            if (typeof fnList[key] === 'function') {
+                fnList[key](xhr.responseJSON[key]);
+            }
+        }
+    });
+
     $('a[confirm], button[confirm]').on('click', function (e, bypass = false) {
         const btn = $(this);
 

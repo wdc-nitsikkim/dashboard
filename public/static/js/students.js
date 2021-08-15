@@ -66,7 +66,7 @@ const students = (function ($, window) {
                 submitBtn.attr('disabled', true);
             }
         }).done(() => {
-            // window.location.reload();
+
         }).fail(xhr => {
             if (typeof xhr.responseJSON !== 'undefined') {
                 const errors = jsonFormErrorHandler.reformat(xhr.responseJSON.errors);

@@ -21,7 +21,7 @@
                 submitBtn.attr('disabled', true);
             }
         }).done(() => {
-            window.location.reload();
+
         }).fail(() => {
             console.error('Request failed!');
         }).always(() => {

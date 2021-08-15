@@ -4,7 +4,11 @@ const dynamicList = (function ($, window, main) {
     let listAjax = undefined;
     let listTimer = undefined;
 
-    /* wait for given gap between keyboard strokes before sending request */
+    /**
+     * Time to wait between keystrokes before sending request
+     *
+     * @constant
+     */
     const typegap = 750;
 
     function getListItem(item, radioName, autofill) {
