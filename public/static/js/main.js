@@ -1,5 +1,7 @@
 const lsMod = (function (window) {
-    this.ls = window.localStorage;
+    'use strict';
+
+    const ls = window.localStorage;
 
     function state() {
         const tmpKey = "checkLs";
@@ -43,6 +45,8 @@ const lsMod = (function (window) {
 })(window);
 
 const main = (function ($, window) {
+    'use strict';
+
     const breakPoints = {
         sm: 540,
         md: 720,
