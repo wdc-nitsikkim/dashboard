@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\Hpd;
+use App\Models\Hod;
 use App\Models\Department;
 use App\Models\UserProfileLink;
 use App\Traits\GlobalMutators;
