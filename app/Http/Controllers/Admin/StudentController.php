@@ -132,6 +132,32 @@ class StudentController extends Controller {
         ]);
     }
 
+    public function bulkInsert(Department $dept, Batch $batch) {
+        $this->authorize('create', [Student::class, $dept]);
+
+        return view('admin.students.bulkInsert', [
+            'batch' => $batch,
+            'department' => $dept
+        ]);
+    }
+
+    public function bulkInsertSave(Request $request, Department $dept, Batch $batch) {
+        /* use for AJAX calls only, this function returns JSON responses */
+
+        $this->authorize('create', [Student::class, $dept]);
+
+        $data = $request->validate([
+            'name' => 'required | array | min:1',
+            'name.*' => 'required | min:3',
+            'roll_number' => 'required | array | min:1',
+            'roll_number.*' => ['required', 'distinct', Rule::unique('students', 'roll_number')],
+            'email' => 'required | array | min:1',
+            'email.*' => ['required', 'distinct', 'email', Rule::unique('students', 'email')]
+        ]);
+
+        return $request->all();
+    }
+
     public function saveNew(Request $request, Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 

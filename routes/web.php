@@ -179,6 +179,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::prefix('{dept}/{batch}')->group(function() {
             Route::get('/', 'StudentController@show')->name('show');
             Route::get('/add', 'StudentController@add')->name('add');
+            Route::get('/bulk-insert', 'StudentController@bulkInsert')->name('bulkInsert');
+            Route::post('/bulk-insert', 'StudentController@bulkInsertSave')->name('bulkInsertSave');
             Route::post('/save', 'StudentController@saveNew')->name('saveNew');
             Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
             Route::post('/update/{student}', 'StudentController@update')->name('update');
