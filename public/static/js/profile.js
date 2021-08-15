@@ -23,6 +23,8 @@ const profileHandler = (function ($, window, main) {
 }(jQuery, window, main));
 
 const editorJsInit = (function ($, window, ls) {
+    'use strict';
+
     const tools = {
         header: {
             class: window.Header,
