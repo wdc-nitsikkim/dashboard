@@ -37,7 +37,7 @@
                         Student
                     </a>
                     <a class="dropdown-item d-flex align-items-center"
-                        href="#!">
+                        href="{{ route('admin.students.bulkInsert', $baseRouteParams) }}">
                         <span class="material-icons">group_add</span>
                         Bulk Add
                     </a>

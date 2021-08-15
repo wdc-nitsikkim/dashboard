@@ -132,6 +132,59 @@ class StudentController extends Controller {
         ]);
     }
 
+    public function bulkInsert(Department $dept, Batch $batch) {
+        $this->authorize('create', [Student::class, $dept]);
+
+        return view('admin.students.bulkInsert', [
+            'batch' => $batch,
+            'department' => $dept
+        ]);
+    }
+
+    public function bulkInsertSave(Request $request, Department $dept, Batch $batch) {
+        /* use for AJAX calls only, this function returns JSON responses */
+
+        $this->authorize('create', [Student::class, $dept]);
+
+        $data = $request->validate([
+            'name' => 'required | array | min:1',
+            'name.*' => 'required | min:3',
+            'roll_number' => 'required | array | min:1',
+            'roll_number.*' => ['required', 'distinct', Rule::unique('students', 'roll_number')],
+            'email' => 'required | array | min:1',
+            'email.*' => ['required', 'distinct', 'email', Rule::unique('students', 'email')]
+        ]);
+
+        $countName = count($data['name']);
+        $countRoll = count($data['roll_number']);
+        $countEmail = count($data['email']);
+        if (($countName != $countRoll) || ($countRoll != $countEmail)) {
+            return abort(400);
+        }
+
+        try {
+            for ($i = 0; $i < $countName; $i++) {
+                $student = Student::create([
+                    'name' => $data['name'][$i],
+                    'roll_number' => $data['roll_number'][$i],
+                    'email' => $data['email'][$i],
+                    'department_id' => $dept->id,
+                    'batch_id' => $batch->id
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::debug('Failed to bulk insert students!', [Auth::user(), $dept, $batch]);
+            return abort(500);
+        }
+
+        return response()->json([
+            'redirect' => route('admin.students.show', [
+                'dept' => $dept->code,
+                'batch' => $batch->code
+            ])
+        ], 201);
+    }
+
     public function saveNew(Request $request, Department $dept, Batch $batch) {
         $this->authorize('create', [Student::class, $dept]);
 
