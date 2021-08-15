@@ -264,7 +264,9 @@ class DepartmentController extends Controller {
             return abort(500);
         }
 
-        return abort(200);
+        return response()->json([
+            'reload' => true
+        ], 200);
     }
 
     public function test() {
