@@ -2,7 +2,7 @@
     $image -> string (public storage path)
     $name -> string
     $primaryText -> string (optional)
-    $secondaryText -> string
+    $secondaryText -> string (optional)
     $type -> string
     $mobile -> string
     $email -> string
@@ -38,7 +38,7 @@
                         {!! $primaryText ?? '' !!}</h6>
                 </div>
                 <small class="d-flex align-items-center text-gray-500">
-                    <span class="text-truncate">{!! $secondaryText !!}</span>
+                    <span class="text-truncate">{!! $secondaryText ?? '' !!}</span>
                 </small>
                 <div class="small d-flex-inline text-truncate mt-1">
                     <a href="tel:{{ $mobile }}" class="text-info">

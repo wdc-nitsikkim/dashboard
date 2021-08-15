@@ -69,7 +69,7 @@
                     'image' => $user->image,
                     'email' => $user->email,
                     'mobile' => $user->mobile,
-                    'secondaryText' => $roleList
+                    'primaryText' => $roleList
                 ])
 
                     <div class="card-footer d-flex justify-content-end p-2 mx-1">
