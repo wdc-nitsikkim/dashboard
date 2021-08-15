@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 use App\CustomHelper;
+use App\Models\Profile;
 use App\Models\Department;
 
 class DepartmentController extends Controller {
@@ -219,6 +220,52 @@ class DepartmentController extends Controller {
             'status' => 'success',
             'message' => 'Deleted permanently!'
         ]);
+    }
+
+    public function orderPeople(Department $dept) {
+        $this->authorize('view', Department::class);
+
+        $profiles = Profile::with('hod')->where('department_id', $dept->id)
+            ->orderBy('order')->get();
+
+        return view('admin.department.orderPeople', [
+            'profiles' => $profiles,
+            'department' => $dept
+        ]);
+    }
+
+    public function saveOrder(Request $request, Department $dept) {
+        /* function only meant for AJAX calls */
+
+        $this->authorize('orderPeople', [Department::class, $dept]);
+
+        $data = $request->validate([
+            'order' => 'required | json'
+        ]);
+
+        try {
+            $order = collect(json_decode($data['order']));
+        } catch (\Exception $e) {
+            Log::debug('Failed to save order!', [Auth::user(), $e->getMessage(), $data, $dept]);
+            return abort(400);
+        }
+        $profiles = Profile::select('id', 'department_id', 'order')
+            ->where('department_id', $dept->id)
+            ->whereIn('id', $order->pluck('profile_id')
+            ->toArray())->get();
+
+        try {
+            foreach ($profiles as $profile) {
+                $profile->order = $order->where('profile_id', $profile->id)
+                    ->first()->order;
+                $profile->save();
+            }
+        } catch (\Exception $e) {
+            Log::debug('Failed to save order!', [Auth::user(), $e->getMessage(), $data, $dept]);
+            return abort(500);
+        }
+
+        return abort(200);
     }
 
     public function test() {
