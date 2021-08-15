@@ -146,7 +146,11 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::post('/restore/{id}', 'DepartmentController@restore')->name('restore');
         Route::delete('/delete/{id}', 'DepartmentController@delete')->name('delete');
 
-        Route::get('/{dept}', 'DepartmentController@home')->name('home');
+        Route::prefix('{dept}')->group(function () {
+            Route::get('/', 'DepartmentController@home')->name('home');
+            Route::get('/order-people', 'DepartmentController@orderPeople')->name('orderPeople');
+            Route::post('/save-order', 'DepartmentController@saveOrder')->name('saveOrder');
+        });
     });
 
     /* profile routes */

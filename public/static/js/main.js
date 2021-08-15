@@ -1,5 +1,7 @@
 const lsMod = (function (window) {
-    this.ls = window.localStorage;
+    'use strict';
+
+    const ls = window.localStorage;
 
     function state() {
         const tmpKey = "checkLs";
@@ -43,6 +45,8 @@ const lsMod = (function (window) {
 })(window);
 
 const main = (function ($, window) {
+    'use strict';
+
     const breakPoints = {
         sm: 540,
         md: 720,
@@ -109,10 +113,32 @@ const globalHandler = (function ($, window, main) {
         }
     });
 
+    $(window.document).on('ajaxSuccess', function (e, xhr) {
+        if (typeof xhr.responseJSON == 'undefined') {
+            return;
+        }
+
+        const fnList = {
+            'reload': option => {
+                option ? window.location.reload() : false;
+            },
+            'redirect': location => {
+                window.location.href = location;
+            }
+        };
+
+        for (const key in xhr.responseJSON) {
+            if (typeof fnList[key] === 'function') {
+                fnList[key](xhr.responseJSON[key]);
+            }
+        }
+    });
+
     $('a[confirm], button[confirm]').on('click', function (e, bypass = false) {
         const btn = $(this);
 
         if (bypass) {
+            e.preventDefault();
             btn.off('click');
             btn[0].click();
             return;
@@ -140,12 +166,12 @@ const globalHandler = (function ($, window, main) {
         });
     });
 
-    $('a[spoof]').on('click', function(e) {
+    $('a[spoof]').on('click', function (e) {
         e.preventDefault();
         return main.spoofMethod($(this), e);
     });
 
-    jQuery(function() {
+    jQuery(() => {
         /* trigger sidenav only for large screens */
         $(window).width() >= main.breakPoints.lg ? main.modifySideNav()
             : console.log('Sidenav trigger cancelled!');

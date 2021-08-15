@@ -50,7 +50,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         /* all actions allowed for 'root' user */
-        Gate::before(function($user, $ability) {
+        Gate::before(function ($user, $ability) {
             return $user->hasRole('root') ? true : null;
         });
     }

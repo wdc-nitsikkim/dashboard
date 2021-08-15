@@ -23,6 +23,8 @@ const profileHandler = (function ($, window, main) {
 }(jQuery, window, main));
 
 const editorJsInit = (function ($, window, ls) {
+    'use strict';
+
     const tools = {
         header: {
             class: window.Header,
@@ -75,7 +77,7 @@ const editorJsInit = (function ($, window, ls) {
         return statusMessage('fail', 'Data empty or corrupt!');
     });
 
-    localRestoreBtn.on('click', function(e) {
+    localRestoreBtn.on('click', function (e) {
         if (loadData(ls.get(localStorageKey))) {
             /* 'onChange' event is not fired when restoring data from localStorage
                 so calling 'storeData' manually */

@@ -5,7 +5,6 @@ namespace App\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 use App\Models\User;
-use App\Models\Batch;
 use App\CustomHelper;
 
 class BatchPolicy {

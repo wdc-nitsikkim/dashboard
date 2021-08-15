@@ -38,9 +38,9 @@ const jsonFormErrorHandler = (function ($) {
         return arr;
     }
 
-    return {
+    return Object.freeze({
         reformat: reFormatErrors,
         addClass: addInvalidClasses,
         removeClass: removeInvalidClasses
-    }
+    });
 })(jQuery);

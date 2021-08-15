@@ -17,6 +17,7 @@ class DepartmentPolicy {
      * @var array
      */
     protected $view_roles = ['admin', 'office', 'ecell', 'tnp', 'hod', 'faculty', 'staff'];
+    protected $order_roles = ['admin', 'hod'];
     protected $create_roles = ['admin'];
     protected $update_roles = ['admin'];
     protected $delete_roles = [];
@@ -39,5 +40,10 @@ class DepartmentPolicy {
 
     public function delete(User $user) {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
+    }
+
+    public function orderPeople(User $user, Department $dept) {
+        return $user->isPermissionValid($this->order_roles, $this->permission['update'])
+            && $user->hasDepartmentAccess($dept->id);
     }
 }

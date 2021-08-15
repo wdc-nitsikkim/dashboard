@@ -20,6 +20,10 @@
     @endslot
 @endcomponent
 
+@php
+    $deptParam = [ 'department_id' => $department->id ];
+@endphp
+
 <div class="row row-cols-1 row-cols-md-3 g-2 mb-4">
     <div class="col">
         <div class="card shadow h-100">
@@ -31,7 +35,8 @@
                 <p class="card-text">Update student details</p>
             </div>
             <div class="card-footer">
-                <a href="#!" class="small text-info">Go to page</a>
+                <a href="{{ route('admin.students.search', $deptParam) }}"
+                    class="small text-info">Go to page</a>
             </div>
         </div>
     </div>
@@ -45,7 +50,10 @@
                 <p class="card-text">Update faculty or staff members</p>
             </div>
             <div class="card-footer">
-                <a href="#!" class="small text-info">Go to page</a>
+                <a href="{{ route('admin.profiles.search', $deptParam) }}"
+                    class="small text-info">Go to page</a>
+                <a href="{{ route('admin.department.orderPeople', $department->code) }}"
+                    class="small text-info ms-2">Manage</a>
             </div>
         </div>
     </div>
