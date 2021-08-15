@@ -4,7 +4,7 @@
 --}}
 
 <div class="table-responsive">
-    <table class="table table-centered table-nowrap mb-0 rounded">
+    <table class="table table-centered table-nowrap mb-0 rounded" {!! $attr ?? '' !!}>
         {{ $head }}
         <tbody>
             {{ $body }}
