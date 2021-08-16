@@ -22,7 +22,7 @@ class LoginController extends Controller {
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['logout', 'confirmPassword']);
     }
 
     public function defaultLogin(Request $request) {
@@ -149,6 +149,24 @@ class LoginController extends Controller {
             'status' => 'info',
             'message' => 'No account found'
         ]);
+    }
+
+    public function confirmPassword(Request $request) {
+        $request->validate([
+            'password' => 'required | string'
+        ]);
+
+        if (!Hash::check($request->password, Auth::user()->getAuthPassword())) {
+            return back()->withErrors([
+                'password' => 'Incorrect password'
+            ]);
+        }
+
+        $sessionKey = CustomHelper::getSessionConstants()['confirmPassword'];
+        session([$sessionKey => time()]);
+
+        return $request->intended ? redirect($request->intended)
+            : redirect()->route('root.default');
     }
 
     public function logout() {
