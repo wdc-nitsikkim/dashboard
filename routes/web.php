@@ -55,8 +55,10 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 /* root routes */
 Route::name('root.')->middleware('auth')->group(function() {
     Route::view('/default', 'layouts.admin')->name('default');
+    Route::view('/lock', 'lockscreen')->name('lockscreen');
+    Route::post('/lock', 'Auth\LoginController@confirmPassword')->name('confirmPassword');
+
     Route::post('/clear-session', 'RootController@clearSession')->name('clearSession');
-    Route::get('/test', 'RootController@test');
 });
 
 /* user account routes */
