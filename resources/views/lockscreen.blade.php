@@ -31,7 +31,11 @@
 
                                 </div>
                                 <h1 class="h3">{{ Auth::user()->name }}</h1>
-                                <p class="text-gray">Re-enter your password to cotinue</p>
+                                <p class="text-gray">
+                                    Re-enter your password to cotinue<br>
+                                    <span class="text-info small">We won't ask for your password
+                                        again for some time</span>
+                                </p>
                             </div>
 
                             <form class="mt-5" action="{{ route('root.confirmPassword') }}" method="POST">
