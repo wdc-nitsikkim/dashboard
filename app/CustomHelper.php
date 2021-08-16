@@ -16,7 +16,8 @@
             'sessionMap' => [
                 'selectedBatch' => 'batch.selected',
                 'selectedSubject' => 'subject.selected',
-                'selectedDepartment' => 'department.selected'
+                'selectedDepartment' => 'department.selected',
+                'confirmPassword' => 'pwd_last_confirmed'
             ],
             'permissionMap' => [
                 'read' => 'r',

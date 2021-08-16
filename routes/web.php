@@ -55,8 +55,10 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 /* root routes */
 Route::name('root.')->middleware('auth')->group(function() {
     Route::view('/default', 'layouts.admin')->name('default');
+    Route::view('/lock', 'lockscreen')->name('lockscreen');
+    Route::post('/lock', 'Auth\LoginController@confirmPassword')->name('confirmPassword');
+
     Route::post('/clear-session', 'RootController@clearSession')->name('clearSession');
-    Route::get('/test', 'RootController@test');
 });
 
 /* user account routes */
@@ -65,7 +67,9 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/search', 'UserController@searchForm')->name('searchForm');
     Route::get('/search/results', 'UserController@search')->name('search');
 
-    Route::name('manage.')->prefix('manage')->group(function() {
+    Route::name('manage.')->prefix('manage')->middleware('password.confirm')
+        ->group(function() {
+
         Route::get('/{id}', 'ManageUserController@manage')->name('page');
         Route::post('/save-permissions/{id}', 'ManageUserController@savePermissions')
             ->name('savePermissions');
@@ -82,9 +86,11 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/{id}', 'UserController@profile')->name('account');
     Route::post('/update/{id}', 'UserController@update')->name('update');
     Route::post('/change-password/{id}', 'UserController@changePassword')->name('changePassword');
-    Route::delete('/soft-delete/{id}', 'UserController@softDelete')->name('softDelete');
+    Route::delete('/soft-delete/{id}', 'UserController@softDelete')
+        ->middleware('password.confirm')->name('softDelete');
     Route::post('/restore/{id}', 'UserController@restore')->name('restore');
-    Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
+    Route::delete('/delete/{id}', 'UserController@delete')
+        ->middleware('password.confirm')->name('delete');
 
     Route::get('/test', 'UserController@test');
 });
@@ -96,7 +102,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::name('hods.')->prefix('hods')->group(function() {
             Route::get('/', 'HodController@show')->name('show');
             Route::post('/assign', 'HodController@assign')->name('assign');
-            Route::delete('/remove/{dept_id}', 'HodController@remove')->name('remove');
+            Route::delete('/remove/{dept_id}', 'HodController@remove')
+                ->middleware('password.confirm')->name('remove');
         });
 
         Route::name('positions.')->prefix('positions')->group(function() {
@@ -123,7 +130,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
                 ->where('status', 'enable|disable')->name('changeStatus');
             Route::delete('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');
             Route::post('/restore/{id}', 'NotificationController@restore')->name('restore');
-            Route::delete('/delete/{id}', 'NotificationController@delete')->name('delete');
+            Route::delete('/delete/{id}', 'NotificationController@delete')
+                ->middleware('password.confirm')->name('delete');
 
             Route::get('/test', 'NotificationController@test');
         });
@@ -142,9 +150,11 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::post('/save', 'DepartmentController@saveNew')->name('saveNew');
         Route::get('/edit/{id}', 'DepartmentController@edit')->name('edit');
         Route::post('/update/{id}', 'DepartmentController@update')->name('update');
-        Route::delete('/soft-delete/{id}', 'DepartmentController@softDelete')->name('softDelete');
+        Route::delete('/soft-delete/{id}', 'DepartmentController@softDelete')
+            ->middleware('password.confirm')->name('softDelete');
         Route::post('/restore/{id}', 'DepartmentController@restore')->name('restore');
-        Route::delete('/delete/{id}', 'DepartmentController@delete')->name('delete');
+        Route::delete('/delete/{id}', 'DepartmentController@delete')
+            ->middleware('password.confirm')->name('delete');
 
         Route::prefix('{dept}')->group(function () {
             Route::get('/', 'DepartmentController@home')->name('home');
@@ -162,12 +172,16 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/add', 'ProfileController@add')->name('add');
         Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
         Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
-        Route::post('/link', 'ProfileController@link')->name('link');
-        Route::post('/unlink', 'ProfileController@unlink')->name('unlink');
+        Route::post('/link', 'ProfileController@link')
+            ->middleware('password.confirm')->name('link');
+        Route::post('/unlink', 'ProfileController@unlink')
+            ->middleware('password.confirm')->name('unlink');
         Route::post('/update/{id}', 'ProfileController@update')->name('update');
-        Route::delete('/soft-delete/{id}', 'ProfileController@softDelete')->name('softDelete');
+        Route::delete('/soft-delete/{id}', 'ProfileController@softDelete')
+            ->middleware('password.confirm')->name('softDelete');
         Route::post('/restore/{id}', 'ProfileController@restore')->name('restore');
-        Route::delete('/delete/{id}', 'ProfileController@delete')->name('delete');
+        Route::delete('/delete/{id}', 'ProfileController@delete')
+            ->middleware('password.confirm')->name('delete');
 
         Route::get('/test', 'ProfileController@test');
     });
@@ -188,9 +202,11 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
             Route::post('/save', 'StudentController@saveNew')->name('saveNew');
             Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
             Route::post('/update/{student}', 'StudentController@update')->name('update');
-            Route::delete('/soft-delete/{student}', 'StudentController@softDelete')->name('softDelete');
+            Route::delete('/soft-delete/{student}', 'StudentController@softDelete')
+                ->middleware('password.confirm')->name('softDelete');
             Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
-            Route::delete('/delete/{id}', 'StudentController@delete')->name('delete');
+            Route::delete('/delete/{id}', 'StudentController@delete')
+                ->middleware('password.confirm')->name('delete');
         });
     });
 
@@ -206,9 +222,11 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::post('/save', 'BatchController@saveNew')->name('saveNew');
         Route::get('/edit/{id}', 'BatchController@edit')->name('edit');
         Route::post('/update/{id}', 'BatchController@update')->name('update');
-        Route::delete('/soft-delete/{id}', 'BatchController@softDelete')->name('softDelete');
+        Route::delete('/soft-delete/{id}', 'BatchController@softDelete')
+            ->middleware('password.confirm')->name('softDelete');
         Route::post('/restore/{id}', 'BatchController@restore')->name('restore');
-        Route::delete('/delete/{id}', 'BatchController@delete')->name('delete');
+        Route::delete('/delete/{id}', 'BatchController@delete')
+            ->middleware('password.confirm')->name('delete');
     });
 });
 

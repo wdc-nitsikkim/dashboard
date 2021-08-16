@@ -27,6 +27,19 @@
 <!-- Custom JS -->
 <script src="{{ asset('static/js/main.js') }}"></script>
 
+{{--
+<!-- Debug -->
+<script>
+    var tmp = '{!! json_encode(session()->all()) !!}';
+    console.log(JSON.parse(tmp));
+    tmp = '{!! json_encode($errors->all()) !!}';
+    console.log(JSON.parse(tmp));
+    tmp = '{!! json_encode(request()->all()) !!}';
+    console.log(JSON.parse(tmp));
+    delete tmp;
+</script>
+--}}
+
 {{-- all additional scripts (if any) will be loaded after the core js files --}}
 @stack('scripts')
 
