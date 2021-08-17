@@ -2,6 +2,7 @@
     $user -> single user model (with nested relations)
     $roles -> array
     $departments -> collection of department model
+    $subjects -> collection of subject model
 --}}
 
 @extends('layouts.admin', ['title' => 'Manage Roles - ' . $user->name])
@@ -177,7 +178,44 @@
         <div class="card border-0 shadow mb-4">
             <div class="card-body">
                 <h5 class="mb-2">Subject Access</h5>
-                <p class="text-info">-> Feature under development</p>
+
+                @if ($user->allowedSubjects->count() == 0)
+                    <p class="text-danger">No Results / Not Applicable</p>
+                @else
+                    @component('components.table.main')
+                        @slot('head')
+                            @component('components.table.head', [
+                                'items' => [
+                                    'Code', 'Name', 'Granted on', 'Revoke'
+                                ]
+                            ])
+                            @endcomponent
+                        @endslot
+
+                        @slot('body')
+                            @foreach ($user->allowedSubjects as $subject)
+                                <tr>
+                                    <td class="fw-bolder">
+                                        {{ strtoupper($subject->subject->code) }}
+                                    </td>
+                                    <td class="fw-bolder">{{ $subject->subject->name }}</td>
+                                    <td>
+                                        {{ $subject->created_at }}
+                                    </td>
+                                    <td>
+                                        @include('components.table.actionBtn.delete', [
+                                            'href' => route('users.manage.revokeSubAccess', [
+                                                'user_id' => $user->id,
+                                                'dept_id' => $subject->subject_id
+                                            ])
+                                        ])
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endslot
+                    @endcomponent
+                @endif
+
             </div>
         </div>
     </div>
@@ -221,6 +259,27 @@
 
             @foreach ($departments as $dept)
                 <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+            @endforeach
+
+        </select>
+    </div>
+
+@endcomponent
+
+@component('components.formModal', [
+    'modalId' => 'add-sub-access-modal',
+    'title' => 'Give access to subject',
+    'formAction' => route('users.manage.grantSubAccess', $user->id),
+    'submitBtnText' => 'Add'
+])
+
+    <div class="col-12 mb-2">
+        <select class="form-select" id="subject_id" name="subject_id" required>
+            <option value="" selected>Select a subject</option>
+
+            @foreach ($subjects as $subject)
+                <option value="{{ $subject->id }}">
+                    {{ strtoupper($subject->code) }} - {{ $subject->name }}</option>
             @endforeach
 
         </select>

@@ -79,6 +79,10 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
             ->name('revokeRole');
         Route::post('/grant-department-access/{id}', 'ManageUserController@grantDepartmentAccess')
             ->name('grantDeptAccess');
+        Route::post('/grant-subject-access/{id}', 'ManageUserController@grantSubjectAccess')
+            ->name('grantSubAccess');
+        Route::delete('/revoke-subject-access/{user_id}/{subject_id}',
+            'ManageUserController@revokeSubjectAccess')->name('revokeSubAccess');
         Route::delete('/revoke-department-access/{user_id}/{dept_id}',
             'ManageUserController@revokeDepartmentAccess')->name('revokeDeptAccess');
     });
