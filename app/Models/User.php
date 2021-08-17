@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Models\UserRole;
 use App\Models\UserProfileLink;
+use App\Models\UserAccessSubject;
 use App\Models\UserRolePermission;
 use App\Models\UserAccessDepartment;
 use App\Traits\GlobalMutators;
@@ -43,6 +44,14 @@ class User extends Authenticatable
      */
     public function allowedDepartments() {
         return $this->hasMany(UserAccessDepartment::class, 'user_id');
+    }
+
+    /**
+     * Defines one-to-many relationship
+     *
+     */
+    public function allowedSubjects() {
+        return $this->hasMany(UserAccessSubject::class, 'user_id');
     }
 
     /**
@@ -113,7 +122,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Checks whether user has access to specified department
+     * Checks whether user has access to the specified department
      * Note: users with admin role have access to all departments, i.e,
      * it will always return true
      *
@@ -125,6 +134,22 @@ class User extends Authenticatable
             return true;
         }
         return $this->allowedDepartments->where('department_id', $dept)
+            ->count() > 0;
+    }
+
+    /**
+     * Checks whether user has access to the specified subject
+     * Note: users with admin role have access to all subjects, i.e,
+     * it will always return true
+     *
+     * @param int $subject_id
+     * @return bool
+     */
+    public function hasSubjectAccess($subject_id) {
+        if ($this->hasRole('admin')) {
+            return true;
+        }
+        return $this->allowedSubjects->where('subject_id', $subject_id)
             ->count() > 0;
     }
 }
