@@ -94,7 +94,7 @@ const editorJsInit = (function ($, window, ls) {
                 formInput.val('');
                 return;
             }
-            json = JSON.stringify(savedData);
+            let json = JSON.stringify(savedData);
             ls.set(localStorageKey, json);
             formInput.val(json);
             statusMessage('success', 'Saved');
