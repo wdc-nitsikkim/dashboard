@@ -235,7 +235,9 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
 
     /* subject routes */
     Route::name('subjects.')->prefix('subjects')->group(function () {
-        Route::get('/', 'SubjectController@show')->name('show');
+        Route::get('/','SubjectController@handleRedirect')->name('handleRedirect');
+        Route::get('/{dept}/{semester?}', 'SubjectController@show')->
+            where('semester', '[0-9]+')->name('show');
         Route::get('/select', 'SubjectController@select')->name('select');
         Route::post('/save-in-session/{subject}', 'SubjectController@saveInSession')->name('saveInSession');
 
