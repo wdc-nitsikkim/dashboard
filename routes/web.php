@@ -232,6 +232,15 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::delete('/delete/{id}', 'BatchController@delete')
             ->middleware('password.confirm')->name('delete');
     });
+
+    /* subject routes */
+    Route::name('subjects.')->prefix('subjects')->group(function () {
+        Route::get('/', 'SubjectController@show')->name('show');
+        Route::get('/select', 'SubjectController@select')->name('select');
+        Route::post('/save-in-session/{subject}', 'SubjectController@saveInSession')->name('saveInSession');
+
+        Route::get('/test', 'SubjectController@test');
+    });
 });
 
 /* framework version */
