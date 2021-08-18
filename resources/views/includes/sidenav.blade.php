@@ -353,7 +353,7 @@
                 </div>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item {{ Route::is('admin.subjects.select') ? 'active' : '' }}">
                 <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-subjects">
                     <span>
@@ -368,8 +368,8 @@
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-subjects" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
+                        <li class="nav-item {{ Route::is('admin.subjects.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.subjects.show') }}">
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
