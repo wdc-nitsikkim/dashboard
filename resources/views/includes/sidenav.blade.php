@@ -14,6 +14,7 @@
 </nav>
 
 @php
+    $image = Auth::user()->image;
     $sessionConsts = CustomHelper::getSessionConstants();
 
     $isDeptSelected = session()->has($sessionConsts['selectedDepartment']);
@@ -32,8 +33,18 @@
             class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
             <div class="d-flex align-items-center">
                 <div class="avatar-lg me-4">
-                    <img src="{{ asset('static/images/admin.webp') }}"
-                        class="card-img-top rounded-circle border-white" alt="Bonnie Green">
+
+                    @if (isset($image) && Storage::disk('public')->exists($image))
+                        <img class="card-img-top rounded-circle border-white" alt="user-img"
+                            src="{{ asset(Storage::url($image)) }}"/>
+                    @elseif (isset($image) && filter_var($image, FILTER_VALIDATE_URL))
+                        <img class="card-img-top rounded-circle border-white" alt="user-image"
+                            src="{{ $image }}"/>
+                    @else
+                        <img class="card-img-top rounded-circle border-white" alt="user-image"
+                            src="{{ asset('static/images/user-default.png') }}"/>
+                    @endif
+
                 </div>
                 <div class="d-block">
                     <h2 class="h5 mb-3">
