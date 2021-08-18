@@ -367,9 +367,18 @@
                     </span>
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-subjects" aria-expanded="false">
+
+                    @php
+                        $routeUrl = ($isDeptSelected)
+                            ? route('admin.subjects.show', [
+                                    'dept' => $department
+                                ])
+                            : route('admin.subjects.handleRedirect');
+                    @endphp
+
                     <ul class="flex-column nav">
                         <li class="nav-item {{ Route::is('admin.subjects.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('admin.subjects.show') }}">
+                            <a class="nav-link" href="{{ $routeUrl }}">
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
