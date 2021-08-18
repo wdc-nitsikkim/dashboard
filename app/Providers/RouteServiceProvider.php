@@ -30,6 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         /* Custom route parameter binding */
         Route::model('batch', \App\Models\Batch::class);
         Route::model('dept', \App\Models\Department::class);
+        Route::model('subject', \App\Models\Subject::class);
     }
 
     /**
