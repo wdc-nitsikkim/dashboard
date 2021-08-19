@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Student;
 use App\Models\Subject;
 use App\Traits\GlobalAccessors;
 
 class Result extends Model {
-    use softDeletes;
-    use GobalAccessors;
+    use SoftDeletes;
+    use GlobalAccessors;
 
     protected $table = 'results';
 
