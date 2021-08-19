@@ -302,7 +302,7 @@
                                 : route('admin.results.handleRedirect');
                         @endphp
 
-                        <li class="nav-item">
+                        <li class="nav-item {{ Route::is('admin.results.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
                                 <span class="sidebar-text">View</span>
                             </a>
