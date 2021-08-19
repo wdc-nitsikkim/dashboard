@@ -244,6 +244,17 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::get('/{dept}/{semester?}', 'SubjectController@show')->
             where('semester', '[0-9]+')->name('show');
     });
+
+    /* result routes */
+    Route::name('results.')->prefix('results')->group(function () {
+        Route::get('/', 'ResultController@handleRedirect')->name('handleRedirect');
+
+        Route::get('/test', 'ResultController@test');
+
+        Route::prefix('{dept}/{batch}/{subject}')->group(function () {
+            Route::get('/', 'ResultController@show')->name('show');
+        });
+    });
 });
 
 /* framework version */
