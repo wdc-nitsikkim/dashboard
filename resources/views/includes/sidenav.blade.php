@@ -291,9 +291,25 @@
                 </span>
                 <div class="multi-level collapse " role="list" id="submenu-results" aria-expanded="false">
                     <ul class="flex-column nav">
+
+                        @php
+                            $routeUrl = ($isDeptSelected && $isBatchSelected && $isSubjectSelected)
+                                ? route('admin.results.show', [
+                                        'dept' => $department,
+                                        'batch' => $batch,
+                                        'subject' => $subject
+                                    ])
+                                : route('admin.results.handleRedirect');
+                        @endphp
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ $routeUrl }}">
+                                <span class="sidebar-text">View</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#!">
-                                <span class="sidebar-text">List</span>
+                                <span class="sidebar-text">Find</span>
                             </a>
                         </li>
                     </ul>
@@ -304,25 +320,20 @@
                 <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-tnp">
                     <span>
-                        <span class="material-icons sidebar-icon">
+                        <span class="material-icons sidebar-icon text-gray-500">
                             contacts
                         </span>
-                        <span class="sidebar-text">TnP</span>
+                        <span class="sidebar-text text-gray-500">TnP</span>
                     </span>
                     <span class="link-arrow">
                         @include('partials.sidemenuSvg')
                     </span>
                 </span>
-                <div class="multi-level collapse " role="list" id="submenu-tnp" aria-expanded="false">
+                <div class="multi-level collapse" role="list" id="submenu-tnp" aria-expanded="false">
                     <ul class="flex-column nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#!">
-                                <span class="sidebar-text">Option 1</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
-                                <span class="sidebar-text">Option 2</span>
+                            <a class="nav-link text-gray-500 disabled" href="#!">
+                                <span class="sidebar-text">Under Dev.</span>
                             </a>
                         </li>
                     </ul>
