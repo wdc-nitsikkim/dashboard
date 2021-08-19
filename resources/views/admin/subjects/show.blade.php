@@ -93,7 +93,7 @@
                 @slot('head')
                     @component('components.table.head', [
                         'items' => [
-                            '#', 'Code', 'Name'
+                            '#', 'Code', 'Name', 'Credit'
                         ]
                     ])
                     @endcomponent
@@ -111,6 +111,9 @@
                             <td>
                                 <span class="fw-bolder">
                                     {{ $subject['name'] }}</span>
+                            </td>
+                            <td class="fw-bolder">
+                                {{ $subject['credit'] }}
                             </td>
                         </tr>
                     @endforeach
