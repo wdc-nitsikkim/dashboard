@@ -31,6 +31,8 @@
         {{ $department->name }}
         <br>
         <span class="fw-bolder">{{ $subject->name }} ({{ strtoupper($subject->code) }})</span>
+        <br>
+        <span class="text-info"><span class="fw-bolder">NOTE: </span> All marks are out of 100</span>
     @endslot
 
     @slot('sideButtons')
@@ -85,7 +87,7 @@
                     @component('components.table.head', [
                         'items' => [
                             '#', 'Roll Number', 'Name',
-                            'Score (Max. 100)', 'Actions'
+                            'Marks', 'Last Updated'
                         ]
                     ])
                     @endcomponent
@@ -105,38 +107,27 @@
                                 {{ $student->name }}
                             </td>
 
+                            @php
+                                $result = $student->result->where('subject_id', $subject->id)->isEmpty()
+                                    ? null
+                                    : $student->result->where('subject_id', $subject->id)->first();
+
+                                $score = $result ? $result->score : '-';
+                                $scoreClass = 'text-danger';
+                                if ($score >= 81) {
+                                    $scoreClass = 'text-success';
+                                } else if ($score >= 51) {
+                                    $scoreClass = 'text-info';
+                                } else if ($score >= 33) {
+                                    $scoreClass = 'text-warning';
+                                }
+                            @endphp
+
                             <td class="fw-bolder">
-
-                                @php
-                                    $score = $student->result->where('subject_id', $subject->id)->isEmpty()
-                                        ? '-'
-                                        : $student->result->where('subject_id', $subject->id)->first()->score;
-
-                                    $scoreClass = 'text-danger';
-                                    if ($score >= 81) {
-                                        $scoreClass = 'text-success';
-                                    } else if ($score >= 51) {
-                                        $scoreClass = 'text-info';
-                                    } else if ($score >= 33) {
-                                        $scoreClass = 'text-warning';
-                                    }
-                                @endphp
-
                                 <span class="{{ $scoreClass }}">{{ $score }}</span>
                             </td>
 
-                            <td>
-
-                                @php
-                                    $routeParamsWithId = array_merge(
-                                        $baseRouteParams,
-                                        ['id' => $student['id']]
-                                    );
-                                @endphp
-
-                                -
-
-                            </td>
+                            <td>{{ $result ? $result->updated_at : '-' }}</td>
                         </tr>
 
                     @endforeach

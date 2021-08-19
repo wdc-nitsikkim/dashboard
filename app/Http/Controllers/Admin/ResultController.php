@@ -66,7 +66,7 @@ class ResultController extends Controller {
         $students = Student::withTrashed()->where([
             'batch_id' => $batch->id,
             'department_id' => $dept->id
-        ])->with('result')->paginate($this->paginate);
+        ])->with('result')->orderBy('roll_number')->paginate($this->paginate);
 
         return view('admin.results.show', [
             'batch' => $batch,
