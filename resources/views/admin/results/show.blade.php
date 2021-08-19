@@ -47,6 +47,28 @@
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
 
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <span class="material-icons">search</span>
+                </span>
+
+                <input type="text" class="form-control"
+                    placeholder="Find" find
+                    find-in="#students > tbody > tr"
+                    loader="#find-student-loader"
+                    status="#find-student-status">
+
+                <span id="find-student-loader" class="input-group-text d-none">
+                    <div class="text-danger spinner-border spinner-border-sm"
+                        role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </span>
+            </div>
+            <span class="small" id="find-student-status">Search below table</span>
+        </div>
+
         @if ($students->count() == 0)
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
@@ -56,7 +78,9 @@
                 @endcomponent
             </p>
         @else
-            @component('components.table.main')
+            @component('components.table.main', [
+                'attr' => 'id="students"'
+            ])
                 @slot('head')
                     @component('components.table.head', [
                         'items' => [
@@ -127,3 +151,7 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('static/js/find.js') }}"></script>
+@endpush
