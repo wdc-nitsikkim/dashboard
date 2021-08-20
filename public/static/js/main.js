@@ -113,6 +113,12 @@ const globalHandler = (function ($, window, main) {
         }
     });
 
+    $(window.document).on('ajaxError', function (e, xhr) {
+        if (xhr.status == 300) {
+            window.open(xhr.getResponseHeader('Location'), '_blank');
+        }
+    });
+
     $(window.document).on('ajaxSuccess', function (e, xhr) {
         if (typeof xhr.responseJSON == 'undefined') {
             return;
