@@ -28,6 +28,7 @@
 
             @php
                 $unread = session()->has('status') || $errors->any();
+                $image = Auth::user()->image;
             @endphp
 
             <ul class="navbar-nav align-items-center">
@@ -120,8 +121,18 @@
                     <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <div class="media d-flex align-items-center">
-                            <img class="avatar rounded-circle" alt="Image placeholder"
-                                src="{{ asset('static/images/admin.webp') }}">
+
+                            @if (isset($image) && Storage::disk('public')->exists($image))
+                                <img class="avatar rounded-circle" alt="user-img"
+                                    src="{{ asset(Storage::url($image)) }}"/>
+                            @elseif (isset($image) && filter_var($image, FILTER_VALIDATE_URL))
+                                <img class="avatar rounded-circle" alt="user-image"
+                                    src="{{ $image }}"/>
+                            @else
+                                <img class="avatar rounded-circle" alt="user-image"
+                                    src="{{ asset('static/images/user-default.png') }}"/>
+                            @endif
+
                             <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                                 <span class="badge bg-info text-dark mx-1">{{ strtolower(Auth::user()->email) ?? '-' }}</span>
                                 <span class="mb-0 font-small fw-bold text-gray-900">{{ Auth::user()->name ?? '-' }}</span>

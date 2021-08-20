@@ -16,7 +16,7 @@
         </button>
     </div>
     <div class="col-sm-6 d-grid mx-auto mb-3">
-        <button class="btn btn-success" type="submit">
+        <button class="btn btn-success" type="submit" {{ $submitBtnAttr ?? '' }}>
             {{ $submitBtnTxt ?? 'Update' }}
             <span class="material-icons ms-1">update</span>
         </button>

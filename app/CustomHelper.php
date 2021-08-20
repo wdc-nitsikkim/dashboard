@@ -26,7 +26,8 @@
                 'delete' => 'd'
             ],
             'roles' => ['admin', 'office', 'ecell', 'tnp', 'hod',
-                'faculty', 'staff', 'student']
+                'faculty', 'staff', 'student'],
+            'semesters' => [1, 2, 3, 4, 5, 6, 7, 8, 'elective']
         ];
 
         /**
@@ -74,6 +75,15 @@
          */
         public static function getRoles() {
             return self::$GLOBAL_CONSTS['roles'];
+        }
+
+        /**
+         * Returns array of semesters used in database
+         *
+         * @return array
+         */
+        public static function getSemesters() {
+            return self::$GLOBAL_CONSTS['semesters'];
         }
 
         /**

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Batch;
+use App\Models\Result;
 use App\Models\Department;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
@@ -25,6 +26,13 @@ class Student extends Model {
     protected $fillable = [
         'roll_number', 'name', 'email', 'department_id', 'batch_id'
     ];
+
+    /**
+     * Defines one-to-many relationship
+     */
+    public function result() {
+        return $this->hasMany(Result::class, 'student_id');
+    }
 
     /**
      * Defines many-to-one relationship

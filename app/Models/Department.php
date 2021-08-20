@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Hod;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
@@ -40,6 +41,13 @@ class Department extends Model {
      */
     public function students() {
         return $this->hasMany(Student::class, 'department_id');
+    }
+
+    /**
+     * Defines one-to-many relationship
+     */
+    public function subjects() {
+        return $this->hasMany(Subject::class, 'department_id');
     }
 
     /**

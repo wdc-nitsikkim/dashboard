@@ -1,4 +1,4 @@
-{{-- Identical to componenets.inline.anchorLink. Made separate because
+{{-- Identical to components.inline.anchorLink. Made separate because
     this is specifically for back buttons (pagination -> no results found page) --}}
 
 <a class="{{ $classes ?? 'text-info' }}" href="{{ $href ?? '#!' }}">

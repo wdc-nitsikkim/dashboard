@@ -8,6 +8,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use App\Models\Hod;
 use App\Models\User;
 use App\Models\Batch;
+use App\Models\Result;
 use App\Models\Student;
 use App\Models\Profile;
 use App\Models\Position;
@@ -16,8 +17,9 @@ use App\Models\HomepageNotification;
 use App\Policies\HodPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\BatchPolicy;
-use App\Policies\ProfilePolicy;
+use App\Policies\ResultPolicy;
 use App\Policies\StudentPolicy;
+use App\Policies\ProfilePolicy;
 use App\Policies\PositionPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\HomepageNotificationPolicy as NotificationPolicy;
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Hod::class => HodPolicy::class,
         User::class => UserPolicy::class,
         Batch::class => BatchPolicy::class,
+        Result::class => ResultPolicy::class,
         Student::class => StudentPolicy::class,
         Profile::class => ProfilePolicy::class,
         Position::class => PositionPolicy::class,

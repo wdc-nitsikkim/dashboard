@@ -338,8 +338,9 @@
                             @foreach ($user->allowedDepartments as $dept)
                                 <a href="{{ route('admin.department.home', $dept->department->code) }}"
                                     target="_blank">
-                                    {{ '-> ' . $dept->department->name . ($loop->last ? '' : ', ') }}
+                                    {{  '-> ' . $dept->department->name }}
                                 </a>
+                                {!! $loop->last ? '' : '<br>' !!}
                             @endforeach
                         @endif
                     </p>
@@ -347,7 +348,21 @@
 
                 <div class="col-12 col-sm-6 mb-2">
                     <h5>Subjects</h5>
-                    <p class="text-info fw-bold">-> Feature under development</p>
+                    <p class="text-info fw-bold">
+                        @if ($user->allowedSubjects->count() == 0)
+                            <span class="text-danger">No Results / Not Applicable</span>
+                        @else
+                            @foreach ($user->allowedSubjects as $subject)
+                                <a href="#!"
+                                    target="_blank">
+                                    {{ '-> '
+                                        . '(' . strtoupper($subject->subject->code) . ') '
+                                        . $subject->subject->name }}
+                                </a>
+                                {!! $loop->last ? '' : '<br>' !!}
+                            @endforeach
+                        @endif
+                    </p>
                 </div>
             </div>
         </div>

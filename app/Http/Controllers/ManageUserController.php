@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 use App\CustomHelper;
 use App\Models\User;
+use App\Models\Subject;
 use App\Models\UserRole;
 use App\Models\Department;
+use App\Models\UserAccessSubject;
 use App\Models\UserRolePermission;
 use App\Models\UserAccessDepartment;
 
@@ -23,21 +25,26 @@ class ManageUserController extends Controller {
     public function manage($id) {
         $user = User::with([
             'allowedDepartments.department:id,code,name',
+            'allowedSubjects.subject:id,code,name',
             'roles.permissions'
         ])->withTrashed()->findOrFail($id);
 
         $this->authorize('manage', [User::class, $user]);
 
-        $departments = Department::select('id', 'name')->whereNotIn('id',
-            $user->allowedDepartments->pluck('department_id')->toArray()
-        )->get();
+        $departments = Department::select('id', 'name')
+            ->whereNotIn('id', $user->allowedDepartments->pluck('department_id')->toArray())
+            ->get();
+        $subjects = Subject::select('id', 'code', 'name')
+            ->whereNotIn('id', $user->allowedSubjects->pluck('subject_id')->toArray())
+            ->get();
         $allRoles = collect(CustomHelper::getRoles());
         $roles = $allRoles->diff($user->roles->pluck('role'));
 
         return view('users.manage', [
             'user' => $user,
             'roles' => $roles,
-            'departments' => $departments
+            'departments' => $departments,
+            'subjects' => $subjects
         ]);
     }
 
@@ -161,6 +168,36 @@ class ManageUserController extends Controller {
         ]);
     }
 
+    public function grantSubjectAccess(Request $request, $id) {
+        $user = User::withTrashed()->findOrFail($id);
+
+        $this->authorize('manage', [User::class, $user]);
+
+        $request->validate([
+            'subject_id' => ['required', Rule::exists('subjects', 'id')]
+        ]);
+
+        try {
+            UserAccessSubject::create([
+                'user_id' => $user->id,
+                'subject_id' => $request->subject_id,
+                'created_at' => $this->timestamp
+            ]);
+            Log::notice('Subject access granted.', [Auth::user(), $user]);
+        } catch (\Exception $e) {
+            Log::debug('Failed to grant subject access!', [Auth::user(), $e->getMessage(), $user]);
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to give access to subject!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Access granted'
+        ]);
+    }
+
     public function revokeRole($role_id) {
         $role = UserRole::findOrFail($role_id);
         $user = User::withTrashed()->findOrFail($role->user_id);
@@ -206,6 +243,31 @@ class ManageUserController extends Controller {
         return back()->with([
             'status' => 'success',
             'message' => 'Department access revoked'
+        ]);
+    }
+
+    public function revokeSubjectAccess($user_id, $subject_id) {
+        $user = User::withTrashed()->findOrFail($user_id);
+
+        $this->authorize('manage', [User::class, $user]);
+
+        try {
+            UserAccessSubject::where([
+                'user_id' => $user->id,
+                'subject_id' => $subject_id
+            ])->delete();
+            Log::notice('Subject access revoked!', [Auth::user(), $subject_id, $user]);
+        } catch (\Exception $e) {
+            Log::debug('Failed to revoke subject access!', [Auth::user(), $subject_id, $user]);
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to revoke subject access!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Subject access revoked'
         ]);
     }
 }

@@ -18,7 +18,7 @@ class RegisterController extends Controller {
         $this->middleware('guest');
     }
 
-    protected $allowedRoles = ['office', 'hod', 'faculty', 'staff'];
+    protected $allowedRoles = ['office', 'hod', 'faculty', 'staff', 'ecell'];
 
     public function index(Request $request, $role = null) {
         \Session::keep(['name', 'email']);

@@ -79,6 +79,10 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
             ->name('revokeRole');
         Route::post('/grant-department-access/{id}', 'ManageUserController@grantDepartmentAccess')
             ->name('grantDeptAccess');
+        Route::post('/grant-subject-access/{id}', 'ManageUserController@grantSubjectAccess')
+            ->name('grantSubAccess');
+        Route::delete('/revoke-subject-access/{user_id}/{subject_id}',
+            'ManageUserController@revokeSubjectAccess')->name('revokeSubAccess');
         Route::delete('/revoke-department-access/{user_id}/{dept_id}',
             'ManageUserController@revokeDepartmentAccess')->name('revokeDeptAccess');
     });
@@ -227,6 +231,30 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
         Route::post('/restore/{id}', 'BatchController@restore')->name('restore');
         Route::delete('/delete/{id}', 'BatchController@delete')
             ->middleware('password.confirm')->name('delete');
+    });
+
+    /* subject routes */
+    Route::name('subjects.')->prefix('subjects')->group(function () {
+        Route::get('/','SubjectController@handleRedirect')->name('handleRedirect');
+        Route::get('/select', 'SubjectController@select')->name('select');
+        Route::post('/save-in-session/{subject}', 'SubjectController@saveInSession')->name('saveInSession');
+
+        Route::get('/test', 'SubjectController@test');
+
+        Route::get('/{dept}/{semester?}', 'SubjectController@show')->
+            where('semester', '[0-9]+')->name('show');
+    });
+
+    /* result routes */
+    Route::name('results.')->prefix('results')->group(function () {
+        Route::get('/', 'ResultController@handleRedirect')->name('handleRedirect');
+
+        Route::get('/test', 'ResultController@test');
+
+        Route::prefix('{dept}/{batch}/{subject}')->group(function () {
+            Route::get('/', 'ResultController@show')->name('show');
+            Route::post('/save', 'ResultController@save')->name('save');
+        });
     });
 });
 
