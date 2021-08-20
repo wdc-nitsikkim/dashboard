@@ -44,7 +44,7 @@ const lsMod = (function (window) {
     });
 })(window);
 
-const main = (function ($, window) {
+const main = (function ($, window, ls) {
     'use strict';
 
     const breakPoints = {
@@ -52,6 +52,15 @@ const main = (function ($, window) {
         md: 720,
         lg: 960,
         xl: 1140
+    };
+
+    const localKeys = {
+        sidenav: 'sidenav-collapse'
+    };
+
+    const appConstants = {
+        sidenav: $('#sidebarMenu'),
+        sidenavToggleBtn: $('#sidebar-toggle')
     };
 
     function fillContainer(container, html = '') {
@@ -94,25 +103,46 @@ const main = (function ($, window) {
         return image.height == image.width;
     }
 
+    function loadSidenavPreference() {
+        const val = ls.get(localKeys.sidenav);
+        if (val == 'collapsed') {
+            appConstants.sidenav.addClass('contracted');
+        }
+    }
+
+    function saveSidenavPreference(status) {
+        ls.set(localKeys.sidenav, status);
+    }
+
+    function loadLocalPreferences() {
+        loadSidenavPreference();
+    }
+
     return Object.freeze({
         breakPoints,
+        appConstants,
         getSpanMsg,
         spoofMethod,
         modifySideNav,
         fillContainer,
-        verifyImageRatio
+        verifyImageRatio,
+        loadLocalPreferences,
+        saveSidenavPreference
     });
-}(jQuery, window));
+}(jQuery, window, lsMod));
 
 const globalHandler = (function ($, window, main) {
     'use strict';
 
-    const sidenavToggleBtn = $('#sidebar-toggle');
-    const sidenav = $('#sidebarMenu');
     let sidenavHoverToggle = false;
+    const sidenav = main.appConstants.sidenav;
+    const sidenavToggleBtn = main.appConstants.sidenavToggleBtn;
 
     sidenavToggleBtn.on('click', () => {
         sidenav.toggleClass('contracted');
+        main.saveSidenavPreference(
+            sidenav.hasClass('contracted') ? 'collapsed' : ''
+        );
     });
 
     sidenav.on('mouseenter', function () {
@@ -198,6 +228,8 @@ const globalHandler = (function ($, window, main) {
     });
 
     jQuery(() => {
+        main.loadLocalPreferences();
+
         /* trigger sidenav only for large screens */
         $(window).width() >= main.breakPoints.lg ? main.modifySideNav()
             : console.log('Sidenav trigger cancelled!');
