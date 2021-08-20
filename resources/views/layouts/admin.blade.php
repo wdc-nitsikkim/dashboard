@@ -51,7 +51,7 @@
     @component('components.formModal', [
         'title' => 'Give Feedback',
         'modalId' => 'feedback-modal',
-        'formAction' => '#!'
+        'formAction' => route('feedbacks.saveNew')
     ])
         <div class="d-flex justify-content-between text-nowrap" id="feedback-star-rating">
             <div>

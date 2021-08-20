@@ -99,6 +99,11 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/test', 'UserController@test');
 });
 
+/* feedback routes */
+Route::name('feedbacks.')->prefix('feedback')->middleware('auth')->group(function () {
+    Route::post('/save', 'FeedbackController@saveNew')->name('saveNew');
+});
+
 /* admin routes --> all roles except student */
 Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])->group(function() {
     /* office routes */
