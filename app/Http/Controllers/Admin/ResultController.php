@@ -68,13 +68,64 @@ class ResultController extends Controller {
             'department_id' => $dept->id
         ])->with('result')->orderBy('roll_number')->paginate($this->paginate);
 
+        $canUpdate = Auth::user()->can('update', [Result::class, $subject]);
+
         return view('admin.results.show', [
+            'canUpdate' => $canUpdate,
             'batch' => $batch,
             'subject' => $subject,
             'students' => $students,
             'department' => $dept,
             'pagination' => $students->links('vendor.pagination.default')
         ]);
+    }
+
+    public function save(Request $request, Department $dept, Batch $batch,
+        Subject $subject) {
+
+        /* function primarily for use with AJAX requests */
+
+        $this->authorize('update', [Result::class, $subject]);
+
+        $data = $request->validate([
+            'result' => 'array',
+            'result.*' => 'nullable | numeric | between:0,100'
+        ]);
+
+        /* result array is formed as 'result[student_id] => score' */
+        $result = $data['result'];
+        $studentIds = array_keys($result);
+        $students = Student::select('id')->where([
+            'department_id' => $dept->id,
+            'batch_id' => $batch->id
+        ])->whereIn('id', $studentIds)->get();
+        $studentIds = $students->pluck('id')->toArray();  /* filtered students */
+
+        try {
+            foreach ($studentIds as $studentId) {
+                $findResult = [
+                    'student_id' => $studentId,
+                    'subject_id' => $subject->id
+                ];
+
+                if ($result[$studentId] == null) {
+                    Result::where($findResult)->delete();
+                    continue;
+                }
+
+                Result::withTrashed()->updateOrCreate($findResult, [
+                    'score' => $result[$studentId]
+                ])->restore();
+            }
+            Log::notice('Result added', [Auth::user(), $dept, $batch, $subject, $data]);
+        } catch (\Expception $e) {
+            Log::debug('Failed to update result!', [Auth::user(), $dept, $batch, $subject, $data]);
+            return abort(503);
+        }
+
+        return response()->json([
+            'reload' => true
+        ], 201);
     }
 
     public function test() {
