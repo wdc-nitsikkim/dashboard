@@ -107,6 +107,13 @@ const main = (function ($, window) {
 const globalHandler = (function ($, window, main) {
     'use strict';
 
+    const sidenavToggleBtn = $('#sidebar-toggle');
+    const sidenav = $('#sidebarMenu');
+
+    sidenavToggleBtn.on('click', () => {
+        sidenav.toggleClass('contracted');
+    });
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
