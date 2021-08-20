@@ -25,9 +25,15 @@ class Lockscreen
         $lastVerified = session($sessionKey, time() - DEFAULT_REDUCER);
         $current = time();
 
+        $intendedUrl = url()->previous();
+        if (strtolower(request()->method()) == 'get') {
+            $intendedUrl = url()->current();
+        }
+
         if ($current - $lastVerified > VERIFY_INTERVAL) {
             return redirect()->route('root.confirmPassword', [
-                'intended' => url()->previous()
+                'intended' => $intendedUrl,
+                'previous' => url()->previous()
             ]);
         }
 

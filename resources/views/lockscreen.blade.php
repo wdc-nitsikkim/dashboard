@@ -6,7 +6,7 @@
         <section class="mt-3 mt-lg-4 mb-3 bg-soft d-flex align-items-center">
             <div class="container">
                 <p class="text-center">
-                    <a href="{{ request()->intended ?? route('root.default') }}" class="d-flex align-items-center
+                    <a href="{{ request()->previous ?? route('root.default') }}" class="d-flex align-items-center
                         justify-content-center">
                         <span class="material-icons">keyboard_arrow_left</span>
                         Go Back
@@ -51,7 +51,7 @@
                                         </span>
                                         <input type="password" placeholder="Password"
                                             class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                                            name="password" id="password" required>
+                                            name="password" id="password" autofocus required>
 
                                         @if ($errors->has('password'))
                                             <div class="invalid-feedback">
