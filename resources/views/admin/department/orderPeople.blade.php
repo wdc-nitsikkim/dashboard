@@ -57,25 +57,27 @@
                                     <tr order-id="{{ $profile->id }}" order-index="{{ $loop->iteration }}">
                                         <td>
 
-                                            @component('components.inline.anchorLink', [
-                                                'align' => '',
-                                                'classes' => 'text-success',
-                                                'icon' => 'arrow_upward',
-                                                'scale' => true,
-                                                'tooltip' => 'Move up',
-                                                'attr' => 'order-up'
-                                            ])
-                                            @endcomponent
+                                            @can('orderPeople', ['App\\Models\Department', $department])
+                                                @component('components.inline.anchorLink', [
+                                                    'align' => '',
+                                                    'classes' => 'text-success',
+                                                    'icon' => 'arrow_upward',
+                                                    'scale' => true,
+                                                    'tooltip' => 'Move up',
+                                                    'attr' => 'order-up'
+                                                ])
+                                                @endcomponent
 
-                                            @component('components.inline.anchorLink', [
-                                                'align' => 'ms-1',
-                                                'classes' => 'text-danger',
-                                                'icon' => 'arrow_downward',
-                                                'scale' => true,
-                                                'tooltip' => 'Move down',
-                                                'attr' => 'order-down'
-                                            ])
-                                            @endcomponent
+                                                @component('components.inline.anchorLink', [
+                                                    'align' => 'ms-1',
+                                                    'classes' => 'text-danger',
+                                                    'icon' => 'arrow_downward',
+                                                    'scale' => true,
+                                                    'tooltip' => 'Move down',
+                                                    'attr' => 'order-down'
+                                                ])
+                                                @endcomponent
+                                            @endcan
 
                                         </td>
                                         <td class="fw-bolder">{{ $loop->iteration }}</td>
@@ -95,9 +97,12 @@
                             @endslot
                         @endcomponent
 
-                        <button class="btn btn-primary animate-up-2 mt-2" type="submit" confirm
-                            alert-title="Save this order?" alert-text="-" alert-timer="5000">
-                            Save</button>
+                        @can('orderPeople', ['App\\Models\Department', $department])
+                            <button class="btn btn-primary animate-up-2 mt-2" type="submit" confirm
+                                alert-title="Save this order?" alert-text="-" alert-timer="5000">
+                                Save</button>
+                        @endcan
+
                     </form>
 
                 @endif

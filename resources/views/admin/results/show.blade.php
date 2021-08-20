@@ -145,7 +145,7 @@
                                     $score = '';
 
                                     if ($result != null && $result->deleted_at == null) {
-                                        $score = $result->score ?? '';
+                                        $score = $result->score;
                                         if ($score >= 81) {
                                             $scoreClass = 'text-success';
                                         } else if ($score >= 51) {
@@ -157,7 +157,7 @@
                                 @endphp
 
                                 <td class="fw-bolder">
-                                    <span class="{{ $scoreClass }}">{{ $score == '' ? '-' : $score }}</span>
+                                    <span class="{{ $scoreClass }}">{{ strlen($score) == 0 ? '-' : $score }}</span>
                                     <input type="number" class="form-control d-none" value="{{ $score }}"
                                         name="result[{{ $student->id }}]" min="0" max="100">
                                 </td>

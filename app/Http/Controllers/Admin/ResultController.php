@@ -101,6 +101,8 @@ class ResultController extends Controller {
         ])->whereIn('id', $studentIds)->get();
         $studentIds = $students->pluck('id')->toArray();  /* filtered students */
 
+        $num = 0;
+
         try {
             foreach ($studentIds as $studentId) {
                 $findResult = [
@@ -113,6 +115,7 @@ class ResultController extends Controller {
                     continue;
                 }
 
+                $num++;
                 Result::withTrashed()->updateOrCreate($findResult, [
                     'score' => $result[$studentId]
                 ])->restore();
@@ -122,6 +125,9 @@ class ResultController extends Controller {
             Log::debug('Failed to update result!', [Auth::user(), $dept, $batch, $subject, $data]);
             return abort(503);
         }
+
+        session()->flash('status', 'success');
+        session()->flash('message', 'Result of ' . $num . ' student(s) updated!');
 
         return response()->json([
             'reload' => true

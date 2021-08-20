@@ -177,6 +177,9 @@ class StudentController extends Controller {
             return abort(500);
         }
 
+        session()->flash('status', 'success');
+        session()->flash('message', $countName . ' students added!');
+
         return response()->json([
             'redirect' => route('admin.students.show', [
                 'dept' => $dept->code,
