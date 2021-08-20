@@ -126,7 +126,7 @@
                 </a>
             </li> --}}
 
-            <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-600"></li>
+            <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
 
             {{-- <li class="nav-item">Quick Links</li> --}}
 
@@ -149,18 +149,21 @@
                             {{ Route::is('admin.homepage.notification.show', 'admin.homepage.notification.showTrashed')
                                 ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.homepage.notification.show') }}">
+                                <span class="sidebar-text-contracted">N</span>
                                 <span class="sidebar-text">Notifications</span>
                             </a>
                         </li>
                         <li class="nav-item
                             {{ Route::is('admin.office.hods.show') ? 'active' : 'hod' }}">
                             <a class="nav-link" href="{{ route('admin.office.hods.show') }}">
+                                <span class="sidebar-text-contracted">H</span>
                                 <span class="sidebar-text">HoD's</span>
                             </a>
                         </li>
                         <li class="nav-item
                             {{ Route::is('admin.office.positions.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.office.positions.show') }}">
+                                <span class="sidebar-text-contracted">P</span>
                                 <span class="sidebar-text">PoR's</span>
                             </a>
                         </li>
@@ -191,17 +194,14 @@
                         <li class="nav-item
                             {{ Route::is('admin.department.home') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
+                                <span class="sidebar-text-contracted">H</span>
                                 <span class="sidebar-text">Home</span>
                             </a>
                         </li>
                         <li class="nav-item {{ Route::is('admin.department.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.department.show') }}">
+                                <span class="sidebar-text-contracted">L</span>
                                 <span class="sidebar-text">List</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
-                                <span class="sidebar-text">Syllabus</span>
                             </a>
                         </li>
                     </ul>
@@ -225,11 +225,13 @@
                     <ul class="flex-column nav">
                         <li class="nav-item {{ Route::is('admin.profiles.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.profiles.show') }}">
+                                <span class="sidebar-text-contracted">F</span>
                                 <span class="sidebar-text">Faculty / Staff</span>
                             </a>
                         </li>
                         <li class="nav-item {{ false ? 'active' : '' }}">
                             <a class="nav-link" href="#!">
+                                <span class="sidebar-text-contracted">R</span>
                                 <span class="sidebar-text">Researchers</span>
                             </a>
                         </li>
@@ -264,11 +266,13 @@
 
                         <li class="nav-item {{ Route::is('admin.students.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
+                                <span class="sidebar-text-contracted">L</span>
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
                         <li class="nav-item {{ Route::is('admin.students.searchForm', 'admin.students.search') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.students.searchForm') }}">
+                                <span class="sidebar-text-contracted">F</span>
                                 <span class="sidebar-text">Find</span>
                             </a>
                         </li>
@@ -304,11 +308,13 @@
 
                         <li class="nav-item {{ Route::is('admin.results.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
+                                <span class="sidebar-text-contracted">V</span>
                                 <span class="sidebar-text">View</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#!">
+                                <span class="sidebar-text-contracted">F</span>
                                 <span class="sidebar-text">Find</span>
                             </a>
                         </li>
@@ -333,6 +339,7 @@
                     <ul class="flex-column nav">
                         <li class="nav-item">
                             <a class="nav-link text-gray-500 disabled" href="#!">
+                                <span class="sidebar-text-contracted">U</span>
                                 <span class="sidebar-text">Under Dev.</span>
                             </a>
                         </li>
@@ -357,6 +364,7 @@
                     <ul class="flex-column nav">
                         <li class="nav-item {{ Route::is('admin.batch.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.batch.show') }}">
+                                <span class="sidebar-text-contracted">L</span>
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
@@ -390,6 +398,7 @@
                     <ul class="flex-column nav">
                         <li class="nav-item {{ Route::is('admin.subjects.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ $routeUrl }}">
+                                <span class="sidebar-text-contracted">L</span>
                                 <span class="sidebar-text">List</span>
                             </a>
                         </li>
@@ -397,21 +406,11 @@
                 </div>
             </li>
 
-            <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-600"></li>
+            <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
 
-            <li class="nav-item">
-                <a href="#!" class="nav-link d-flex align-items-center">
-                    <span class="material-icons sidebar-icon">
-                        help
-                    </span>
-                    <span class="sidebar-text">Help {{-- <span
-                            class="badge badge-sm bg-secondary ms-1 text-gray-800">New</span> --}}</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="{{ route('logout') }}" class="btn btn-danger justify-content-center btn-upgrade-pro"
-                    confirm alert-title='Logout?' alert-text='-'>
+            <li class="nav-item mb-3">
+                <a href="{{ route('logout') }}" class="nav-link d-flex align-items-center"
+                    confirm alert-title='Logout?' alert-text='Your session data will be cleared'>
                     <span class="material-icons sidebar-icon">
                         exit_to_app
                     </span>
