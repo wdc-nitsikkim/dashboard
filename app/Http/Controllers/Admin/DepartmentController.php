@@ -264,6 +264,9 @@ class DepartmentController extends Controller {
             return abort(500);
         }
 
+        session()->flash('status', 'success');
+        session()->flash('message', 'Order updated!');
+
         return response()->json([
             'reload' => true
         ], 200);
