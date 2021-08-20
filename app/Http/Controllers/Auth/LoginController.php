@@ -63,6 +63,7 @@ class LoginController extends Controller {
         }
 
         Auth::login($user, $remember);
+        $this->addLockTimeout();
 
         return redirect()->route('root.default')->with([
             'status' => 'success',
@@ -135,6 +136,8 @@ class LoginController extends Controller {
         }
 
         Auth::loginUsingId($user->id);
+        $this->addLockTimeout();
+
         return redirect()->route('root.default')->with([
             'status' => 'success',
             'message' => 'Signed in with Google'
@@ -167,6 +170,15 @@ class LoginController extends Controller {
 
         return $request->intended ? redirect($request->intended)
             : redirect()->route('root.default');
+    }
+
+    private function addLockTimeout() {
+        $sessionKey = CustomHelper::getSessionConstants()['confirmPassword'];
+        /**
+         * Verify interval is 30 minutes (defined in Lockscreen middleware)
+         * So we set 'last verified' as 30 - 28 = 2 minutes
+        */
+        session([$sessionKey => time() - 28 * 60]);
     }
 
     public function logout() {
