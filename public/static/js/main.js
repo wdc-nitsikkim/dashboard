@@ -109,9 +109,22 @@ const globalHandler = (function ($, window, main) {
 
     const sidenavToggleBtn = $('#sidebar-toggle');
     const sidenav = $('#sidebarMenu');
+    let sidenavHoverToggle = false;
 
     sidenavToggleBtn.on('click', () => {
         sidenav.toggleClass('contracted');
+    });
+
+    sidenav.on('mouseenter', function () {
+        if (sidenav.hasClass('contracted')) {
+            sidenav.removeClass('contracted');
+            sidenavHoverToggle = true;
+        }
+    }).on('mouseleave', function () {
+        if (sidenavHoverToggle) {
+            sidenav.addClass('contracted');
+            sidenavHoverToggle = false;
+        }
     });
 
     $.ajaxSetup({
