@@ -17,6 +17,9 @@
 <!-- Simplebar -->
 <script src="{{ asset('static/vendor/simplebar-5.3.4/simplebar.min.js') }}"></script>
 
+<!-- html2canvas -->
+<script src="{{ asset('static/vendor/html2canvas-1.3.2/html2canvas.min.js') }}"></script>
+
 <!-- Charts -->
 {{-- <script src="{{ asset('static/vendor/chartist-0.11.4/chartist.min.js') }}"></script>
 <script src="{{ asset('static/vendor/chartist-plugin-tooltips-0.0.17/chartist-plugin-tooltip.min.js') }}"></script> --}}

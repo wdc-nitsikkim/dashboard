@@ -84,6 +84,17 @@ const main = (function ($, window, ls) {
         form.trigger('submit');
     }
 
+    function getMainContentImageDataUrl() {
+        const options = {
+            width: $(window.document)[0].scrollWidth,
+            height: $(window.document)[0].scrollHeight
+        };
+
+        window.html2canvas($('main.content')[0], options).then(function(canvas) {
+            return canvas.toDataURL();
+        });
+    }
+
     function modifySideNav() {
         const active = $('li.nav-item.active').first();
         let subMenu = active.closest('div.multi-level.collapse');
@@ -127,7 +138,8 @@ const main = (function ($, window, ls) {
         fillContainer,
         verifyImageRatio,
         loadLocalPreferences,
-        saveSidenavPreference
+        saveSidenavPreference,
+        pageImage: getMainContentImageDataUrl
     });
 }(jQuery, window, lsMod));
 
