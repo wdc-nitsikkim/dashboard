@@ -47,6 +47,32 @@
 
     </main>
 
+    {{-- feedback modal --}}
+    @component('components.formModal', [
+        'title' => 'Give Feedback',
+        'modalId' => 'feedback-modal',
+        'formAction' => '#!'
+    ])
+        <div class="d-flex justify-content-between text-nowrap" id="feedback-star-rating">
+            <div>
+                <span class="material-icons scale-on-hover cur-pointer" star-rate>star_border</span>
+                <span class="material-icons scale-on-hover cur-pointer" star-rate>star_border</span>
+                <span class="material-icons scale-on-hover cur-pointer" star-rate>star_border</span>
+                <span class="material-icons scale-on-hover cur-pointer" star-rate>star_border</span>
+                <span class="material-icons scale-on-hover cur-pointer" star-rate>star_border</span>
+            </div>
+            <span class="text-info small cur-pointer" id="clear-star-rating">Clear</span>
+        </div>
+        <p class="small">Rating: <span class="fw-bolder" id="star-rating-text">-</span></p>
+        <input type="hidden" name="rating">
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <textarea name="feedback" rows="4" class="form-control" placeholder="Add feedback" required></textarea>
+            </div>
+        </div>
+    @endcomponent
+
     @include('includes.scripts')
 
 </body>

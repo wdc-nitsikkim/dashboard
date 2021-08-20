@@ -9,10 +9,10 @@
             <!-- List -->
             <ul class="list-inline list-group-flush list-group-borderless text-md-end mb-0">
                 <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#!">Help</a>
+                    <a href="#!" data-bs-toggle="modal" data-bs-target="#feedback-modal">Feedback</a>
                 </li>
                 <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#!">Feedback</a>
+                    <a href="#!">Report Issue</a>
                 </li>
             </ul>
         </div>

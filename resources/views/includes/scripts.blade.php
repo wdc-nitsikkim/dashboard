@@ -29,6 +29,7 @@
 
 <!-- Custom JS -->
 <script src="{{ asset('static/js/main.js') }}"></script>
+<script src="{{ asset('static/js/feedback.js') }}"></script>
 
 {{--
 <!-- Debug -->
