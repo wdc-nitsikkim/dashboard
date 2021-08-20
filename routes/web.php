@@ -253,7 +253,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
 
         Route::prefix('{dept}/{batch}/{subject}')->group(function () {
             Route::get('/', 'ResultController@show')->name('show');
-            Route::post('/save', 'ResultController@save')->name('save');
+            Route::post('/save', 'ResultController@save')->name('save')
+                ->middleware('password.confirm');
         });
     });
 });
