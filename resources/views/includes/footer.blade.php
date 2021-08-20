@@ -9,13 +9,10 @@
             <!-- List -->
             <ul class="list-inline list-group-flush list-group-borderless text-md-end mb-0">
                 <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#!">Link 1</a>
+                    <a href="#!">Help</a>
                 </li>
                 <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#!">Link 2</a>
-                </li>
-                <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#!">Link 3</a>
+                    <a href="#!">Feedback</a>
                 </li>
             </ul>
         </div>
