@@ -42,6 +42,12 @@ Route::middleware('guest')->group(function() {
 
         Route::post('/signup/default', 'RegisterController@defaultSignup')->name('signup.default');
 
+        Route::view('/forgot-password', 'auth.forgotPassword')->name('forgotPassword');
+        Route::post('/forgot-password', 'ForgotPasswordController@sendEmail');
+        Route::get('/reset-password/{email}/{email_hash}/{token}', 'ResetPasswordController@show');
+        Route::post('/reset-password/{email}/{email_hash}/{token}', 'ResetPasswordController@reset')
+            ->name('resetPassword');
+
         Route::get('/test', 'RegisterController@test');
     });
 });
