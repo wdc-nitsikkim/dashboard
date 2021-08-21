@@ -11,7 +11,9 @@ class PasswordReset extends Model {
     use GlobalAccessors;
 
     protected $table = 'password_resets';
+    protected $primaryKey = 'email';
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = ['email', 'token', 'created_at'];
 
