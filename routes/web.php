@@ -11,9 +11,6 @@
 |
 */
 
-use App\CustomHelper;
-use Illuminate\Support\Facades\Storage;
-
 Route::get('/', function () {
     return view('welcome');
 });
