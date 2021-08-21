@@ -5,11 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
-use App\Traits\GlobalAccessors;
 
 class PasswordReset extends Model {
-    use GlobalAccessors;
-
     protected $table = 'password_resets';
     protected $primaryKey = 'email';
     public $timestamps = false;
