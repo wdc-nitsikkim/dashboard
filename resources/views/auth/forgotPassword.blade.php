@@ -29,9 +29,11 @@
                             @endif
 
                             <div class="text-center text-md-center mb-4 mt-md-0">
-                                <h1 class="mb-0 h3">Reset Password</h1>
-                                <p class="small">An email will be sent to the below mail id
-                                    with a password reset link</p>
+                                <h1 class="mb-0 h3">Forgot Password</h1>
+                                <p class="small">An email will be sent to the below mail address
+                                    with a password reset link which will be valid for
+                                    <span class="fw-bolder">60 minutes</span>.</p>
+                                <p class="text-danger small">Do not share that link with anyone!</p>
                             </div>
 
                             <form class="mt-4" method="POST">
