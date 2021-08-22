@@ -43,11 +43,11 @@ class VerifyEmail extends Notification
     {
         return (new MailMessage)
             ->success()
-            ->subject('Verify new email')
+            ->subject('Verify email address')
             ->greeting('Hello ' . $this->receiversName . ',')
             ->line('Click the button below to verify your email')
             ->action('Verify', url($this->verificationLink))
-            ->line('This email can be safely ignored if you haven\'t registered');
+            ->line('This email can be safely ignored if you haven\'t registered.');
     }
 
     /**
