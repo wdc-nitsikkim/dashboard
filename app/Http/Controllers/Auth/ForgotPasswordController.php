@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Notification;
 use App\CustomHelper;
 use App\Models\User;
 use App\Models\PasswordReset;
+use App\Traits\SendEmails;
 use App\Notifications\PasswordReset as ResetEmail;
 
 class ForgotPasswordController extends Controller {
+    use SendEmails;
+
     public function __construct() {
         $this->middleware('guest');
     }
@@ -59,15 +62,22 @@ class ForgotPasswordController extends Controller {
          * as queues cannot be used because of unavailability of CRON jobs on
          * actual server (https://nitsikkim.ac.in)
          */
-        app()->terminating(function () use ($user, $link) {
-            Notification::route('mail', $user->email)
-                ->notify(new ResetEmail($user->name, $link));
-            Log::info('Password reset link sent to ' . $user->email);
-        });
+        // app()->terminating(function () use ($user, $link) {
+        //     Notification::route('mail', $user->email)
+        //         ->notify(new ResetEmail($user->name, $link));
+        //     Log::info('Password reset link sent to ' . $user->email);
+        // });
 
-        return redirect()->route('login')->with([
-            'status' => 'info',
-            'message' => 'Password reset link has been sent'
-        ]);
+        if ($this->sendPasswordReset($user->email, $user->name, $link)) {
+            return redirect()->route('login')->with([
+                'status' => 'success',
+                'message' => 'Password reset link has been sent'
+            ]);
+        } else {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Mail server did not respond!'
+            ]);
+        }
     }
 }

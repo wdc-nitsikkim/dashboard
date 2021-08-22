@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\Notification;
 use App\Models\User;
 use App\CustomHelper;
 use App\Traits\StoreFiles;
+use App\Traits\SendEmails;
 use App\Notifications\VerifyEmail;
 
 class UserController extends Controller {
-    use StoreFiles;
+    use SendEmails, StoreFiles;
 
     /**
      * Items per page
@@ -286,16 +287,23 @@ class UserController extends Controller {
          * as queues cannot be used because of unavailability of CRON jobs on
          * actual server (https://nitsikkim.ac.in)
          */
-        app()->terminating(function () use ($user, $link) {
-            Notification::route('mail', $user->email)
-                ->notify(new VerifyEmail($user->name, $link));
-            Log::info('Email verification link sent to ' . $user->email);
-        });
+        // app()->terminating(function () use ($user, $link) {
+        //     Notification::route('mail', $user->email)
+        //         ->notify(new VerifyEmail($user->name, $link));
+        //     Log::info('Email verification link sent to ' . $user->email);
+        // });
 
-        return back()->with([
-            'status' => 'success',
-            'message' => 'Verification link sent to email'
-        ]);
+        if ($this->sendEmailVerification($user->email, $user->name, $link)) {
+            return back()->with([
+                'status' => 'success',
+                'message' => 'Verification link sent to email'
+            ]);
+        } else {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Mail server did not respond!'
+            ]);
+        }
     }
 
     public function confirmEmail(Request $request, $token) {

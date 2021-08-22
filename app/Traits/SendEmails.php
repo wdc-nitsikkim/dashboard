@@ -19,7 +19,7 @@ trait SendEmails {
         return $email;
     }
 
-    public function sendEmail($email) {
+    public function sendSendgridEmail($email) {
         $sendgrid = new \SendGrid(config('mail.sendgrid.api_key'));
         try {
             $response = $sendgrid->send($email);
@@ -69,7 +69,7 @@ trait SendEmails {
             'signed_by' => 'WDC, NIT Sikkim'
         ]);
 
-        return $this->sendEmail($email);
+        return $this->sendSendgridEmail($email);
     }
 
     /**
@@ -104,6 +104,6 @@ trait SendEmails {
             'signed_by' => 'WDC, NIT Sikkim'
         ]);
 
-        return $this->sendEmail($email);
+        return $this->sendSendgridEmail($email);
     }
 }
