@@ -125,6 +125,10 @@ class UserController extends Controller {
         ]);
 
         try {
+            if ($user->email != $data['email']) {
+                $user->email_verified_at = null;
+            }
+
             $user->name = $data['name'];
             $user->email = $data['email'];
             $user->mobile = $data['mobile'];
