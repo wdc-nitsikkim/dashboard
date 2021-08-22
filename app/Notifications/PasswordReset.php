@@ -46,7 +46,7 @@ class PasswordReset extends Notification
             ->subject('Reset account password')
             ->greeting('Hello ' . $this->receiversName . ',')
             ->line('Click the button below to reset your password')
-            ->action('Reset', url($this->resetLink))
+            ->action('Reset Password', url($this->resetLink))
             ->line('Do not share this link with anyone!')
             ->line('')
             ->line('This email can be safely ignored if you haven\'t requested
