@@ -7,9 +7,12 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
+use App\Traits\RenderNotification;
+
 class PasswordReset extends Notification
 {
     use Queueable;
+    use RenderNotification;
 
     /**
      * Create a new notification instance.
