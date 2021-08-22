@@ -50,7 +50,7 @@ class PasswordReset extends Notification
             ->line('Do not share this link with anyone!')
             ->line('')
             ->line('This email can be safely ignored if you haven\'t requested
-                for a password reset.');
+                a password reset.');
     }
 
     /**
