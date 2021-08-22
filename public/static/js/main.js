@@ -90,7 +90,7 @@ const main = (function ($, window, ls) {
             height: $(window.document)[0].scrollHeight
         };
 
-        window.html2canvas($('main.content')[0], options).then(function(canvas) {
+        window.html2canvas($('main.content')[0], options).then(function (canvas) {
             return canvas.toDataURL();
         });
     }

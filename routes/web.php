@@ -18,12 +18,12 @@ Route::get('/', function () {
 /* redirect routes */
 Route::redirect('/home', '/', 301);
 
-Route::get('/hash/{str}', function($str) {
+Route::get('/hash/{str}', function ($str) {
     return \Hash::make($str);
 });
 
 /* site-settings routes */
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function () {
     Route::get('/site-settings', 'SiteController@siteSettings')->name('siteSettings');
     Route::post('/backup/db/create', 'SiteController@dbBackupCreate')->name('dbBackupCreate');
     Route::post('/backup/remove-dir', 'SiteController@removeBackupDir')->name('removeBackupDir');
@@ -32,11 +32,11 @@ Route::middleware('auth')->group(function() {
 });
 
 /* auth routes */
-Route::middleware('guest')->group(function() {
+Route::middleware('guest')->group(function () {
     Route::view('/login', 'login')->name('login');
     Route::get('/register/{role?}', 'Auth\RegisterController@index')->name('register');
 
-    Route::name('auth.')->prefix('auth')->namespace('Auth')->group(function() {
+    Route::name('auth.')->prefix('auth')->namespace('Auth')->group(function () {
         Route::post('/signin/default', 'LoginController@defaultLogin')->name('signin.default');
         Route::post('/signin/google', 'LoginController@withGoogle')->name('signin.withgoogle');
 
@@ -56,7 +56,7 @@ Route::middleware('guest')->group(function() {
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 /* root routes */
-Route::name('root.')->middleware('auth')->group(function() {
+Route::name('root.')->middleware('auth')->group(function () {
     Route::view('/default', 'layouts.admin')->name('default');
     Route::view('/lock', 'lockscreen')->name('lockscreen');
     Route::post('/lock', 'Auth\LoginController@confirmPassword')->name('confirmPassword');
@@ -65,7 +65,7 @@ Route::name('root.')->middleware('auth')->group(function() {
 });
 
 /* user account routes */
-Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
+Route::name('users.')->prefix('users')->middleware('auth')->group(function () {
     Route::get('/', 'UserController@show')->name('show');
     Route::get('/search', 'UserController@searchForm')->name('searchForm');
     Route::get('/search/results', 'UserController@search')->name('search');
@@ -78,7 +78,7 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     });
 
     Route::name('manage.')->prefix('manage')->middleware('password.confirm')
-        ->group(function() {
+        ->group(function () {
 
         Route::get('/{id}', 'ManageUserController@manage')->name('page');
         Route::post('/save-permissions/{id}', 'ManageUserController@savePermissions')
@@ -115,17 +115,17 @@ Route::name('feedbacks.')->prefix('feedback')->middleware('auth')->group(functio
 });
 
 /* admin routes --> all roles except student */
-Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])->group(function() {
+Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])->group(function () {
     /* office routes */
-    Route::name('office.')->prefix('office')->group(function() {
-        Route::name('hods.')->prefix('hods')->group(function() {
+    Route::name('office.')->prefix('office')->group(function () {
+        Route::name('hods.')->prefix('hods')->group(function () {
             Route::get('/', 'HodController@show')->name('show');
             Route::post('/assign', 'HodController@assign')->name('assign');
             Route::delete('/remove/{dept_id}', 'HodController@remove')
                 ->middleware('password.confirm')->name('remove');
         });
 
-        Route::name('positions.')->prefix('positions')->group(function() {
+        Route::name('positions.')->prefix('positions')->group(function () {
             Route::get('/', 'PositionController@show')->name('show');
             Route::post('/assign', 'PositionController@assign')->name('assign');
             Route::delete('/remove/{id}', 'PositionController@remove')->name('remove');
@@ -133,9 +133,9 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 
     /* homepage routes */
-    Route::name('homepage.')->prefix('homepage')->group(function() {
+    Route::name('homepage.')->prefix('homepage')->group(function () {
         /* notification routes */
-        Route::name('notification.')->prefix('notifications')->group(function() {
+        Route::name('notification.')->prefix('notifications')->group(function () {
             Route::get('/{trashed?}', 'NotificationController@show')
                 ->where('trashed', 'trashed')->name('show');
             Route::get('/search', 'NotificationController@searchForm')->name('searchForm');
@@ -157,7 +157,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 
     /* department routes */
-    Route::name('department.')->prefix('departments')->group(function() {
+    Route::name('department.')->prefix('departments')->group(function () {
         Route::get('/', 'DepartmentController@show')->name('show');
         Route::get('/index', 'DepartmentController@index')->name('index');
         Route::get('/select', 'DepartmentController@select')->name('select');
@@ -183,7 +183,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 
     /* profile routes */
-    Route::name('profiles.')->prefix('profiles')->group(function() {
+    Route::name('profiles.')->prefix('profiles')->group(function () {
         Route::get('/', 'ProfileController@show')->name('show');
         Route::get('/trashed', 'ProfileController@showTrashed')->name('showTrashed');
         Route::get('/search', 'ProfileController@searchForm')->name('searchForm');
@@ -206,14 +206,14 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 
     /* student routes */
-    Route::name('students.')->prefix('students')->group(function() {
+    Route::name('students.')->prefix('students')->group(function () {
         Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
         Route::get('/search', 'StudentController@searchForm')->name('searchForm');
         Route::get('/search/results', 'StudentController@search')->name('search');
 
         Route::get('/test', 'StudentController@test');
 
-        Route::prefix('{dept}/{batch}')->group(function() {
+        Route::prefix('{dept}/{batch}')->group(function () {
             Route::get('/', 'StudentController@show')->name('show');
             Route::get('/add', 'StudentController@add')->name('add');
             Route::get('/bulk-insert', 'StudentController@bulkInsert')->name('bulkInsert');
@@ -230,7 +230,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
     });
 
     /* batch routes */
-    Route::name('batch.')->prefix('batches')->group(function() {
+    Route::name('batch.')->prefix('batches')->group(function () {
         Route::get('/', 'BatchController@show')->name('show');
         Route::get('/select', 'BatchController@select')->name('select');
         Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
@@ -275,6 +275,6 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth'])
 });
 
 /* framework version */
-Route::get('/version', function() {
+Route::get('/version', function () {
     return "Laravel v" . Illuminate\Foundation\Application::VERSION . " working on PHP v" . \phpversion();
 });
