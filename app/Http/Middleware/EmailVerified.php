@@ -18,7 +18,17 @@ class EmailVerified
     public function handle($request, Closure $next)
     {
         if (Auth::user()->email_verified_at == NULL) {
-            return redirect()->route('users.verifyEmail.view');
+            $msg = [
+                'status' => 'info',
+                'message' => 'You need to verify your email first'
+            ];
+            $route = route('users.verifyEmail.view');
+
+            if ($request->ajax()) {
+                return response(null, 300)->header('Location', $route);
+            }
+
+            return redirect($route)->with($msg);
         }
 
         return $next($request);
