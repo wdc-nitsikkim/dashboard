@@ -128,6 +128,7 @@ return [
     */
    'sendgrid' => [
        'api_key' => env('SENDGRID_API_KEY'),
-       'default_template' => env('SENDGRID_DEFAULT_TEMPLATE_ID')
+       'default_template' => env('SENDGRID_DEFAULT_TEMPLATE_ID'),
+       'from_address' => env('SENDGRID_FROM_ADDRESS')
    ]
 ];
