@@ -120,4 +120,14 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom mail config
+    |--------------------------------------------------------------------------
+    |
+    */
+   'sendgrid' => [
+       'api_key' => env('SENDGRID_API_KEY'),
+       'default_template' => env('SENDGRID_DEFAULT_TEMPLATE_ID')
+   ]
 ];
