@@ -60,12 +60,25 @@
                     <div class="col-md-8 mb-2">
                         <div class="form-floating">
                             <input type="email"
-                                class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                class="form-control {{ $user->email_verified_at == null ? 'is-invalid' : 'is-valid' }}
+                                {{ $errors->has('email') ? 'is-invalid' : '' }}"
                                 id="email" placeholder="E-mail" name="email"
                                 value="{{ old('email') ?? $user['email'] }}" required>
                             <label for="email">E-mail</label>
-                            <small class="small">Use '@nitsikkim.ac.in' email address
-                                to enable login via Google</small>
+
+                            <small class="small">
+
+                                @if ($user->email_verified_at == null)
+                                    <span class="text-danger pe-1">Unverified.
+                                        <a class="text-decoration-underline fw-bolder"
+                                            href="{{ route('users.verifyEmail.view') }}">Click to verify.</a>
+                                    </span>
+                                @else
+                                    <span class="text-success pe-1">Verified.</span>
+                                @endif
+
+                                Use '@nitsikkim.ac.in' email address to enable login via Google
+                            </small>
 
                             @if ($errors->has('email'))
                                 <div class="invalid-feedback">

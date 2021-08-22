@@ -68,8 +68,9 @@
                                                 Remember me
                                             </label>
                                         </div>
-                                        <div><a href="#!" class="small text-right">Lost
-                                                password?</a></div>
+                                        <div><a href="{{ route('auth.forgotPassword') }}" class="small text-right">
+                                            Lost password?</a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="d-grid">

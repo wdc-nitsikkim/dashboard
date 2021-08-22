@@ -31,6 +31,11 @@
         ];
 
         /**
+         * Reset password token length
+         */
+        const RESET_PWD_TOKEN_LEN = 64;
+
+        /**
          * Checks file input
          *
          * @param string $name

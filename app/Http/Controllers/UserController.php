@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 use App\Models\User;
 use App\CustomHelper;
 use App\Traits\StoreFiles;
+use App\Notifications\VerifyEmail;
 
 class UserController extends Controller {
     use StoreFiles;
@@ -123,6 +125,10 @@ class UserController extends Controller {
         ]);
 
         try {
+            if ($user->email != $data['email']) {
+                $user->email_verified_at = null;
+            }
+
             $user->name = $data['name'];
             $user->email = $data['email'];
             $user->mobile = $data['mobile'];
@@ -245,6 +251,78 @@ class UserController extends Controller {
         return redirect()->route('root.default')->with([
             'status' => 'success',
             'message' => 'Account deleted'
+        ]);
+    }
+
+    public function sendVerificationEmail() {
+        $user = User::findOrFail(Auth::id());
+
+        if ($user->email_verified_at != null) {
+            return back()->with([
+                'status' => 'info',
+                'message' => 'This email address is already verified!'
+            ]);
+        }
+
+        $token = CustomHelper::getRandomStr(CustomHelper::RESET_PWD_TOKEN_LEN);
+
+        $link = route('users.verifyEmail.confirm', [
+            'token' => urlencode($token)
+        ]);
+
+        try {
+            $user->email_token = $token;
+            $user->save();
+        } catch (\Exception $e) {
+            Log::debug('Failed to save email verification info.', [$e->getMessage(), $user]);
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'An unknown error occurred!'
+            ]);
+        }
+
+        /**
+         * Register a function to send email. It is executed after the response is sent
+         * as queues cannot be used because of unavailability of CRON jobs on
+         * actual server (https://nitsikkim.ac.in)
+         */
+        app()->terminating(function () use ($user, $link) {
+            Notification::route('mail', $user->email)
+                ->notify(new VerifyEmail($user->name, $link));
+            Log::info('Email verification link sent to ' . $user->email);
+        });
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Verification link sent to email'
+        ]);
+    }
+
+    public function confirmEmail(Request $request, $token) {
+        if (strlen($token) != CustomHelper::RESET_PWD_TOKEN_LEN) {
+            abort(404);
+        }
+
+        $user = User::where([
+            'email' => Auth::user()->email,
+            'email_token' => $token
+        ])->firstOrFail();
+
+        try {
+            $user->email_verified_at = now();
+            $user->email_token = null;
+            $user->save();
+        } catch (\Exception $e) {
+            Log::debug('Failed to verify email', [Auth::user(), $token]);
+            return redirect()->route('users.verifyEmail.view')->with([
+                'status' => 'fail',
+                'message' => 'Failed to verify email!'
+            ]);
+        }
+
+        return redirect()->route('users.account', $user->id)->with([
+            'status' => 'success',
+            'message' => 'Email address verified!'
         ]);
     }
 
