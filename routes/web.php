@@ -70,6 +70,13 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function() {
     Route::get('/search', 'UserController@searchForm')->name('searchForm');
     Route::get('/search/results', 'UserController@search')->name('search');
 
+    Route::name('verifyEmail.')->prefix('email')->group(function () {
+        Route::get('/verify', 'UserController@verifyEmailView')->name('view');
+        Route::post('/send-code', 'UserController@sendVerificationEmail')
+            ->name('sendMail');
+        Route::get('/verify/{token}', 'UserController@confirmEmail')->name('confirm');
+    });
+
     Route::name('manage.')->prefix('manage')->middleware('password.confirm')
         ->group(function() {
 
