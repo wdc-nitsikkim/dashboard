@@ -15,6 +15,6 @@ class PasswordReset extends Model {
     protected $fillable = ['email', 'token', 'created_at'];
 
     public function user() {
-        $this->belongsTo(User::class, 'email')->withDefault();
+        return $this->belongsTo(User::class, 'email', 'email')->withDefault();
     }
 }
