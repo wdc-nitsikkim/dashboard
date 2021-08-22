@@ -42,6 +42,8 @@ class VerifyEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->success()
+            ->subject('Verify new email')
             ->greeting('Hello ' . $this->receiversName . ',')
             ->line('Click the button below to verify your email')
             ->action('Verify', url($this->verificationLink))
