@@ -57,6 +57,10 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'password.confirm' => \App\Http\Middleware\Lockscreen::class
+        /**
+         * Add custom middlewares below
+         */
+        'password.confirm' => \App\Http\Middleware\Lockscreen::class,
+        'email.verified' => \App\Http\Middleware\EmailVerified::class
     ];
 }
