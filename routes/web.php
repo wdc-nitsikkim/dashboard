@@ -71,7 +71,7 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function () {
     Route::get('/search/results', 'UserController@search')->name('search');
 
     Route::name('verifyEmail.')->prefix('email')->group(function () {
-        Route::get('/verify', 'UserController@verifyEmailView')->name('view');
+        Route::view('/verify', 'auth.verifyEmail')->name('view');
         Route::post('/send-code', 'UserController@sendVerificationEmail')
             ->name('sendMail');
         Route::get('/verify/{token}', 'UserController@confirmEmail')->name('confirm');
