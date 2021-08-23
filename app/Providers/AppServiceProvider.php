@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         App::singleton('site_settings', function () {
             $settings = SiteSetting::all();
-            View::share('site_settings', $this->site_settings);
+            View::share('site_settings', $settings);
             return $settings;
         });
     }
