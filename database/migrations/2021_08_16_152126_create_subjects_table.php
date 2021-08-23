@@ -27,9 +27,9 @@ class CreateSubjectsTable extends Migration
 
             $table->unique('code');
             $table->foreign('department_id')->references('id')->on('departments')
-                ->onUpdate('cascade')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('course_id')->references('id')->on('courses')
-                ->onUpdate('cascade')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

@@ -17,7 +17,8 @@ class CreateCoursesTable extends Migration
             $table->tinyIncrements('id');
             $table->string('code', 10)->nullable(false);
             $table->string('name', 100)->nullable(false);
-            $table->tinyInteger('duration')->nullable(false);  /* course duration (in years) */
+            $table->tinyInteger('duration')->nullable(false)
+                ->comment('in years');
 
             $table->unique('code');
         });

@@ -15,8 +15,8 @@ class CreateUserRolePermissionsTable extends Migration
     {
         Schema::create('user_role_permissions', function (Blueprint $table) {
             $table->unsignedSmallInteger('role_id');
-            $table->enum('permission', ['c', 'r', 'u', 'd'])->default('r')->nullable(false);
-            /* c => create, r => read, u => update, d => delete */
+            $table->enum('permission', ['c', 'r', 'u', 'd'])->default('r')->nullable(false)
+                ->comment('c -> create, r -> read, u -> update, d -> delete');
             $table->timestamp('created_at')->useCurrent();
 
             $table->unique(['role_id', 'permission']);
