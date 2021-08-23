@@ -28,7 +28,9 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         /* Custom route parameter binding */
-        Route::model('batch', \App\Models\Batch::class);
+        Route::bind('batch', function ($val) {
+            return \App\Models\Batch::with('course')->where('code', $val)->firstOrFail();
+        });
         Route::model('dept', \App\Models\Department::class);
         Route::model('subject', \App\Models\Subject::class);
     }
