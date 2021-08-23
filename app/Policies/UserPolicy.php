@@ -67,7 +67,7 @@ class UserPolicy {
             && !$curr->hasRole('root', 'admin');
     }
 
-    public function manage_site(User $user) {
+    public function manage_app(User $user) {
         return false;
     }
 }

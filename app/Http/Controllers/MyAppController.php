@@ -11,11 +11,11 @@ use Ifsnop\Mysqldump as IMysqldump;
 use App\CustomHelper;
 use App\Traits\StoreFiles;
 
-class SiteController extends Controller {
+class MyAppController extends Controller {
     use StoreFiles;
 
     public function __construct() {
-        $this->middleware('can:manage_site,App\Models\User');
+        $this->middleware('can:manage_app,App\Models\User');
     }
 
     public function dbBackupCreate() {
@@ -62,7 +62,7 @@ class SiteController extends Controller {
     }
 
     public function siteSettings() {
-        return view('manageSite');
+        return view('manageApp');
     }
 
     public function executeArtisanCommand(Request $request, $command) {

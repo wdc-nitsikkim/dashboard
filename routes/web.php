@@ -22,12 +22,12 @@ Route::get('/hash/{str}', function ($str) {
     return \Hash::make($str);
 });
 
-/* site-settings routes */
-Route::middleware('auth')->group(function () {
-    Route::get('/site-settings', 'SiteController@siteSettings')->name('siteSettings');
-    Route::post('/backup/db/create', 'SiteController@dbBackupCreate')->name('dbBackupCreate');
-    Route::post('/backup/remove-dir', 'SiteController@removeBackupDir')->name('removeBackupDir');
-    Route::post('/execute/{command}', 'SiteController@executeArtisanCommand')
+/* app settings routes */
+Route::name('myApp.')->prefix('app')->middleware('auth')->group(function () {
+    Route::get('/settings', 'MyAppController@siteSettings')->name('settings');
+    Route::post('/backup/db/create', 'MyAppController@dbBackupCreate')->name('dbBackupCreate');
+    Route::post('/backup/remove-dir', 'MyAppController@removeBackupDir')->name('removeBackupDir');
+    Route::post('/execute/{command}', 'MyAppController@executeArtisanCommand')
         ->name('artisan.command');
 });
 

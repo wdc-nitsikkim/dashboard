@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['title' => 'Manage Site Settings'])
+@extends('layouts.admin', ['title' => 'Manage App Settings'])
 
 @section('content')
 
@@ -25,7 +25,7 @@
         <div class="mb-3">
 
             @component('components.inline.anchorBtn', [
-                'href' => route('artisan.command', 'cache:clear'),
+                'href' => route('myApp.artisan.command', 'cache:clear'),
                 'classes' => 'btn-lg btn-outline-info mb-2'
             ])
                 @slot('attr')
@@ -35,7 +35,7 @@
             @endcomponent
 
             @component('components.inline.anchorBtn', [
-                'href' => route('artisan.command', 'config:clear'),
+                'href' => route('myApp.artisan.command', 'config:clear'),
                 'classes' => 'btn-lg btn-outline-danger mb-2'
             ])
                 @slot('attr')
@@ -45,7 +45,7 @@
             @endcomponent
 
             @component('components.inline.anchorBtn', [
-                'href' => route('artisan.command', 'route:clear'),
+                'href' => route('myApp.artisan.command', 'route:clear'),
                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
             ])
                 @slot('attr')
@@ -55,7 +55,7 @@
             @endcomponent
 
             @component('components.inline.anchorBtn', [
-                'href' => route('artisan.command', 'view:clear'),
+                'href' => route('myApp.artisan.command', 'view:clear'),
                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
             ])
                 @slot('attr')
@@ -69,7 +69,7 @@
         <div class="mb-3">
 
             @component('components.inline.anchorBtn', [
-                'href' => route('artisan.command', 'config:cache'),
+                'href' => route('myApp.artisan.command', 'config:cache'),
                 'classes' => 'btn-lg btn-outline-danger mb-2'
             ])
                 @slot('attr')
@@ -88,7 +88,7 @@
             @endcomponent
 
             @component('components.inline.anchorBtn', [
-                'href' => route('artisan.command', 'storage:link'),
+                'href' => route('myApp.artisan.command', 'storage:link'),
                 'classes' => 'btn-lg btn-outline-tertiary mb-2'
             ])
                 @slot('attr')
@@ -106,7 +106,7 @@
         <div class="mb-3">
 
             @component('components.inline.anchorBtn', [
-                'href' => route('dbBackupCreate'),
+                'href' => route('myApp.dbBackupCreate'),
                 'classes' => 'btn-lg btn-outline-success mb-2'
             ])
                 @slot('attr')
@@ -119,7 +119,7 @@
             @endcomponent
 
             @component('components.inline.anchorBtn', [
-                'href' => route('removeBackupDir'),
+                'href' => route('myApp.removeBackupDir'),
                 'classes' => 'btn-lg btn-outline-danger mb-2'
             ])
                 @slot('attr')
