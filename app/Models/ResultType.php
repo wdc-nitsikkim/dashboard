@@ -14,6 +14,6 @@ class ResultType extends Model {
      * Defines one-to-many relationship
      */
     public function result() {
-        return $this->hasMany(Result::class, 'student_id');
+        return $this->hasMany(Result::class, 'result_type_id');
     }
 }
