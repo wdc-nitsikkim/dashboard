@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Course;
 use App\Models\Department;
 use App\Traits\GlobalMutators;
 
@@ -36,6 +37,13 @@ class Subject extends Model {
      */
     public function department() {
         return $this->belongsTo(Department::class, 'department_id')->withDefault();
+    }
+
+    /**
+     * Defines many-to-one relationship
+     */
+    public function course() {
+        return $this->belongsTo(Course::class, 'course_id')->withDefault();
     }
 
     /**
