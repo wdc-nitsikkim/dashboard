@@ -7,7 +7,7 @@
     $pagination -> pagination links view
 --}}
 
-@extends('layouts.admin', ['title' => 'Student Results - ' . strtoupper($subject->code)])
+@extends('layouts.admin', ['title' => 'Students Results - ' . strtoupper($subject->code)])
 
 @section('content')
 
@@ -23,7 +23,7 @@
 
 @component('components.page.heading')
     @slot('heading')
-        Student Results
+        Students Results
     @endslot
 
     @slot('subheading')

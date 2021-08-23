@@ -24,7 +24,7 @@
     @slot('sideButtons')
 
         <div>
-            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown">
+            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
                 Department
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
             </button>
@@ -44,7 +44,7 @@
 
             </div>
 
-            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown">
+            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
                 Semester
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
             </button>
