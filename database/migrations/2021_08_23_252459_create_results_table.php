@@ -14,7 +14,7 @@ class CreateResultsTable extends Migration
     public function up()
     {
         Schema::create('results', function (Blueprint $table) {
-            $table->increments('id');
+            $table->unsignedTinyInteger('result_type_id');
             $table->unsignedInteger('student_id');
             $table->unsignedMediumInteger('subject_id');
             $table->unsignedSmallInteger('score')->nullable(false);
@@ -22,7 +22,9 @@ class CreateResultsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['student_id', 'subject_id']);
+            $table->unique(['result_type_id', 'student_id']);
+            $table->foreign('result_type_id')->references('id')
+                ->on('result_types')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('student_id')->references('id')->on('students')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\ResultType;
 use App\Traits\GlobalAccessors;
 
 class Result extends Model {
@@ -21,6 +22,13 @@ class Result extends Model {
     protected $fillable = [
         'student_id', 'subject_id', 'score'
     ];
+
+    /**
+     * Defines many-to-one relationship
+     */
+    public function resultType() {
+        return $this->belongsTo(ResultType::class, 'result_type_id')->withDefault();
+    }
 
     /**
      * Defines many-to-many relationship
