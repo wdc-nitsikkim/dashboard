@@ -1,5 +1,6 @@
 {{--
     $batch -> single batch model
+    $courses -> collection of course model
 --}}
 
 @extends('layouts.admin', ['title' => 'Edit Batch - ' . $batch['start_year']])
@@ -30,16 +31,21 @@
             <div class="row g-2 mb-3">
                 <div class="col-sm-4 mb-2">
                     <div class="form-floating">
-                        <select class="form-select {{ $errors->has('type') ? 'is-invalid' : '' }}"
-                            id="type" name="type" required>
-                            <option value="b" {{ $type == 'b' ? 'selected' : '' }}>B.Tech</option>
-                            <option value="m" {{ $type == 'm' ? 'selected' : '' }}>M.Tech</option>
-                        </select>
-                        <label for="Type">Type</label>
+                        <select class="form-select {{ $errors->has('course_id') ? 'is-invalid' : '' }}"
+                            id="course_id" name="course_id" required>
 
-                        @if ($errors->has('type'))
+                            @foreach ($courses as $course)
+                                <option value="{{ $course->id }}"
+                                    {{ $batch->course_id == $course->id ? 'selected' : '' }}>
+                                    {{ $course->name }}</option>
+                            @endforeach
+
+                        </select>
+                        <label for="course_id">Course</label>
+
+                        @if ($errors->has('course_id'))
                             <div class="invalid-feedback">
-                                {{ $errors->first('type') }}
+                                {{ $errors->first('course_id') }}
                             </div>
                         @endif
 
