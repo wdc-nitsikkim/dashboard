@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\CustomHelper;
 use App\Models\Subject;
+use App\Models\Semester;
 use App\Models\Department;
 
 class SubjectController extends Controller {
@@ -42,18 +43,18 @@ class SubjectController extends Controller {
         ]);
     }
 
-    public function show(Request $request, Department $dept, $semester = null) {
+    public function show(Department $dept, Semester $semester = null) {
         $subjects = Subject::where('department_id', $dept->id);
-        $semester ? $subjects->where('semester', $semester) : false;
+        $semester ? $subjects->where('semester_id', $semester->id) : false;
 
         $subjects = $subjects->paginate($this->paginate);
         $subjects->setPath(route('admin.subjects.show', [
             'dept' => $dept->code,
-            'semester' => $semester
+            'semester' => $semester ? $semester->id : null
         ]));
 
         $departments = Department::select('id', 'code', 'name')->get();
-        $semesters = CustomHelper::getSemesters();
+        $semesters = Semester::all();
 
         return view('admin.subjects.show', [
             'subjects' => $subjects->toArray(),

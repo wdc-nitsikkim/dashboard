@@ -1,7 +1,7 @@
 {{--
     $subjects -> paginated collection of subject model
-    $semesters -> array
-    $currentSemester -> int
+    $currentSemester -> single semester model
+    $semesters -> collection of semester model
     $currentDepartment -> single department model
     $departments -> collection of department model
     $pagination -> pagination links view
@@ -15,9 +15,10 @@
     @slot('heading')
         List of Subjects
         @slot('subheading')
-            <span class="fw-bolder">{{ $currentDepartment->name }}</span>,
-            Semester: <span class="fw-bolder">{{ $currentSemester == null ? 'All' : $currentSemester }}
-                </span>
+            <span class="fw-bolder text-info">
+                {{ $currentSemester == null ? 'Semester: All' : $currentSemester->name }},
+            </span>
+            <span class="fw-bolder">{{ $currentDepartment->name }}</span>
         @endslot
     @endslot
 
@@ -58,16 +59,12 @@
                 </a>
 
                 @foreach ($semesters as $sem)
-                    @if ($sem == $currentSemester)
-                        @continue
-                    @endif
-
                     <a class="dropdown-item d-flex align-items-center"
                         href="{{ route('admin.subjects.show', [
                             'dept' => $currentDepartment,
-                            'semester' => $sem
+                            'semester' => $sem->id
                         ]) }}">
-                        {{ ucwords($sem) }}</a>
+                        {{ $sem->name }}</a>
                 @endforeach
 
             </div>
