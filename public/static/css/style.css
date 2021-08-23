@@ -48,6 +48,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 /* icons --end */
 
 /* General classes --start */
+@media only screen and (min-width: 768px) {
+    .nowrap-lg {
+        white-space: nowrap !important;
+    }
+}
+
 .cur-pointer {
     cursor: pointer;
 }

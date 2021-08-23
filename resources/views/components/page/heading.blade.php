@@ -10,7 +10,7 @@
             @endisset
 
         </div>
-        <div class="text-nowrap">
+        <div class="nowrap-lg text-end">
             {{ $sideButtons ?? '' }}
         </div>
     </div>
