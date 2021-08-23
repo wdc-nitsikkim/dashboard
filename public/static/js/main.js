@@ -117,6 +117,7 @@ const main = (function ($, window, ls) {
     function loadSidenavPreference() {
         const val = ls.get(localKeys.sidenav);
         if (val == 'collapsed') {
+            appConstants.sidenavToggleBtn.find('span').html('menu');
             appConstants.sidenav.addClass('contracted');
         }
     }
@@ -152,9 +153,13 @@ const globalHandler = (function ($, window, main) {
 
     sidenavToggleBtn.on('click', () => {
         sidenav.toggleClass('contracted');
-        main.saveSidenavPreference(
-            sidenav.hasClass('contracted') ? 'collapsed' : ''
-        );
+        if (sidenav.hasClass('contracted')) {
+            main.saveSidenavPreference('collapsed');
+            sidenavToggleBtn.find('span').html('menu');
+        } else {
+            main.saveSidenavPreference('');
+            sidenavToggleBtn.find('span').html('menu_open');
+        }
     });
 
     sidenav.on('mouseenter', function () {

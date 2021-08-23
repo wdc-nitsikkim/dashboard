@@ -5,7 +5,7 @@
 
                 <button id="sidebar-toggle"
                     class="sidebar-toggle me-3 btn btn-icon-only d-none d-lg-inline-block align-items-center justify-content-center">
-                    <span class="material-icons">menu</span>
+                    <span class="material-icons">menu_open</span>
                 </button>
 
                 <!-- Search form -->
