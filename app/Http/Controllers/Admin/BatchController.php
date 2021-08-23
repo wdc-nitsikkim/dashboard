@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\CustomHelper;
 use App\Models\Batch;
+use App\Models\Course;
 
 class BatchController extends Controller {
     /**
@@ -29,12 +30,15 @@ class BatchController extends Controller {
 
     function __construct() {
         $this->sessionKeys = CustomHelper::getSessionConstants();
+        $this->courses = Course::all();
+        $this->btechCode = $this->courses->where('code', 'btech')->first()->id;
+        $this->mtechCode = $this->courses->where('code', 'mtech')->first()->id;
     }
 
     public function select() {
         $batches = Batch::all();
-        $btechBatches = $batches->where('type', 'b')->sortByDesc('id');
-        $mtechBatches = $batches->where('type', 'm')->sortByDesc('id');
+        $btechBatches = $batches->where('course_id', $this->btechCode)->sortByDesc('id');
+        $mtechBatches = $batches->where('course_id', $this->mtechCode)->sortByDesc('id');
 
         return view('admin.batch.select', [
             'btechBatches' => $btechBatches,
@@ -57,10 +61,10 @@ class BatchController extends Controller {
         $btechPage = $request->btech;
         $mtechPage = $request->mtech;
 
-        $btechBatches = Batch::withTrashed()->where('type', 'b')->orderByDesc('id')
-            ->paginate($this->paginate, ['*'], 'btech', $btechPage);
-        $mtechBatches = Batch::withTrashed()->where('type', 'm')->orderByDesc('id')
-            ->paginate($this->paginate, ['*'], 'mtech', $mtechPage);
+        $btechBatches = Batch::withTrashed()->where('course_id', $this->btechCode)
+            ->orderByDesc('id')->paginate($this->paginate, ['*'], 'btech', $btechPage);
+        $mtechBatches = Batch::withTrashed()->where('course_id', $this->mtechCode)
+            ->orderByDesc('id')->paginate($this->paginate, ['*'], 'mtech', $mtechPage);
 
         $btechBatches->setPageName('btech');
         $btechBatches->appends(['mtech' => $mtechPage]);
@@ -78,14 +82,16 @@ class BatchController extends Controller {
     public function add() {
         $this->authorize('create', Batch::class);
 
-        return view('admin.batch.add');
+        return view('admin.batch.add', [
+            'courses' => $this->courses
+        ]);
     }
 
     public function saveNew(Request $request) {
         $this->authorize('create', Batch::class);
 
         $data = $request->validate([
-            'type' => 'required | in:b,m',
+            'course_id' => ['required', Rule::exists('courses', 'id')],
             'code' => ['required', 'max:5', Rule::unique('batches', 'code')],
             'start_year' => 'required | numeric | min:2010',
             'name' => 'required | min:3'
@@ -113,7 +119,8 @@ class BatchController extends Controller {
 
         $batch = Batch::findOrFail($id);
         return view('admin.batch.edit', [
-            'batch' => $batch
+            'batch' => $batch,
+            'courses' => $this->courses
         ]);
     }
 
@@ -123,7 +130,7 @@ class BatchController extends Controller {
         $batch = Batch::findOrFail($id);
 
         $data = $request->validate([
-            'type' => 'required | in:b,m',
+            'course_id' => ['required', Rule::exists('courses', 'id')],
             'code' => ['required', 'max:5', Rule::unique('batches', 'code')->ignore($batch->id)],
             'start_year' => 'required | numeric | min:2010',
             'name' => 'required | min:3'

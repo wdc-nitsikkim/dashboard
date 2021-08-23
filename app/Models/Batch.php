@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Course;
 use App\Models\Student;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
@@ -21,7 +22,7 @@ class Batch extends Model {
      * @var array
      */
     protected $fillable = [
-        'type', 'code', 'name', 'start_year'
+        'course_id', 'code', 'name', 'start_year'
     ];
 
     /**
@@ -32,6 +33,13 @@ class Batch extends Model {
      */
     public function getRouteKeyName() {
         return 'code';
+    }
+
+    /**
+     * Defines many-to-one relationship
+     */
+    public function course() {
+        return $this->belongsTo(Course::class, 'course_id')->withDefault();
     }
 
     /**
