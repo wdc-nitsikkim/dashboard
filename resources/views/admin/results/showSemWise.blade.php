@@ -11,6 +11,8 @@
 @extends('layouts.admin', ['title' => 'Students Semester-wise Results'])
 
 @php
+    $redirectHandler = 'admin.results.semWiseHandleRedirect';
+
     $baseRouteParams = [
         'dept' => $department,
         'batch' => $batch,
@@ -27,21 +29,12 @@
     @endslot
 
     @slot('subheading')
-        <h5 class="fw-bolder">
-            {{ $currentSemester == null ? 'Semester: All' : $currentSemester->name }},
-            {{ $currentResultType->name }}
-        </h5>
-
-        @include('admin.students.partials.subheading', ['batch' => $batch])
-        <span class="fw-bolder">{{ $department->name }}</span>
-
-        <p class="text-info"><span class="fw-bolder">NOTE:</span> All marks are out of
-            <span class="fw-bolder">{{ $currentResultType->max_marks }}</span></p>
-    @endslot
-
-    @slot('sideButtons')
-
         <div>
+            <span class="h5 fw-bolder me-3">
+                {{ $currentSemester == null ? 'Semester: All' : $currentSemester->name }},
+                {{ $currentResultType->name }}
+            </span>
+
             <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
                 Result Type
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
@@ -56,8 +49,26 @@
                 @endforeach
 
             </div>
+        </div>
 
-            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
+        @include('admin.students.partials.subheading', ['batch' => $batch])
+        <span class="fw-bolder">{{ $department->name }}</span>
+
+        <p class="text-info"><span class="fw-bolder">NOTE:</span> All marks are out of
+            <span class="fw-bolder">{{ $currentResultType->max_marks }}</span></p>
+    @endslot
+
+    @slot('sideButtons')
+
+        <div>
+
+            @include('partials.pageSideBtns', [
+                'help' => '#!',
+                'deptRedirect' => $redirectHandler,
+                'batchRedirect' => $redirectHandler
+            ])
+
+            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle ms-1 mb-2" data-bs-toggle="dropdown">
                 Semester
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
             </button>
@@ -72,6 +83,7 @@
 
             </div>
         </div>
+
     @endslot
 @endcomponent
 
