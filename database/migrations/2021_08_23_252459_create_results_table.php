@@ -14,6 +14,7 @@ class CreateResultsTable extends Migration
     public function up()
     {
         Schema::create('results', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedTinyInteger('result_type_id');
             $table->unsignedInteger('student_id');
             $table->unsignedMediumInteger('subject_id');
