@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateResultsTable extends Migration
+class CreateDepartmentSubjectsTaughtTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,12 @@ class CreateResultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('results', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('student_id');
+        Schema::create('department_subjects_taught', function (Blueprint $table) {
+            $table->unsignedSmallInteger('department_id');
             $table->unsignedMediumInteger('subject_id');
-            $table->unsignedSmallInteger('score')->nullable(false);
 
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->unique(['student_id', 'subject_id']);
-            $table->foreign('student_id')->references('id')->on('students')
+            $table->unique(['department_id', 'subject_id']);
+            $table->foreign('department_id')->references('id')->on('departments')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')
                 ->onUpdate('cascade')->onDelete('cascade');
@@ -37,6 +32,6 @@ class CreateResultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('results');
+        Schema::dropIfExists('department_subjects_taught');
     }
 }

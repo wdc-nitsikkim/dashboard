@@ -29,6 +29,11 @@ class ResultPolicy {
         return $permission && ($user->hasRole('admin', 'ecell') || $user->hasSubjectAccess($subject->id));
     }
 
+    public function view_sem_wise(User $user) {
+        return $user->hasRole('ecell')
+            && $user->isPermissionValid($this->update_roles, $this->permission['read']);
+    }
+
     public function update(User $user, Subject $subject) {
         $permission = $user->isPermissionValid($this->update_roles, $this->permission['update']);
 

@@ -1,7 +1,7 @@
 {{--
     $subjects -> paginated collection of subject model
-    $semesters -> array
-    $currentSemester -> int
+    $currentSemester -> single semester model
+    $semesters -> collection of semester model
     $currentDepartment -> single department model
     $departments -> collection of department model
     $pagination -> pagination links view
@@ -15,41 +15,45 @@
     @slot('heading')
         List of Subjects
         @slot('subheading')
-            <span class="fw-bolder">{{ $currentDepartment->name }}</span>,
-            Semester: <span class="fw-bolder">{{ $currentSemester == null ? 'All' : $currentSemester }}
-                </span>
+            <h5>
+                <span class="text-info">
+                    {{ $currentDepartment == null ? 'All Departments' : $currentDepartment->name }}</span>,
+                {{ $currentSemester == null ? 'All Semesters' : $currentSemester->name }}
+            </h5>
         @endslot
     @endslot
 
     @slot('sideButtons')
 
         <div>
-            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown">
+            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
                 Department
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
             </button>
             <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
+                <a class="dropdown-item d-flex align-items-center"
+                    href="{{ route('admin.subjects.show', [
+                        'semester' => $currentSemester
+                    ]) }}">
+                    All
+                </a>
 
                 @foreach ($departments as $dept)
-                    @if ($dept->id == $currentDepartment->id)
-                        @continue
-                    @endif
-
                     <a class="dropdown-item d-flex align-items-center"
                         href="{{ route('admin.subjects.show', [
-                            'dept' => $dept->code
+                            'dept' => $dept->code,
+                            'semester' => $currentSemester
                         ]) }}">
                         {{ $dept->name }}</a>
                 @endforeach
 
             </div>
 
-            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown">
+            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
                 Semester
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
             </button>
             <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
-
                 <a class="dropdown-item d-flex align-items-center"
                     href="{{ route('admin.subjects.show', [
                         'dept' => $currentDepartment
@@ -58,16 +62,12 @@
                 </a>
 
                 @foreach ($semesters as $sem)
-                    @if ($sem == $currentSemester)
-                        @continue
-                    @endif
-
                     <a class="dropdown-item d-flex align-items-center"
                         href="{{ route('admin.subjects.show', [
                             'dept' => $currentDepartment,
-                            'semester' => $sem
+                            'semester' => $sem->id
                         ]) }}">
-                        {{ ucwords($sem) }}</a>
+                        {{ $sem->name }}</a>
                 @endforeach
 
             </div>

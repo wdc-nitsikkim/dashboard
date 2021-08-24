@@ -252,25 +252,26 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth', 
 
     /* subject routes */
     Route::name('subjects.')->prefix('subjects')->group(function () {
-        Route::get('/','SubjectController@handleRedirect')->name('handleRedirect');
+        Route::get('/', 'SubjectController@show')->name('show');
         Route::get('/select', 'SubjectController@select')->name('select');
         Route::post('/save-in-session/{subject}', 'SubjectController@saveInSession')->name('saveInSession');
 
         Route::get('/test', 'SubjectController@test');
-
-        Route::get('/{dept}/{semester?}', 'SubjectController@show')->
-            where('semester', '[0-9]+')->name('show');
     });
 
     /* result routes */
     Route::name('results.')->prefix('results')->group(function () {
         Route::get('/', 'ResultController@handleRedirect')->name('handleRedirect');
+        Route::get('/semwise', 'ResultController@semWiseHandleRedirect')
+            ->name('semWiseHandleRedirect');
+        Route::get('/semwise/{dept}/{batch}/{result_type?}/{semester?}',
+            'ResultController@showSemWise')->name('showSemWise');
 
         Route::get('/test', 'ResultController@test');
 
         Route::prefix('{dept}/{batch}/{subject}')->group(function () {
-            Route::get('/', 'ResultController@show')->name('show');
-            Route::post('/save', 'ResultController@save')->name('save')
+            Route::get('/{result_type?}', 'ResultController@show')->name('show');
+            Route::post('/{result_type}/save', 'ResultController@save')->name('save')
                 ->middleware('password.confirm');
         });
     });

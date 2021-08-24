@@ -312,10 +312,20 @@
                                 <span class="sidebar-text">View</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
-                                <span class="sidebar-text-contracted">F</span>
-                                <span class="sidebar-text">Find</span>
+
+                        @php
+                            $routeUrl = ($isDeptSelected && $isBatchSelected)
+                                ? route('admin.results.showSemWise', [
+                                    'dept' => $department,
+                                    'batch' => $batch
+                                ])
+                                : route('admin.results.semWiseHandleRedirect')
+                        @endphp
+
+                        <li class="nav-item {{ Route::is('admin.results.showSemWise') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ $routeUrl }}">
+                                <span class="sidebar-text-contracted">S</span>
+                                <span class="sidebar-text">Semester Wise</span>
                             </a>
                         </li>
                     </ul>
@@ -392,7 +402,7 @@
                             ? route('admin.subjects.show', [
                                     'dept' => $department
                                 ])
-                            : route('admin.subjects.handleRedirect');
+                            : route('admin.subjects.show');
                     @endphp
 
                     <ul class="flex-column nav">

@@ -17,9 +17,9 @@ class CreateSubjectsTable extends Migration
             $table->mediumIncrements('id');
             $table->unsignedSmallInteger('department_id');
             $table->unsignedTinyInteger('course_id');
+            $table->unsignedTinyInteger('semester_id');
             $table->string('code', 8)->nullable(false);
             $table->string('name')->nullable(false);
-            $table->enum('semester', [1, 2, 3, 4, 5, 6, 7, 8, 'elective'])->nullable(false);
             $table->tinyInteger('credit')->nullable(false);
 
             $table->timestamps();
@@ -27,9 +27,11 @@ class CreateSubjectsTable extends Migration
 
             $table->unique('code');
             $table->foreign('department_id')->references('id')->on('departments')
-                ->onUpdate('cascade')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('course_id')->references('id')->on('courses')
-                ->onUpdate('cascade')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('semester_id')->references('id')->on('semesters')
+                ->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

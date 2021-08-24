@@ -5,9 +5,11 @@
     $subject -> single subject model
     $students -> collection of student model (nested relations)
     $pagination -> pagination links view
+    $currentResultType -> single resultType model
+    $resultTypes -> collection of resultType model
 --}}
 
-@extends('layouts.admin', ['title' => 'Student Results - ' . strtoupper($subject->code)])
+@extends('layouts.admin', ['title' => 'Students Results - ' . strtoupper($subject->code)])
 
 @section('content')
 
@@ -23,25 +25,50 @@
 
 @component('components.page.heading')
     @slot('heading')
-        Student Results
+        Students Results
     @endslot
 
     @slot('subheading')
-        @include('admin.students.partials.subheading', ['batch' => $batch])
+        <h5 class="fw-bolder">
+            {{ $subject->name }} ({{ strtoupper($subject->code) }})
+        </h5>
 
+        <div>
+            <span class="h5 fw-bolder me-3">{{ $currentResultType->name }}</span>
+
+            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
+                Result Type
+                <span class="material-icons ms-1">keyboard_arrow_down</span>
+            </button>
+            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
+
+                @foreach ($resultTypes as $type)
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('admin.results.show',
+                            array_merge($baseRouteParams, [ 'result_type' => $type->id ])) }}"
+                        confirm alert-title="This will refresh the page!"
+                        alert-text="All unsaved changes will be lost">
+                        {{ $type->name }}</a>
+                @endforeach
+
+            </div>
+        </div>
+
+        @include('admin.students.partials.subheading', ['batch' => $batch])
         {{ $department->name }}
-        <br>
-        <span class="fw-bolder">{{ $subject->name }} ({{ strtoupper($subject->code) }})</span>
+
         <div class="mt-1 text-info">
             <h6 class="fw-bolder">General Information:</h6>
             <ul class="mt--1">
-                <li>All marks are out of 100</li>
+                <li>All marks are out of <span class="fw-bolder">{{ $currentResultType->max_marks }}
+                        </span></li>
 
                 @if ($canUpdate)
                     <li>For absentees, leave marks as blank <span class="fw-bolder">(not 0)</span></li>
                     <li>Result for absent students are not kept, i.e., students with no result are automatically
                         treated as absent</li>
-                    <li>Save the marks using the button given below before navigating to some other page</li>
+                    <li>Save the marks using the <code class="fw-bolder mx-1">Save</code> button given below
+                        before navigating to some other page</li>
                 @endif
 
             </ul>
@@ -51,7 +78,6 @@
     @slot('sideButtons')
         @include('partials.pageSideBtns', [
             'help' => '#!',
-            'searchRedirect' => '#!',
             'deptRedirect' => $redirectHandler,
             'batchRedirect' => $redirectHandler,
             'subjectRedirect' => $redirectHandler
@@ -82,6 +108,14 @@
                 </span>
 
                 <div class="input-group-text bg-gray-100">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" id="toggle-compact">
+                        <label class="form-check-label mb-0" for="toggle-compact">
+                            Compact Tables
+                        </label>
+                    </div>
+                </div>
+                <div class="input-group-text bg-gray-100">
                     <div class="form-check form-switch mb-0">
                         <input class="form-check-input" type="checkbox"
                             {{ $canUpdate ? 'id=toggle-edit' : 'disabled' }}>
@@ -104,7 +138,8 @@
             </p>
         @else
 
-            <form action="{{ route('admin.results.save', $baseRouteParams) }}"
+            <form action="{{ route('admin.results.save',
+                array_merge($baseRouteParams, [ 'result_type' => $currentResultType ]) ) }}"
                 method="POST">
 
                 {{ csrf_field() }}
@@ -116,7 +151,7 @@
                         @component('components.table.head', [
                             'items' => [
                                 '#', 'Roll Number', 'Name',
-                                'Marks', 'Last Updated'
+                                'Marks', 'Percentage', 'Last Updated'
                             ]
                         ])
                         @endcomponent
@@ -146,20 +181,29 @@
 
                                     if ($result != null && $result->deleted_at == null) {
                                         $score = $result->score;
-                                        if ($score >= 81) {
+                                        $percentage = $result->percentage;
+                                        if ($percentage >= 81) {
                                             $scoreClass = 'text-success';
-                                        } else if ($score >= 51) {
+                                        } else if ($percentage >= 51) {
                                             $scoreClass = 'text-info';
-                                        } else if ($score >= 33) {
+                                        } else if ($percentage >= 33) {
                                             $scoreClass = 'text-primary';
                                         }
                                     }
                                 @endphp
 
                                 <td class="fw-bolder">
-                                    <span class="{{ $scoreClass }}">{{ strlen($score) == 0 ? '-' : $score }}</span>
-                                    <input type="number" class="form-control d-none" value="{{ $score }}"
-                                        name="result[{{ $student->id }}]" min="0" max="100">
+                                    <span class="{{ $scoreClass }}">
+                                        {{ strlen($score) == 0 ? '-' : $score }}
+                                    </span>
+                                    <input type="number" placeholder="Enter Marks"
+                                        class="form-control d-none {{ $score == '' ? 'empty-input' : 'filled-input' }}"
+                                        value="{{ $score }}" name="result[{{ $student->id }}]"
+                                        min="0" max="{{ $currentResultType->max_marks }}" step="0.1">
+                                </td>
+
+                                <td>
+                                    {{ $result['percentage'] ?? 0 }} %
                                 </td>
 
                                 <td>{{ $result ? $result->updated_at : '-' }}</td>

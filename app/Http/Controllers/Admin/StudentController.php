@@ -22,7 +22,7 @@ class StudentController extends Controller {
      *
      * @var int
      */
-    private $paginate = 10;
+    private $paginate = 20;
 
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
@@ -36,22 +36,15 @@ class StudentController extends Controller {
     }
 
     public function handleRedirect() {
-        if (!session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.select', [
-                'redirect' => 'admin.students.handleRedirect'
+        $redirectRoute = route('admin.students.handleRedirect');
+        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute, ['selectedDepartment', 'selectedBatch']);
+        if (is_bool($response)) {
+            return redirect()->route('admin.students.show', [
+                'dept' => session($this->sessionKeys['selectedDepartment']),
+                'batch' => session($this->sessionKeys['selectedBatch'])
             ]);
         }
-
-        if (!session()->has($this->sessionKeys['selectedBatch'])) {
-            return redirect()->route('admin.batch.select', [
-                'redirect' => 'admin.students.handleRedirect'
-            ]);
-        }
-
-        return redirect()->route('admin.students.show', [
-            'dept' => session($this->sessionKeys['selectedDepartment']),
-            'batch' => session($this->sessionKeys['selectedBatch'])
-        ]);
+        return $response;
     }
 
     public function show(Department $dept, Batch $batch) {
@@ -72,11 +65,11 @@ class StudentController extends Controller {
         $this->authorize('view', Student::class);
 
         $departments = Department::select('id', 'name')->get();
-        $batches = Batch::select('id', 'type', 'name')->get();
+        $batches = Batch::with('course')->select('id', 'course_id', 'name')->get();
         $batches->transform(function ($batch) {
             return [
                 'id' => $batch->id,
-                'name' => ($batch->type == 'b' ? 'B.Tech' : 'M.Tech') . ', ' . $batch->name
+                'name' => $batch->course->name . ', ' . $batch->name
             ];
         });
 
@@ -113,7 +106,7 @@ class StudentController extends Controller {
             'created_at' => 'date'
         ];
 
-        $search->with(['department:id,code,name', 'batch:id,code,type,start_year']);
+        $search->with(['department:id,code,name', 'batch:id,code,course_id,start_year', 'batch.course']);
         $search = CustomHelper::getSearchQuery($search, $data, $map)->paginate($this->paginate);
         $search->appends($data);
 

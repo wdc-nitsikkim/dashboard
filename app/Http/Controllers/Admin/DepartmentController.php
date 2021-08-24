@@ -33,11 +33,14 @@ class DepartmentController extends Controller {
     }
 
     public function index() {
-        if (session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.home',
-                session($this->sessionKeys['selectedDepartment']));
+        $redirectRoute = route('admin.department.index');
+        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute, ['selectedDepartment']);
+        if (is_bool($response)) {
+            return redirect()->route('admin.department.home', [
+                'dept' => session($this->sessionKeys['selectedDepartment'])
+            ]);
         }
-        return redirect()->route('admin.department.select');
+        return $response;
     }
 
     public function select() {
@@ -53,10 +56,9 @@ class DepartmentController extends Controller {
 
     public function saveInSession(Request $request, Department $dept) {
         session([$this->sessionKeys['selectedDepartment'] => $dept]);
-        $redirectRouteName = $request->input('redirect');
+        $redirectRoute = $request->input('redirect');
 
-        return Route::has($redirectRouteName)
-            ? redirect()->route($redirectRouteName, $dept)
+        return $redirectRoute ? redirect($redirectRoute)
             : redirect()->route('admin.department.home', $dept);
     }
 

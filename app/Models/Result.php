@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\ResultType;
 use App\Traits\GlobalAccessors;
 
 class Result extends Model {
@@ -19,8 +20,27 @@ class Result extends Model {
      * The attributes that are mass-assignable
      */
     protected $fillable = [
-        'student_id', 'subject_id', 'score'
+        'result_type_id', 'student_id', 'subject_id', 'score'
     ];
+
+    /**
+     * Cast attributes to primitive data types
+     */
+    protected $casts = [
+        'score' => 'float'
+    ];
+
+    /**
+     * Relationships which should be eager loaded automatically
+     */
+    protected $with = ['resultType'];
+
+    /**
+     * Defines many-to-one relationship
+     */
+    public function resultType() {
+        return $this->belongsTo(ResultType::class, 'result_type_id')->withDefault();
+    }
 
     /**
      * Defines many-to-many relationship
@@ -34,5 +54,12 @@ class Result extends Model {
      */
     public function subject() {
         return $this->belongsTo(Subject::class, 'subject_id')->withDefault();
+    }
+
+    /**
+     * Custom dynamic accessor of model
+     */
+    public function getPercentageAttribute() {
+        return round(($this->score / $this->resultType->max_marks) * 100, 2);
     }
 }

@@ -13,7 +13,10 @@ use App\Models\Batch;
 use App\Models\Result;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Semester;
 use App\Models\Department;
+use App\Models\ResultType;
+use App\Models\DepartmentSubjectsTaught as Sub;
 
 class ResultController extends Controller {
     /**
@@ -35,53 +38,101 @@ class ResultController extends Controller {
     }
 
     public function handleRedirect() {
-        if (! session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.select', [
-                'redirect' => 'admin.results.handleRedirect'
+        $redirectRoute = route('admin.results.handleRedirect');
+        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute,
+            ['selectedDepartment', 'selectedBatch', 'selectedSubject']);
+
+        if (is_bool($response)) {
+            return redirect()->route('admin.results.show', [
+                'dept' => session($this->sessionKeys['selectedDepartment']),
+                'batch' => session($this->sessionKeys['selectedBatch']),
+                'subject' => session($this->sessionKeys['selectedSubject'])
             ]);
         }
-
-        if (! session()->has($this->sessionKeys['selectedBatch'])) {
-            return redirect()->route('admin.batch.select', [
-                'redirect' => 'admin.results.handleRedirect'
-            ]);
-        }
-
-        if (! session()->has($this->sessionKeys['selectedSubject'])) {
-            return redirect()->route('admin.subjects.select', [
-                'redirect' => 'admin.results.handleRedirect'
-            ]);
-        }
-
-        return redirect()->route('admin.results.show', [
-            'dept' => session($this->sessionKeys['selectedDepartment']),
-            'batch' => session($this->sessionKeys['selectedBatch']),
-            'subject' => session($this->sessionKeys['selectedSubject'])
-        ]);
+        return $response;
     }
 
-    public function show(Department $dept, Batch $batch, Subject $subject) {
+    public function show(Department $dept, Batch $batch, Subject $subject,
+        ResultType $result_type = null) {
         $this->authorize('view', [Result::class, $subject]);
 
+        $resultTypes = ResultType::all();
+        $result_type = $result_type ?? $resultTypes->first();
         $students = Student::withTrashed()->where([
-            'batch_id' => $batch->id,
-            'department_id' => $dept->id
-        ])->with('result')->orderBy('roll_number')->paginate($this->paginate);
+                'batch_id' => $batch->id,
+                'department_id' => $dept->id
+            ])->with(['result' => function ($query) use ($result_type, $subject) {
+                $query->where([
+                    'result_type_id' => $result_type->id,
+                    'subject_id' => $subject->id
+                ]);
+            }])->orderBy('roll_number')->paginate($this->paginate);
 
         $canUpdate = Auth::user()->can('update', [Result::class, $subject]);
 
         return view('admin.results.show', [
-            'canUpdate' => $canUpdate,
             'batch' => $batch,
             'subject' => $subject,
             'students' => $students,
             'department' => $dept,
+            'canUpdate' => $canUpdate,
+            'resultTypes' => $resultTypes,
+            'currentResultType' => $result_type,
             'pagination' => $students->links('vendor.pagination.default')
         ]);
     }
 
+    public function semWiseHandleRedirect() {
+        $redirectRoute = route('admin.results.semWiseHandleRedirect');
+        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute, ['selectedDepartment', 'selectedBatch']);
+        if (is_bool($response)) {
+            return redirect()->route('admin.results.showSemWise', [
+                'dept' => session($this->sessionKeys['selectedDepartment']),
+                'batch' => session($this->sessionKeys['selectedBatch'])
+            ]);
+        }
+        return $response;
+    }
+
+    public function showSemWise(Department $dept, Batch $batch,
+        ResultType $result_type = null, Semester $semester = null) {
+
+        $this->authorize('view_sem_wise', Result::class);
+
+        $resultTypes = ResultType::all();
+        $result_type = $result_type ?? $resultTypes->first();
+        $semesters = Semester::all();
+        $semester = $semester ?? $semesters->first();
+        $subjects = Sub::with('subject')->where('department_id', $dept->id)
+            ->whereHas('subject', function ($query) use ($batch, $semester) {
+                $query->where([
+                    'course_id' => $batch->course->id,
+                    'semester_id' => $semester->id
+                ]);
+            })->get();
+        $students = Student::withTrashed()->where([
+                'batch_id' => $batch->id,
+                'department_id' => $dept->id
+            ])->with(['result' => function ($query) use ($result_type) {
+                $query->where([
+                    'result_type_id' => $result_type->id
+                ]);
+            }])->orderBy('roll_number')->get();
+
+        return view('admin.results.showSemWise', [
+            'batch' => $batch,
+            'department' => $dept,
+            'subjects' => $subjects,
+            'students' => $students,
+            'semesters' => $semesters,
+            'resultTypes' => $resultTypes,
+            'currentSemester' => $semester,
+            'currentResultType' => $result_type
+        ]);
+    }
+
     public function save(Request $request, Department $dept, Batch $batch,
-        Subject $subject) {
+        Subject $subject, ResultType $result_type) {
 
         /* function primarily for use with AJAX requests */
 
@@ -89,7 +140,7 @@ class ResultController extends Controller {
 
         $data = $request->validate([
             'result' => 'array',
-            'result.*' => 'nullable | numeric | between:0,100'
+            'result.*' => 'nullable | numeric | between:0,' . $result_type->max_marks
         ]);
 
         /* result array is formed as 'result[student_id] => score' */
@@ -107,7 +158,8 @@ class ResultController extends Controller {
             foreach ($studentIds as $studentId) {
                 $findResult = [
                     'student_id' => $studentId,
-                    'subject_id' => $subject->id
+                    'subject_id' => $subject->id,
+                    'result_type_id' => $result_type->id
                 ];
 
                 if ($result[$studentId] == null) {

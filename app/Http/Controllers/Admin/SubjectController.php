@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\CustomHelper;
 use App\Models\Subject;
+use App\Models\Semester;
 use App\Models\Department;
 
 class SubjectController extends Controller {
@@ -18,7 +19,7 @@ class SubjectController extends Controller {
      *
      * @var int
      */
-    private $paginate = 10;
+    private $paginate = 20;
 
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
@@ -31,29 +32,24 @@ class SubjectController extends Controller {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function handleRedirect() {
-        if (!session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.select', [
-                'redirect' => 'admin.subjects.handleRedirect'
-            ]);
-        }
-        return redirect()->route('admin.subjects.show', [
-            'dept' => session($this->sessionKeys['selectedDepartment'])
-        ]);
-    }
+    public function show(Request $request) {
+        $departments = Department::select('id', 'code', 'name')->get();
+        $semesters = Semester::all();
 
-    public function show(Request $request, Department $dept, $semester = null) {
-        $subjects = Subject::where('department_id', $dept->id);
-        $semester ? $subjects->where('semester', $semester) : false;
+        $dept = $request->dept ? $departments->where('code', $request->dept)->first() : null;
+        $semester = $request->semester ? $semesters->where('id', $request->semester)->first() : null;
+
+        $subjects = Subject::when($dept, function ($query) use ($dept) {
+            $query->where('department_id', $dept->id);
+        })->when($semester ?? false, function ($query) use ($semester) {
+            $query->where('semester_id', $semester->id);
+        });
 
         $subjects = $subjects->paginate($this->paginate);
         $subjects->setPath(route('admin.subjects.show', [
-            'dept' => $dept->code,
-            'semester' => $semester
+            'dept' => $request->dept,
+            'semester' => $request->semester
         ]));
-
-        $departments = Department::select('id', 'code', 'name')->get();
-        $semesters = CustomHelper::getSemesters();
 
         return view('admin.subjects.show', [
             'subjects' => $subjects->toArray(),
@@ -67,7 +63,7 @@ class SubjectController extends Controller {
 
     public function select() {
         $preferred = Auth::user()->allowedSubjects()->with('subject:id,code,name')->get();
-        $subjects = Subject::select('id', 'code', 'name', 'semester')->get();
+        $subjects = Subject::select('id', 'code', 'name', 'semester_id')->get();
 
         return view('admin.subjects.select', [
             'preferred' => $preferred,
@@ -77,10 +73,9 @@ class SubjectController extends Controller {
 
     public function saveInSession(Request $request, Subject $subject) {
         session([$this->sessionKeys['selectedSubject'] => $subject]);
-        $redirectRouteName = $request->input('redirect');
+        $redirectRoute = $request->input('redirect');
 
-        return Route::has($redirectRouteName)
-            ? redirect()->route($redirectRouteName, $subject)
+        return $redirectRoute ? redirect($redirectRoute)
             : redirect()->route('admin.subjects.show');
     }
 

@@ -26,8 +26,7 @@
                 'delete' => 'd'
             ],
             'roles' => ['admin', 'office', 'ecell', 'tnp', 'hod',
-                'faculty', 'staff', 'student'],
-            'semesters' => [1, 2, 3, 4, 5, 6, 7, 8, 'elective']
+                'faculty', 'staff', 'student']
         ];
 
         /**
@@ -80,15 +79,6 @@
          */
         public static function getRoles() {
             return self::$GLOBAL_CONSTS['roles'];
-        }
-
-        /**
-         * Returns array of semesters used in database
-         *
-         * @return array
-         */
-        public static function getSemesters() {
-            return self::$GLOBAL_CONSTS['semesters'];
         }
 
         /**
@@ -170,6 +160,38 @@
                 }
             }
             return $base;
+        }
+
+        /**
+         * Check if given session variables exist else redirect appropriately to pre-defined routes
+         *
+         * @param string $redirectHandler  Original redirect handler
+         * @param array $checkKeys  Session variables to check
+         * @return boolean|\Illuminate\Http\RedirectResponse
+         */
+        public static function sessionCheckAndRedirect($redirectHandler, array $checkKeys) {
+            $sessionKeys = self::$GLOBAL_CONSTS['sessionMap'];
+            $redirectParameter = [
+                'redirect' => $redirectHandler
+            ];
+            $selectRoutes = [
+                'selectedBatch' => route('admin.batch.select', $redirectParameter),
+                'selectedSubject' => route('admin.subjects.select', $redirectParameter),
+                'selectedDepartment' => route('admin.department.select', $redirectParameter)
+            ];
+
+            foreach ($checkKeys as $key) {
+                /* Check if a route to set this key exists */
+                if (! array_key_exists($key, $selectRoutes)) {
+                    continue;
+                }
+
+                /* return redirect response if key is not set in session */
+                if (! session()->has($sessionKeys[$key])) {
+                    return redirect($selectRoutes[$key]);
+                }
+            }
+            return true;
         }
 
         /**
