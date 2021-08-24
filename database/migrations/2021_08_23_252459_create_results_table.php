@@ -18,7 +18,7 @@ class CreateResultsTable extends Migration
             $table->unsignedTinyInteger('result_type_id');
             $table->unsignedInteger('student_id');
             $table->unsignedMediumInteger('subject_id');
-            $table->unsignedSmallInteger('score')->nullable(false);
+            $table->unsignedDecimal('score')->nullable(false);
 
             $table->timestamps();
             $table->softDeletes();

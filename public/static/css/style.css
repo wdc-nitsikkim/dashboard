@@ -54,6 +54,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     }
 }
 
+.form-control.empty-input {
+    border-color: rgb(225, 29, 72);
+}
+
+.form-control.empty-input:focus {
+    box-shadow: 0 0 0 0.18rem rgb(225 29 72 / 25%);
+}
+
+.form-control.filled-input {
+    border-color: rgb(16, 185, 129);
+}
+
 .cur-pointer {
     cursor: pointer;
 }
