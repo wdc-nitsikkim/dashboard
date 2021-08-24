@@ -108,6 +108,14 @@
                 </span>
 
                 <div class="input-group-text bg-gray-100">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" id="toggle-compact">
+                        <label class="form-check-label mb-0" for="toggle-compact">
+                            Compact Tables
+                        </label>
+                    </div>
+                </div>
+                <div class="input-group-text bg-gray-100">
                     <div class="form-check form-switch mb-0">
                         <input class="form-check-input" type="checkbox"
                             {{ $canUpdate ? 'id=toggle-edit' : 'disabled' }}>

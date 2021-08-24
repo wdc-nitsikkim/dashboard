@@ -1,10 +1,15 @@
 const results = (function ($, window) {
     'use strict';
 
+    const tableCompactBtn = $('#toggle-compact');
     const toggleEditBtn = $('#toggle-edit');
     const table = $('#students');
     const form = table.closest('form');
     const elements = table.find('tbody > tr > td > input').closest('td');
+
+    tableCompactBtn.on('click', function () {
+        return $('table').toggleClass('table-sm')
+    });
 
     toggleEditBtn.on('click', function () {
         elements.find(':not(input)').toggleClass('d-none');
