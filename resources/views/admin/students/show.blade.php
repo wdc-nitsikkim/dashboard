@@ -12,7 +12,7 @@
 @php
     $batchModel = 'App\\Models\\Batch';
     $studentModel = 'App\\Models\\Student';
-    $redirectHandler = 'admin.students.handleRedirect';
+    $redirectHandler = route('admin.students.handleRedirect');
 
     $baseRouteParams = [
         'dept' => $department,

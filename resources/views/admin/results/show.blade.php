@@ -14,7 +14,7 @@
 @section('content')
 
 @php
-    $redirectHandler = 'admin.results.handleRedirect';
+    $redirectHandler = route('admin.results.handleRedirect');
 
     $baseRouteParams = [
         'dept' => $department,

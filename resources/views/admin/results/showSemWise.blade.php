@@ -11,7 +11,7 @@
 @extends('layouts.admin', ['title' => 'Students Semester-wise Results'])
 
 @php
-    $redirectHandler = 'admin.results.semWiseHandleRedirect';
+    $redirectHandler = route('admin.results.semWiseHandleRedirect');
 
     $baseRouteParams = [
         'dept' => $department,
