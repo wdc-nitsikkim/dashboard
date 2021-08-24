@@ -19,7 +19,7 @@ class SubjectController extends Controller {
      *
      * @var int
      */
-    private $paginate = 10;
+    private $paginate = 20;
 
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
