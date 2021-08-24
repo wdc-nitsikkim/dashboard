@@ -8,7 +8,7 @@
     @component('components.inline.anchorBtn', [
         'icon' => 'search',
         'href' => $searchRedirect,
-        'classes' => 'btn-outline-primary mb-1'
+        'classes' => 'btn-outline-primary mb-2'
     ])
         Search
     @endcomponent
@@ -18,7 +18,7 @@
     @component('components.inline.anchorBtn', [
         'icon' => 'import_export',
         'href' => route('admin.department.select', ['redirect' => $deptRedirect]),
-        'classes' => 'btn-outline-info mb-1',
+        'classes' => 'btn-outline-info mb-2',
         'tooltip' => true
     ])
         @slot('attr')
@@ -32,7 +32,7 @@
     @component('components.inline.anchorBtn', [
         'icon' => 'import_export',
         'href' => route('admin.batch.select', ['redirect' => $batchRedirect]),
-        'classes' => 'btn-outline-info mb-1',
+        'classes' => 'btn-outline-info mb-2',
         'tooltip' => true
     ])
         @slot('attr')
@@ -46,7 +46,7 @@
     @component('components.inline.anchorBtn', [
         'icon' => 'import_export',
         'href' => route('admin.subjects.select', ['redirect' => $subjectRedirect]),
-        'classes' => 'btn-outline-info mb-1',
+        'classes' => 'btn-outline-info mb-2',
         'tooltip' => true
     ])
         @slot('attr')
@@ -60,7 +60,7 @@
     @component('components.inline.anchorBtn', [
         'icon' => 'restore_from_trash',
         'href' => $trashRedirect,
-        'classes' => 'btn-outline-info mb-1'
+        'classes' => 'btn-outline-info mb-2'
     ])
         Trashed
     @endcomponent
@@ -71,7 +71,7 @@
     @component('components.inline.anchorBtn', [
         'icon' => 'keyboard_arrow_left',
         'href' => $backRedirect,
-        'classes' => 'btn-outline-info mb-1'
+        'classes' => 'btn-outline-info mb-2'
     ])
         Back
     @endcomponent
