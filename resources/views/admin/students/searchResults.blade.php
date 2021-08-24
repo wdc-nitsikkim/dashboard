@@ -71,7 +71,7 @@
                             </td>
                             <td>
                                 <span class="d-inline-block text-truncate" style="max-width: 150px">
-                                    {{ ($student['batch']['type'] == 'b' ? 'B.Tech' : 'M.Tech') . ', ' .
+                                    {{ $student['batch']['course']['name'] . ', ' .
                                     $student['batch']['start_year'] }}
                                 </span>
                             </td>
