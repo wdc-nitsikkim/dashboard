@@ -14,6 +14,12 @@
                 <li class="list-inline-item px-0 px-sm-2">
                     <a href="#!">Report Issue</a>
                 </li>
+                <li class="list-inline-item px-0 px-sm-2">
+                    <a href="https://github.com/wdc-nitsikkim" target="_blank">
+                        <img src="{{ asset('static/images/github-octocat.svg') }}" alt="github-logo"
+                            class="inline-svg scale-on-hover">
+                        Contribute</a>
+                </li>
             </ul>
         </div>
     </div>

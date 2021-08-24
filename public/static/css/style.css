@@ -52,6 +52,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     cursor: pointer;
 }
 
+.inline-svg {
+    width: 1.5em;
+    height: 1.5em;
+}
+
 .scale-on-hover {
     transform: scale(1.0);
     transition: all 0.3s ease;
