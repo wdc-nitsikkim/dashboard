@@ -402,7 +402,7 @@
                             ? route('admin.subjects.show', [
                                     'dept' => $department
                                 ])
-                            : route('admin.subjects.handleRedirect');
+                            : route('admin.subjects.show');
                     @endphp
 
                     <ul class="flex-column nav">

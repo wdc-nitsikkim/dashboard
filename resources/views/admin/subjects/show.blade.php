@@ -15,10 +15,11 @@
     @slot('heading')
         List of Subjects
         @slot('subheading')
-            <span class="fw-bolder text-info">
-                {{ $currentSemester == null ? 'Semester: All' : $currentSemester->name }},
-            </span>
-            <span class="fw-bolder">{{ $currentDepartment->name }}</span>
+            <h5>
+                <span class="text-info">
+                    {{ $currentDepartment == null ? 'All Departments' : $currentDepartment->name }}</span>,
+                {{ $currentSemester == null ? 'All Semesters' : $currentSemester->name }}
+            </h5>
         @endslot
     @endslot
 
@@ -30,15 +31,18 @@
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
             </button>
             <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
+                <a class="dropdown-item d-flex align-items-center"
+                    href="{{ route('admin.subjects.show', [
+                        'semester' => $currentSemester
+                    ]) }}">
+                    All
+                </a>
 
                 @foreach ($departments as $dept)
-                    @if ($dept->id == $currentDepartment->id)
-                        @continue
-                    @endif
-
                     <a class="dropdown-item d-flex align-items-center"
                         href="{{ route('admin.subjects.show', [
-                            'dept' => $dept->code
+                            'dept' => $dept->code,
+                            'semester' => $currentSemester
                         ]) }}">
                         {{ $dept->name }}</a>
                 @endforeach
@@ -50,7 +54,6 @@
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
             </button>
             <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
-
                 <a class="dropdown-item d-flex align-items-center"
                     href="{{ route('admin.subjects.show', [
                         'dept' => $currentDepartment
