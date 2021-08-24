@@ -23,7 +23,7 @@ class CreateResultsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['result_type_id', 'student_id']);
+            $table->unique(['result_type_id', 'student_id', 'subject_id']);
             $table->foreign('result_type_id')->references('id')
                 ->on('result_types')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('student_id')->references('id')->on('students')

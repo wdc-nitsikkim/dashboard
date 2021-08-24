@@ -68,7 +68,7 @@ class SubjectController extends Controller {
 
     public function select() {
         $preferred = Auth::user()->allowedSubjects()->with('subject:id,code,name')->get();
-        $subjects = Subject::select('id', 'code', 'name', 'semester')->get();
+        $subjects = Subject::select('id', 'code', 'name', 'semester_id')->get();
 
         return view('admin.subjects.select', [
             'preferred' => $preferred,
