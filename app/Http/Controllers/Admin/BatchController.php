@@ -48,10 +48,9 @@ class BatchController extends Controller {
 
     public function saveInSession(Request $request, Batch $batch) {
         session([$this->sessionKeys['selectedBatch'] => $batch]);
-        $redirectRouteName = $request->input('redirect');
+        $redirectRoute = $request->input('redirect');
 
-        return Route::has($redirectRouteName)
-            ? redirect()->route($redirectRouteName, $batch)
+        return $redirectRoute ? redirect($redirectRoute)
             : redirect()->route('admin.batch.show');
     }
 

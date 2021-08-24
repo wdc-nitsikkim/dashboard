@@ -38,29 +38,18 @@ class ResultController extends Controller {
     }
 
     public function handleRedirect() {
-        if (! session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.select', [
-                'redirect' => 'admin.results.handleRedirect'
+        $redirectRoute = route('admin.results.handleRedirect');
+        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute,
+            ['selectedDepartment', 'selectedBatch', 'selectedSubject']);
+
+        if (is_bool($response)) {
+            return redirect()->route('admin.results.show', [
+                'dept' => session($this->sessionKeys['selectedDepartment']),
+                'batch' => session($this->sessionKeys['selectedBatch']),
+                'subject' => session($this->sessionKeys['selectedSubject'])
             ]);
         }
-
-        if (! session()->has($this->sessionKeys['selectedBatch'])) {
-            return redirect()->route('admin.batch.select', [
-                'redirect' => 'admin.results.handleRedirect'
-            ]);
-        }
-
-        if (! session()->has($this->sessionKeys['selectedSubject'])) {
-            return redirect()->route('admin.subjects.select', [
-                'redirect' => 'admin.results.handleRedirect'
-            ]);
-        }
-
-        return redirect()->route('admin.results.show', [
-            'dept' => session($this->sessionKeys['selectedDepartment']),
-            'batch' => session($this->sessionKeys['selectedBatch']),
-            'subject' => session($this->sessionKeys['selectedSubject'])
-        ]);
+        return $response;
     }
 
     public function show(Department $dept, Batch $batch, Subject $subject,
@@ -94,22 +83,15 @@ class ResultController extends Controller {
     }
 
     public function semWiseHandleRedirect() {
-        if (! session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.select', [
-                'redirect' => 'admin.results.semWiseHandleRedirect'
+        $redirectRoute = route('admin.results.semWiseHandleRedirect');
+        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute, ['selectedDepartment', 'selectedBatch']);
+        if (is_bool($response)) {
+            return redirect()->route('admin.results.showSemWise', [
+                'dept' => session($this->sessionKeys['selectedDepartment']),
+                'batch' => session($this->sessionKeys['selectedBatch'])
             ]);
         }
-
-        if (! session()->has($this->sessionKeys['selectedBatch'])) {
-            return redirect()->route('admin.batch.select', [
-                'redirect' => 'admin.results.semWiseHandleRedirect'
-            ]);
-        }
-
-        return redirect()->route('admin.results.showSemWise', [
-            'dept' => session($this->sessionKeys['selectedDepartment']),
-            'batch' => session($this->sessionKeys['selectedBatch'])
-        ]);
+        return $response;
     }
 
     public function showSemWise(Department $dept, Batch $batch,

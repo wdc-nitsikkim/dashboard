@@ -73,10 +73,9 @@ class SubjectController extends Controller {
 
     public function saveInSession(Request $request, Subject $subject) {
         session([$this->sessionKeys['selectedSubject'] => $subject]);
-        $redirectRouteName = $request->input('redirect');
+        $redirectRoute = $request->input('redirect');
 
-        return Route::has($redirectRouteName)
-            ? redirect()->route($redirectRouteName, $subject)
+        return $redirectRoute ? redirect($redirectRoute)
             : redirect()->route('admin.subjects.show');
     }
 

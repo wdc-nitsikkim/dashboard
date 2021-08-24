@@ -36,22 +36,15 @@ class StudentController extends Controller {
     }
 
     public function handleRedirect() {
-        if (!session()->has($this->sessionKeys['selectedDepartment'])) {
-            return redirect()->route('admin.department.select', [
-                'redirect' => 'admin.students.handleRedirect'
+        $redirectRoute = route('admin.students.handleRedirect');
+        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute, ['selectedDepartment', 'selectedBatch']);
+        if (is_bool($response)) {
+            return redirect()->route('admin.students.show', [
+                'dept' => session($this->sessionKeys['selectedDepartment']),
+                'batch' => session($this->sessionKeys['selectedBatch'])
             ]);
         }
-
-        if (!session()->has($this->sessionKeys['selectedBatch'])) {
-            return redirect()->route('admin.batch.select', [
-                'redirect' => 'admin.students.handleRedirect'
-            ]);
-        }
-
-        return redirect()->route('admin.students.show', [
-            'dept' => session($this->sessionKeys['selectedDepartment']),
-            'batch' => session($this->sessionKeys['selectedBatch'])
-        ]);
+        return $response;
     }
 
     public function show(Department $dept, Batch $batch) {
