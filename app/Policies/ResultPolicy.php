@@ -35,6 +35,13 @@ class ResultPolicy {
     }
 
     public function update(User $user, Subject $subject) {
+        $resultSetting = CustomHelper::getSiteSetting('resultMod');
+
+        /* Check if updating of result is enabled (in database) */
+        if ($resultSetting == null || (int)$resultSetting != 1) {
+            return false;
+        }
+
         $permission = $user->isPermissionValid($this->update_roles, $this->permission['update']);
 
         return $permission && ($user->hasRole('admin') || $user->hasSubjectAccess($subject->id));

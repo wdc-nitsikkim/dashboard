@@ -12,6 +12,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $site_settings = null;
+
     public function __construct() {
         /**
          * Custom app configuration

@@ -1,5 +1,6 @@
 {{--
     $canUpdate -> boolean
+    $resultUpdateEnabled -> boolean
     $department -> single department model
     $batch -> single batch model
     $subject -> single subject model
@@ -44,10 +45,12 @@
 
                 @foreach ($resultTypes as $type)
                     <a class="dropdown-item d-flex align-items-center"
+                        @if ($canUpdate)
+                            confirm alert-title="This will refresh the page!"
+                            alert-text="All unsaved changes will be lost"
+                        @endif
                         href="{{ route('admin.results.show',
-                            array_merge($baseRouteParams, [ 'result_type' => $type->id ])) }}"
-                        confirm alert-title="This will refresh the page!"
-                        alert-text="All unsaved changes will be lost">
+                            array_merge($baseRouteParams, [ 'result_type' => $type->id ])) }}">
                         {{ $type->name }}</a>
                 @endforeach
 
@@ -84,6 +87,12 @@
         ])
     @endslot
 @endcomponent
+
+@unless ($resultUpdateEnabled)
+    <div class="alert alert-danger text-center mt-n2">
+        Result modification has been disabled by <span class="fw-bolder">E-Cell/Admin</span>.
+    </div>
+@endunless
 
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
@@ -196,10 +205,13 @@
                                     <span class="{{ $scoreClass }}">
                                         {{ strlen($score) == 0 ? '-' : $score }}
                                     </span>
-                                    <input type="number" placeholder="Enter Marks"
-                                        class="form-control d-none {{ $score == '' ? 'empty-input' : 'filled-input' }}"
-                                        value="{{ $score }}" name="result[{{ $student->id }}]"
-                                        min="0" max="{{ $currentResultType->max_marks }}" step="0.1">
+
+                                    @if ($canUpdate)
+                                        <input type="number" placeholder="Enter Marks"
+                                            class="form-control d-none {{ $score == '' ? 'empty-input' : 'filled-input' }}"
+                                            value="{{ $score }}" name="result[{{ $student->id }}]"
+                                            min="0" max="{{ $currentResultType->max_marks }}" step="0.1">
+                                    @endif
                                 </td>
 
                                 <td>
