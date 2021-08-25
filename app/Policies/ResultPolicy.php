@@ -30,7 +30,7 @@ class ResultPolicy {
     }
 
     public function view_sem_wise(User $user) {
-        return $user->hasRole('ecell')
+        return $user->hasRole('admin', 'ecell')
             && $user->isPermissionValid($this->update_roles, $this->permission['read']);
     }
 
