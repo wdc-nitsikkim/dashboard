@@ -3,6 +3,8 @@
 
     use Carbon\Carbon;
 
+    use Illuminate\Support\Facades\App;
+
     /**
      * Custom globally accessible helper functions for this app
      */
@@ -26,7 +28,12 @@
                 'delete' => 'd'
             ],
             'roles' => ['admin', 'office', 'ecell', 'tnp', 'hod',
-                'faculty', 'staff', 'student']
+                'faculty', 'staff', 'student'
+            ],
+            'siteSettings' => [
+                'resultMod' => 'result_modification',
+                'studentReg' => 'student_registration'
+            ]
         ];
 
         /**
@@ -91,6 +98,15 @@
         }
 
         /**
+         * Returns site settings keys used in app -> db
+         *
+         * @return array
+         */
+        public static function getSiteSettingKeys() {
+            return self::$GLOBAL_CONSTS['siteSettings'];
+        }
+
+        /**
          * Converts given UTC date string to app timezone date string
          *
          * @param string $date
@@ -125,6 +141,24 @@
             return $date ? Carbon::createFromTimestamp(strtotime($date))
                 ->timezone('UTC')
                 ->format($format ?? config('app.date_format')) : null;
+        }
+
+        /**
+         * Get value of site setting (by name) stored in db
+         *
+         * @param string $name
+         * @return string|null
+         */
+        public static function getSiteSetting($name) {
+            $siteSettingKeys = self::$GLOBAL_CONSTS['siteSettings'];
+            if (! array_key_exists($name, $siteSettingKeys)) {
+                return false;
+            }
+
+            $siteSettings = App::make('site_settings');
+            $setting = $siteSettings->where('name', $siteSettingKeys[$name])->first();
+
+            return $setting->value ?? null;
         }
 
         /**

@@ -119,7 +119,8 @@
 
                             @component('components.image', [
                                 'image' => Auth::user()->image,
-                                'classes' => 'avatar'
+                                'classes' => 'avatar',
+                                'default' => true
                             ])
                             @endcomponent
 

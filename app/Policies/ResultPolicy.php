@@ -30,11 +30,18 @@ class ResultPolicy {
     }
 
     public function view_sem_wise(User $user) {
-        return $user->hasRole('ecell')
+        return $user->hasRole('admin', 'ecell')
             && $user->isPermissionValid($this->update_roles, $this->permission['read']);
     }
 
     public function update(User $user, Subject $subject) {
+        $resultSetting = CustomHelper::getSiteSetting('resultMod');
+
+        /* Check if updating of result is enabled (in database) */
+        if ($resultSetting == null || (int)$resultSetting != 1) {
+            return false;
+        }
+
         $permission = $user->isPermissionValid($this->update_roles, $this->permission['update']);
 
         return $permission && ($user->hasRole('admin') || $user->hasSubjectAccess($subject->id));

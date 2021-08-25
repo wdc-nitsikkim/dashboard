@@ -79,7 +79,7 @@
             <div class="links">
                 <a href="{{ url()->previous() }}">Go Back</a>
                 <a href="{{ config('app.url') }}">Home</a>
-                <a href="https://nitsikkim.ac.in">NIT Sikim</a>
+                <a href="https://nitsikkim.ac.in">NIT Sikkim</a>
             </div>
         </div>
     </div>

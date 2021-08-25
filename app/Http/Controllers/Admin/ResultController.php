@@ -54,6 +54,7 @@ class ResultController extends Controller {
 
     public function show(Department $dept, Batch $batch, Subject $subject,
         ResultType $result_type = null) {
+
         $this->authorize('view', [Result::class, $subject]);
 
         $resultTypes = ResultType::all();
@@ -69,6 +70,11 @@ class ResultController extends Controller {
             }])->orderBy('roll_number')->paginate($this->paginate);
 
         $canUpdate = Auth::user()->can('update', [Result::class, $subject]);
+        $resultUpdateEnabled = false;
+        $resultSetting = CustomHelper::getSiteSetting('resultMod');
+        if ($resultSetting != null && (int)$resultSetting == 1) {
+            $resultUpdateEnabled = true;
+        }
 
         return view('admin.results.show', [
             'batch' => $batch,
@@ -78,6 +84,7 @@ class ResultController extends Controller {
             'canUpdate' => $canUpdate,
             'resultTypes' => $resultTypes,
             'currentResultType' => $result_type,
+            'resultUpdateEnabled' => $resultUpdateEnabled,
             'pagination' => $students->links('vendor.pagination.default')
         ]);
     }
