@@ -19,15 +19,10 @@
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <div class="avatar avatar-lg mx-auto mb-3">
 
-                                    @if (isset(Auth::user()->image) && Storage::disk('public')->exists(Auth::user()->image))
-                                        <img class="rounded-circle" alt="user-img"
-                                            src="{{ asset(Storage::url(Auth::user()->image)) }}"/>
-                                    @elseif (isset(Auth::user()->image) && filter_var(Auth::user()->image, FILTER_VALIDATE_URL))
-                                        <img class="rounded-circle" alt="url-image"
-                                            src="{{ Auth::user()->image }}"/>
-                                    @else
-                                        <span class="material-icons icon-xxx-large">person_outline</span>
-                                    @endif
+                                    @component('components.image', [
+                                        'image' => Auth::user()->image
+                                    ])
+                                    @endcomponent
 
                                 </div>
                                 <h1 class="h3">{{ Auth::user()->name }}</h1>
