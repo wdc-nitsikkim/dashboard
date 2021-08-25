@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\CustomHelper;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Models\UserRolePermission;
 
 class RegisterController extends Controller {
     public function __contruct() {
@@ -46,15 +47,23 @@ class RegisterController extends Controller {
         ]);
 
         $data['password'] = \Hash::make($data['password']);
+        $permissionConstants = CustomHelper::getPermissionConstants();
 
         DB::beginTransaction();
         try {
             $user = new User($data);
-            $user->deleted_at = date('Y-m-d H:i:s', time());
+            $user->deleted_at = now();
             $user->save();
-            UserRole::create([
+            /* assign role to user */
+            $role = UserRole::create([
                 'user_id' => $user->id,
                 'role' => $data['role']
+            ]);
+            /* give read permission to the role */
+            UserRolePermission::create([
+                'role_id' => $role->id,
+                'permission' => $permissionConstants['read'],
+                'created_at' => now()
             ]);
             DB::commit();
         } catch (\Exception $e) {
