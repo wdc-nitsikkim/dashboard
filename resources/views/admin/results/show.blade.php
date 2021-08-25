@@ -37,7 +37,8 @@
         <div>
             <span class="h5 fw-bolder me-3">{{ $currentResultType->name }}</span>
 
-            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
+            <button class="btn btn-outline-primary d-inline-flex align-items-center dropdown-toggle
+                mb-2" data-bs-toggle="dropdown">
                 Result Type
                 <span class="material-icons ms-1">keyboard_arrow_down</span>
             </button>
