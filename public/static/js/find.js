@@ -44,7 +44,7 @@ const find = (function ($) {
 
     $('input[find]').on('input', async function () {
         const input = $(this);
-        const inputVal = input.val();
+        const inputVal = input.val()?.trim();
         const searchElements = $(`${input.attr('find-in')}`);
         const statusContainer = $(`${input.attr('status')}`);
         const loader = $(`${input.attr('loader')}`);
