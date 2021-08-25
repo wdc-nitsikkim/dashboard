@@ -58,6 +58,8 @@ Route::name('root.')->middleware('auth')->group(function () {
     Route::view('/lock', 'lockscreen')->name('lockscreen');
     Route::post('/lock', 'Auth\LoginController@confirmPassword')->name('confirmPassword');
 
+    Route::get('/test', 'RootController@test');
+
     Route::post('/clear-session', 'RootController@clearSession')->name('clearSession');
 });
 
@@ -274,6 +276,10 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth', 
                 ->middleware('password.confirm');
         });
     });
+});
+
+Route::namespace('Student')->name('student.')->prefix('student')->middleware(['auth', 'email.verified'])->group(function () {
+    Route::view('/', 'layouts.admin')->name('home');
 });
 
 /* framework version */
