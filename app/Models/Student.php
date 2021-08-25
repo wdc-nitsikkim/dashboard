@@ -24,7 +24,8 @@ class Student extends Model {
      * @var array
      */
     protected $fillable = [
-        'roll_number', 'name', 'email', 'department_id', 'batch_id'
+        'roll_number', 'name', 'email', 'department_id', 'batch_id',
+        'created_at', 'updated_at'
     ];
 
     /**
