@@ -14,7 +14,6 @@
 </nav>
 
 @php
-    $image = Auth::user()->image;
     $sessionConsts = CustomHelper::getSessionConstants();
 
     $isDeptSelected = session()->has($sessionConsts['selectedDepartment']);
@@ -34,21 +33,15 @@
             <div class="d-flex align-items-center">
                 <div class="avatar-lg me-4">
 
-                    @if (isset($image) && Storage::disk('public')->exists($image))
-                        <img class="card-img-top rounded-circle border-white" alt="user-img"
-                            src="{{ asset(Storage::url($image)) }}"/>
-                    @elseif (isset($image) && filter_var($image, FILTER_VALIDATE_URL))
-                        <img class="card-img-top rounded-circle border-white" alt="user-image"
-                            src="{{ $image }}"/>
-                    @else
-                        <img class="card-img-top rounded-circle border-white" alt="user-image"
-                            src="{{ asset('static/images/user-default.png') }}"/>
-                    @endif
+                    @component('components.image', [
+                        'image' => Auth::user()->image,
+                        'classes' => 'card-img-top border-white'
+                    ])
+                    @endcomponent
 
                 </div>
                 <div class="d-block">
                     <h2 class="h5 mb-3">
-                        {{-- <span class="badge bg-info text-dark mx-1">{{ strtolower(Auth::user()->email) ?? '-' }}</span> --}}
                         {{ Auth::user()->name ?? '-' }}</h2>
                     <a href="{{ route('logout') }}"
                         class="btn btn-secondary btn-sm d-inline-flex align-items-center">

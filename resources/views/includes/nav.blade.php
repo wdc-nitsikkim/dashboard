@@ -24,7 +24,6 @@
 
             @php
                 $unread = session()->has('status') || $errors->any();
-                $image = Auth::user()->image;
             @endphp
 
             <ul class="navbar-nav align-items-center">
@@ -118,16 +117,11 @@
                         aria-expanded="false">
                         <div class="media d-flex align-items-center">
 
-                            @if (isset($image) && Storage::disk('public')->exists($image))
-                                <img class="avatar rounded-circle" alt="user-img"
-                                    src="{{ asset(Storage::url($image)) }}"/>
-                            @elseif (isset($image) && filter_var($image, FILTER_VALIDATE_URL))
-                                <img class="avatar rounded-circle" alt="user-image"
-                                    src="{{ $image }}"/>
-                            @else
-                                <img class="avatar rounded-circle" alt="user-image"
-                                    src="{{ asset('static/images/user-default.png') }}"/>
-                            @endif
+                            @component('components.image', [
+                                'image' => Auth::user()->image,
+                                'classes' => 'avatar'
+                            ])
+                            @endcomponent
 
                             <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                                 <span class="badge bg-info text-dark mx-1">{{ strtolower(Auth::user()->email) ?? '-' }}</span>

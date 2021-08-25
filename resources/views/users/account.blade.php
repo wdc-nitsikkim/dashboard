@@ -214,21 +214,13 @@
                                 align-items-center justify-content-center">
                                 <div class="icon-shape rounded me-4 me-sm-0">
 
-                                    @if (isset($user['image']) && Storage::disk('public')->exists($user['image']))
-                                        <img class="rounded-circle" alt="profile-image"
-                                            src="{{ asset(Storage::url($user['image'])) }}"
-                                            original-src="{{ asset(Storage::url($user['image'])) }}"
-                                            id="image_preview" />
-                                    @elseif (isset($user['image']) && filter_var($user['image'], FILTER_VALIDATE_URL))
-                                        <img class="rounded-circle" alt="url-image"
-                                            src="{{ $user['image'] }}" original-src="{{ $user['image'] }}"
-                                            id="image_preview"/>
-                                    @else
-                                        <img class="rounded-circle" alt="default-image"
-                                            src="{{ asset('static/images/user-default.png') }}"
-                                            original-src="{{ asset('static/images/user-default.png') }}"
-                                            id="image_preview" />
-                                    @endif
+                                    @component('components.image', [
+                                        'image' => $user->image,
+                                        'imgAttr' => 'id="image_preview"',
+                                        'originalSrc' => true,
+                                        'default' => true
+                                    ])
+                                    @endcomponent
 
                                 </div>
                             </div>
