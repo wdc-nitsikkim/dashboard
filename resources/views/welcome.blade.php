@@ -105,7 +105,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="{{ route('root.default') }}">Default Home</a>
+                    <a href="{{ route('root.home') }}">Default Home</a>
                     <a href="https://nitsikkim.ac.in">NIT Sikkim</a>
                 </div>
             </div>

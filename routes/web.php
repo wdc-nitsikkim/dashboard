@@ -15,9 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/* redirect routes */
-Route::redirect('/home', '/', 301);
-
 Route::get('/hash/{str}', function ($str) {
     return \Hash::make($str);
 });
@@ -57,7 +54,7 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 /* root routes */
 Route::name('root.')->middleware('auth')->group(function () {
-    Route::view('/default', 'layouts.admin')->name('default');
+    Route::get('/home', 'RootController@userRedirect')->name('home');
     Route::view('/lock', 'lockscreen')->name('lockscreen');
     Route::post('/lock', 'Auth\LoginController@confirmPassword')->name('confirmPassword');
 
@@ -118,6 +115,8 @@ Route::name('feedbacks.')->prefix('feedback')->middleware(['auth', 'email.verifi
 
 /* admin routes --> all roles except student */
 Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth', 'email.verified'])->group(function () {
+    Route::view('/', 'layouts.admin')->name('home');
+
     /* office routes */
     Route::name('office.')->prefix('office')->group(function () {
         Route::name('hods.')->prefix('hods')->group(function () {

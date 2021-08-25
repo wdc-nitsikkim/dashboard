@@ -249,7 +249,7 @@ class UserController extends Controller {
             ]);
         }
 
-        return redirect()->route('root.default')->with([
+        return redirect()->route('root.home')->with([
             'status' => 'success',
             'message' => 'Account deleted'
         ]);

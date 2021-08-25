@@ -97,6 +97,17 @@
                 </li>
             @endif
 
+            @if (Auth::user()->hasRole('student'))
+                <li class="nav-item">
+                    <a href="#!" class="nav-link" title="Switch to student account">
+                        <span class="material-icons sidebar-icon">
+                            switch_account
+                        </span>
+                        <span class="sidebar-text">Student Account</span>
+                    </a>
+                </li>
+            @endif
+
             {{-- <li class="nav-item">
                 <a href="#!" class="nav-link d-flex justify-content-between">
                     <span>
