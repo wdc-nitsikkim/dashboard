@@ -4,6 +4,7 @@
     use Carbon\Carbon;
 
     use Illuminate\Support\Facades\App;
+    use Illuminate\Support\Facades\Auth;
 
     /**
      * Custom globally accessible helper functions for this app
@@ -226,6 +227,17 @@
                 }
             }
             return true;
+        }
+
+        /**
+         * Check if a user has only student role
+         *
+         * @param \App\Models\User $user  (optional) Defaults to current user
+         * @return boolean
+         */
+        public static function isStudentOnly(\App\Models\User $user = null) {
+            $user = $user ?: Auth::user();
+            return $user->hasRole('student') && ($user->roles->count() == 1);
         }
 
         /**
