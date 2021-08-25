@@ -156,15 +156,18 @@ class StudentController extends Controller {
         }
 
         try {
+            $studentsArr = [];
             for ($i = 0; $i < $countName; $i++) {
-                $student = Student::create([
+                $student = [
                     'name' => $data['name'][$i],
                     'roll_number' => $data['roll_number'][$i],
                     'email' => $data['email'][$i],
                     'department_id' => $dept->id,
                     'batch_id' => $batch->id
-                ]);
+                ];
+                $studentArr[] = $student;
             }
+            Student::insert($studentArr);
         } catch (\Exception $e) {
             Log::debug('Failed to bulk insert students!', [Auth::user(), $dept, $batch]);
             return abort(500);
