@@ -59,7 +59,8 @@
         </div>
 
         @include('admin.students.partials.subheading', ['batch' => $batch])
-        {{ $department->name }}
+        -
+        <span class="fw-bolder">{{ $department->name }}</span>
 
         <div class="mt-1 text-info">
             <h6 class="fw-bolder">General Information:</h6>

@@ -53,6 +53,7 @@
         </div>
 
         @include('admin.students.partials.subheading', ['batch' => $batch])
+        -
         <span class="fw-bolder">{{ $department->name }}</span>
 
         <p class="text-info"><span class="fw-bolder">NOTE:</span> All marks are out of

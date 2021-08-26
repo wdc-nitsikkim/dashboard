@@ -54,7 +54,7 @@
 
     @slot('subheading')
         @include('admin.students.partials.subheading', ['batch' => $batch])
-
+        -
         {{ $department['name'] }}
     @endslot
 
