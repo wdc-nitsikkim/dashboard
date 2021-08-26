@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Models\Student;
 use App\Models\UserRole;
 use App\Models\UserProfileLink;
 use App\Models\UserAccessSubject;
@@ -75,6 +76,16 @@ class User extends Authenticatable
      */
     public function hasProfile() {
         return !is_null($this->profileLink);
+    }
+
+    /**
+     * Check whether user is linked to a registered student
+     * (kind of one-to-one relationship)
+     *
+     * @return \App\Models\Student|null
+     */
+    public function isStudent() {
+        return Student::withTrashed()->with('info')->where('email', $this->email)->first();
     }
 
     /**

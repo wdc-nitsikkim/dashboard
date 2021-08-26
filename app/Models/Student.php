@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Batch;
 use App\Models\Result;
 use App\Models\Department;
+use App\Models\StudentInfo;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
@@ -47,6 +48,13 @@ class Student extends Model {
      */
     public function batch() {
         return $this->belongsTo(Batch::class, 'batch_id')->withDefault();
+    }
+
+    /**
+     * Defines one-to-one relationship with StudentInfo model
+     */
+    public function info() {
+        return $this->hasOne(StudentInfo::class, 'student_id');
     }
 
     /**
