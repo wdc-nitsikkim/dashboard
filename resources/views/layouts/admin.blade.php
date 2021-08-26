@@ -20,7 +20,7 @@
 <html lang="{{ app()->getLocale() }}">
 
 <head>
-    <title>{{ isset($title) ? ucwords($title) : 'Admin Dashboard' }}</title>
+    <title>{{ isset($title) ? ucwords($title) : 'Dashboard' }}</title>
 
     @include('includes.meta-head')
 
@@ -68,7 +68,7 @@
 
         <div class="row mb-3">
             <div class="col-12">
-                <textarea name="feedback" rows="4" class="form-control" placeholder="Add feedback" required></textarea>
+                <textarea name="feedback" rows="3" class="form-control" placeholder="Add feedback" required></textarea>
             </div>
         </div>
     @endcomponent
