@@ -13,6 +13,7 @@ use App\Models\Student;
 use App\Models\Profile;
 use App\Models\Position;
 use App\Models\Department;
+use App\Models\StudentInfo;
 use App\Models\HomepageNotification;
 use App\Policies\HodPolicy;
 use App\Policies\UserPolicy;
@@ -22,6 +23,7 @@ use App\Policies\StudentPolicy;
 use App\Policies\ProfilePolicy;
 use App\Policies\PositionPolicy;
 use App\Policies\DepartmentPolicy;
+use App\Policies\StudentInfoPolicy;
 use App\Policies\HomepageNotificationPolicy as NotificationPolicy;
 
 class AuthServiceProvider extends ServiceProvider
@@ -40,6 +42,7 @@ class AuthServiceProvider extends ServiceProvider
         Profile::class => ProfilePolicy::class,
         Position::class => PositionPolicy::class,
         Department::class => DepartmentPolicy::class,
+        StudentInfo::class => StudentInfoPolicy::class,
         HomepageNotification::class => NotificationPolicy::class,
     ];
 
