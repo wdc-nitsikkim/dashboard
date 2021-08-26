@@ -5,6 +5,11 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
+use App\Models\Batch;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\Department;
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -21,18 +26,21 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
-
+    public function boot() {
         parent::boot();
 
         /* Custom route parameter binding */
         Route::bind('batch', function ($val) {
-            return \App\Models\Batch::with('course')->where('code', $val)->firstOrFail();
+            return Batch::with('course')->where('code', $val)->firstOrFail();
         });
-        Route::model('dept', \App\Models\Department::class);
-        Route::model('subject', \App\Models\Subject::class);
+
+        Route::bind('student_by_roll_number', function ($val) {
+            $val = strtoupper($val);
+            return Student::where('roll_number', $val)->firstOrFail();
+        });
+
+        Route::model('dept', Department::class);
+        Route::model('subject', Subject::class);
     }
 
     /**
