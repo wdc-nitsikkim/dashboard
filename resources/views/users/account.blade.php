@@ -329,49 +329,54 @@
 </form>
 
 <div class="row">
-    <div class="col-12">
-        <div class="card card-body border-0 shadow mb-4">
-            <h5 class="mb-4">Additional Access</h5>
 
-            <div class="row g-2 mb-2">
-                <div class="col-12 col-sm-6 mb-2">
-                    <h5>Departments</h5>
-                    <p class="text-info fw-bold">
-                        @if ($user->allowedDepartments->count() == 0)
-                            <span class="text-danger">No Results / Not Applicable</span>
-                        @else
-                            @foreach ($user->allowedDepartments as $dept)
-                                <a href="{{ route('admin.department.home', $dept->department->code) }}"
-                                    target="_blank">
-                                    {{  '-> ' . $dept->department->name }}
-                                </a>
-                                {!! $loop->last ? '' : '<br>' !!}
-                            @endforeach
-                        @endif
-                    </p>
-                </div>
+    @if (! CustomHelper::isStudentOnly($user))
 
-                <div class="col-12 col-sm-6 mb-2">
-                    <h5>Subjects</h5>
-                    <p class="text-info fw-bold">
-                        @if ($user->allowedSubjects->count() == 0)
-                            <span class="text-danger">No Results / Not Applicable</span>
-                        @else
-                            @foreach ($user->allowedSubjects as $subject)
-                                <a href="#!"
-                                    target="_blank">
-                                    {{ '-> '
-                                        . '(' . strtoupper($subject->subject->code) . ') '
-                                        . $subject->subject->name }}
-                                </a>
-                                {!! $loop->last ? '' : '<br>' !!}
-                            @endforeach
-                        @endif
-                    </p>
+        <div class="col-12">
+            <div class="card card-body border-0 shadow mb-4">
+                <h5 class="mb-4">Additional Access</h5>
+
+                <div class="row g-2 mb-2">
+                    <div class="col-12 col-sm-6 mb-2">
+                        <h5>Departments</h5>
+                        <p class="text-info fw-bold">
+                            @if ($user->allowedDepartments->count() == 0)
+                                <span class="text-danger">No Results / Not Applicable</span>
+                            @else
+                                @foreach ($user->allowedDepartments as $dept)
+                                    <a href="{{ route('admin.department.home', $dept->department->code) }}"
+                                        target="_blank">
+                                        {{  '-> ' . $dept->department->name }}
+                                    </a>
+                                    {!! $loop->last ? '' : '<br>' !!}
+                                @endforeach
+                            @endif
+                        </p>
+                    </div>
+
+                    <div class="col-12 col-sm-6 mb-2">
+                        <h5>Subjects</h5>
+                        <p class="text-info fw-bold">
+                            @if ($user->allowedSubjects->count() == 0)
+                                <span class="text-danger">No Results / Not Applicable</span>
+                            @else
+                                @foreach ($user->allowedSubjects as $subject)
+                                    <a href="#!"
+                                        target="_blank">
+                                        {{ '-> '
+                                            . '(' . strtoupper($subject->subject->code) . ') '
+                                            . $subject->subject->name }}
+                                    </a>
+                                    {!! $loop->last ? '' : '<br>' !!}
+                                @endforeach
+                            @endif
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+    @endif
 
     <div class="col-12">
         <div class="card card-body border-0 shadow mb-4">
