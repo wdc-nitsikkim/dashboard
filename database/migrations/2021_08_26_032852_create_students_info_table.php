@@ -16,11 +16,16 @@ class CreateStudentsInfoTable extends Migration
         Schema::create('students_information', function (Blueprint $table) {
             $table->unsignedInteger('student_id');
             $table->enum('gender', ['male', 'female', 'other'])->nullable(false);
-            $table->enum('category', ['general', 'obc', 'obc (ncl)', 'sc', 'st', 'other'])
-                ->nullable(false)->default('general');
             $table->date('date_of_birth')->nullable(false);
             $table->string('personal_email')->nullable(true)->default(null);
             $table->string('secondary_mobile')->nullable(true)->default(null);
+            $table->enum('blood_group', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-',
+                'O+', 'O-'])->nullable(false);
+
+            $table->enum('category', ['general', 'obc', 'obc (ncl)', 'sc', 'st', 'other'])
+                ->nullable(false)->default('general');
+            $table->enum('religion', ['hinduism', 'islam', 'christianity', 'sikhism',
+                'buddhism', 'jainism', 'other'])->nullable(false)->default('hinduism');
 
             $table->string('fathers_name')->nullable(false);
             $table->string('fathers_mobile')->nullable(true)->default(null);
