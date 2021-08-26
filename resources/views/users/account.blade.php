@@ -255,7 +255,7 @@
                     <div class="card card-body border-0 shadow">
                         <h2 class="h5 mb-3">Account Association</h2>
 
-                        @if (is_null($user->profileLink))
+                        @if ($user->profileLink == null)
                             <p class="small fw-bold text-danger">-> This account is not associated with
                                 any profile</p>
                         @else
@@ -265,9 +265,20 @@
                                         <span class="material-icons">open_in_new</span></a>
                             </p>
                         @endif
-                        <p class="small fw-bold text-danger">-> This account is not associated with any student</p>
+
+                        @if ($student == null)
+                            <p class="small fw-bold text-danger">-> This account is not associated with any student</p>
+                        @else
+                            <p class="small fw-bold text-success">-> This account is associated with a student
+                                <a target="_blank" class="ms-1"
+                                    href="#!">
+                                        <span class="material-icons">open_in_new</span></a>
+                            </p>
+                        @endif
 
                         <p class="small text-info">-> Only authorized users can manage this setting</p>
+
+                        <hr class="" />
 
                         <div class="row mb-3">
                             <div class="col-sm-12 d-grid gap-1 mx-auto mb-3">

@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
-use App\Models\User;
 use App\CustomHelper;
+use App\Models\User;
+use App\Models\Student;
 use App\Traits\StoreFiles;
 use App\Traits\SendEmails;
 use App\Notifications\VerifyEmail;
@@ -98,6 +99,7 @@ class UserController extends Controller {
             'roles.permissions',
             'profileLink'
         ])->withTrashed()->findOrFail($id);
+        $student = Student::select('id', 'roll_number')->where('email', $user->email)->first();
 
         $canManage = Auth::user()->can('manage', [User::class, $user]);
         $canUpdate = Auth::user()->can('update', [User::class, $user]);
@@ -105,6 +107,7 @@ class UserController extends Controller {
 
         return view('users.account', [
             'user' => $user,
+            'student' => $student,
             'canManage' => $canManage,
             'canUpdate' => $canUpdate,
             'canDelete' => $canDelete
