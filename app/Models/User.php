@@ -80,12 +80,22 @@ class User extends Authenticatable
 
     /**
      * Check whether user is linked to a registered student
-     * (kind of one-to-one relationship)
+     *
+     * @return boolean
+     */
+    public function isStudent() {
+        return Student::select('id')->withTrashed()->where('email', $this->email)
+            ->first() == null ? false : true;
+    }
+
+    /**
+     * Returns student belonging to user (match by email)
+     * Kind of one-to-one relation
      *
      * @return \App\Models\Student|null
      */
-    public function isStudent() {
-        return Student::withTrashed()->with('info')->where('email', $this->email)->first();
+    public function student() {
+        return Student::withTrashed()->where('email', $this->email)->first();
     }
 
     /**
