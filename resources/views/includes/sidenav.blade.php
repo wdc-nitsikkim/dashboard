@@ -77,8 +77,8 @@
                     <span class="mt-1 ms-1 sidebar-text">Home</span>
                 </a>
             </li>
-            <li class="nav-item {{ Route::is('admin.home') ? 'active' : '' }}">
-                <a href="{{ route('admin.home') }}" class="nav-link">
+            <li class="nav-item {{ Route::is('admin.home', 'student.home') ? 'active' : '' }}">
+                <a href="{{ route('root.home') }}" class="nav-link">
                     <span class="material-icons sidebar-icon">
                         dashboard
                     </span>
