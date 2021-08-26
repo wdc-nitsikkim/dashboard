@@ -34,7 +34,7 @@ class StudentInfoPolicy {
 
     public function view(User $user, Student $student = null) {
         if ($user->hasRole('student') && ($student->email ?? false) === $user->email) {
-            return true;
+            return $user->isPermissionValid(['student'], $this->permission['read']);
         }
 
         return $user->isPermissionValid($this->view_roles, $this->permission['read']);
@@ -44,7 +44,7 @@ class StudentInfoPolicy {
         $isAllowed = false;
         if ($user->hasRole('student') && $user->email == $student->email) {
             $isAllowed = ($student->info == null)
-                && $user->isPermissionValid('student', $this->permission['create']);
+                && $user->isPermissionValid(['student'], $this->permission['create']);
         }
 
         return $isAllowed || $user->isPermissionValid($this->create_roles, $this->permission['create']);
@@ -53,8 +53,8 @@ class StudentInfoPolicy {
     public function update(User $user, Student $student, StudentInfo $info) {
         $isAllowed = false;
         if ($user->hasRole('student') && $user->email == $student->email) {
-            $isAllowed = ($student->id == $info->id)
-                && $user->isPermissionValid('student', $this->permission['update']);
+            $isAllowed = ($student->id == $info->student_id)
+                && $user->isPermissionValid(['student'], $this->permission['update']);
         }
 
         return $isAllowed || $user->isPermissionValid($this->update_roles, $this->permission['update']);
