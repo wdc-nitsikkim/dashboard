@@ -279,9 +279,13 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth', 
 });
 
 Route::namespace('Student')->name('student.')->prefix('student')->middleware(['auth', 'email.verified'])->group(function () {
+    Route::get('/', 'MainController@home')->name('index');
+
     Route::get('/test', 'MainController@test');
 
-    Route::get('/{student_by_roll_number}', 'MainController@home')->name('home');
+    Route::prefix('{student_by_roll_number}')->group(function () {
+        Route::get('/', 'MainController@home')->name('home');
+    });
 });
 
 /* framework version */
