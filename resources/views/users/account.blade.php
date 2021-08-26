@@ -271,7 +271,8 @@
                         @else
                             <p class="small fw-bold text-success">-> This account is associated with a student
                                 <a target="_blank" class="ms-1"
-                                    href="#!">
+                                    href="{{ route('student.home', [
+                                        'student_by_roll_number' => $student->roll_number ]) }}">
                                         <span class="material-icons">open_in_new</span></a>
                             </p>
                         @endif

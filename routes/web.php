@@ -279,7 +279,9 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth', 
 });
 
 Route::namespace('Student')->name('student.')->prefix('student')->middleware(['auth', 'email.verified'])->group(function () {
-    Route::view('/', 'layouts.admin')->name('home');
+    Route::get('/test', 'MainController@test');
+
+    Route::get('/{student_by_roll_number}', 'MainController@home')->name('home');
 });
 
 /* framework version */
