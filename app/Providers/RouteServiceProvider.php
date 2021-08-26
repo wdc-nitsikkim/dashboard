@@ -36,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('student_by_roll_number', function ($val) {
             $val = strtoupper($val);
-            return Student::with(['department', 'batch.course'])
+            return Student::withTrashed()->with(['department', 'batch.course'])
                 ->where('roll_number', $val)->firstOrFail();
         });
 
