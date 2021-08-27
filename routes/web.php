@@ -288,6 +288,8 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
     Route::middleware('email.verified')->group(function () {
         Route::prefix('{student_by_roll_number}')->group(function () {
             Route::get('/', 'MainController@home')->name('home');
+            Route::get('/add-info', 'InfoController@add')->name('add');
+            Route::post('/save-info', 'InfoController@saveNew')->name('saveNew');
         });
     });
 });
