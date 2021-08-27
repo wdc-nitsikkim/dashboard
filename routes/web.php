@@ -286,10 +286,13 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
     Route::get('/test', 'MainController@test');
 
     Route::middleware('email.verified')->group(function () {
-        Route::prefix('{student_by_roll_number}')->group(function () {
-            Route::get('/', 'MainController@home')->name('home');
+        Route::get('/{student_by_roll_number}', 'MainController@home')->name('home');
+
+        Route::name('info.')->prefix('{student_by_roll_number}')->group(function () {
             Route::get('/add-info', 'InfoController@add')->name('add');
             Route::post('/save-info', 'InfoController@saveNew')->name('saveNew');
+            Route::get('/edit-info', 'InfoController@edit')->name('edit');
+            Route::post('/update-info', 'InfoController@update')->name('update');
         });
     });
 });

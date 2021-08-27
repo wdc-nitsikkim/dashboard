@@ -22,7 +22,7 @@
     </p>
 @endcomponent
 
-<form class="form-floating" action="{{ route('student.saveNew', $student->roll_number) }}"
+<form class="form-floating" action="{{ route('student.info.saveNew', $student->roll_number) }}"
     method="POST">
     {{ csrf_field() }}
 

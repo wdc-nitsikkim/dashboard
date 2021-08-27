@@ -25,7 +25,7 @@
                     <p class="card-text">You haven't added your information yet!</p>
                 </div>
                 <div class="card-footer">
-                    <a href="#!"
+                    <a href="{{ route('student.info.add', $student->roll_number) }}"
                         class="small text-info">Add now</a>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     <p class="card-text">Update your previously added information</p>
                 </div>
                 <div class="card-footer">
-                    <a href="#!"
+                    <a href="{{ route('student.info.edit', $student->roll_number) }}"
                         class="small text-info">Update</a>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                         Permission Error
                     </h5>
                     <p class="card-text">You don't have the required permissions to
-                        <span class="fw-bolder">add/update</span> your information</p>
+                        <span class="fw-bolder">add/update</span> your information!</p>
                 </div>
             </div>
         </div>
