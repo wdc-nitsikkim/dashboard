@@ -43,6 +43,19 @@
         const RESET_PWD_TOKEN_LEN = 64;
 
         /**
+         * Constant form select-menu values used accross the app & database
+         */
+        const FORM_SELECTMENU = [
+            'gender' => ['male', 'female', 'other'],
+            'blood_group' => ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+            'category' => ['general', 'obc', 'obc (ncl)', 'sc', 'st', 'other'],
+            'religion' => ['hinduism', 'islam', 'christianity', 'sikhism',
+                'buddhism', 'jainism', 'other'],
+            'marking_schemes' => ['cgpa', 'percentage'],
+            'school_boards' => ['cbse', 'icse', 'other'],
+        ];
+
+        /**
          * Checks file input
          *
          * @param string $name
