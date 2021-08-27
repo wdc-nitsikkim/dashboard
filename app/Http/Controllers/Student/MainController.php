@@ -16,11 +16,20 @@ class MainController extends Controller {
 
         $this->authorize('view', [StudentInfo::class, $student]);
 
-        return $student == null
-            ? view('student.index')
-            : view('student.home', [
-                'student' => $student->load(['department', 'batch.course', 'info'])
-            ]);
+        if ($student == null) {
+            return view('student.index');
+        }
+
+        $user = Auth::user();
+        $info = StudentInfo::select('student_id')->find($student->id);
+        $canCreate = $user->can('create', [StudentInfo::class, $student]);
+        $canUpdate = ($info == null) ? false : $user->can('update', [StudentInfo::class, $student, $info]);
+
+        return view('student.home', [
+            'student' => $student->load(['department', 'batch.course']),
+            'canCreate' => $canCreate,
+            'canUpdate' => $canUpdate
+        ]);
     }
 
     public function test() {
