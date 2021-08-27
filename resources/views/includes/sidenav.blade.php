@@ -97,6 +97,15 @@
                 </li>
             @endif
 
+            <li class="nav-item">
+                <a href="#!" class="nav-link">
+                    <span class="material-icons sidebar-icon text-gray-500">
+                        forum
+                    </span>
+                    <span class="sidebar-text text-gray-500">Conversations</span>
+                </a>
+            </li>
+
             @if (Auth::user()->hasRole('student'))
                 <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
 
