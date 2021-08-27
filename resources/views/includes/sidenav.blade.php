@@ -77,7 +77,7 @@
                     <span class="mt-1 ms-1 sidebar-text">Home</span>
                 </a>
             </li>
-            <li class="nav-item {{ Route::is('admin.home', 'student.home') ? 'active' : '' }}">
+            <li class="nav-item {{ Route::is('admin.home', 'student.home', 'student.index') ? 'active' : '' }}">
                 <a href="{{ route('root.home') }}" class="nav-link">
                     <span class="material-icons sidebar-icon">
                         dashboard
@@ -110,11 +110,11 @@
                 <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
 
                 <li class="nav-item">
-                    <a href="#!" class="nav-link" title="Information">
+                    <a href="{{ route('student.index') }}" class="nav-link" title="Information">
                         <span class="material-icons sidebar-icon">
-                            assignment_ind
+                            switch_account
                         </span>
-                        <span class="sidebar-text">Profile</span>
+                        <span class="sidebar-text">Student Account</span>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -10,7 +10,7 @@
 
 @component('components.page.heading')
     @slot('heading')
-        {{ $student->name }} ({{ $student->roll_number }})
+        <span class="fw-bolder">{{ $student->name }}</span> ({{ $student->roll_number }})
     @endslot
 
     @slot('subheading')
@@ -138,7 +138,7 @@
             </div>
             <div class="card-footer">
                 <a href="https://github.com/wdc-nitsikkim" target="_blank"
-                    class="small text-info">View GitHub
+                    class="small text-info">View in GitHub
                     <span class="material-icons ms-1 fs-5">open_in_new</span>
                 </a>
             </div>
