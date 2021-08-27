@@ -15,11 +15,15 @@
 @component('student.partials.pageHeading', [
         'student' => $student
     ])
-    <p class="text-info">Mandatory fields are marked by {!! $requiredField !!}</p>
+    <p class="text-info">
+        Mandatory fields are marked by {!! $requiredField !!}
+        <br>
+        More fields will be available on the <span class="fw-bolder">Update Information</span> page
+    </p>
 @endcomponent
 
 <form class="form-floating" action="{{ route('student.saveNew', $student->roll_number) }}"
-    target="_blank" method="POST">
+    method="POST">
     {{ csrf_field() }}
 
     <div class="row mb-3">
@@ -308,7 +312,7 @@
                         <div class="form-floating">
                             <select class="form-select {{ $errors->has('till_sem') ? 'is-invalid' : '' }}"
                                 id="till_sem" name="till_sem">
-                                <option value="" selected disabled>Select</option>
+                                <option value="" selected>Select</option>
 
                                 @foreach ($semesters as $sem)
                                     <option value="{{ $sem->id }}"
@@ -319,7 +323,7 @@
 
                             </select>
                             <label for="till_sem">Till Semester</label>
-                            <small class="small helper-text ms-1">Only fill if you are adding CGPA</small>
+                            <small class="small helper-text ms-1">Required only if CGPA is added</small>
 
                             @if ($errors->has('till_sem'))
                                 <div class="invalid-feedback">
