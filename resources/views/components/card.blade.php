@@ -23,7 +23,7 @@
                 </div>
                 <div class="d-sm-none">
                     <h5 class="fw-bold mb-2">{{ $name }}</h5>
-                    <h6 class="text-gray-500 mb-0">{{ $primaryText ?? '' }}</h6>
+                    <h6 class="text-gray-500 mb-0">{!! $primaryText ?? '' !!}</h6>
                 </div>
             </div>
 
