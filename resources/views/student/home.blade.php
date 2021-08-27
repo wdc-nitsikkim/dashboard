@@ -8,27 +8,9 @@
 
 @section('content')
 
-@component('components.page.heading')
-    @slot('heading')
-        <span class="fw-bolder">{{ $student->name }}</span> ({{ $student->roll_number }})
-    @endslot
-
-    @slot('subheading')
-        <h5>
-            {{ 'Department of ' . $student->department->name }}
-            <br>
-            @include('admin.students.partials.subheading', [
-                'batch' => $student->batch
-            ])
-        </h5>
-    @endslot
-
-    @slot('sideButtons')
-        @include('partials.pageSideBtns', [
-            'help' => '#!',
-        ])
-    @endslot
-@endcomponent
+@include('student.partials.pageHeading', [
+    'student' => $student
+])
 
 <div class="row row-cols-1 row-cols-md-3 g-2 mb-4">
 
