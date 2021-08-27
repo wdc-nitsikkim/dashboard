@@ -21,7 +21,7 @@ class RootController extends Controller {
 
     public function userRedirect() {
         if (CustomHelper::isStudentOnly()) {
-            return redirect()->route('student.home');
+            return redirect()->route('student.index');
         }
         return redirect()->route('admin.home');
     }
