@@ -59,6 +59,8 @@ class CreateStudentsInfoTable extends Migration
             $table->softDeletes();
 
             $table->primary('student_id');
+            $table->unique('personal_email');
+            $table->unique('secondary_mobile');
             $table->foreign('student_id')->references('id')->on('students')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('till_sem')->references('id')->on('semesters')
