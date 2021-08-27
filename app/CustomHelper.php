@@ -46,10 +46,10 @@
          * Constant form select-menu values used accross the app & database
          */
         const FORM_SELECTMENU = [
-            'gender' => ['male', 'female', 'other'],
-            'blood_group' => ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-            'category' => ['general', 'obc', 'obc (ncl)', 'sc', 'st', 'other'],
-            'religion' => ['hinduism', 'islam', 'christianity', 'sikhism',
+            'genders' => ['male', 'female', 'other'],
+            'blood_groups' => ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+            'categories' => ['general', 'obc', 'obc (ncl)', 'sc', 'st', 'other'],
+            'religions' => ['hinduism', 'islam', 'christianity', 'sikhism',
                 'buddhism', 'jainism', 'other'],
             'marking_schemes' => ['cgpa', 'percentage'],
             'school_boards' => ['cbse', 'icse', 'other'],

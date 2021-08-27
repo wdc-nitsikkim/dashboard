@@ -92,7 +92,7 @@
                                 id="gender" name="gender" required>
                                 <option value="" selected disabled>Select</option>
 
-                                @foreach ($selectMenu['gender'] as $gender)
+                                @foreach ($selectMenu['genders'] as $gender)
                                     <option value="{{ $gender }}"
                                         {{ old('gender') == $gender ? 'selected' : '' }}>
                                         {{ ucfirst($gender) }}
@@ -117,7 +117,7 @@
                                 id="blood_group" name="blood_group" required>
                                 <option value="" selected disabled>Select</option>
 
-                                @foreach ($selectMenu['blood_group'] as $blood_group)
+                                @foreach ($selectMenu['blood_groups'] as $blood_group)
                                     <option value="{{ $blood_group }}"
                                         {{ old('blood_group') == $blood_group ? 'selected' : '' }}>
                                         {{ $blood_group }}
@@ -142,7 +142,7 @@
                                 id="category" name="category" required>
                                 <option value="" selected disabled>Select</option>
 
-                                @foreach ($selectMenu['category'] as $category)
+                                @foreach ($selectMenu['categories'] as $category)
                                     <option value="{{ $category }}"
                                         {{ old('category') == $category ? 'selected' : '' }}>
                                         {{ strtoupper($category) }}
@@ -167,7 +167,7 @@
                                 id="religion" name="religion" required>
                                 <option value="" selected disabled>Select</option>
 
-                                @foreach ($selectMenu['religion'] as $religion)
+                                @foreach ($selectMenu['religions'] as $religion)
                                     <option value="{{ $religion }}"
                                         {{ old('religion') == $religion ? 'selected' : '' }}>
                                         {{ ucfirst($religion) }}
