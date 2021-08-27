@@ -31,6 +31,8 @@ class CreateStudentsInfoTable extends Migration
             $table->string('fathers_mobile')->nullable(true)->default(null);
             $table->string('mothers_name')->nullable(false);
             $table->string('mothers_mobile')->nullable(true)->default(null);
+            $table->text('current_address')->nullable(true)->default(null);
+            $table->text('permanent_address')->nullable(true)->default(null);
 
             $table->unsignedDecimal('10th_score')->nullable(false);
             $table->enum('10th_marking_scheme', ['cgpa', 'percentage'])->nullable(false);
