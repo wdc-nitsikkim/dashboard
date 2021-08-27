@@ -52,7 +52,7 @@
             <option value="" selected disabled>Select</option>
 
             @foreach ($selectMenu['school_boards'] as $board)
-                <option value=""
+                <option value="{{ $board }}"
                     {{ old($class . '_board') == $board ? 'selected' : '' }}>
                     {{ strtoupper($board) }}
                 </option>
