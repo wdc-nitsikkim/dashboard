@@ -37,8 +37,12 @@ class StoreStudentInfo extends FormRequest
 
         return [
             'date_of_birth' => 'required | date',
-            'personal_email' => 'nullable | email',
-            'secondary_mobile' => $mobileRule,
+            'personal_email' => ['nullable', 'email',
+                Rule::unique('students_information', 'personal_email')
+            ],
+            'secondary_mobile' => ['nullable', 'digits:10',
+                Rule::unique('students_information', 'secondary_mobile')
+            ],
             'gender' => ['required', Rule::in(CustomHelper::FORM_SELECTMENU['genders'])],
             'blood_group' => ['required', Rule::in(CustomHelper::FORM_SELECTMENU['blood_groups'])],
             'category' => ['required', Rule::in(CustomHelper::FORM_SELECTMENU['categories'])],
@@ -61,6 +65,32 @@ class StoreStudentInfo extends FormRequest
             '12th_board_other' => 'required_if:12th_board,other',
             'cgpa' => 'nullable | numeric | between:0,10',
             'till_sem' => ['nullable', 'required_with:cgpa', Rule::exists('semesters', 'id')]
+        ];
+    }
+
+    /**
+     * Customize validation rules for updating, following rules should be merged
+     * in the actual rule list
+     *
+     * @param \App\Models\Student $student  Student model
+     * @return array
+     */
+    public function updateRules($student) {
+        $switchRule = 'filled | in:on';
+
+        return [
+            'personal_email' => ['nullable', 'email',
+                Rule::unique('students_information', 'personal_email')->ignore($student->id)
+            ],
+            'secondary_mobile' => ['nullable', 'digits:10',
+                Rule::unique('students_information', 'secondary_mobile')->ignore($student->id)
+            ],
+            'remove_image' => $switchRule,
+            'image' => 'filled | image | max:800',
+            'remove_signature' => $switchRule,
+            'signature' => 'filled | image | max:500',
+            'remove_resume' => $switchRule,
+            'resume' => 'filled | mimes:doc,docx,pdf | max:5120'
         ];
     }
 }
