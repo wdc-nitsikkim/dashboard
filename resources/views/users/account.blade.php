@@ -218,7 +218,8 @@
                                         'image' => $user->image,
                                         'imgAttr' => 'id="image_preview"',
                                         'originalSrc' => true,
-                                        'default' => true
+                                        'default' => true,
+                                        'defaultSrc' => asset('static/images/user-default.png')
                                     ])
                                     @endcomponent
 

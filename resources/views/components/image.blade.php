@@ -4,6 +4,7 @@
     $originalSrc -> (optional) boolean, whether to include 'original-src' attribute
     $classes -> (optional) string
     $default -> string (icon | image)
+    $defaultSrc -> string (asset url)
     $defaultIcon -> (optional) string
 --}}
 
@@ -22,8 +23,8 @@
     @isset($default)
 
         <img class="rounded-circle {{ $classes ?? '' }}" alt="default-image"
-            src="{{ asset('static/images/user-default.png') }}" {!! $imgAttr ?? '' !!}
-            {!! isset($originalSrc) ? ('original-src="' . asset('static/images/user-default.png') .'"') : '' !!} />
+            src="{{ $defaultSrc }}" {!! $imgAttr ?? '' !!}
+            {!! isset($originalSrc) ? ('original-src="' . $defaultSrc .'"') : '' !!} />
 
     @else
         <span class="material-icons icon-xxx-large">{{ $defaultIcon ?? 'person_outline' }}</span>
