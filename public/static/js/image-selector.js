@@ -1,18 +1,19 @@
 const imageSelector = (function ($, window, main) {
     'use strict';
 
-    const imageInput = $('#profile_image');
-    const imagePreview = $('#image_preview');
+    const imageInput = $('input[type="file"][previewable]');
 
     imageInput.on('change', function (e) {
-        const file = imageInput[0].files[0];
+        const input = $(this);
+        const imagePreview = $(input.attr('preview'));
+        const file = input[0].files[0];
 
         if (file) {
             const reader = new window.FileReader;
             const image = new window.Image;
 
             image.onload = () => {
-                if (!main.verifyImageRatio(image)) {
+                if (input[0].hasAttribute('square') && !main.verifyImageRatio(image)) {
                     window.Swal.fire({
                         title: 'A 1:1 (square) image is required!',
                         text: 'Chosen image may be displayed weirdly',
@@ -24,7 +25,7 @@ const imageSelector = (function ($, window, main) {
                             imagePreview.attr('src', reader.result)
                             return;
                         }
-                        imageInput.val(null).trigger('change');
+                        input.val(null).trigger('change');
                     });
                 } else {
                     imagePreview.attr('src', reader.result);

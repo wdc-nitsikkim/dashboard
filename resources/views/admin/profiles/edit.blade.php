@@ -253,7 +253,7 @@
                                             add_a_photo</span>
                                         <input type="file" name="profile_image" id="profile_image"
                                             class="{{ $errors->has('profile_image') ? 'is-invalid' : '' }}"
-                                            accept=".jpg, .jpeg, .png">
+                                            accept=".jpg, .jpeg, .png" preview="#image_preview" square previewable>
                                         <div class="d-md-block text-left">
                                             <div class="fw-normal text-dark mb-1">Choose Image</div>
                                             <div class="text-gray-500 small">JPG, PNG, GIF. Max size of 800 kB</div>
