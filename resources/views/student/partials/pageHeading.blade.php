@@ -15,9 +15,9 @@
         {{ $slot ?? '' }}
     @endslot
 
-    @slot('sideButtons')
-        @include('partials.pageSideBtns', [
-            'help' => '#!',
-        ])
-    @endslot
+    @isset($sideBtns)
+        @slot('sideButtons')
+            @include('partials.pageSideBtns', $sideBtns)
+        @endslot
+    @endisset
 @endcomponent

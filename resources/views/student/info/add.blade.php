@@ -13,7 +13,10 @@
 @endphp
 
 @component('student.partials.pageHeading', [
-        'student' => $student
+        'student' => $student,
+        'sideBtns' => [
+            'backRedirect' => route('student.home', $student->roll_number)
+        ]
     ])
     <p class="text-info">
         Mandatory fields are marked by {!! $requiredField !!}

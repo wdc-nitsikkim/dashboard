@@ -53,4 +53,8 @@ class InfoController extends Controller {
             'message' => 'Information added'
         ]);
     }
+
+    public function test() {
+        return 'Test';
+    }
 }

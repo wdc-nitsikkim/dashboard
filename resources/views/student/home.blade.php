@@ -9,7 +9,10 @@
 @section('content')
 
 @include('student.partials.pageHeading', [
-    'student' => $student
+    'student' => $student,
+    'sideBtns' => [
+        'help' => '#!'
+    ]
 ])
 
 <div class="row row-cols-1 row-cols-md-3 g-2 mb-4">
