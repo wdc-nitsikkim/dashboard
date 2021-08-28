@@ -54,6 +54,32 @@ class InfoController extends Controller {
         ]);
     }
 
+    public function edit(Student $student_by_roll_number) {
+        $student = $student_by_roll_number->load('info');
+        $this->authorize('update', [StudentInfo::class, $student, $student->info]);
+
+        $semesters = Semester::all();
+        $student->load(['department', 'batch.course']);
+
+        return view('student.info.edit', [
+            'info' => $student->info,
+            'student' => $student,
+            'semesters' => $semesters,
+            'selectMenu' => CustomHelper::FORM_SELECTMENU,
+            'canEdit' => true
+        ]);
+    }
+
+    public function update(Request $request, Student $student_by_roll_number) {
+        $student = $student_by_roll_number->load('info');
+        $this->authorize('update', [StudentInfo::class, $student, $student->info]);
+
+        $rules = new \App\Http\Requests\StoreStudentInfo;
+        $updateRules = array_merge($rules->rules(), $rules->updateRules($student));
+        dd($updateRules);
+        $data = $request->validate($updateRules);
+    }
+
     public function test() {
         return 'Test';
     }
