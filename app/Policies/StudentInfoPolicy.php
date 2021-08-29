@@ -71,7 +71,13 @@ class StudentInfoPolicy {
         return $isAllowed || $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
-    public function delete(User $user, $student) {
-        return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
+    public function delete(User $user, Student $student, StudentInfo $info) {
+        $isAllowed = false;
+        if ($user->hasRole('student') && $user->email == $student->email) {
+            $isAllowed = ($student->id == $info->student_id)
+                && $user->isPermissionValid(['student'], $this->permission['delete']);
+        }
+
+        return $isAllowed || $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
     }
 }
