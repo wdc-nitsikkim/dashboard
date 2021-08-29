@@ -298,7 +298,7 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
 });
 
 Route::name('privateStorage.')->prefix('private-storage')->group(function () {
-    Route::get('/{path}', 'PrivateStorageController@get')->where('path', '.*')->name('url');
+    Route::get('/{path}', 'PrivateStorageUrlController@get')->where('path', '.*')->name('url');
 });
 
 /* framework version */

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\CustomHelper;
 
-class PrivateStorageController extends Controller {
+class PrivateStorageUrlController extends Controller {
     /**
     * Stores session keys received from \CustomHelper::getSessionConstants()
     *
