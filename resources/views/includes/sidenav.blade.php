@@ -109,8 +109,8 @@
             @if (Auth::user()->hasRole('student'))
                 <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
 
-                <li class="nav-item">
-                    <a href="{{ route('student.index') }}" class="nav-link" title="Information">
+                <li class="nav-item {{ Route::is('student.home', 'student.index') ? 'active' : '' }}">
+                    <a href="{{ route('student.index') }}" class="nav-link">
                         <span class="material-icons sidebar-icon">
                             switch_account
                         </span>
@@ -125,8 +125,8 @@
                         <span class="sidebar-text">Registration</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#!" class="nav-link">
+                <li class="nav-item {{ Route::is('student.result') ? 'active' : '' }}">
+                    <a href="{{ route('student.index') }}" class="nav-link">
                         <span class="material-icons sidebar-icon">
                             history_edu
                         </span>
