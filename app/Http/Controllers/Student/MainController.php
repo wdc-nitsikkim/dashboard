@@ -22,7 +22,7 @@ class MainController extends Controller {
         $info = StudentInfo::withTrashed()->select('student_id', 'deleted_at')->find($student->id);
         $canCreate = ($info != null) ? false : $user->can('create', [StudentInfo::class, $student]);
         $canUpdate = ($info == null) ? false : $user->can('update', [StudentInfo::class, $student, $info]);
-        $canView = $user->can('view', [StudentInfo::class, $student, $info]);
+        $canView = ($info == null) ? false : $user->can('view', [StudentInfo::class, $student, $info]);
 
         return view('student.home', [
             'student' => $student->load(['department', 'batch.course']),

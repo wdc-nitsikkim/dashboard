@@ -26,7 +26,7 @@
                         <span class="material-icons me-1">preview</span>
                         View Information
                     </h5>
-                    <p class="card-text">View this student's information</p>
+                    <p class="card-text">View student's information</p>
                 </div>
                 <div class="card-footer">
                     <a href="{{ route('student.info.show', $student->roll_number) }}"
@@ -56,7 +56,7 @@
                         <span class="material-icons me-1">add_circle_outline</span>
                         Add Information
                     </h5>
-                    <p class="card-text">Add your information. This will be used by authorized users like Office, TnP, etc..</p>
+                    <p class="card-text">This information will be used by Office, TnP, etc..</p>
                 </div>
                 <div class="card-footer">
                     <a href="{{ route('student.info.add', $student->roll_number) }}"
