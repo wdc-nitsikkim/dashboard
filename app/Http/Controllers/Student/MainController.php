@@ -14,19 +14,19 @@ class MainController extends Controller {
         $student = $student_by_roll_number
             ?? Student::withTrashed()->where('email', Auth::user()->email)->first();
 
-        $this->authorize('view', [StudentInfo::class, $student]);
-
         if ($student == null) {
             return view('student.index');
         }
 
         $user = Auth::user();
-        $info = StudentInfo::select('student_id')->find($student->id);
+        $info = StudentInfo::withTrashed()->select('student_id', 'deleted_at')->find($student->id);
         $canCreate = ($info != null) ? false : $user->can('create', [StudentInfo::class, $student]);
         $canUpdate = ($info == null) ? false : $user->can('update', [StudentInfo::class, $student, $info]);
+        $canView = $user->can('view', [StudentInfo::class, $student, $info]);
 
         return view('student.home', [
             'student' => $student->load(['department', 'batch.course']),
+            'canView' => $canView,
             'canCreate' => $canCreate,
             'canUpdate' => $canUpdate
         ]);

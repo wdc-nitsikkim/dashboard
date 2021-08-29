@@ -289,6 +289,7 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
         Route::get('/{student_by_roll_number}', 'MainController@home')->name('home');
 
         Route::name('info.')->prefix('{student_by_roll_number}')->group(function () {
+            Route::get('/show-info', 'InfoController@show')->name('show');
             Route::get('/add-info', 'InfoController@add')->name('add');
             Route::post('/save-info', 'InfoController@saveNew')->name('saveNew');
             Route::get('/edit-info/{readonly?}', 'InfoController@edit')
