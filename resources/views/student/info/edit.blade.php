@@ -12,6 +12,7 @@
 
 @php
     $requiredField = '<span class="text-danger fw-bolder">*</span>';
+    $isDisabled = $canEdit ? '' : 'disabled';
 @endphp
 
 @component('student.partials.pageHeading', [
@@ -20,15 +21,20 @@
             'backRedirect' => route('student.home', $student->roll_number)
         ]
     ])
-    <p>
-        -> Mandatory fields are marked by {!! $requiredField !!}
-        <br>
-        -> Only you & authorized users <span class="fw-bolder text-info">(Admin, TnP, Office)</span> can view this information.
-        <br>
-        -> All links to your files <span class="fst-italic">(image, signature, resume, ..)</span> will expire in
-        <span class="fw-bolder text-info">{{ CustomHelper::PRIVATE_URL_EXPIRE / 60 }} minutes.</span>
-        Refresh the page <span class="fw-bolder">(save any unsaved information first)</span> to reset the timeout.
-    </p>
+
+    @if ($canEdit)
+        <p>
+            -> Mandatory fields are marked by {!! $requiredField !!}
+            <br>
+            -> Only you & authorized users <span class="fw-bolder text-info">(Admin, TnP, Office)</span> can view this information.
+            <br>
+            -> All links to your files <span class="fst-italic">(image, signature, resume, ..)</span> will expire in
+            <span class="fw-bolder text-info">{{ CustomHelper::PRIVATE_URL_EXPIRE / 60 }} minutes.</span>
+            Refresh the page <span class="fw-bolder">(save any unsaved information first)</span> to reset the timeout.
+        </p>
+    @else
+        <h4><code>Read-only mode</code></h4>
+    @endif
 @endcomponent
 
 <form class="form-floating" action="{{ route('student.info.update', $student->roll_number) }}"
@@ -60,7 +66,7 @@
                             <input type="date"
                                 class="form-control {{ $errors->has('date_of_birth') ? 'is-invalid' : '' }}"
                                 id="date_of_birth" placeholder="Date of Birth" name="date_of_birth"
-                                value="{{ old('date_of_birth') ?? $info->date_of_birth }}" required>
+                                value="{{ old('date_of_birth') ?? $info->date_of_birth }}" required {{ $isDisabled }}>
                             <label for="date_of_birth">Date of Birth {!! $requiredField !!}</label>
 
                             @if ($errors->has('date_of_birth'))
@@ -77,7 +83,7 @@
                             <input type="email"
                                 class="form-control {{ $errors->has('personal_email') ? 'is-invalid' : '' }}"
                                 id="personal_email" placeholder="Personal email" name="personal_email"
-                                value="{{ old('personal_email') ?? $info->personal_email }}">
+                                value="{{ old('personal_email') ?? $info->personal_email }}" {{ $isDisabled }}>
                             <label for="personal_email">Personal email</label>
 
                             @if ($errors->has('personal_email'))
@@ -93,7 +99,7 @@
                             <input type="number"
                                 class="form-control {{ $errors->has('secondary_mobile') ? 'is-invalid' : '' }}"
                                 id="secondary_mobile" placeholder="Secondary mobile" name="secondary_mobile"
-                                value="{{ old('secondary_mobile') ?? $info->secondary_mobile }}">
+                                value="{{ old('secondary_mobile') ?? $info->secondary_mobile }}" {{ $isDisabled }}>
                             <label for="secondary_mobile">Secondary mobile</label>
 
                             @if ($errors->has('secondary_mobile'))
@@ -110,7 +116,7 @@
                     <div class="col-6 col-sm-4 col-md-3 mb-2">
                         <div class="form-floating">
                             <select class="form-select {{ $errors->has('gender') ? 'is-invalid' : '' }}"
-                                id="gender" name="gender" required>
+                                id="gender" name="gender" required {{ $isDisabled }}>
                                 <option value="" selected disabled>Select</option>
 
                                 @foreach ($selectMenu['genders'] as $gender)
@@ -135,7 +141,7 @@
                     <div class="col-6 col-sm-4 col-md-3 mb-2">
                         <div class="form-floating">
                             <select class="form-select {{ $errors->has('blood_group') ? 'is-invalid' : '' }}"
-                                id="blood_group" name="blood_group" required>
+                                id="blood_group" name="blood_group" required {{ $isDisabled }}>
                                 <option value="" selected disabled>Select</option>
 
                                 @foreach ($selectMenu['blood_groups'] as $blood_group)
@@ -160,7 +166,7 @@
                     <div class="col-6 col-sm-4 col-md-3 mb-2">
                         <div class="form-floating">
                             <select class="form-select {{ $errors->has('category') ? 'is-invalid' : '' }}"
-                                id="category" name="category" required>
+                                id="category" name="category" required {{ $isDisabled }}>
                                 <option value="" selected disabled>Select</option>
 
                                 @foreach ($selectMenu['categories'] as $category)
@@ -185,7 +191,7 @@
                     <div class="col-6 col-sm-4 col-md-3 mb-2">
                         <div class="form-floating">
                             <select class="form-select {{ $errors->has('religion') ? 'is-invalid' : '' }}"
-                                id="religion" name="religion" required>
+                                id="religion" name="religion" required {{ $isDisabled }}>
                                 <option value="" selected disabled>Select</option>
 
                                 @foreach ($selectMenu['religions'] as $religion)
@@ -214,10 +220,12 @@
                 ])
                 @endcomponent
 
-                @include('components.form.footerEdit', [
-                    'returnRoute' => route('student.home', $student->roll_number),
-                    'submitBtnTxt' => 'Save Information'
-                ])
+                @if ($canEdit)
+                    @include('components.form.footerEdit', [
+                        'returnRoute' => route('student.home', $student->roll_number),
+                        'submitBtnTxt' => 'Save Information'
+                    ])
+                @endif
 
             </div>
         </div>
@@ -236,7 +244,7 @@
                                         title="This will remove the picture even if you have
                                         selected a new one" data-bs-placement="left">
                                         <input class="form-check-input" type="checkbox"
-                                            id="remove_image" name="remove_image">
+                                            id="remove_image" name="remove_image" {{ $isDisabled }}>
                                         <label class="small form-check-label" for="remove_image">
                                             Remove
                                         </label>
@@ -268,7 +276,8 @@
                                                 add_a_photo</span>
                                             <input type="file" name="image" id="profile_image"
                                                 class="{{ $errors->has('image') ? 'is-invalid' : '' }}"
-                                                accept=".jpg, .jpeg, .png" preview="#image_preview" square previewable>
+                                                accept=".jpg, .jpeg, .png" preview="#image_preview" square previewable
+                                                {{ $isDisabled }}>
                                             <div class="d-md-block text-left">
                                                 <div class="fw-normal text-dark mb-1">Choose Image</div>
                                                 <div class="text-gray-500 small">JPG, PNG, GIF. Max size of 800 kB</div>
@@ -295,7 +304,7 @@
                                         title="This will remove the signature even if you have
                                         selected a new one" data-bs-placement="left">
                                         <input class="form-check-input" type="checkbox"
-                                            id="remove_signature" name="remove_signature">
+                                            id="remove_signature" name="remove_signature" {{ $isDisabled }}>
                                         <label class="small form-check-label" for="remove_signature">
                                             Remove
                                         </label>
@@ -337,7 +346,8 @@
                                                 add_a_photo</span>
                                             <input type="file" name="signature"
                                                 class="{{ $errors->has('signature') ? 'is-invalid' : '' }}"
-                                                accept=".jpg, .jpeg, .png" preview="#signature_preview" previewable>
+                                                accept=".jpg, .jpeg, .png" preview="#signature_preview" previewable
+                                                {{ $isDisabled }}>
                                             <div class="d-md-block text-left">
                                                 <div class="fw-normal text-dark mb-1">Choose Signature</div>
                                                 <div class="text-gray-500 small">JPG, PNG, GIF. Max size of 500 kB</div>
@@ -364,7 +374,7 @@
                                         title="This will remove the resume even if you have
                                         selected a new one" data-bs-placement="left">
                                         <input class="form-check-input" type="checkbox"
-                                            id="remove_resume" name="remove_resume">
+                                            id="remove_resume" name="remove_resume" {{ $isDisabled }}>
                                         <label class="small form-check-label" for="remove_resume">
                                             Remove
                                         </label>
@@ -402,7 +412,7 @@
                                                 note_add</span>
                                             <input type="file" name="resume"
                                                 class="{{ $errors->has('resume') ? 'is-invalid' : '' }}"
-                                                accept=".pdf, .doc, .docx">
+                                                accept=".pdf, .doc, .docx" {{ $isDisabled }}>
                                             <div class="d-md-block text-left">
                                                 <div class="fw-normal text-dark mb-1">Choose Resume</div>
                                                 <div class="text-gray-500 small">PDF, DOC, DOCX. Max size of 5 MB</div>
@@ -443,7 +453,7 @@
                             <input type="text"
                                 class="form-control {{ $errors->has('fathers_name') ? 'is-invalid' : '' }}"
                                 id="fathers_name" placeholder="Father's name" name="fathers_name"
-                                value="{{ old('fathers_name') ?? $info->fathers_name }}" required>
+                                value="{{ old('fathers_name') ?? $info->fathers_name }}" required {{ $isDisabled }}>
                             <label for="fathers_name">Father's name {!! $requiredField !!}</label>
 
                             @if ($errors->has('fathers_name'))
@@ -459,7 +469,7 @@
                             <input type="number"
                                 class="form-control {{ $errors->has('fathers_mobile') ? 'is-invalid' : '' }}"
                                 id="fathers_mobile" placeholder="Father's mobile number" name="fathers_mobile"
-                                value="{{ old('fathers_mobile') ?? $info->fathers_mobile }}">
+                                value="{{ old('fathers_mobile') ?? $info->fathers_mobile }}" {{ $isDisabled }}>
                             <label for="fathers_mobile">Father's mobile number</label>
 
                             @if ($errors->has('fathers_mobile'))
@@ -476,7 +486,7 @@
                             <input type="text"
                                 class="form-control {{ $errors->has('mothers_name') ? 'is-invalid' : '' }}"
                                 id="mothers_name" placeholder="Mother's name" name="mothers_name"
-                                value="{{ old('mothers_name') ?? $info->mothers_name }}" required>
+                                value="{{ old('mothers_name') ?? $info->mothers_name }}" required {{ $isDisabled }}>
                             <label for="mothers_name">Mother's name {!! $requiredField !!}</label>
 
                             @if ($errors->has('mothers_name'))
@@ -492,7 +502,7 @@
                             <input type="number"
                                 class="form-control {{ $errors->has('mothers_mobile') ? 'is-invalid' : '' }}"
                                 id="mothers_mobile" placeholder="Mother's mobile number" name="mothers_mobile"
-                                value="{{ old('mothers_mobile') ?? $info->mothers_mobile }}">
+                                value="{{ old('mothers_mobile') ?? $info->mothers_mobile }}" {{ $isDisabled }}>
                             <label for="mothers_mobile">Mother's mobile number</label>
 
                             @if ($errors->has('mothers_mobile'))
@@ -509,12 +519,12 @@
                     <div class="col-12 col-md-6 mb-2">
                         <textarea class="form-control" name="current_address"
                             placeholder="Current address"
-                            rows="3">{{ old('current_address') ?? $info->current_address }}</textarea>
+                            rows="3" {{ $isDisabled }}>{{ old('current_address') ?? $info->current_address }}</textarea>
                     </div>
                     <div class="col-12 col-md-6 mb-2">
                         <textarea class="form-control" name="permanent_address"
                             placeholder="Permanent adddress"
-                            rows="3">{{ old('permanent_address') ?? $info->permanent_address }}</textarea>
+                            rows="3" {{ $isDisabled }}>{{ old('permanent_address') ?? $info->permanent_address }}</textarea>
                     </div>
                 </div>
             </div>
@@ -539,7 +549,8 @@
                             <input type="number"
                                 class="form-control {{ $errors->has('cgpa') ? 'is-invalid' : '' }}"
                                 id="cgpa" placeholder="CGPA" name="cgpa"
-                                value="{{ old('cgpa') ?? $info->cgpa }}" min="0" max="10" step="0.01">
+                                value="{{ old('cgpa') ?? $info->cgpa }}" min="0" max="10" step="0.01"
+                                {{ $isDisabled }}>
                             <label for="cgpa">CGPA</label>
 
                             @if ($errors->has('cgpa'))
@@ -553,7 +564,7 @@
                     <div class="col-6 col-sm-4 mb-2">
                         <div class="form-floating">
                             <select class="form-select {{ $errors->has('till_sem') ? 'is-invalid' : '' }}"
-                                id="till_sem" name="till_sem">
+                                id="till_sem" name="till_sem" {{ $isDisabled }}>
                                 <option value="" selected>Select</option>
 
                                 @foreach ($semesters as $sem)
@@ -581,10 +592,13 @@
 
     </div>
 
-    @include('components.form.footerEdit', [
-        'returnRoute' => route('student.home', $student->roll_number),
-        'submitBtnTxt' => 'Save Information'
-    ])
+    @if ($canEdit)
+        @include('components.form.footerEdit', [
+            'returnRoute' => route('student.home', $student->roll_number),
+            'submitBtnTxt' => 'Save Information'
+        ])
+    @endif
+
 
 </form>
 

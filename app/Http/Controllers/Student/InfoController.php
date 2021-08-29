@@ -64,7 +64,7 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function edit(Student $student_by_roll_number) {
+    public function edit(Student $student_by_roll_number, $readonly = null) {
         $student = $student_by_roll_number->load('info');
         $this->authorize('update', [StudentInfo::class, $student, $student->info]);
 
@@ -83,7 +83,7 @@ class InfoController extends Controller {
             'student' => $student,
             'semesters' => $semesters,
             'selectMenu' => CustomHelper::FORM_SELECTMENU,
-            'canEdit' => true
+            'canEdit' => $readonly == null ? true : false
         ]);
     }
 

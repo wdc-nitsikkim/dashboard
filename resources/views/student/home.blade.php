@@ -44,8 +44,13 @@
                     <p class="card-text">Update your previously added information</p>
                 </div>
                 <div class="card-footer">
+                    <a href="{{ route('student.info.edit', [
+                            'student_by_roll_number' => $student->roll_number,
+                            'readonly' => 'readonly'
+                        ]) }}"
+                        class="small text-info">View</a>
                     <a href="{{ route('student.info.edit', $student->roll_number) }}"
-                        class="small text-info">Update</a>
+                        class="small text-info ms-2">Update</a>
                 </div>
             </div>
         </div>

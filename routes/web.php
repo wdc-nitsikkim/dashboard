@@ -291,7 +291,8 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
         Route::name('info.')->prefix('{student_by_roll_number}')->group(function () {
             Route::get('/add-info', 'InfoController@add')->name('add');
             Route::post('/save-info', 'InfoController@saveNew')->name('saveNew');
-            Route::get('/edit-info', 'InfoController@edit')->name('edit');
+            Route::get('/edit-info/{readonly?}', 'InfoController@edit')
+                ->where('readonly', 'readonly')->name('edit');
             Route::post('/update-info', 'InfoController@update')->name('update');
         });
     });

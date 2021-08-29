@@ -2,6 +2,7 @@
     $class -> string
     $info -> (inherited)
     $errors -> (inherited)
+    $isDisabled -> (inherited)
     $selectMenu -> (inherited)
     $requiredField -> (inherited)
 --}}
@@ -11,7 +12,8 @@
         <input type="number"
             class="form-control {{ $errors->has($class . '_score') ? 'is-invalid' : '' }}"
             id="{{ $class }}_score" placeholder="Score" name="{{ $class }}_score"
-            value="{{ old($class . '_score') ?? $info[$class . '_score'] }}" min="0" step="0.01" required>
+            value="{{ old($class . '_score') ?? $info[$class . '_score'] }}" min="0" step="0.01" required
+            {{ $isDisabled }}>
         <label for="{{ $class }}_score">Score {!! $requiredField !!}</label>
 
         @if ($errors->has($class . '_score'))
@@ -25,7 +27,8 @@
 <div class="col-6 col-sm-3 col-lg-2 mb-2">
     <div class="form-floating">
         <select class="form-select {{ $errors->has($class . '_marking_scheme') ? 'is-invalid' : '' }}"
-            id="{{ $class }}_marking_scheme" name="{{ $class }}_marking_scheme" required>
+            id="{{ $class }}_marking_scheme" name="{{ $class }}_marking_scheme" required
+            {{ $isDisabled }}>
             <option value="" selected disabled>Select</option>
 
             @foreach ($selectMenu['marking_schemes'] as $scheme)
@@ -49,7 +52,7 @@
 <div class="col-6 col-sm-3 col-lg-2 mb-2">
     <div class="form-floating">
         <select class="form-select {{ $errors->has($class . '_board') ? 'is-invalid' : '' }}"
-            id="{{ $class }}_board" name="{{ $class }}_board" required>
+            id="{{ $class }}_board" name="{{ $class }}_board" required {{ $isDisabled }}>
             <option value="" selected disabled>Select</option>
 
             @foreach ($selectMenu['school_boards'] as $board)
@@ -76,7 +79,7 @@
             class="form-control {{ $errors->has($class . '_passing_year') ? 'is-invalid' : '' }}"
             id="{{ $class }}_passing_year" placeholder="Passing Year" name="{{ $class }}_passing_year"
             value="{{ old($class . '_passing_year') ?? $info[$class . '_passing_year']  }}"
-            min="2010" max="{{ date('Y') }}" required>
+            min="2010" max="{{ date('Y') }}" required {{ $isDisabled }}>
         <label for="{{ $class }}_passing_year">Passing Year {!! $requiredField !!}</label>
 
         @if ($errors->has($class . '_passing_year'))
@@ -92,7 +95,7 @@
         <input type="text"
             class="form-control {{ $errors->has($class . '_board_other') ? 'is-invalid' : '' }}"
             id="{{ $class }}_board_other" placeholder="Board (Other)" name="{{ $class }}_board_other"
-            value="{{ old($class . '_board_other') ?? $info[$class . '_board_other'] }}">
+            value="{{ old($class . '_board_other') ?? $info[$class . '_board_other'] }}" {{ $isDisabled }}>
         <label for="{{ $class }}_board_other">Board (Other)</label>
         <small class="helper-text small ms-1">For <span class="fw-bolder text-info">other</span>
             boards only</small>
