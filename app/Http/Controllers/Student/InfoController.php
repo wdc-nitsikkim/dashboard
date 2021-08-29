@@ -28,6 +28,31 @@ class InfoController extends Controller {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
+    public function show(Student $student_by_roll_number) {
+        $student = $student_by_roll_number;
+        $info = StudentInfo::withTrashed()->findOrFail($student->id);
+
+        $this->authorize('view', [StudentInfo::class, $student, $info]);
+
+        $semesters = Semester::all();
+        $student->load(['department', 'batch.course']);
+
+        $privatePaths = [
+            $info->image,
+            $info->signature,
+            $info->resume
+        ];
+        CustomHelper::storePrivatePaths($privatePaths);
+
+        return view('student.info.edit', [
+            'info' => $info,
+            'student' => $student,
+            'semesters' => $semesters,
+            'selectMenu' => CustomHelper::FORM_SELECTMENU,
+            'canEdit' => false
+        ]);
+    }
+
     public function add(Student $student_by_roll_number) {
         $student = $student_by_roll_number;
         $this->authorize('create', [StudentInfo::class, $student]);
@@ -64,39 +89,42 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function edit(Student $student_by_roll_number, $readonly = null) {
-        $student = $student_by_roll_number->load('info');
-        $this->authorize('update', [StudentInfo::class, $student, $student->info]);
+    public function edit(Student $student_by_roll_number) {
+        $student = $student_by_roll_number;
+        $info = StudentInfo::withTrashed()->findOrFail($student->id);
+
+        $this->authorize('update', [StudentInfo::class, $student, $info]);
 
         $semesters = Semester::all();
         $student->load(['department', 'batch.course']);
 
         $privatePaths = [
-            $student->info->image,
-            $student->info->signature,
-            $student->info->resume
+            $info->image,
+            $info->signature,
+            $info->resume
         ];
         CustomHelper::storePrivatePaths($privatePaths);
 
         return view('student.info.edit', [
-            'info' => $student->info,
+            'info' => $info,
             'student' => $student,
             'semesters' => $semesters,
             'selectMenu' => CustomHelper::FORM_SELECTMENU,
-            'canEdit' => $readonly == null ? true : false
+            'canEdit' => true
         ]);
     }
 
     public function update(Request $request, Student $student_by_roll_number) {
-        $student = $student_by_roll_number->load('info');
-        $this->authorize('update', [StudentInfo::class, $student, $student->info]);
+        $student = $student_by_roll_number;
+        $info = StudentInfo::select('student_id')->withTrashed()->findOrFail($student->id);
+
+        $this->authorize('update', [StudentInfo::class, $student, $info]);
 
         $rules = new StoreStudentInfo;
         $updateRules = array_merge($rules->rules(), $rules->updateRules($student));
         $data = $request->validate($updateRules);
 
         $student->load(['department', 'batch.course']);
-        $info = $student->info;
 
         try {
             $fileData = [];
