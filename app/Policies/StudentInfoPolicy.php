@@ -47,6 +47,16 @@ class StudentInfoPolicy {
         return $isAllowed || $user->isPermissionValid($this->view_roles, $this->permission['read']);
     }
 
+    public function view_result(User $user, Student $student) {
+        $isAllowed = false;
+
+        if ($user->hasRole('student') && ($student->email ?? false) === $user->email) {
+            $isAllowed = $user->isPermissionValid(['student'], $this->permission['read']);
+        }
+
+        return $isAllowed || $user->isPermissionValid(['admin'], $this->permission['read']);
+    }
+
     public function create(User $user, Student $student) {
         $isAllowed = false;
         if ($user->hasRole('student') && $user->email == $student->email) {

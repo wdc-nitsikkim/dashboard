@@ -15,7 +15,7 @@ use App\Models\DepartmentSubjectsTaught as Sub;
 class ResultController extends Controller {
     public function show(Student $student_by_roll_number, Semester $semester) {
         $student = $student_by_roll_number;
-        $this->authorize('view', [StudentInfo::class, $student]);
+        $this->authorize('view_result', [StudentInfo::class, $student]);
 
         $student->load(['batch.course', 'department', 'result']);
         $resultTypes = ResultType::all();
