@@ -12,7 +12,8 @@
                     <a href="#!" data-bs-toggle="modal" data-bs-target="#feedback-modal">Feedback</a>
                 </li>
                 <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#!">Report Issue</a>
+                    <a href="https://github.com/wdc-nitsikkim/dashboard/issues/new"
+                        target="_blank">Report Bug/Issue</a>
                 </li>
                 <li class="list-inline-item px-0 px-sm-2">
                     <a href="https://github.com/wdc-nitsikkim" target="_blank">
