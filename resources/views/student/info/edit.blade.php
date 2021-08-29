@@ -20,10 +20,14 @@
             'backRedirect' => route('student.home', $student->roll_number)
         ]
     ])
-    <p class="text-info">
-        Mandatory fields are marked by {!! $requiredField !!}
+    <p>
+        -> Mandatory fields are marked by {!! $requiredField !!}
         <br>
-        Only authorized users can view this information.
+        -> Only you & authorized users <span class="fw-bolder text-info">(Admin, TnP, Office)</span> can view this information.
+        <br>
+        -> All links to your files <span class="fst-italic">(image, signature, resume, ..)</span> will expire in
+        <span class="fw-bolder text-info">{{ CustomHelper::PRIVATE_URL_EXPIRE / 60 }} minutes.</span>
+        Refresh the page <span class="fw-bolder">(save any unsaved information first)</span> to reset the timeout.
     </p>
 @endcomponent
 
@@ -210,6 +214,11 @@
                 ])
                 @endcomponent
 
+                @include('components.form.footerEdit', [
+                    'returnRoute' => route('student.home', $student->roll_number),
+                    'submitBtnTxt' => 'Save Information'
+                ])
+
             </div>
         </div>
 
@@ -359,8 +368,18 @@
                                     <div class="icon-shape rounded me-4 me-sm-0">
 
                                         @component('components.image', [
-                                            'defaultIcon' => 'picture_as_pdf'
+                                            'defaultIcon' => $info->resume == null ? 'picture_as_pdf' : 'cloud_done',
+                                            'iconClasses' => $info->resume == null ? 'text-danger' : 'text-success'
                                         ])
+                                            @isset($info->resume)
+                                                @slot('urlWrapper')
+                                                    {{ route('privateStorage.url', $info->resume) }}
+                                                @endslot
+
+                                                @slot('urlTooltip')
+                                                    Click to view
+                                                @endslot
+                                            @endisset
                                         @endcomponent
 
                                     </div>
@@ -382,6 +401,16 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if ($info->resume == null)
+                                <div class="mt-1 text-info">
+                                    You haven't added your resume yet!
+                                </div>
+                            @else
+                                <div class="mt-1 text-success">
+                                    You have added a resume.
+                                </div>
+                            @endif
 
                             @if ($errors->has('resume'))
                                 <div class="my-2 text-danger">
@@ -542,7 +571,7 @@
 
     </div>
 
-    @include('components.form.footerAdd', [
+    @include('components.form.footerEdit', [
         'returnRoute' => route('student.home', $student->roll_number),
         'submitBtnTxt' => 'Save Information'
     ])
