@@ -4,7 +4,7 @@
     $originalSrc -> (optional) boolean, whether to include 'original-src' attribute
     $classes -> (optional) string
     $default -> string (icon | image)
-    $defaultSrc -> string (asset url)
+    $defaultSrc -> (optional) string (asset url)
     $defaultIcon -> (optional) string
     $iconClasses -> (optional) string
     $urlWrapper -> string (link image to resource)
@@ -33,9 +33,12 @@
 
 @else
     @isset($default)
+        @php
+            $defaultSrc = isset($defaultSrc) ? $defaultSrc : asset('static/images/user-default.png');
+        @endphp
 
         <img class="{{ $classes ?? 'rounded-circle' }}" alt="default-image"
-            src="{{ $defaultSrc }}" {!! $imgAttr ?? '' !!}
+            src="{{ $defaultSrc ?? '' }}" {!! $imgAttr ?? '' !!}
             {!! isset($originalSrc) ? ('original-src="' . $defaultSrc .'"') : '' !!} />
 
     @else
