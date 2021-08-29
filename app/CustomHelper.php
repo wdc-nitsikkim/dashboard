@@ -4,6 +4,7 @@
     use Carbon\Carbon;
 
     use Illuminate\Support\Facades\App;
+    use Illuminate\Support\Facades\Auth;
 
     /**
      * Custom globally accessible helper functions for this app
@@ -19,7 +20,12 @@
                 'selectedBatch' => 'batch.selected',
                 'selectedSubject' => 'subject.selected',
                 'selectedDepartment' => 'department.selected',
-                'confirmPassword' => 'pwd_last_confirmed'
+                'confirmPassword' => 'pwd_last_confirmed',
+                /**
+                 * List of accessible private urls is stored in this session variable (as array)
+                 */
+                'privateUrls' => 'private_urls',
+                'privateUrlsExpire' => 'private_urls_expire'
             ],
             'permissionMap' => [
                 'read' => 'r',
@@ -40,6 +46,24 @@
          * Reset password token length
          */
         const RESET_PWD_TOKEN_LEN = 64;
+
+        /**
+         * Private url link expiration timeout
+         */
+        const PRIVATE_URL_EXPIRE = 10 * 60;
+
+        /**
+         * Constant form select-menu values used accross the app & database
+         */
+        const FORM_SELECTMENU = [
+            'genders' => ['male', 'female', 'other'],
+            'blood_groups' => ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+            'categories' => ['general', 'obc', 'obc (ncl)', 'sc', 'st', 'other'],
+            'religions' => ['hinduism', 'islam', 'christianity', 'sikhism',
+                'buddhism', 'jainism', 'other'],
+            'marking_schemes' => ['cgpa', 'percentage'],
+            'school_boards' => ['cbse', 'icse', 'other'],
+        ];
 
         /**
          * Checks file input
@@ -226,6 +250,48 @@
                 }
             }
             return true;
+        }
+
+        /**
+         * Check if a user has only student role
+         *
+         * @param \App\Models\User $user  (optional) Defaults to current user
+         * @return boolean
+         */
+        public static function isStudentOnly(\App\Models\User $user = null) {
+            $user = $user ?: Auth::user();
+            return $user->hasRole('student') && ($user->roles->count() == 1);
+        }
+
+        /**
+         * Stores given array of private paths to session. Accessible via
+         * PrivateStorageController::get() or through route '[http|https]://{host}/private-storage/{path}
+         *
+         * @param array $urls
+         */
+        public static function storePrivatePaths(array $urls) {
+            $sessionKey = self::$GLOBAL_CONSTS['sessionMap']['privateUrls'];
+            $expireKey = self::$GLOBAL_CONSTS['sessionMap']['privateUrlsExpire'];
+
+            /* filter out null values & re-index */
+            $urls = array_values(array_filter($urls));
+
+            session([ $sessionKey => $urls ]);
+            session([ $expireKey => (time() + self::PRIVATE_URL_EXPIRE) ]);
+        }
+
+        /**
+         * Get current semester of student (approx)
+         *
+         * @param int $startYear  batch start year
+         * @return int
+         */
+        public static function getSemesterFromYear($startYear) {
+            $sem = (date('Y') - $startYear) * 2;
+            if (date('n') >= 8) {
+                $sem += 1;
+            }
+            return $sem > 8 ? 8 : ($sem < 1 ? 1 : $sem);
         }
 
         /**

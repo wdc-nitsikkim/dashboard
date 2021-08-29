@@ -239,7 +239,8 @@
                                         'image' => $profile['image'],
                                         'imgAttr' => 'id="image_preview"',
                                         'originalSrc' => true,
-                                        'default' => true
+                                        'default' => true,
+                                        'defaultSrc' => asset('static/images/user-default.png')
                                     ])
                                     @endcomponent
 
@@ -253,7 +254,7 @@
                                             add_a_photo</span>
                                         <input type="file" name="profile_image" id="profile_image"
                                             class="{{ $errors->has('profile_image') ? 'is-invalid' : '' }}"
-                                            accept=".jpg, .jpeg, .png">
+                                            accept=".jpg, .jpeg, .png" preview="#image_preview" square previewable>
                                         <div class="d-md-block text-left">
                                             <div class="fw-normal text-dark mb-1">Choose Image</div>
                                             <div class="text-gray-500 small">JPG, PNG, GIF. Max size of 800 kB</div>
@@ -421,18 +422,18 @@
                 <div class="row g-2 mb-2">
                     <div class="col-md-6 mb-2">
                         <div class="mb-2">
-                            <label for="textarea" class="form-label">
+                            <label for="academic_qualifications" class="form-label">
                                 Academic Qualifications</label>
-                            <textarea class="form-control" name="academic_qualifications"
+                            <textarea class="form-control" name="academic_qualifications" id="academic_qualifications"
                                 placeholder="Enter your academic qualifications here"
                                 rows="3">{{ old('academic_qualifications') ?? $profile['academic_qualifications'] }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-6 mb-2">
                         <div class="mb-2">
-                            <label for="textarea" class="form-label">
+                            <label for="office_address" class="form-label">
                                 Office Address</label>
-                            <textarea class="form-control" name="office_address"
+                            <textarea class="form-control" name="office_address" id="office_address"
                                 placeholder="Your office address"
                                 rows="3">{{ old('office_address') ?? $profile['office_address'] }}</textarea>
                         </div>
@@ -442,18 +443,18 @@
                 <div class="row g-2 mb-2">
                     <div class="col-md-6 mb-2">
                         <div class="mb-2">
-                            <label for="textarea" class="form-label">
+                            <label for="areas_of_interest" class="form-label">
                                 Areas of Interest</label>
-                            <textarea class="form-control" name="areas_of_interest"
+                            <textarea class="form-control" name="areas_of_interest" id="areas_of_interest"
                                 placeholder="Add your areas of interest"
                                 rows="3">{{ old('areas_of_interest') ?? $profile['areas_of_interest'] }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-6 mb-2">
                         <div class="mb-2">
-                            <label for="textarea" class="form-label">
+                            <label for="teachings" class="form-label">
                                 Teachings</label>
-                            <textarea class="form-control" name="teachings"
+                            <textarea class="form-control" name="teachings" id="teachings"
                                 placeholder="Subjects/Topics you teach"
                                 rows="3" >{{ old('teachings') ?? $profile['teachings'] }}</textarea>
                         </div>

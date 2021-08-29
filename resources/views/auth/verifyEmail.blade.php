@@ -7,7 +7,7 @@
         <section class="mt-3 mt-lg-4 mb-3 bg-soft d-flex align-items-center">
             <div class="container">
                 <p class="text-center">
-                    <a href="{{ route('root.default') }}" class="d-flex align-items-center justify-content-center">
+                    <a href="{{ route('root.home') }}" class="d-flex align-items-center justify-content-center">
                         <span class="material-icons">keyboard_arrow_left</span>
                         Go Back
                     </a>

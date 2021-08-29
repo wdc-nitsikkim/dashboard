@@ -15,9 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/* redirect routes */
-Route::redirect('/home', '/', 301);
-
 Route::get('/hash/{str}', function ($str) {
     return \Hash::make($str);
 });
@@ -57,9 +54,11 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 /* root routes */
 Route::name('root.')->middleware('auth')->group(function () {
-    Route::view('/default', 'layouts.admin')->name('default');
+    Route::get('/home', 'RootController@userRedirect')->name('home');
     Route::view('/lock', 'lockscreen')->name('lockscreen');
     Route::post('/lock', 'Auth\LoginController@confirmPassword')->name('confirmPassword');
+
+    Route::get('/test', 'RootController@test');
 
     Route::post('/clear-session', 'RootController@clearSession')->name('clearSession');
 });
@@ -117,164 +116,201 @@ Route::name('feedbacks.')->prefix('feedback')->middleware(['auth', 'email.verifi
 });
 
 /* admin routes --> all roles except student */
-Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware(['auth', 'email.verified'])->group(function () {
-    /* office routes */
-    Route::name('office.')->prefix('office')->group(function () {
-        Route::name('hods.')->prefix('hods')->group(function () {
-            Route::get('/', 'HodController@show')->name('show');
-            Route::post('/assign', 'HodController@assign')->name('assign');
-            Route::delete('/remove/{dept_id}', 'HodController@remove')
-                ->middleware('password.confirm')->name('remove');
+Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware('auth')->group(function () {
+    Route::view('/', 'layouts.admin')->name('home');
+
+    Route::middleware('email.verified')->group(function () {
+        /* office routes */
+        Route::name('office.')->prefix('office')->group(function () {
+            Route::name('hods.')->prefix('hods')->group(function () {
+                Route::get('/', 'HodController@show')->name('show');
+                Route::post('/assign', 'HodController@assign')->name('assign');
+                Route::delete('/remove/{dept_id}', 'HodController@remove')
+                    ->middleware('password.confirm')->name('remove');
+            });
+
+            Route::name('positions.')->prefix('positions')->group(function () {
+                Route::get('/', 'PositionController@show')->name('show');
+                Route::post('/assign', 'PositionController@assign')->name('assign');
+                Route::delete('/remove/{id}', 'PositionController@remove')->name('remove');
+            });
         });
 
-        Route::name('positions.')->prefix('positions')->group(function () {
-            Route::get('/', 'PositionController@show')->name('show');
-            Route::post('/assign', 'PositionController@assign')->name('assign');
-            Route::delete('/remove/{id}', 'PositionController@remove')->name('remove');
+        /* homepage routes */
+        Route::name('homepage.')->prefix('homepage')->group(function () {
+            /* notification routes */
+            Route::name('notification.')->prefix('notifications')->group(function () {
+                Route::get('/{trashed?}', 'NotificationController@show')
+                    ->where('trashed', 'trashed')->name('show');
+                Route::get('/search', 'NotificationController@searchForm')->name('searchForm');
+                Route::get('/search/results', 'NotificationController@search')->name('search');
+                Route::get('/add/{type?}', 'NotificationController@add')
+                    ->where('type', 'announcement|download|notice|tender')->name('add');
+                Route::post('/save', 'NotificationController@saveNew')->name('saveNew');
+                Route::get('/edit/{notification}', 'NotificationController@edit')->name('edit');
+                Route::post('/update/{notification}', 'NotificationController@update')->name('update');
+                Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
+                    ->where('status', 'enable|disable')->name('changeStatus');
+                Route::delete('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');
+                Route::post('/restore/{id}', 'NotificationController@restore')->name('restore');
+                Route::delete('/delete/{id}', 'NotificationController@delete')
+                    ->middleware('password.confirm')->name('delete');
+
+                Route::get('/test', 'NotificationController@test');
+            });
         });
-    });
 
-    /* homepage routes */
-    Route::name('homepage.')->prefix('homepage')->group(function () {
-        /* notification routes */
-        Route::name('notification.')->prefix('notifications')->group(function () {
-            Route::get('/{trashed?}', 'NotificationController@show')
-                ->where('trashed', 'trashed')->name('show');
-            Route::get('/search', 'NotificationController@searchForm')->name('searchForm');
-            Route::get('/search/results', 'NotificationController@search')->name('search');
-            Route::get('/add/{type?}', 'NotificationController@add')
-                ->where('type', 'announcement|download|notice|tender')->name('add');
-            Route::post('/save', 'NotificationController@saveNew')->name('saveNew');
-            Route::get('/edit/{notification}', 'NotificationController@edit')->name('edit');
-            Route::post('/update/{notification}', 'NotificationController@update')->name('update');
-            Route::post('/change-status/{id}/{status}', 'NotificationController@updateStatus')
-                ->where('status', 'enable|disable')->name('changeStatus');
-            Route::delete('/soft-delete/{notification}', 'NotificationController@softDelete')->name('softDelete');
-            Route::post('/restore/{id}', 'NotificationController@restore')->name('restore');
-            Route::delete('/delete/{id}', 'NotificationController@delete')
-                ->middleware('password.confirm')->name('delete');
+        /* department routes */
+        Route::name('department.')->prefix('departments')->group(function () {
+            Route::get('/', 'DepartmentController@show')->name('show');
+            Route::get('/index', 'DepartmentController@index')->name('index');
+            Route::get('/select', 'DepartmentController@select')->name('select');
+            Route::post('/save-in-session/{dept}', 'DepartmentController@saveInSession')->name('saveInSession');
 
-            Route::get('/test', 'NotificationController@test');
-        });
-    });
+            Route::get('/test', 'DepartmentController@test');
 
-    /* department routes */
-    Route::name('department.')->prefix('departments')->group(function () {
-        Route::get('/', 'DepartmentController@show')->name('show');
-        Route::get('/index', 'DepartmentController@index')->name('index');
-        Route::get('/select', 'DepartmentController@select')->name('select');
-        Route::post('/save-in-session/{dept}', 'DepartmentController@saveInSession')->name('saveInSession');
-
-        Route::get('/test', 'DepartmentController@test');
-
-        Route::get('/add', 'DepartmentController@add')->name('add');
-        Route::post('/save', 'DepartmentController@saveNew')->name('saveNew');
-        Route::get('/edit/{id}', 'DepartmentController@edit')->name('edit');
-        Route::post('/update/{id}', 'DepartmentController@update')->name('update');
-        Route::delete('/soft-delete/{id}', 'DepartmentController@softDelete')
-            ->middleware('password.confirm')->name('softDelete');
-        Route::post('/restore/{id}', 'DepartmentController@restore')->name('restore');
-        Route::delete('/delete/{id}', 'DepartmentController@delete')
-            ->middleware('password.confirm')->name('delete');
-
-        Route::prefix('{dept}')->group(function () {
-            Route::get('/', 'DepartmentController@home')->name('home');
-            Route::get('/order-people', 'DepartmentController@orderPeople')->name('orderPeople');
-            Route::post('/save-order', 'DepartmentController@saveOrder')->name('saveOrder');
-        });
-    });
-
-    /* profile routes */
-    Route::name('profiles.')->prefix('profiles')->group(function () {
-        Route::get('/', 'ProfileController@show')->name('show');
-        Route::get('/trashed', 'ProfileController@showTrashed')->name('showTrashed');
-        Route::get('/search', 'ProfileController@searchForm')->name('searchForm');
-        Route::get('/search/results', 'ProfileController@search')->name('search');
-        Route::get('/add', 'ProfileController@add')->name('add');
-        Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
-        Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
-        Route::post('/link', 'ProfileController@link')
-            ->middleware('password.confirm')->name('link');
-        Route::post('/unlink', 'ProfileController@unlink')
-            ->middleware('password.confirm')->name('unlink');
-        Route::post('/update/{id}', 'ProfileController@update')->name('update');
-        Route::delete('/soft-delete/{id}', 'ProfileController@softDelete')
-            ->middleware('password.confirm')->name('softDelete');
-        Route::post('/restore/{id}', 'ProfileController@restore')->name('restore');
-        Route::delete('/delete/{id}', 'ProfileController@delete')
-            ->middleware('password.confirm')->name('delete');
-
-        Route::get('/test', 'ProfileController@test');
-    });
-
-    /* student routes */
-    Route::name('students.')->prefix('students')->group(function () {
-        Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
-        Route::get('/search', 'StudentController@searchForm')->name('searchForm');
-        Route::get('/search/results', 'StudentController@search')->name('search');
-
-        Route::get('/test', 'StudentController@test');
-
-        Route::prefix('{dept}/{batch}')->group(function () {
-            Route::get('/', 'StudentController@show')->name('show');
-            Route::get('/add', 'StudentController@add')->name('add');
-            Route::get('/bulk-insert', 'StudentController@bulkInsert')->name('bulkInsert');
-            Route::post('/bulk-insert', 'StudentController@bulkInsertSave')->name('bulkInsertSave');
-            Route::post('/save', 'StudentController@saveNew')->name('saveNew');
-            Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
-            Route::post('/update/{student}', 'StudentController@update')->name('update');
-            Route::delete('/soft-delete/{student}', 'StudentController@softDelete')
+            Route::get('/add', 'DepartmentController@add')->name('add');
+            Route::post('/save', 'DepartmentController@saveNew')->name('saveNew');
+            Route::get('/edit/{id}', 'DepartmentController@edit')->name('edit');
+            Route::post('/update/{id}', 'DepartmentController@update')->name('update');
+            Route::delete('/soft-delete/{id}', 'DepartmentController@softDelete')
                 ->middleware('password.confirm')->name('softDelete');
-            Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
-            Route::delete('/delete/{id}', 'StudentController@delete')
+            Route::post('/restore/{id}', 'DepartmentController@restore')->name('restore');
+            Route::delete('/delete/{id}', 'DepartmentController@delete')
+                ->middleware('password.confirm')->name('delete');
+
+            Route::prefix('{dept}')->group(function () {
+                Route::get('/', 'DepartmentController@home')->name('home');
+                Route::get('/order-people', 'DepartmentController@orderPeople')->name('orderPeople');
+                Route::post('/save-order', 'DepartmentController@saveOrder')->name('saveOrder');
+            });
+        });
+
+        /* profile routes */
+        Route::name('profiles.')->prefix('profiles')->group(function () {
+            Route::get('/', 'ProfileController@show')->name('show');
+            Route::get('/trashed', 'ProfileController@showTrashed')->name('showTrashed');
+            Route::get('/search', 'ProfileController@searchForm')->name('searchForm');
+            Route::get('/search/results', 'ProfileController@search')->name('search');
+            Route::get('/add', 'ProfileController@add')->name('add');
+            Route::post('/save', 'ProfileController@saveNew')->name('saveNew');
+            Route::get('/edit/{id}', 'ProfileController@edit')->name('edit');
+            Route::post('/link', 'ProfileController@link')
+                ->middleware('password.confirm')->name('link');
+            Route::post('/unlink', 'ProfileController@unlink')
+                ->middleware('password.confirm')->name('unlink');
+            Route::post('/update/{id}', 'ProfileController@update')->name('update');
+            Route::delete('/soft-delete/{id}', 'ProfileController@softDelete')
+                ->middleware('password.confirm')->name('softDelete');
+            Route::post('/restore/{id}', 'ProfileController@restore')->name('restore');
+            Route::delete('/delete/{id}', 'ProfileController@delete')
+                ->middleware('password.confirm')->name('delete');
+
+            Route::get('/test', 'ProfileController@test');
+        });
+
+        /* student routes */
+        Route::name('students.')->prefix('students')->group(function () {
+            Route::get('/', 'StudentController@handleRedirect')->name('handleRedirect');
+            Route::get('/search', 'StudentController@searchForm')->name('searchForm');
+            Route::get('/search/results', 'StudentController@search')->name('search');
+
+            Route::get('/test', 'StudentController@test');
+
+            Route::prefix('{dept}/{batch}')->group(function () {
+                Route::get('/', 'StudentController@show')->name('show');
+                Route::get('/add', 'StudentController@add')->name('add');
+                Route::get('/bulk-insert', 'StudentController@bulkInsert')->name('bulkInsert');
+                Route::post('/bulk-insert', 'StudentController@bulkInsertSave')->name('bulkInsertSave');
+                Route::post('/save', 'StudentController@saveNew')->name('saveNew');
+                Route::get('/edit/{student}', 'StudentController@edit')->name('edit');
+                Route::post('/update/{student}', 'StudentController@update')->name('update');
+                Route::delete('/soft-delete/{student}', 'StudentController@softDelete')
+                    ->middleware('password.confirm')->name('softDelete');
+                Route::post('/restore/{id}', 'StudentController@restore')->name('restore');
+                Route::delete('/delete/{id}', 'StudentController@delete')
+                    ->middleware('password.confirm')->name('delete');
+            });
+        });
+
+        /* batch routes */
+        Route::name('batch.')->prefix('batches')->group(function () {
+            Route::get('/', 'BatchController@show')->name('show');
+            Route::get('/select', 'BatchController@select')->name('select');
+            Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
+
+            Route::get('/test', 'BatchController@test')->name('test');
+
+            Route::get('/add', 'BatchController@add')->name('add');
+            Route::post('/save', 'BatchController@saveNew')->name('saveNew');
+            Route::get('/edit/{id}', 'BatchController@edit')->name('edit');
+            Route::post('/update/{id}', 'BatchController@update')->name('update');
+            Route::delete('/soft-delete/{id}', 'BatchController@softDelete')
+                ->middleware('password.confirm')->name('softDelete');
+            Route::post('/restore/{id}', 'BatchController@restore')->name('restore');
+            Route::delete('/delete/{id}', 'BatchController@delete')
                 ->middleware('password.confirm')->name('delete');
         });
-    });
 
-    /* batch routes */
-    Route::name('batch.')->prefix('batches')->group(function () {
-        Route::get('/', 'BatchController@show')->name('show');
-        Route::get('/select', 'BatchController@select')->name('select');
-        Route::post('/save-in-session/{batch}', 'BatchController@saveInSession')->name('saveInSession');
+        /* subject routes */
+        Route::name('subjects.')->prefix('subjects')->group(function () {
+            Route::get('/', 'SubjectController@show')->name('show');
+            Route::get('/select', 'SubjectController@select')->name('select');
+            Route::post('/save-in-session/{subject}', 'SubjectController@saveInSession')->name('saveInSession');
 
-        Route::get('/test', 'BatchController@test')->name('test');
+            Route::get('/test', 'SubjectController@test');
+        });
 
-        Route::get('/add', 'BatchController@add')->name('add');
-        Route::post('/save', 'BatchController@saveNew')->name('saveNew');
-        Route::get('/edit/{id}', 'BatchController@edit')->name('edit');
-        Route::post('/update/{id}', 'BatchController@update')->name('update');
-        Route::delete('/soft-delete/{id}', 'BatchController@softDelete')
-            ->middleware('password.confirm')->name('softDelete');
-        Route::post('/restore/{id}', 'BatchController@restore')->name('restore');
-        Route::delete('/delete/{id}', 'BatchController@delete')
-            ->middleware('password.confirm')->name('delete');
-    });
+        /* result routes */
+        Route::name('results.')->prefix('results')->group(function () {
+            Route::get('/', 'ResultController@handleRedirect')->name('handleRedirect');
+            Route::get('/semwise', 'ResultController@semWiseHandleRedirect')
+                ->name('semWiseHandleRedirect');
+            Route::get('/semwise/{dept}/{batch}/{result_type?}/{semester?}',
+                'ResultController@showSemWise')->name('showSemWise');
 
-    /* subject routes */
-    Route::name('subjects.')->prefix('subjects')->group(function () {
-        Route::get('/', 'SubjectController@show')->name('show');
-        Route::get('/select', 'SubjectController@select')->name('select');
-        Route::post('/save-in-session/{subject}', 'SubjectController@saveInSession')->name('saveInSession');
+            Route::get('/test', 'ResultController@test');
 
-        Route::get('/test', 'SubjectController@test');
-    });
-
-    /* result routes */
-    Route::name('results.')->prefix('results')->group(function () {
-        Route::get('/', 'ResultController@handleRedirect')->name('handleRedirect');
-        Route::get('/semwise', 'ResultController@semWiseHandleRedirect')
-            ->name('semWiseHandleRedirect');
-        Route::get('/semwise/{dept}/{batch}/{result_type?}/{semester?}',
-            'ResultController@showSemWise')->name('showSemWise');
-
-        Route::get('/test', 'ResultController@test');
-
-        Route::prefix('{dept}/{batch}/{subject}')->group(function () {
-            Route::get('/{result_type?}', 'ResultController@show')->name('show');
-            Route::post('/{result_type}/save', 'ResultController@save')->name('save')
-                ->middleware('password.confirm');
+            Route::prefix('{dept}/{batch}/{subject}')->group(function () {
+                Route::get('/{result_type?}', 'ResultController@show')->name('show');
+                Route::post('/{result_type}/save', 'ResultController@save')->name('save')
+                    ->middleware('password.confirm');
+            });
         });
     });
+});
+
+Route::namespace('Student')->name('student.')->prefix('student')->middleware('auth')->group(function () {
+    Route::get('/', 'MainController@home')->name('index');
+
+    Route::get('/test', 'MainController@test');
+
+    Route::middleware('email.verified')->group(function () {
+        Route::get('/{student_by_roll_number}', 'MainController@home')->name('home');
+
+        Route::name('info.')->prefix('{student_by_roll_number}')->group(function () {
+            Route::get('/show-info', 'InfoController@show')->name('show');
+            Route::get('/add-info', 'InfoController@add')->name('add');
+            Route::post('/save-info', 'InfoController@saveNew')->name('saveNew');
+            Route::get('/edit-info/{readonly?}', 'InfoController@edit')
+                ->where('readonly', 'readonly')->name('edit');
+            Route::post('/update-info', 'InfoController@update')->name('update');
+            Route::delete('/soft-delete-info', 'InfoController@softDelete')
+                ->middleware('password.confirm')->name('softDelete');
+            Route::post('/restore-info', 'InfoController@restore')->name('restore');
+            Route::delete('/delete-info', 'InfoController@delete')
+                ->middleware('password.confirm')->name('delete');
+
+            Route::get('/test', 'InfoController@test');
+        });
+
+        Route::get('{student_by_roll_number}/result/{semester?}', 'ResultController@show')
+            ->name('result');
+    });
+});
+
+Route::name('privateStorage.')->prefix('private-storage')->group(function () {
+    Route::get('/{path}', 'PrivateStorageUrlController@get')->where('path', '.*')->name('url');
 });
 
 /* framework version */

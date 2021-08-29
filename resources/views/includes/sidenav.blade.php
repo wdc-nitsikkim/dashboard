@@ -35,7 +35,7 @@
 
                     @component('components.image', [
                         'image' => Auth::user()->image,
-                        'classes' => 'card-img-top border-white'
+                        'classes' => 'card-img-top border-white rounded-circle'
                     ])
                     @endcomponent
 
@@ -77,8 +77,8 @@
                     <span class="mt-1 ms-1 sidebar-text">Home</span>
                 </a>
             </li>
-            <li class="nav-item {{ url()->current() == url('/default') ? 'active' : '' }}">
-                <a href="{{ url('/default') }}" class="nav-link">
+            <li class="nav-item {{ Route::is('admin.home', 'student.home', 'student.index') ? 'active' : '' }}">
+                <a href="{{ route('root.home') }}" class="nav-link">
                     <span class="material-icons sidebar-icon">
                         dashboard
                     </span>
@@ -93,6 +93,44 @@
                             admin_panel_settings
                         </span>
                         <span class="sidebar-text">Manage</span>
+                    </a>
+                </li>
+            @endif
+
+            <li class="nav-item">
+                <a href="#!" class="nav-link">
+                    <span class="material-icons sidebar-icon text-gray-500">
+                        forum
+                    </span>
+                    <span class="sidebar-text text-gray-500">Conversations</span>
+                </a>
+            </li>
+
+            @if (Auth::user()->hasRole('student'))
+                <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
+
+                <li class="nav-item {{ Route::is('student.home', 'student.index') ? 'active' : '' }}">
+                    <a href="{{ route('student.index') }}" class="nav-link">
+                        <span class="material-icons sidebar-icon">
+                            switch_account
+                        </span>
+                        <span class="sidebar-text">Student Account</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#!" class="nav-link" title="Semester Registration">
+                        <span class="material-icons sidebar-icon">
+                            app_registration
+                        </span>
+                        <span class="sidebar-text">Registration</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ Route::is('student.result') ? 'active' : '' }}">
+                    <a href="{{ route('student.index') }}" class="nav-link">
+                        <span class="material-icons sidebar-icon">
+                            history_edu
+                        </span>
+                        <span class="sidebar-text">Results</span>
                     </a>
                 </li>
             @endif
@@ -119,295 +157,297 @@
                 </a>
             </li> --}}
 
-            <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
+            @if (Auth::user()->hasRole('root', 'admin', 'office', 'hod', 'ecell', 'faculty', 'staff'))
+                <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
 
-            {{-- <li class="nav-item">Quick Links</li> --}}
+                {{-- <li class="nav-item">Quick Links</li> --}}
 
-            <li class="nav-item">
-                <span class="nav-link collapsed d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-homepage">
-                    <span>
-                        <span class="material-icons sidebar-icon">
-                            meeting_room
+                <li class="nav-item">
+                    <span class="nav-link collapsed d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-homepage">
+                        <span>
+                            <span class="material-icons sidebar-icon">
+                                meeting_room
+                            </span>
+                            <span class="sidebar-text">Office</span>
                         </span>
-                        <span class="sidebar-text">Office</span>
-                    </span>
-                    <span class="link-arrow">
-                        @include('partials.sidemenuSvg')
-                    </span>
-                </span>
-                <div class="multi-level collapse" role="list" id="submenu-homepage" aria-expanded="false">
-                    <ul class="flex-column nav">
-                        <li class="nav-item
-                            {{ Route::is('admin.homepage.notification.show', 'admin.homepage.notification.showTrashed')
-                                ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('admin.homepage.notification.show') }}">
-                                <span class="sidebar-text-contracted">N</span>
-                                <span class="sidebar-text">Notifications</span>
-                            </a>
-                        </li>
-                        <li class="nav-item
-                            {{ Route::is('admin.office.hods.show') ? 'active' : 'hod' }}">
-                            <a class="nav-link" href="{{ route('admin.office.hods.show') }}">
-                                <span class="sidebar-text-contracted">H</span>
-                                <span class="sidebar-text">HoD's</span>
-                            </a>
-                        </li>
-                        <li class="nav-item
-                            {{ Route::is('admin.office.positions.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('admin.office.positions.show') }}">
-                                <span class="sidebar-text-contracted">P</span>
-                                <span class="sidebar-text">PoR's</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item {{ Route::is('admin.department.select') ? 'active' : '' }}">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-department">
-                    <span>
-                        <span class="material-icons sidebar-icon">
-                            business
+                        <span class="link-arrow">
+                            @include('partials.sidemenuSvg')
                         </span>
-                        <span class="sidebar-text">Departments</span>
                     </span>
-                    <span class="link-arrow">
-                        @include('partials.sidemenuSvg')
-                    </span>
-                </span>
+                    <div class="multi-level collapse" role="list" id="submenu-homepage" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item
+                                {{ Route::is('admin.homepage.notification.show', 'admin.homepage.notification.showTrashed')
+                                    ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.homepage.notification.show') }}">
+                                    <span class="sidebar-text-contracted">N</span>
+                                    <span class="sidebar-text">Notifications</span>
+                                </a>
+                            </li>
+                            <li class="nav-item
+                                {{ Route::is('admin.office.hods.show') ? 'active' : 'hod' }}">
+                                <a class="nav-link" href="{{ route('admin.office.hods.show') }}">
+                                    <span class="sidebar-text-contracted">H</span>
+                                    <span class="sidebar-text">HoD's</span>
+                                </a>
+                            </li>
+                            <li class="nav-item
+                                {{ Route::is('admin.office.positions.show') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.office.positions.show') }}">
+                                    <span class="sidebar-text-contracted">P</span>
+                                    <span class="sidebar-text">PoR's</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-                @php
-                    $routeUrl = $isDeptSelected ? route('admin.department.home', $department) : route('admin.department.index');
-                @endphp
-
-                <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
-                    <ul class="flex-column nav">
-                        <li class="nav-item
-                            {{ Route::is('admin.department.home') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ $routeUrl }}">
-                                <span class="sidebar-text-contracted">H</span>
-                                <span class="sidebar-text">Home</span>
-                            </a>
-                        </li>
-                        <li class="nav-item {{ Route::is('admin.department.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('admin.department.show') }}">
-                                <span class="sidebar-text-contracted">L</span>
-                                <span class="sidebar-text">List</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <span class="nav-link collapsed d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-people">
-                    <span>
-                        <span class="material-icons sidebar-icon">
-                            people
+                <li class="nav-item {{ Route::is('admin.department.select') ? 'active' : '' }}">
+                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-department">
+                        <span>
+                            <span class="material-icons sidebar-icon">
+                                business
+                            </span>
+                            <span class="sidebar-text">Departments</span>
                         </span>
-                        <span class="sidebar-text">People</span>
-                    </span>
-                    <span class="link-arrow">
-                        @include('partials.sidemenuSvg')
-                    </span>
-                </span>
-                <div class="multi-level collapse" role="list" id="submenu-people" aria-expanded="false">
-                    <ul class="flex-column nav">
-                        <li class="nav-item {{ Route::is('admin.profiles.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('admin.profiles.show') }}">
-                                <span class="sidebar-text-contracted">F</span>
-                                <span class="sidebar-text">Faculty / Staff</span>
-                            </a>
-                        </li>
-                        <li class="nav-item {{ false ? 'active' : '' }}">
-                            <a class="nav-link" href="#!">
-                                <span class="sidebar-text-contracted">R</span>
-                                <span class="sidebar-text">Researchers</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <span class="nav-link collapsed d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-students">
-                    <span>
-                        <span class="material-icons sidebar-icon">
-                            face
+                        <span class="link-arrow">
+                            @include('partials.sidemenuSvg')
                         </span>
-                        <span class="sidebar-text">Students</span>
                     </span>
-                    <span class="link-arrow">
-                        @include('partials.sidemenuSvg')
-                    </span>
-                </span>
-                <div class="multi-level collapse" role="list" id="submenu-students" aria-expanded="false">
-                    <ul class="flex-column nav">
 
-                        @php
-                            $routeUrl = ($isDeptSelected && $isBatchSelected)
-                                ? route('admin.students.show', [
+                    @php
+                        $routeUrl = $isDeptSelected ? route('admin.department.home', $department) : route('admin.department.index');
+                    @endphp
+
+                    <div class="multi-level collapse " role="list" id="submenu-department" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item
+                                {{ Route::is('admin.department.home') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ $routeUrl }}">
+                                    <span class="sidebar-text-contracted">H</span>
+                                    <span class="sidebar-text">Home</span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ Route::is('admin.department.show') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.department.show') }}">
+                                    <span class="sidebar-text-contracted">L</span>
+                                    <span class="sidebar-text">List</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <span class="nav-link collapsed d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-people">
+                        <span>
+                            <span class="material-icons sidebar-icon">
+                                people
+                            </span>
+                            <span class="sidebar-text">People</span>
+                        </span>
+                        <span class="link-arrow">
+                            @include('partials.sidemenuSvg')
+                        </span>
+                    </span>
+                    <div class="multi-level collapse" role="list" id="submenu-people" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item {{ Route::is('admin.profiles.show') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.profiles.show') }}">
+                                    <span class="sidebar-text-contracted">F</span>
+                                    <span class="sidebar-text">Faculty / Staff</span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ false ? 'active' : '' }}">
+                                <a class="nav-link" href="#!">
+                                    <span class="sidebar-text-contracted">R</span>
+                                    <span class="sidebar-text">Researchers</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <span class="nav-link collapsed d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-students">
+                        <span>
+                            <span class="material-icons sidebar-icon">
+                                face
+                            </span>
+                            <span class="sidebar-text">Students</span>
+                        </span>
+                        <span class="link-arrow">
+                            @include('partials.sidemenuSvg')
+                        </span>
+                    </span>
+                    <div class="multi-level collapse" role="list" id="submenu-students" aria-expanded="false">
+                        <ul class="flex-column nav">
+
+                            @php
+                                $routeUrl = ($isDeptSelected && $isBatchSelected)
+                                    ? route('admin.students.show', [
+                                            'dept' => $department,
+                                            'batch' => $batch
+                                        ])
+                                    : route('admin.students.handleRedirect');
+                            @endphp
+
+                            <li class="nav-item {{ Route::is('admin.students.show') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ $routeUrl }}">
+                                    <span class="sidebar-text-contracted">L</span>
+                                    <span class="sidebar-text">List</span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ Route::is('admin.students.searchForm', 'admin.students.search') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.students.searchForm') }}">
+                                    <span class="sidebar-text-contracted">F</span>
+                                    <span class="sidebar-text">Find</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-results">
+                        <span>
+                            <span class="material-icons sidebar-icon">
+                                military_tech
+                            </span>
+                            <span class="sidebar-text">Results</span>
+                        </span>
+                        <span class="link-arrow">
+                            @include('partials.sidemenuSvg')
+                        </span>
+                    </span>
+                    <div class="multi-level collapse " role="list" id="submenu-results" aria-expanded="false">
+                        <ul class="flex-column nav">
+
+                            @php
+                                $routeUrl = ($isDeptSelected && $isBatchSelected && $isSubjectSelected)
+                                    ? route('admin.results.show', [
+                                            'dept' => $department,
+                                            'batch' => $batch,
+                                            'subject' => $subject
+                                        ])
+                                    : route('admin.results.handleRedirect');
+                            @endphp
+
+                            <li class="nav-item {{ Route::is('admin.results.show') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ $routeUrl }}">
+                                    <span class="sidebar-text-contracted">V</span>
+                                    <span class="sidebar-text">View</span>
+                                </a>
+                            </li>
+
+                            @php
+                                $routeUrl = ($isDeptSelected && $isBatchSelected)
+                                    ? route('admin.results.showSemWise', [
                                         'dept' => $department,
                                         'batch' => $batch
                                     ])
-                                : route('admin.students.handleRedirect');
-                        @endphp
+                                    : route('admin.results.semWiseHandleRedirect')
+                            @endphp
 
-                        <li class="nav-item {{ Route::is('admin.students.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ $routeUrl }}">
-                                <span class="sidebar-text-contracted">L</span>
-                                <span class="sidebar-text">List</span>
-                            </a>
-                        </li>
-                        <li class="nav-item {{ Route::is('admin.students.searchForm', 'admin.students.search') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('admin.students.searchForm') }}">
-                                <span class="sidebar-text-contracted">F</span>
-                                <span class="sidebar-text">Find</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                            <li class="nav-item {{ Route::is('admin.results.showSemWise') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ $routeUrl }}">
+                                    <span class="sidebar-text-contracted">S</span>
+                                    <span class="sidebar-text">Semester Wise</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-            <li class="nav-item">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-results">
-                    <span>
-                        <span class="material-icons sidebar-icon">
-                            military_tech
+                <li class="nav-item">
+                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-tnp">
+                        <span>
+                            <span class="material-icons sidebar-icon text-gray-500">
+                                contacts
+                            </span>
+                            <span class="sidebar-text text-gray-500">TnP</span>
                         </span>
-                        <span class="sidebar-text">Results</span>
+                        <span class="link-arrow">
+                            @include('partials.sidemenuSvg')
+                        </span>
                     </span>
-                    <span class="link-arrow">
-                        @include('partials.sidemenuSvg')
+                    <div class="multi-level collapse" role="list" id="submenu-tnp" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-gray-500 disabled" href="#!">
+                                    <span class="sidebar-text-contracted">U</span>
+                                    <span class="sidebar-text">Under Dev.</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item {{ Route::is('admin.batch.select') ? 'active' : '' }}">
+                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-batch">
+                        <span>
+                            <span class="material-icons sidebar-icon">
+                                format_list_numbered
+                            </span>
+                            <span class="sidebar-text">Batches</span>
+                        </span>
+                        <span class="link-arrow">
+                            @include('partials.sidemenuSvg')
+                        </span>
                     </span>
-                </span>
-                <div class="multi-level collapse " role="list" id="submenu-results" aria-expanded="false">
-                    <ul class="flex-column nav">
+                    <div class="multi-level collapse " role="list" id="submenu-batch" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item {{ Route::is('admin.batch.show') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.batch.show') }}">
+                                    <span class="sidebar-text-contracted">L</span>
+                                    <span class="sidebar-text">List</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item {{ Route::is('admin.subjects.select') ? 'active' : '' }}">
+                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-subjects">
+                        <span>
+                            <span class="material-icons sidebar-icon">
+                                auto_stories
+                            </span>
+                            <span class="sidebar-text">Subjects</span>
+                        </span>
+                        <span class="link-arrow">
+                            @include('partials.sidemenuSvg')
+                        </span>
+                    </span>
+                    <div class="multi-level collapse " role="list" id="submenu-subjects" aria-expanded="false">
 
                         @php
-                            $routeUrl = ($isDeptSelected && $isBatchSelected && $isSubjectSelected)
-                                ? route('admin.results.show', [
-                                        'dept' => $department,
-                                        'batch' => $batch,
-                                        'subject' => $subject
+                            $routeUrl = ($isDeptSelected)
+                                ? route('admin.subjects.show', [
+                                        'dept' => $department
                                     ])
-                                : route('admin.results.handleRedirect');
+                                : route('admin.subjects.show');
                         @endphp
 
-                        <li class="nav-item {{ Route::is('admin.results.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ $routeUrl }}">
-                                <span class="sidebar-text-contracted">V</span>
-                                <span class="sidebar-text">View</span>
-                            </a>
-                        </li>
-
-                        @php
-                            $routeUrl = ($isDeptSelected && $isBatchSelected)
-                                ? route('admin.results.showSemWise', [
-                                    'dept' => $department,
-                                    'batch' => $batch
-                                ])
-                                : route('admin.results.semWiseHandleRedirect')
-                        @endphp
-
-                        <li class="nav-item {{ Route::is('admin.results.showSemWise') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ $routeUrl }}">
-                                <span class="sidebar-text-contracted">S</span>
-                                <span class="sidebar-text">Semester Wise</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-tnp">
-                    <span>
-                        <span class="material-icons sidebar-icon text-gray-500">
-                            contacts
-                        </span>
-                        <span class="sidebar-text text-gray-500">TnP</span>
-                    </span>
-                    <span class="link-arrow">
-                        @include('partials.sidemenuSvg')
-                    </span>
-                </span>
-                <div class="multi-level collapse" role="list" id="submenu-tnp" aria-expanded="false">
-                    <ul class="flex-column nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-gray-500 disabled" href="#!">
-                                <span class="sidebar-text-contracted">U</span>
-                                <span class="sidebar-text">Under Dev.</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item {{ Route::is('admin.batch.select') ? 'active' : '' }}">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-batch">
-                    <span>
-                        <span class="material-icons sidebar-icon">
-                            format_list_numbered
-                        </span>
-                        <span class="sidebar-text">Batches</span>
-                    </span>
-                    <span class="link-arrow">
-                        @include('partials.sidemenuSvg')
-                    </span>
-                </span>
-                <div class="multi-level collapse " role="list" id="submenu-batch" aria-expanded="false">
-                    <ul class="flex-column nav">
-                        <li class="nav-item {{ Route::is('admin.batch.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('admin.batch.show') }}">
-                                <span class="sidebar-text-contracted">L</span>
-                                <span class="sidebar-text">List</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item {{ Route::is('admin.subjects.select') ? 'active' : '' }}">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#submenu-subjects">
-                    <span>
-                        <span class="material-icons sidebar-icon">
-                            auto_stories
-                        </span>
-                        <span class="sidebar-text">Subjects</span>
-                    </span>
-                    <span class="link-arrow">
-                        @include('partials.sidemenuSvg')
-                    </span>
-                </span>
-                <div class="multi-level collapse " role="list" id="submenu-subjects" aria-expanded="false">
-
-                    @php
-                        $routeUrl = ($isDeptSelected)
-                            ? route('admin.subjects.show', [
-                                    'dept' => $department
-                                ])
-                            : route('admin.subjects.show');
-                    @endphp
-
-                    <ul class="flex-column nav">
-                        <li class="nav-item {{ Route::is('admin.subjects.show') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ $routeUrl }}">
-                                <span class="sidebar-text-contracted">L</span>
-                                <span class="sidebar-text">List</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                        <ul class="flex-column nav">
+                            <li class="nav-item {{ Route::is('admin.subjects.show') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ $routeUrl }}">
+                                    <span class="sidebar-text-contracted">L</span>
+                                    <span class="sidebar-text">List</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
 
             <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
 

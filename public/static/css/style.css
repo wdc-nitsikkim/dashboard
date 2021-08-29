@@ -135,6 +135,23 @@ div.accordion-item > .accordion-header > .accordion-button:not(.collapsed)::afte
 /* General classes --end */
 
 /* animation classes --start */
+.gradient-bg {
+    /* Credits: https://codepen.io/P1N2O/pen/pyBNzX */
+    --transparency: 0.07;
+
+    background: linear-gradient(-45deg,
+        rgba(204, 51, 255, var(--transparency)), rgba(255, 0, 102, var(--transparency)),
+        rgba(153, 255, 102, var(--transparency)), rgba(51, 153, 255, var(--transparency)));
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .rotate-infinite {
     animation: spin 1s linear infinite;
 }

@@ -65,7 +65,7 @@ class LoginController extends Controller {
         Auth::login($user, $remember);
         $this->addLockTimeout();
 
-        return redirect()->route('root.default')->with([
+        return redirect()->route('root.home')->with([
             'status' => 'success',
             'message' => 'Logged in'
         ]);
@@ -138,7 +138,7 @@ class LoginController extends Controller {
         Auth::loginUsingId($user->id);
         $this->addLockTimeout();
 
-        return redirect()->route('root.default')->with([
+        return redirect()->route('root.home')->with([
             'status' => 'success',
             'message' => 'Signed in with Google'
         ]);
@@ -169,7 +169,7 @@ class LoginController extends Controller {
         session([$sessionKey => time()]);
 
         return $request->intended ? redirect($request->intended)
-            : redirect()->route('root.default');
+            : redirect()->route('root.home');
     }
 
     private function addLockTimeout() {

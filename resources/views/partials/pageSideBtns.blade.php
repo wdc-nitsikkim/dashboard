@@ -1,5 +1,5 @@
 @isset($help)
-    <a href="{{ $help }}" class="btn btn-light d-inline-flex align-items-center">
+    <a href="{{ $help }}" class="btn btn-light d-inline-flex align-items-center mb-2">
         <span class="material-icons">help</span>
     </a>
 @endisset
