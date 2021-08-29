@@ -47,7 +47,7 @@
                     <a href="{{ route('student.info.edit', [
                             'student_by_roll_number' => $student->roll_number,
                             'readonly' => 'readonly'
-                        ]) }}"
+                        ]) }}" data-bs-toggle="tooltip" title="View in read-only mode"
                         class="small text-info">View</a>
                     <a href="{{ route('student.info.edit', $student->roll_number) }}"
                         class="small text-info ms-2">Update</a>
@@ -76,11 +76,11 @@
                     <span class="material-icons me-1">app_registration</span>
                     Semester Registrations
                 </h5>
-                <p class="card-text">View your previous semester registrations or register for a new semester</p>
-            </div>
-            <div class="card-footer">
-                <a href="#!"
-                    class="small text-info">Go to page</a>
+                <p class="card-text">
+                    View your previous semester registrations or register for a new semester
+                    <br>
+                    <span class="fw-bolder text-danger">Feature currently unavailable</span>
+                </p>
             </div>
         </div>
     </div>
@@ -108,7 +108,8 @@
                     <span class="material-icons me-1">chat_bubble_outline</span>
                     Messages/queries
                 </h5>
-                <p class="card-text">View your conversations
+                <p class="card-text">
+                    View your conversations
                     <br>
                     <span class="fw-bolder text-danger">Feature currently unavailable</span>
                 </p>

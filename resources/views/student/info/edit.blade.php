@@ -30,7 +30,8 @@
             <br>
             -> All links to your files <span class="fst-italic">(image, signature, resume, ..)</span> will expire in
             <span class="fw-bolder text-info">{{ CustomHelper::PRIVATE_URL_EXPIRE / 60 }} minutes.</span>
-            Refresh the page <span class="fw-bolder">(save any unsaved information first)</span> to reset the timeout.
+            Refresh the page <span class="fw-bolder">(save any unsaved information first)</span> to reset the
+            expiration timeout.
         </p>
     @else
         <h4><code>Read-only mode</code></h4>
@@ -389,7 +390,8 @@
 
                                         @component('components.image', [
                                             'defaultIcon' => $info->resume == null ? 'picture_as_pdf' : 'cloud_done',
-                                            'iconClasses' => $info->resume == null ? 'text-danger' : 'text-success'
+                                            'iconClasses' => $info->resume == null
+                                                ? 'text-danger scale-on-hover' : 'text-success scale-on-hover'
                                         ])
                                             @isset($info->resume)
                                                 @slot('urlWrapper')
