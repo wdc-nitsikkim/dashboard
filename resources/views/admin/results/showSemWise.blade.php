@@ -4,6 +4,7 @@
     $batch -> single batch model
     $department -> single department model
     $students -> collection of student model (nested relations)
+    $subjects -> collection of DepartmentSubjectsTaught model (nested relations)
     $currentResultType -> single resultType model
     $resultTypes -> collection of resultType model
 --}}
