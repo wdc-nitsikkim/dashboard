@@ -297,6 +297,10 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
     });
 });
 
+Route::name('privateStorage.')->prefix('private-storage')->group(function () {
+    Route::get('/{path}', 'PrivateStorageController@get')->where('path', '.*')->name('url');
+});
+
 /* framework version */
 Route::get('/version', function () {
     return "Laravel v" . Illuminate\Foundation\Application::VERSION . " working on PHP v" . \phpversion();

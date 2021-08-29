@@ -20,7 +20,12 @@
                 'selectedBatch' => 'batch.selected',
                 'selectedSubject' => 'subject.selected',
                 'selectedDepartment' => 'department.selected',
-                'confirmPassword' => 'pwd_last_confirmed'
+                'confirmPassword' => 'pwd_last_confirmed',
+                /**
+                 * List of accessible private urls is stored in this session variable (as array)
+                 */
+                'privateUrls' => 'private_urls',
+                'privateUrlsExpire' => 'private_urls_expire'
             ],
             'permissionMap' => [
                 'read' => 'r',
@@ -41,6 +46,11 @@
          * Reset password token length
          */
         const RESET_PWD_TOKEN_LEN = 64;
+
+        /**
+         * Private url link expiration timeout
+         */
+        const PRIVATE_URL_EXPIRE = 10 * 60;
 
         /**
          * Constant form select-menu values used accross the app & database
@@ -251,6 +261,23 @@
         public static function isStudentOnly(\App\Models\User $user = null) {
             $user = $user ?: Auth::user();
             return $user->hasRole('student') && ($user->roles->count() == 1);
+        }
+
+        /**
+         * Stores given array of private paths to session. Accessible via
+         * PrivateStorageController::get() or through route '[http|https]://{host}/private-storage/{path}
+         *
+         * @param array $urls
+         */
+        public static function storePrivatePaths(array $urls) {
+            $sessionKey = self::$GLOBAL_CONSTS['sessionMap']['privateUrls'];
+            $expireKey = self::$GLOBAL_CONSTS['sessionMap']['privateUrlsExpire'];
+
+            /* filter out null values & re-index */
+            $urls = array_values(array_filter($urls));
+
+            session([ $sessionKey => $urls ]);
+            session([ $expireKey => (time() + self::PRIVATE_URL_EXPIRE) ]);
         }
 
         /**
