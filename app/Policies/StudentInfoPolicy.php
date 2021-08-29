@@ -50,8 +50,12 @@ class StudentInfoPolicy {
         return $isAllowed || $user->isPermissionValid($this->create_roles, $this->permission['create']);
     }
 
-    public function update(User $user, Student $student, StudentInfo $info) {
+    public function update(User $user, Student $student, StudentInfo $info = null) {
         $isAllowed = false;
+
+        if ($info == null) {
+            return false;
+        }
         if ($user->hasRole('student') && $user->email == $student->email) {
             $isAllowed = ($student->id == $info->student_id)
                 && $user->isPermissionValid(['student'], $this->permission['update']);

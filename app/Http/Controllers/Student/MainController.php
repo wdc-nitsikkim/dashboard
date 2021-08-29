@@ -22,7 +22,7 @@ class MainController extends Controller {
 
         $user = Auth::user();
         $info = StudentInfo::select('student_id')->find($student->id);
-        $canCreate = $user->can('create', [StudentInfo::class, $student]);
+        $canCreate = ($info != null) ? false : $user->can('create', [StudentInfo::class, $student]);
         $canUpdate = ($info == null) ? false : $user->can('update', [StudentInfo::class, $student, $info]);
 
         return view('student.home', [
