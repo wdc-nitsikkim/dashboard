@@ -31,8 +31,15 @@ class StudentInfoPolicy {
      * @param App\Models\Student $student
      */
 
-    public function view(User $user, Student $student = null) {
+    public function view(User $user, Student $student, StudentInfo $info = null) {
         $isAllowed = false;
+
+        if ($info == null) {
+            return false;
+        }
+        if ($info->deleted_at != null && ! $user->hasRole('admin', 'student')) {
+            return false;
+        }
         if ($user->hasRole('student') && ($student->email ?? false) === $user->email) {
             $isAllowed = $user->isPermissionValid(['student'], $this->permission['read']);
         }
