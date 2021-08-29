@@ -241,7 +241,7 @@
                                     <div class="icon-shape rounded me-4 me-sm-0">
 
                                         @component('components.image', [
-                                            'image' => $info->image,
+                                            'image' => $info->image ? route('privateStorage.url', $info->image) : null,
                                             'imgAttr' => 'id="image_preview"',
                                             'originalSrc' => true,
                                             'default' => true,
@@ -300,7 +300,7 @@
                                     <div class="icon-shape rounded me-4 me-sm-0">
 
                                         @component('components.image', [
-                                            'image' => $info->signature,
+                                            'image' => $info->signature ? route('privateStorage.url', $info->signature) : null,
                                             'imgAttr' => 'id="signature_preview"',
                                             'originalSrc' => true,
                                             'default' => true,

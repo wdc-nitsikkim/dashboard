@@ -8,14 +8,21 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 use App\CustomHelper;
-use App\Http\Requests\StoreStudentInfo;
 use App\Models\Student;
 use App\Models\Semester;
 use App\Models\StudentInfo;
+use App\Http\Requests\StoreStudentInfo;
 
 class InfoController extends Controller {
-    public function __construct() {
+    /**
+     * Stores session keys received from \CustomHelper::getSessionConstants()
+     *
+     * @var null|array
+     */
+    private $sessionKeys = null;
 
+    public function __construct() {
+        $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
     public function add(Student $student_by_roll_number) {
@@ -61,6 +68,13 @@ class InfoController extends Controller {
         $semesters = Semester::all();
         $student->load(['department', 'batch.course']);
 
+        $privatePaths = [
+            $student->info->image,
+            $student->info->signature,
+            $student->info->resume
+        ];
+        CustomHelper::storePrivatePaths($privatePaths);
+
         return view('student.info.edit', [
             'info' => $student->info,
             'student' => $student,
@@ -74,10 +88,12 @@ class InfoController extends Controller {
         $student = $student_by_roll_number->load('info');
         $this->authorize('update', [StudentInfo::class, $student, $student->info]);
 
+        // dd($request->all());
         $rules = new \App\Http\Requests\StoreStudentInfo;
         $updateRules = array_merge($rules->rules(), $rules->updateRules($student));
-        dd($updateRules);
         $data = $request->validate($updateRules);
+
+        dd($data);
     }
 
     public function test() {
