@@ -294,6 +294,11 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
             Route::get('/edit-info/{readonly?}', 'InfoController@edit')
                 ->where('readonly', 'readonly')->name('edit');
             Route::post('/update-info', 'InfoController@update')->name('update');
+            Route::delete('/soft-delete-info', 'InfoController@softDelete')
+                ->middleware('password.confirm')->name('softDelete');
+            Route::post('/restore-info', 'InfoController@restore')->name('restore');
+            Route::delete('/delete-info', 'InfoController@delete')
+                ->middleware('password.confirm')->name('delete');
         });
 
         Route::get('{student_by_roll_number}/result/{semester?}', 'ResultController@show')
