@@ -6,7 +6,18 @@
     $default -> string (icon | image)
     $defaultSrc -> string (asset url)
     $defaultIcon -> (optional) string
+    $iconClasses -> (optional) string
+    $urlWrapper -> string (link image to resource)
+    $urlTooltip -> string
 --}}
+
+@isset($urlWrapper)
+    <a href="{{ $urlWrapper }}" target="_blank"
+        @isset($urlTooltip)
+            data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $urlTooltip }}"
+        @endisset
+        >
+@endisset
 
 @if (isset($image) && Storage::disk('public')->exists($image))
 
@@ -28,6 +39,11 @@
             {!! isset($originalSrc) ? ('original-src="' . $defaultSrc .'"') : '' !!} />
 
     @else
-        <span class="material-icons icon-xxx-large">{{ $defaultIcon ?? 'person_outline' }}</span>
+        <span class="material-icons icon-xxx-large {{ $iconClasses ?? '' }}">
+            {{ $defaultIcon ?? 'person_outline' }}</span>
     @endisset
 @endif
+
+@isset($urlWrapper)
+    </a>
+@endisset
