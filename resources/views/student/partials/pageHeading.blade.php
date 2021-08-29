@@ -17,7 +17,11 @@
 
     @isset($sideBtns)
         @slot('sideButtons')
-            @include('partials.pageSideBtns', $sideBtns)
+            @if (is_array($sideBtns))
+                @include('partials.pageSideBtns', $sideBtns)
+            @else
+                {!! $sideBtns !!}
+            @endif
         @endslot
     @endisset
 @endcomponent
