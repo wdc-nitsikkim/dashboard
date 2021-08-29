@@ -7,7 +7,7 @@
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~3.3",
-        "google/apiclient": "2.10",
+        "google/apiclient": "2.10.1",
         "ifsnop/mysqldump-php": "^2.9",
         "itsgoingd/clockwork": "^5.0",
         "laravel/framework": "5.5.*",
