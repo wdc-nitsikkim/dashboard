@@ -6,7 +6,6 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 use App\Models\User;
 use App\Models\Student;
-use App\Models\Department;
 use App\Models\StudentInfo;
 use App\CustomHelper;
 
