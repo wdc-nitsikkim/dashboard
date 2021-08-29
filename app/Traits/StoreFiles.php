@@ -82,7 +82,7 @@ trait StoreFiles {
         }
 
         $fileName = $student->roll_number . '-' . $type . '.' . $file->extension();
-        $storagePath = $this->privateDir . '/' . $this->$studentsFileBasePath
+        $storagePath = $this->privateDir . '/' . $this->studentsFileBasePath . '/'
             . $student->batch->code . '/' . $student->department->code . '/'
             . $student->roll_number;
         $path = $file->storeAs($storagePath, $fileName, 'local');
