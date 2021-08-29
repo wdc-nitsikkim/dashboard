@@ -300,6 +300,8 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
             Route::post('/restore-info', 'InfoController@restore')->name('restore');
             Route::delete('/delete-info', 'InfoController@delete')
                 ->middleware('password.confirm')->name('delete');
+
+            Route::get('/test', 'InfoController@test');
         });
 
         Route::get('{student_by_roll_number}/result/{semester?}', 'ResultController@show')

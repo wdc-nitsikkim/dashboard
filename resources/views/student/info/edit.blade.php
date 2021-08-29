@@ -226,6 +226,53 @@
                         'returnRoute' => route('student.home', $student->roll_number),
                         'submitBtnTxt' => 'Save Information'
                     ])
+
+                    <div class="row mb-3">
+                        @if ($info->deleted_at == null)
+                            <div class="col-12 d-grid mx-auto mt-n2 mb-2">
+                                <a class="btn btn-danger" confirm alert-title="Mark information as deleted?"
+                                    alert-text="Your information won't show up in search results after this, but will
+                                    still be present." href="{{ route('student.info.softDelete', $student->roll_number) }}"
+                                    spoof spoof-method="DELETE">
+                                    <span class="material-icons ms-1">delete</span>
+                                    Delete
+                                </a>
+                            </div>
+                        @else
+                            <div class="col-4 d-grid mx-auto mt-n2 mb-2">
+                                <a class="btn btn-info" confirm alert-title="Restore Information?"
+                                    href="{{ route('student.info.restore', $student->roll_number) }}"
+                                    spoof spoof-method="POST"
+                                    alert-text="Your information will become visible after this.">
+                                    <span class="material-icons me-1">restore</span>
+                                    Restore
+                                </a>
+                            </div>
+
+                            @can('delete', ['App\\Models\StudentInfo', $student, $info])
+                                <div class="col-8 d-grid mx-auto mt-n2 mb-2">
+                                    <a class="btn btn-danger"
+                                        href="{{ route('student.info.delete', $student->roll_number) }}"
+                                        spoof spoof-method="DELETE"
+                                        confirm alert-title="Delete Permanently?"
+                                        alert-text="This cannot be undone!">
+                                        <span class="material-icons me-1">delete_forever</span>
+                                        Delete Permanently
+                                    </a>
+                                </div>
+                            @else
+                                <div class="col-8 d-grid mx-auto mt-n2 mb-2" data-bs-toggle="tooltip"
+                                    title="You are not authorized to perform this action!">
+                                    <button class="btn btn-danger" disabled>
+                                        <span class="material-icons me-1">delete_forever</span>
+                                        Delete Permanently
+                                    </button>
+                                </div>
+                            @endcan
+
+                        @endif
+                    </div>
+
                 @endif
 
             </div>

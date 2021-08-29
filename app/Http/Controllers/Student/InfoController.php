@@ -168,6 +168,69 @@ class InfoController extends Controller {
         ]);
     }
 
+    public function softDelete(Student $student_by_roll_number) {
+        $student = $student_by_roll_number;
+        $info = StudentInfo::select('student_id')->findOrFail($student->id);
+
+        $this->authorize('update', [StudentInfo::class, $student, $info]);
+
+        try {
+            $info->delete();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Operation failed!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Information hidden successfully'
+        ]);
+    }
+
+    public function restore(Student $student_by_roll_number) {
+        $student = $student_by_roll_number;
+        $info = StudentInfo::select('student_id')->onlyTrashed()->findOrFail($student->id);
+
+        $this->authorize('update', [StudentInfo::class, $student, $info]);
+
+        try {
+            $info->restore();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Restoration failed!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Information restored successfully'
+        ]);
+    }
+
+    public function delete(Student $student_by_roll_number) {
+        $student = $student_by_roll_number;
+        $info = StudentInfo::select('student_id')->onlyTrashed()->findOrFail($student->id);
+
+        $this->authorize('update', [StudentInfo::class, $student, $info]);
+
+        try {
+            $info->forceDelete();
+        } catch (\Exception $e) {
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to delete!'
+            ]);
+        }
+
+        return redirect()->route('student.home', $student->roll_number)->with([
+            'status' => 'success',
+            'message' => 'Deleted permanently!'
+        ]);
+    }
+
     public function test() {
         return 'Test';
     }
