@@ -28,7 +28,7 @@
 @endcomponent
 
 <form class="form-floating" action="{{ route('student.info.update', $student->roll_number) }}"
-    method="POST">
+    method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
 
     <div class="row mb-3">

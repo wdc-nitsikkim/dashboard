@@ -77,20 +77,21 @@ class StoreStudentInfo extends FormRequest
      */
     public function updateRules($student) {
         $switchRule = 'filled | in:on';
+        $fileMimes = 'mimes:pdf,doc,docx';
 
         return [
             'personal_email' => ['nullable', 'email',
-                Rule::unique('students_information', 'personal_email')->ignore($student->id)
+                Rule::unique('students_information', 'personal_email')->ignore($student->id, 'student_id')
             ],
             'secondary_mobile' => ['nullable', 'digits:10',
-                Rule::unique('students_information', 'secondary_mobile')->ignore($student->id)
+                Rule::unique('students_information', 'secondary_mobile')->ignore($student->id, 'student_id')
             ],
             'remove_image' => $switchRule,
-            'image' => 'filled | image | max:800',
+            'image' => 'nullable | image | max:800',
             'remove_signature' => $switchRule,
-            'signature' => 'filled | image | max:500',
+            'signature' => 'nullable | image | max:500',
             'remove_resume' => $switchRule,
-            'resume' => 'filled | mimes:doc,docx,pdf | max:5120'
+            'resume' => ['nullable', $fileMimes, 'max:5120']
         ];
     }
 }
