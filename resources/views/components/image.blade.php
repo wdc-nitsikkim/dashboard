@@ -17,7 +17,8 @@
 @elseif (isset($image) && filter_var($image, FILTER_VALIDATE_URL))
 
     <img class="rounded-circle" alt="user-img"
-        src="{{ $image }}" {!! $imgAttr ?? '' !!}/>
+        src="{{ $image }}" {!! $imgAttr ?? '' !!}
+        {!! isset($originalSrc) ? ('original-src="' . $image .'"') : '' !!} />
 
 @else
     @isset($default)
