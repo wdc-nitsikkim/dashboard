@@ -11,9 +11,12 @@ use App\CustomHelper;
 use App\Models\Student;
 use App\Models\Semester;
 use App\Models\StudentInfo;
+use App\Traits\StoreFiles;
 use App\Http\Requests\StoreStudentInfo;
 
 class InfoController extends Controller {
+    use StoreFiles;
+
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
      *
@@ -88,12 +91,53 @@ class InfoController extends Controller {
         $student = $student_by_roll_number->load('info');
         $this->authorize('update', [StudentInfo::class, $student, $student->info]);
 
-        // dd($request->all());
-        $rules = new \App\Http\Requests\StoreStudentInfo;
+        $rules = new StoreStudentInfo;
         $updateRules = array_merge($rules->rules(), $rules->updateRules($student));
         $data = $request->validate($updateRules);
 
-        dd($data);
+        $student->load(['department', 'batch.course']);
+        $info = $student->info;
+
+        try {
+            $fileData = [];
+            if (isset($data['remove_image'])) {
+                $this->removePrivateFile($info->image);
+                $fileData['image'] = null;
+            } else if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $this->removePrivateFile($info->image);
+                $fileData['image'] = $this->storeStudentFile($request->file('image'), 'image', $student);
+            }
+
+            if (isset($data['remove_signature'])) {
+                $this->removePrivateFile($info->signature);
+                $fileData['signature'] = null;
+            } else if ($request->hasFile('signature') && $request->file('signature')->isValid()) {
+                $this->removePrivateFile($info->signature);
+                $fileData['signature'] = $this->storeStudentFile($request->file('signature'), 'sign', $student);
+            }
+
+            if (isset($data['remove_resume'])) {
+                $this->removePrivateFile($info->resume);
+                $fileData['resume'] = null;
+            } else if ($request->hasFile('resume') && $request->file('resume')->isValid()) {
+                $this->removePrivateFile($info->resume);
+                $fileData['resume'] = $this->storeStudentFile($request->file('resume'), 'resume', $student);
+            }
+
+            $info->update(array_merge($data, $fileData));
+            Log::info('Student info updated.', [Auth::user(), $student]);
+        } catch (\Exception $e) {
+            Log::debug('Failed to update student information!', [Auth::user(), $e->getMessage(), $student, $data]);
+            return back()->with([
+                'status' => 'fail',
+                'message' => 'Failed to update information!'
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success',
+            'message' => 'Information updated successfully'
+        ]);
     }
 
     public function test() {
