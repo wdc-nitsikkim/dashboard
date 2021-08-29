@@ -35,7 +35,7 @@
 
                     @component('components.image', [
                         'image' => Auth::user()->image,
-                        'classes' => 'card-img-top border-white'
+                        'classes' => 'card-img-top border-white rounded-circle'
                     ])
                     @endcomponent
 

@@ -21,20 +21,20 @@
 
 @if (isset($image) && Storage::disk('public')->exists($image))
 
-    <img class="rounded-circle {{ $classes ?? '' }}" alt="user-img"
+    <img class="{{ $classes ?? 'rounded-circle' }}" alt="user-img"
         src="{{ asset(Storage::url($image)) }}" {!! $imgAttr ?? '' !!}
         {!! isset($originalSrc) ? ('original-src="' . asset(Storage::url($image)) .'"') : '' !!} />
 
 @elseif (isset($image) && filter_var($image, FILTER_VALIDATE_URL))
 
-    <img class="rounded-circle" alt="user-img"
+    <img class="{{ $classes ?? 'rounded-circle' }}" alt="user-img"
         src="{{ $image }}" {!! $imgAttr ?? '' !!}
         {!! isset($originalSrc) ? ('original-src="' . $image .'"') : '' !!} />
 
 @else
     @isset($default)
 
-        <img class="rounded-circle {{ $classes ?? '' }}" alt="default-image"
+        <img class="{{ $classes ?? 'rounded-circle' }}" alt="default-image"
             src="{{ $defaultSrc }}" {!! $imgAttr ?? '' !!}
             {!! isset($originalSrc) ? ('original-src="' . $defaultSrc .'"') : '' !!} />
 

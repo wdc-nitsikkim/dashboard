@@ -311,10 +311,20 @@
                                         @component('components.image', [
                                             'image' => $info->signature ? route('privateStorage.url', $info->signature) : null,
                                             'imgAttr' => 'id="signature_preview"',
+                                            'classes' => 'scale-on-hover',
                                             'originalSrc' => true,
                                             'default' => true,
                                             'defaultSrc' => asset('static/images/signature.svg')
                                         ])
+                                            @isset($info->signature)
+                                                @slot('urlWrapper')
+                                                    {{ route('privateStorage.url', $info->signature) }}
+                                                @endslot
+
+                                                @slot('urlTooltip')
+                                                    Click to view
+                                                @endslot
+                                            @endisset
                                         @endcomponent
 
                                     </div>
