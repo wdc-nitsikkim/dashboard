@@ -95,7 +95,10 @@
                 <p class="card-text">View your previous semester results</p>
             </div>
             <div class="card-footer">
-                <a href="#!"
+                <a href="{{ route('student.result', [
+                        'student_by_roll_number' => $student->roll_number,
+                        'semester' => CustomHelper::getSemesterFromYear($student->batch->start_year)
+                    ]) }}"
                     class="small text-info">Go to page</a>
             </div>
         </div>

@@ -281,6 +281,20 @@
         }
 
         /**
+         * Get current semester of student (approx)
+         *
+         * @param int $startYear  batch start year
+         * @return int
+         */
+        public static function getSemesterFromYear($startYear) {
+            $sem = (date('Y') - $startYear) * 2;
+            if (date('n') >= 8) {
+                $sem += 1;
+            }
+            return $sem > 8 ? 8 : ($sem < 1 ? 1 : $sem);
+        }
+
+        /**
          * Get a random string according to the rules specified
          *
          * @param int $len  Length of random string

@@ -295,6 +295,9 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
                 ->where('readonly', 'readonly')->name('edit');
             Route::post('/update-info', 'InfoController@update')->name('update');
         });
+
+        Route::get('{student_by_roll_number}/result/{semester?}', 'ResultController@show')
+            ->name('result');
     });
 });
 
