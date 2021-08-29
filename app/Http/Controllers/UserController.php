@@ -143,6 +143,7 @@ class UserController extends Controller {
             }
             $user->save();
         } catch (\Exception $e) {
+            Log::debug('Failed to update account details', [Auth::user(), $e->getMessage(), $user]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Failed to update account details!'
@@ -174,6 +175,7 @@ class UserController extends Controller {
             $user->password = \Hash::make($request->new_password);
             $user->save();
         } catch (\Exception $e) {
+            Log::debug('Failed to update password!', [Auth::user(), $e->getMessage(), $user]);
             return back()->with([
                 'status' => 'fail',
                 'message' => 'An unknown error occurred!'
