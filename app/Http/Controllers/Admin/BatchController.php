@@ -28,7 +28,7 @@ class BatchController extends Controller {
      */
     private $sessionKeys = null;
 
-    function __construct() {
+    public function __construct() {
         $this->sessionKeys = CustomHelper::getSessionConstants();
         $this->courses = Course::all();
         $this->btechCode = $this->courses->where('code', 'btech')->first()->id;

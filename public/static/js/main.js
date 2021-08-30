@@ -72,6 +72,12 @@ const main = (function ($, window, ls) {
         return `<span class="${classes ?? defaultClasses}">${html}</span>`;
     }
 
+    /**
+     * Spoof method using a hidden form
+     *
+     * @param {jQuery<HTMLElement>} anchorElement
+     * @event click
+     */
     function spoofMethod(anchorElement, event) {
         const a = anchorElement;
         const form = $('#methodSpoofer');
@@ -130,17 +136,52 @@ const main = (function ($, window, ls) {
         loadSidenavPreference();
     }
 
+    function printSection(content) {
+        const windowFeatures = 'height=600,width=800';
+        const printWindow = window.open('', 'Print', windowFeatures);
+
+        const printStyles =
+            `
+            <style>
+                body::-webkit-scrollbar {
+                    display: none;
+                }
+
+                body {
+                    font-family: "Serif, Sans-Serif";
+                    -ms-overflow-style: none;  /* IE and Edge */
+                    scrollbar-width: none;  /* Firefox */
+                }
+            </style>
+            `;
+
+        const headClone = $(window.document).find('head').clone();
+        headClone.find('meta').filter('[name="viewport"]').attr('content', 'width=1280, initial-scale=1');
+
+        printWindow.document.head.innerHTML = headClone[0].innerHTML;
+        printWindow.document.body.appendChild($(content).clone()[0]);
+
+        printWindow.onload = () => {
+            if (! printWindow.focus()) { printWindow.focus(); }
+            printWindow.window.print();
+            printWindow.onafterprint = function () {
+                printWindow.close();
+            };
+        };
+    }
+
     return Object.freeze({
         breakPoints,
         appConstants,
         getSpanMsg,
         spoofMethod,
+        printSection,
         modifySideNav,
         fillContainer,
         verifyImageRatio,
         loadLocalPreferences,
         saveSidenavPreference,
-        pageImage: getMainContentImageDataUrl
+        /* pageImage: getMainContentImageDataUrl */
     });
 }(jQuery, window, lsMod));
 
@@ -205,6 +246,11 @@ const globalHandler = (function ($, window, main) {
                 fnList[key](xhr.responseJSON[key]);
             }
         }
+    });
+
+    $('[printable]').on('click', function (e) {
+        main.printSection($(this).attr('content'));
+        e.stopImmediatePropagation();
     });
 
     $('a[confirm], button[confirm]').on('click', function (e, bypass = false) {

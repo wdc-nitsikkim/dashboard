@@ -4,6 +4,21 @@
     </a>
 @endisset
 
+@isset($print)
+    @component('components.inline.anchorBtn', [
+            'icon' => 'print',
+            'classes' => 'btn-outline-primary mb-2',
+            'tooltip' => true
+        ])
+        @slot('attr')
+            data-bs-placement="left" title="Alpha stage, may contain bugs!"
+            confirm alert-title="Notice" alert-text="Mobile devices are not supported for now &
+            wide tables may not be visible properly!"
+            printable content="{{ $print }}"
+        @endslot
+    @endcomponent
+@endisset
+
 @isset($searchRedirect)
     @component('components.inline.anchorBtn', [
         'icon' => 'search',

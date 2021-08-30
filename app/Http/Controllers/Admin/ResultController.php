@@ -33,7 +33,7 @@ class ResultController extends Controller {
      */
     private $sessionKeys = null;
 
-    function __construct() {
+    public function __construct() {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 

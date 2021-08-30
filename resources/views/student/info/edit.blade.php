@@ -18,6 +18,7 @@
 @component('student.partials.pageHeading', [
         'student' => $student,
         'sideBtns' => [
+            'print' => 'form.form-floating',
             'backRedirect' => route('student.home', $student->roll_number)
         ]
     ])

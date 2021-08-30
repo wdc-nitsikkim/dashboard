@@ -83,6 +83,7 @@
     @slot('sideButtons')
         @include('partials.pageSideBtns', [
             'help' => '#!',
+            'print' => '.table-responsive',
             'deptRedirect' => $redirectHandler,
             'batchRedirect' => $redirectHandler,
             'subjectRedirect' => $redirectHandler

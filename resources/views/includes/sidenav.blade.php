@@ -16,13 +16,15 @@
 @php
     $sessionConsts = CustomHelper::getSessionConstants();
 
-    $isDeptSelected = session()->has($sessionConsts['selectedDepartment']);
-    $isBatchSelected = session()->has($sessionConsts['selectedBatch']);
-    $isSubjectSelected = session()->has($sessionConsts['selectedSubject']);
+    $hasStudent         = session()->has($sessionConsts['userStudent']);
+    $isDeptSelected     = session()->has($sessionConsts['selectedDepartment']);
+    $isBatchSelected    = session()->has($sessionConsts['selectedBatch']);
+    $isSubjectSelected  = session()->has($sessionConsts['selectedSubject']);
 
-    $department = session($sessionConsts['selectedDepartment']);
-    $batch = session($sessionConsts['selectedBatch']);
-    $subject = session($sessionConsts['selectedSubject']);
+    $batch          = session($sessionConsts['selectedBatch']);
+    $subject        = session($sessionConsts['selectedSubject']);
+    $student        = session($sessionConsts['userStudent']);
+    $department     = session($sessionConsts['selectedDepartment']);
 @endphp
 
 <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
@@ -110,7 +112,8 @@
                 <li role="separator" class="dropdown-divider my-3 border-gray-600"></li>
 
                 <li class="nav-item {{ Route::is('student.home', 'student.index') ? 'active' : '' }}">
-                    <a href="{{ route('student.index') }}" class="nav-link">
+                    <a href="{{ $hasStudent ? route('student.home', $student->roll_number) : route('student.index') }}"
+                        class="nav-link">
                         <span class="material-icons sidebar-icon">
                             switch_account
                         </span>
@@ -126,7 +129,8 @@
                     </a>
                 </li>
                 <li class="nav-item {{ Route::is('student.result') ? 'active' : '' }}">
-                    <a href="{{ route('student.index') }}" class="nav-link">
+                    <a href="{{ $hasStudent ? route('student.result', $student->roll_number) : route('student.index') }}"
+                        class="nav-link">
                         <span class="material-icons sidebar-icon">
                             history_edu
                         </span>
@@ -442,6 +446,12 @@
                                 <a class="nav-link" href="{{ $routeUrl }}">
                                     <span class="sidebar-text-contracted">L</span>
                                     <span class="sidebar-text">List</span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ Route::is('admin.subjects.showSyllabusWise') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.subjects.showSyllabusWise') }}">
+                                    <span class="sidebar-text-contracted">S</span>
+                                    <span class="sidebar-text">Syllabus</span>
                                 </a>
                             </li>
                         </ul>

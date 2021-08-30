@@ -22,6 +22,10 @@ const profileHandler = (function ($, window, main) {
     });
 }(jQuery, window, main));
 
+/**
+ * Handles editor.js config, init & events
+ * @see https://editorjs.io/
+ */
 const editorJsInit = (function ($, window, ls) {
     'use strict';
 

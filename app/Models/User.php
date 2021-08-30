@@ -151,11 +151,7 @@ class User extends Authenticatable
      * @return bool
      */
     public function hasDepartmentAccess($dept) {
-        if ($this->hasRole('admin')) {
-            return true;
-        }
-        return $this->allowedDepartments->where('department_id', $dept)
-            ->count() > 0;
+        return $this->allowedDepartments->where('department_id', $dept)->count() > 0;
     }
 
     /**
@@ -167,10 +163,6 @@ class User extends Authenticatable
      * @return bool
      */
     public function hasSubjectAccess($subject_id) {
-        if ($this->hasRole('admin')) {
-            return true;
-        }
-        return $this->allowedSubjects->where('subject_id', $subject_id)
-            ->count() > 0;
+        return $this->allowedSubjects->where('subject_id', $subject_id)->count() > 0;
     }
 }

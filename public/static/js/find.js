@@ -8,6 +8,14 @@ const find = (function ($) {
         });
     }
 
+    /**
+     * Performs a case-insensitive search among the provided elements
+     *
+     * @param {jQuery<HTMLCollection>} elements
+     * @param {string} searchString
+     * @param {string|null} additionalAttr
+     * @returns {Promise}
+     */
     function searchInElements(elements, searchString, additionalAttr = null) {
         searchString = searchString.toLowerCase();
 

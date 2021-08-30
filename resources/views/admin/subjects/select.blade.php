@@ -70,7 +70,7 @@
                         placeholder="Find" find
                         find-in="#all-subjects a" hide-tag="a"
                         additional-attr="name" loader="#find-subject-loader"
-                        status="#find-subjects-status">
+                        status="#find-subjects-status" autofocus>
 
                     <span id="find-subject-loader" class="input-group-text d-none">
                         <div class="text-danger spinner-border spinner-border-sm"

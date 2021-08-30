@@ -37,17 +37,17 @@ class StudentPolicy {
 
     public function create(User $user, Department $department) {
         return $user->isPermissionValid($this->create_roles, $this->permission['create'])
-            && $user->hasDepartmentAccess($department->id);
+            && ($user->hasRole('admin') || $user->hasDepartmentAccess($department->id));
     }
 
     public function update(User $user, $student) {
         return $user->isPermissionValid($this->update_roles, $this->permission['update'])
-            && $user->hasDepartmentAccess($student['department_id']);
+            && ($user->hasRole('admin') || $user->hasDepartmentAccess($student['department_id']));
     }
 
     public function delete(User $user, $student) {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete'])
-            && $user->hasDepartmentAccess($student['department_id']);
+            && ($user->hasRole('admin') || $user->hasDepartmentAccess($student['department_id']));
     }
 
     public function updateDepartment(User $user) {

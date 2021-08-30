@@ -44,6 +44,6 @@ class DepartmentPolicy {
 
     public function orderPeople(User $user, Department $dept) {
         return $user->isPermissionValid($this->order_roles, $this->permission['update'])
-            && $user->hasDepartmentAccess($dept->id);
+            && ($user->hasRole('admin') || $user->hasDepartmentAccess($dept->id));
     }
 }

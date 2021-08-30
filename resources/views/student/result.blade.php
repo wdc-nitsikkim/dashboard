@@ -22,6 +22,7 @@
 
             @include('partials.pageSideBtns', [
                 'help' => '#!',
+                'print' => '.table-responsive',
                 'backRedirect' => route('student.home', $student->roll_number)
             ])
 

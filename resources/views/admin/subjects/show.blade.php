@@ -1,9 +1,13 @@
 {{--
+    $baseRoute -> string (route name)
     $subjects -> paginated collection of subject model
+    $nestedSubject -> boolean
     $currentSemester -> single semester model
     $semesters -> collection of semester model
     $currentDepartment -> single department model
     $departments -> collection of department model
+    $currentCourse -> single course model
+    $courses -> collection of course model
     $pagination -> pagination links view
 --}}
 
@@ -11,66 +15,69 @@
 
 @section('content')
 
+@php
+    $baseRouteParams = [
+        'dept' => $currentDepartment,
+        'course' => $currentCourse,
+        'semester' => $currentSemester
+    ];
+@endphp
+
 @component('components.page.heading')
     @slot('heading')
         List of Subjects
         @slot('subheading')
             <h5>
                 <span class="text-info">
-                    {{ $currentDepartment == null ? 'All Departments' : $currentDepartment->name }}</span>,
+                    {{ $currentDepartment == null ? 'All Departments' : 'Department of '
+                        . $currentDepartment->name }}</span>
+                <br>
+                <span class="fw-bolder">{{ $currentCourse == null ? 'All Courses' : $currentCourse->name }}</span>,
                 {{ $currentSemester == null ? 'All Semesters' : $currentSemester->name }}
             </h5>
+            <h6>{{ $secondaryText ?? '' }}</h6>
         @endslot
     @endslot
 
     @slot('sideButtons')
 
         <div>
-            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
-                Department
-                <span class="material-icons ms-1">keyboard_arrow_down</span>
-            </button>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('admin.subjects.show', [
-                        'semester' => $currentSemester
-                    ]) }}">
-                    All
-                </a>
+            @include('partials.pageSideBtns', [
+                'print' => '.table-responsive'
+            ])
 
-                @foreach ($departments as $dept)
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('admin.subjects.show', [
-                            'dept' => $dept->code,
-                            'semester' => $currentSemester
-                        ]) }}">
-                        {{ $dept->name }}</a>
-                @endforeach
+            @include('components.inline.dropdownBtn', [
+                'all' => route($baseRoute, array_merge($baseRouteParams, [ 'course' => null ])),
+                'btnText' => 'Course',
+                'iterator' => $courses,
+                'route' => $baseRoute,
+                'routeParam' => 'course',
+                'routeKey' => 'code',
+                'displayKey' => 'name',
+                'baseParams' => $baseRouteParams
+            ])
 
-            </div>
+            @include('components.inline.dropdownBtn', [
+                'all' => route($baseRoute, array_merge($baseRouteParams, [ 'dept' => null ])),
+                'btnText' => 'Department',
+                'iterator' => $departments,
+                'route' => $baseRoute,
+                'routeParam' => 'dept',
+                'routeKey' => 'code',
+                'displayKey' => 'name',
+                'baseParams' => $baseRouteParams
+            ])
 
-            <button class="btn btn-gray-800 d-inline-flex align-items-center dropdown-toggle mb-2" data-bs-toggle="dropdown">
-                Semester
-                <span class="material-icons ms-1">keyboard_arrow_down</span>
-            </button>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
-                <a class="dropdown-item d-flex align-items-center"
-                    href="{{ route('admin.subjects.show', [
-                        'dept' => $currentDepartment
-                    ]) }}">
-                    All
-                </a>
-
-                @foreach ($semesters as $sem)
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('admin.subjects.show', [
-                            'dept' => $currentDepartment,
-                            'semester' => $sem->id
-                        ]) }}">
-                        {{ $sem->name }}</a>
-                @endforeach
-
-            </div>
+            @include('components.inline.dropdownBtn', [
+                'all' => route($baseRoute, array_merge($baseRouteParams, [ 'semester' => null ])),
+                'btnText' => 'Semester',
+                'iterator' => $semesters,
+                'route' => $baseRoute,
+                'routeParam' => 'semester',
+                'routeKey' => 'id',
+                'displayKey' => 'name',
+                'baseParams' => $baseRouteParams
+            ])
         </div>
     @endslot
 @endcomponent
@@ -93,7 +100,7 @@
                 @slot('head')
                     @component('components.table.head', [
                         'items' => [
-                            '#', 'Code', 'Name', 'Credit'
+                            '#', 'Course', 'Semester', 'Code', 'Name', 'Credit'
                         ]
                     ])
                     @endcomponent
@@ -101,11 +108,23 @@
 
                 @slot('body')
                     @foreach ($subjects['data'] as $subject)
+                        @isset($nestedSubject)
+                            @php
+                                $subject = $subject['subject'];
+                            @endphp
+                        @endif
+
                         <tr class="{{ $subject['deleted_at'] != null ? 'text-danger' : ''}}">
                             <td>
                                 <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                             </td>
                             <td>
+                                {{ $courses->where('id', $subject['course_id'])->first()->name }}
+                            </td>
+                            <td>
+                                {{ $semesters->where('id', $subject['semester_id'])->first()->name }}
+                            </td>
+                            <td class="fw-bolder">
                                 {{ strtoupper($subject['code']) }}
                             </td>
                             <td>

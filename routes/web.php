@@ -255,6 +255,7 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware('auth')->
         /* subject routes */
         Route::name('subjects.')->prefix('subjects')->group(function () {
             Route::get('/', 'SubjectController@show')->name('show');
+            Route::get('/syllabuswise', 'SubjectController@showSyllabusWise')->name('showSyllabusWise');
             Route::get('/select', 'SubjectController@select')->name('select');
             Route::post('/save-in-session/{subject}', 'SubjectController@saveInSession')->name('saveInSession');
 

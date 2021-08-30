@@ -3,6 +3,10 @@ const students = (function ($, window) {
 
     const form = $('#bulk-students-form');
     const tbody = $('#students-table').find('tbody');
+
+    /**
+     * @constant HTMLElementString
+     */
     const row = `
         <tr>
             <td>

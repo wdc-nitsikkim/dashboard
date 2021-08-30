@@ -21,6 +21,7 @@ class ProfilePolicy {
     protected $create_roles = ['admin'];
     protected $update_roles = ['admin'];
     protected $delete_roles = ['admin'];
+    protected $special_roles = ['hod', 'faculty', 'staff'];
 
     public function __construct() {
         $this->permission = CustomHelper::getPermissionConstants();
@@ -43,12 +44,11 @@ class ProfilePolicy {
     public function create(User $user) {
         $isAllowed = false;
         if ($user->hasRole('hod', 'faculty', 'staff')) {
-            $isAllowed = is_null($user->profileLink);
+            $isAllowed = is_null($user->profileLink)
+                && $user->isPermissionValid($this->special_roles, $this->permission['create']);
         }
-        if ($user->isPermissionValid($this->create_roles, $this->permission['create'])) {
-            $isAllowed = true;
-        }
-        return $isAllowed;
+
+        return $isAllowed || $user->isPermissionValid($this->create_roles, $this->permission['create']);
     }
 
     /**
@@ -66,11 +66,9 @@ class ProfilePolicy {
         } else if ($user->hasProfile()) {
             $isAllowed = $user->profileLink->profile_id === $profile_id;
         }
-        if ($user->isPermissionValid($this->update_roles, $this->permission['update'])) {
-            $isAllowed = true;
-        }
+        $isAllowed = $isAllowed && $user->isPermissionValid($this->special_roles, $this->permission['update']);
 
-        return $isAllowed;
+        return $isAllowed || $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
     public function delete(User $user, $profile_id) {

@@ -21,6 +21,7 @@
                 'selectedSubject' => 'subject.selected',
                 'selectedDepartment' => 'department.selected',
                 'confirmPassword' => 'pwd_last_confirmed',
+                'userStudent' => 'userStudent',
                 /**
                  * List of accessible private urls is stored in this session variable (as array)
                  */
