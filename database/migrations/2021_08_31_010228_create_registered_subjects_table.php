@@ -19,6 +19,7 @@ class CreateRegisteredSubjectsTable extends Migration
             $table->unsignedSmallInteger('batch_id');
             $table->unsignedTinyInteger('semester_id');
             $table->unsignedMediumInteger('subject_id');
+            $table->unsignedTinyInteger('credit')->nullable(false);
 
             $table->timestamps();
             $table->softDeletes();
