@@ -81,7 +81,7 @@
 
             @component('components.form.footerAdd')
                 @slot('returnRoute')
-                    {{ route('root.home') }}
+                    {{ route('admin.department.home', $department) }}
                 @endslot
 
                 @slot('submitBtnTxt')
