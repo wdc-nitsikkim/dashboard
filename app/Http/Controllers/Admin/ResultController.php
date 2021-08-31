@@ -109,12 +109,11 @@ class ResultController extends Controller {
         $result_type = $result_type ?? $resultTypes->first();
         $semesters = Semester::all();
         $semester = $semester ?? $semesters->first();
-        $subjects = Sub::with('subject')->where('department_id', $dept->id)
-            ->whereHas('subject', function ($query) use ($batch, $semester) {
-                $query->where([
-                    'course_id' => $batch->course->id,
-                    'semester_id' => $semester->id
-                ]);
+        $subjects = RegisteredSubject::where([
+                'department_id' => $dept->id,
+                'semester_id' => $semester->id
+            ])->whereHas('subject', function ($query) use ($batch, $semester) {
+                    $query->where('course_id', $batch->course->id);
             })->get();
         $students = Student::withTrashed()->where([
                 'batch_id' => $batch->id,

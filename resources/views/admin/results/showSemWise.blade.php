@@ -154,7 +154,7 @@
                                 {{ $loop->last ? 'rounded-end' : '' }}">
                                 <span class="text-wrap">{{ $subject->subject->name }}</span>
                                 <br>
-                                <span class="display-6 mt-1 text-info">({{ $subject->subject->code }})</span>
+                                <span class="display-6 mt-1 text-info">({{ $subject->subject_code }})</span>
                             </th>
                         @endforeach
 
@@ -177,7 +177,7 @@
 
                             @foreach ($subjects as $subject)
                                 @php
-                                    $result = $student->result->where('subject_id', $subject->subject->id)->first();
+                                    $result = $student->result->where('registered_subject_id', $subject->id)->first();
                                 @endphp
                                 <td class="fw-bolder text-center">
                                     {{ $result == null ? '-' : $result->score }}
