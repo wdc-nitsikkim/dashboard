@@ -373,13 +373,13 @@
                             @if ($user->allowedSubjects->count() == 0)
                                 <span class="text-danger">No Results / Not Applicable</span>
                             @else
-                                @foreach ($user->allowedSubjects as $subject)
-                                    <a href="#!"
-                                        target="_blank">
+                                @foreach ($user->allowedSubjects as $regSubject)
+                                    <span tmp="{{ $regSubject->registeredSubject->subject_code }}">
                                         {{ '-> '
-                                            . '(' . strtoupper($subject->subject->code) . ') '
-                                            . $subject->subject->name }}
-                                    </a>
+                                            . '(' . $regSubject->registeredSubject->subject_code . ') '
+                                            . $regSubject->registeredSubject->subject->name
+                                        }}
+                                    </span>
                                     {!! $loop->last ? '' : '<br>' !!}
                                 @endforeach
                             @endif
