@@ -14,10 +14,6 @@ const students = (function ($, window) {
         return row.siblings().length > 0 ? row.remove() : false;
     });
 
-    $(window.document).on('input', 'table input[name="roll_number[]"]', function () {
-
-    });
-
     form.on('submit', function (e) {
         e.preventDefault();
 
