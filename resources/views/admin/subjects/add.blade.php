@@ -44,7 +44,7 @@
                 @slot('body')
                         <tr row-clone>
                             <td class="col-2">
-                                <select class="form-control" name="subject_type_id[]" required>
+                                <select class="form-control form-select" name="subject_type_id[]" required>
                                     @foreach ($subjectTypes as $type)
                                         <option value="{{ $type->id }}"
                                             {{ $loop->first ? 'selected' : '' }}>
