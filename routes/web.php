@@ -260,8 +260,10 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware('auth')->
 
             Route::get('/test', 'SubjectController@test');
 
-            Route::get('/{dept}/add', 'SubjectController@add')->name('add');
-            Route::post('/{dept}/add', 'SubjectController@saveNew')->name('saveNew');
+            Route::get('/add/{dept}', 'SubjectController@add')->name('add');
+            Route::post('/add/{dept}', 'SubjectController@saveNew')->name('saveNew');
+            Route::get('/add-reg/{dept}/{batch?}', 'SubjectController@addReg')->name('addReg');
+            Route::post('/add-reg/{dept}/{batch}', 'SubjectController@saveNewReg')->name('saveNewReg');
             Route::get('/{dept}/{batch}/{semester?}/{course?}', 'SubjectController@show')->name('show');
         });
 
