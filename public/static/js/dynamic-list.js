@@ -20,6 +20,22 @@ const dynamicList = (function ($, window, main) {
         </label>`;
     }
 
+    function addParams(input) {
+        try {
+            const arr = JSON.parse(input.attr('append'));
+            let params = {};
+            arr.forEach((item) => {
+                const tmp = $('input, select, textarea').filter(`[name="${item}"]`).first();
+                params[item] = tmp.val();
+            });
+            params.name = input.val();
+            return $.param(params);
+        } catch (e) {
+            console.log(e);
+            return $.param({ name: input.val() });
+        }
+    }
+
     $('input[dynamic-list]').on('input', function () {
         const input = $(this);
         const id = input.attr('dynamic-list');
@@ -36,7 +52,7 @@ const dynamicList = (function ($, window, main) {
             return main.fillContainer(container, defaultText);
         }
 
-        const endpoint = input.attr('endpoint') + '?name=' + val;
+        const endpoint = input.attr('endpoint') + '?' + addParams(input);
         const loader = $(`#${id}-loader`);
         const autofill = input.attr('autofill');
         const listRadioName = input.attr('tmp-name');
@@ -71,6 +87,10 @@ const dynamicList = (function ($, window, main) {
 
     $(window.document).on('click', 'input[fill]', function () {
         const input = $(this);
-        $(`#${input.attr('fill')}`).val(input.val());
+        try {
+            $(`#${input.attr('fill')}`).val(input.val());
+        } catch (e) {
+            console.log('Autofill input not found!');
+        }
     });
 }(jQuery, window, main));
