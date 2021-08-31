@@ -14,7 +14,9 @@
 
 ## Setting up local environment
 
-- Download PHP `v.7.0.33` from **[here](https://drive.google.com/file/d/1lJrBvpO-SGr1FLaiV9sFtrK3dhgpj2hr/view?usp=sharing)**
+- Download PHP `v.7.0.33`
+  - [Windows](https://drive.google.com/file/d/1lJrBvpO-SGr1FLaiV9sFtrK3dhgpj2hr/view?usp=sharing) _(ZIP Archive)_
+  - [Linux](https://www.linuxfork.com/how-to-install-php-7-0-33-on-ubuntu-18-04-20-04-lts/) _(Instructions)_
 - Extract the above downloaded file to a suitable location
 - Add this folder to your path
   - Remove any other versions of PHP if present (**just removing them from your path will work**)
