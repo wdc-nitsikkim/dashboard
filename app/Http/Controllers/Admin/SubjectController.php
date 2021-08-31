@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -11,8 +12,10 @@ use Illuminate\Support\Facades\Route;
 use App\CustomHelper;
 use App\Models\Batch;
 use App\Models\Course;
+use App\Models\Subject;
 use App\Models\Semester;
 use App\Models\Department;
+use App\Models\SubjectType;
 use App\Models\RegisteredSubject;
 
 class SubjectController extends Controller {
@@ -107,6 +110,69 @@ class SubjectController extends Controller {
 
         return $redirectRoute ? redirect($redirectRoute)
             : redirect()->route('root.home');
+    }
+
+    public function add(Department $dept) {
+        $this->authorize('create', [Subject::class, $dept]);
+
+        $subjectTypes = SubjectType::all();
+
+        return view('admin.subjects.add', [
+            'department' => $dept,
+            'subjectTypes' => $subjectTypes
+        ]);
+    }
+
+    public function saveNew(Request $request, Department $dept) {
+        /* use for AJAX calls only, this function returns JSON responses */
+
+        $this->authorize('create', [Subject::class, $dept]);
+
+        $data = $request->validate([
+            'name' => 'required | array | min:1',
+            'name.*' => 'required | min:3',
+            'subject_type_id' => 'required | array | min:1',
+            'subject_type_id.*' => ['required', Rule::exists('subject_types', 'id')],
+            'code' => 'required | array | min:1',
+            'code.*' => 'required | string | size:2'
+        ]);
+
+        $countName = count($data['name']);
+        $countType = count($data['subject_type_id']);
+        $countCode = count($data['code']);
+        if (($countName != $countType) || ($countType != $countCode)) {
+            return abort(400);
+        }
+
+        try {
+            $subjectsArr = [];
+            $timestamp = now();
+
+            for ($i = 0; $i < $countName; $i++) {
+                $student = [
+                    'name' => $data['name'][$i],
+                    'subject_type_id' => $data['subject_type_id'][$i],
+                    'code' => $data['code'][$i],
+                    'department_id' => $dept->id,
+                    'created_at' => $timestamp,
+                    'updated_at' => $timestamp
+                ];
+                $subjectsArr[] = $student;
+            }
+
+            Subject::insert($subjectsArr);
+            Log::notice('Subjects bulk inserted!', [Auth::user(), $dept]);
+        } catch (\Exception $e) {
+            Log::debug('Failed to bulk insert subjects!', [Auth::user(), $dept]);
+            return abort(500);
+        }
+
+        session()->flash('status', 'success');
+        session()->flash('message', $countName . ' subjects added!');
+
+        return response()->json([
+            'redirect' => route('admin.department.home', $dept)
+        ], 201);
     }
 
     public function test() {
