@@ -37,13 +37,13 @@
             </button>
             <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
 
-                @foreach ($batches as $batch)
+                @foreach ($batches as $tmpBatch)
                     <a class="dropdown-item d-flex align-items-center"
                         href="{{ route('admin.subjects.addReg', [
                             'dept' => $department,
-                            'batch' => $batch
+                            'batch' => $tmpBatch
                         ]) }}">
-                        {{ $batch->course->name }} - {{ $batch->name }}
+                        {{ $tmpBatch->course->name }} - {{ $tmpBatch->name }}
                     </a>
                 @endforeach
 
@@ -62,7 +62,10 @@
     <div class="col-12 col-lg-7 col-sm-12">
         <div class="card card-body border-0 shadow mb-4">
             <form class="form-floating"
-                action="{{ route('admin.subjects.saveNew', $department) }}"
+                action="{{ route('admin.subjects.saveNewReg', [
+                    'dept' => $department,
+                    'batch' => $batch
+                ]) }}"
                 method="POST" id="bulk-subjects-form">
                 {{ csrf_field() }}
 
