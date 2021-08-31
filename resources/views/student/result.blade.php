@@ -87,7 +87,7 @@
 
                         <tr>
                             <td class="fw-bolder text-info">
-                                {{ strtoupper($subject->subject->code) }}
+                                {{ strtoupper($subject->subject_code) }}
                             </td>
                             <td class="fw-bolder">
                                 {{ $subject->subject->name }}
@@ -96,7 +96,7 @@
                             @foreach ($resultTypes as $type)
                                 @php
                                     $result = $student->result
-                                        ->where('subject_id', $subject->subject->id)
+                                        ->where('registered_subject_id', $subject->id)
                                         ->where('result_type_id', $type->id)->first();
 
                                     $scoreClass = 'text-danger';
