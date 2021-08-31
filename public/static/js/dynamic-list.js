@@ -11,13 +11,30 @@ const dynamicList = (function ($, window, main) {
      */
     const typegap = 750;
 
-    function getListItem(item, radioName, autofill) {
+    function getListItem(item, radioName, autofill, emitEvent = null) {
+        emitEvent = emitEvent == null ? '' : 'event="' + emitEvent + '"';
         return `<label class='list-group-item cur-pointer'>
             <input class='form-check-input me-1' type='radio' name='${radioName}'
-                fill='${autofill}' value='${item.id}'>
+                fill='${autofill}' value='${item.id}' ${emitEvent}>
             ID: <span class='fw-bolder'>${item.id}</span>,
             Name: <span class='fw-bolder'>${item.name}</span>
         </label>`;
+    }
+
+    function addParams(input) {
+        try {
+            const arr = JSON.parse(input.attr('append'));
+            let params = {};
+            arr.forEach((item) => {
+                const tmp = $('input, select, textarea').filter(`[name="${item}"]`).first();
+                params[item] = tmp.val();
+            });
+            params.name = input.val();
+            return $.param(params);
+        } catch (e) {
+            console.log(e);
+            return $.param({ name: input.val() });
+        }
     }
 
     $('input[dynamic-list]').on('input', function () {
@@ -36,10 +53,11 @@ const dynamicList = (function ($, window, main) {
             return main.fillContainer(container, defaultText);
         }
 
-        const endpoint = input.attr('endpoint') + '?name=' + val;
+        const endpoint = input.attr('endpoint') + '?' + addParams(input);
         const loader = $(`#${id}-loader`);
         const autofill = input.attr('autofill');
         const listRadioName = input.attr('tmp-name');
+        let emitEvent = input[0].hasAttribute('emitevent') ? input.attr('emitevent') : null;
 
         listTimer = setTimeout(() => {
             listAjax = $.ajax({
@@ -59,7 +77,7 @@ const dynamicList = (function ($, window, main) {
                 main.fillContainer(container);
 
                 response.forEach(item => {
-                    container.append(getListItem(item, listRadioName, autofill));
+                    container.append(getListItem(item, listRadioName, autofill, emitEvent));
                 });
             }).fail(() => {
                 console.log('Request failed!');
@@ -69,8 +87,20 @@ const dynamicList = (function ($, window, main) {
         }, typegap);
     });
 
+    /**
+     * @event click
+     * @returns {undefined|boolean}
+     */
     $(window.document).on('click', 'input[fill]', function () {
         const input = $(this);
-        $(`#${input.attr('fill')}`).val(input.val());
+        try {
+            $(`#${input.attr('fill')}`).val(input.val());
+        } catch (e) {
+            console.log('Autofill input not defined. Skipping...');
+        }
+        if (input[0].hasAttribute('event')) {
+            let event = new CustomEvent(input.attr('event'), { detail: {input: input} });
+            return window.dispatchEvent(event);
+        }
     });
 }(jQuery, window, main));

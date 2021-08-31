@@ -198,7 +198,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $regSubject->registeredSubject->subject->course->name }}
+                                        {{ $regSubject->registeredSubject->batch->course->name }}
                                     </td>
                                     <td class="fw-bolder">
                                         {{ $regSubject->registeredSubject->subject_code }}

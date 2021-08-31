@@ -21,13 +21,10 @@ class ResultController extends Controller {
         $resultTypes = ResultType::all();
         $semesters = Semester::all();
         $subjects = RegisteredSubject::where([
+                'batch_id' => $student->batch->id,
                 'semester_id' => $semester->id,
-                'department_id' => $student->department->id
-            ])->whereHas('subject', function ($query) use ($student, $semester) {
-                $query->where([
-                    'course_id' => $student->batch->course->id
-                ]);
-            })->get();
+                'department_id' => $student->department->id,
+            ])->get();
 
         return view('student.result', [
             'student' => $student,

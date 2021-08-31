@@ -1,12 +1,12 @@
-const students = (function ($, window) {
+const subjects = (function ($, window) {
     'use strict';
 
-    const form = $('#bulk-students-form');
-    const tbody = $('#students-table').find('tbody');
+    const form = $('#bulk-subjects-form');
+    const tbody = $('#subjects-table').find('tbody');
 
     $('#add-row').on('click', function () {
         const row = tbody.find('[row-clone]').first().clone(false);
-        return tbody.append(row);
+        tbody.append(row);
     });
 
     $(window.document).on('click', 'table [delete-row]', function () {
@@ -14,18 +14,12 @@ const students = (function ($, window) {
         return row.siblings().length > 0 ? row.remove() : false;
     });
 
-    $(window.document).on('input', 'table input[name="roll_number[]"]', function () {
-        const currentRow = $(this).closest('tr');
-        const rollNumberVal = $(this).val();
-        const emailInput = currentRow.find('input[name="email[]"]');
-        const append = '@nitsikkim.ac.in';
-
-        if (rollNumberVal?.length == 0) {
-            emailInput.val('');
-            return;
-        }
-
-        emailInput.val((rollNumberVal.substr(0, 7) + append).toLowerCase());
+    /**
+     * Custom event 'subjectChosen' is fired when subject is chosen via custom dynamic list
+     */
+    $(window).on('subjectChosen', function (e) {
+        const input = e.detail.input;
+        tbody.children('tr').last().find('input[name="subject_id[]"]').val(input.val());
     });
 
     form.on('submit', function (e) {

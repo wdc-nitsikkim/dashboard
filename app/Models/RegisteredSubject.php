@@ -18,7 +18,7 @@ class RegisteredSubject extends Model {
     /**
      * Relationships which should be eager loaded automatically
      */
-    protected $with = ['semester', 'subject.department', 'subject.course', 'subject.type'];
+    protected $with = ['semester', 'batch', 'subject.department', 'subject.type'];
 
     /**
      * Defines many-to-one relationship
@@ -52,7 +52,7 @@ class RegisteredSubject extends Model {
      * Custom dynamic accessor of model
      */
     public function getSubjectCodeAttribute() {
-        $code = mb_substr($this->subject->department->code, 0, 2) . $this->subject->course->id
+        $code = mb_substr($this->subject->department->code, 0, 2) . $this->batch->course_id
             . $this->semester->id . $this->subject->type->id . $this->subject->code;
         return strtoupper($code);
     }

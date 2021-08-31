@@ -35,8 +35,7 @@ class ManageUserController extends Controller {
             ->whereNotIn('id', $user->allowedDepartments->pluck('department_id')->toArray())
             ->get();
         $subjects = RegisteredSubject::whereNotIn('id',
-                $user->allowedSubjects->pluck('registered_subject_id')->toArray()
-            )->get();
+                $user->allowedSubjects->pluck('registered_subject_id')->toArray())->get();
         $allRoles = collect(CustomHelper::getRoles());
         $roles = $allRoles->diff($user->roles->pluck('role'));
 
