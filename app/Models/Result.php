@@ -20,7 +20,7 @@ class Result extends Model {
      * The attributes that are mass-assignable
      */
     protected $fillable = [
-        'result_type_id', 'student_id', 'subject_id', 'score'
+        'result_type_id', 'student_id', 'registered_subject_id', 'score'
     ];
 
     /**

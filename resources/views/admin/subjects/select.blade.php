@@ -38,7 +38,7 @@
                 @foreach ($preferred as $subject)
                     @component('components.inline.anchorBtn', [
                         'href' => route('admin.subjects.saveInSession', [
-                            'subject' => $subject->registeredSubject->subject_code,
+                            'subject' => $subject->registeredSubject->id,
                             'redirect' => $redirect
                         ]),
                         'classes' => 'btn-lg btn-outline-tertiary mb-2',

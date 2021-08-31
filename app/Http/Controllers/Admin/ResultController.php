@@ -12,11 +12,10 @@ use App\CustomHelper;
 use App\Models\Batch;
 use App\Models\Result;
 use App\Models\Student;
-use App\Models\Subject;
 use App\Models\Semester;
 use App\Models\Department;
 use App\Models\ResultType;
-use App\Models\DepartmentSubjectsTaught as Sub;
+use App\Models\RegisteredSubject;
 
 class ResultController extends Controller {
     /**
@@ -52,7 +51,7 @@ class ResultController extends Controller {
         return $response;
     }
 
-    public function show(Department $dept, Batch $batch, Subject $subject,
+    public function show(Department $dept, Batch $batch, RegisteredSubject $subject,
         ResultType $result_type = null) {
 
         $this->authorize('view', [Result::class, $subject]);
@@ -65,7 +64,7 @@ class ResultController extends Controller {
             ])->with(['result' => function ($query) use ($result_type, $subject) {
                 $query->where([
                     'result_type_id' => $result_type->id,
-                    'subject_id' => $subject->id
+                    'registered_subject_id' => $subject->id
                 ]);
             }])->orderBy('roll_number')->paginate($this->paginate);
 
@@ -139,7 +138,7 @@ class ResultController extends Controller {
     }
 
     public function save(Request $request, Department $dept, Batch $batch,
-        Subject $subject, ResultType $result_type) {
+        RegisteredSubject $subject, ResultType $result_type) {
 
         /* function primarily for use with AJAX requests */
 
@@ -153,7 +152,7 @@ class ResultController extends Controller {
         /* result array is formed as 'result[student_id] => score' */
         $result = $data['result'];
         $studentIds = array_keys($result);
-        $students = Student::select('id')->where([
+        $students = Student::withTrashed()->select('id')->where([
             'department_id' => $dept->id,
             'batch_id' => $batch->id
         ])->whereIn('id', $studentIds)->get();
@@ -165,7 +164,7 @@ class ResultController extends Controller {
             foreach ($studentIds as $studentId) {
                 $findResult = [
                     'student_id' => $studentId,
-                    'subject_id' => $subject->id,
+                    'registered_subject_id' => $subject->id,
                     'result_type_id' => $result_type->id
                 ];
 
