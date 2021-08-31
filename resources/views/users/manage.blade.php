@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-8">
         <div class="card border-0 shadow mb-4">
             <div class="card-body">
                 <h5 class="mb-2">Department Access</h5>
@@ -143,7 +143,7 @@
                         @slot('head')
                             @component('components.table.head', [
                                 'items' => [
-                                    'Name', 'Granted on', 'Revoke'
+                                    '#', 'Name', 'Granted on', 'Revoke'
                                 ]
                             ])
                             @endcomponent
@@ -152,6 +152,7 @@
                         @slot('body')
                             @foreach ($user->allowedDepartments as $dept)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td class="fw-bolder">{{ $dept->department->name }}</td>
                                     <td>
                                         {{ $dept->created_at }}
@@ -174,7 +175,7 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-12">
         <div class="card border-0 shadow mb-4">
             <div class="card-body">
                 <h5 class="mb-2">Subject Access</h5>
@@ -186,27 +187,33 @@
                         @slot('head')
                             @component('components.table.head', [
                                 'items' => [
-                                    'Code', 'Name', 'Granted on', 'Revoke'
+                                    '#', 'Course', 'Code', 'Name', 'Granted on', 'Revoke'
                                 ]
                             ])
                             @endcomponent
                         @endslot
 
                         @slot('body')
-                            @foreach ($user->allowedSubjects as $subject)
+                            @foreach ($user->allowedSubjects as $regSubject)
                                 <tr>
-                                    <td class="fw-bolder">
-                                        {{ strtoupper($subject->subject->code) }}
-                                    </td>
-                                    <td class="fw-bolder">{{ $subject->subject->name }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $subject->created_at }}
+                                        {{ $regSubject->registeredSubject->subject->course->name }}
+                                    </td>
+                                    <td class="fw-bolder">
+                                        {{ $regSubject->registeredSubject->subject_code }}
+                                    </td>
+                                    <td class="fw-bolder">
+                                        {{ $regSubject->registeredSubject->subject->name }}
+                                    </td>
+                                    <td>
+                                        {{ $regSubject->created_at }}
                                     </td>
                                     <td>
                                         @include('components.table.actionBtn.delete', [
                                             'href' => route('users.manage.revokeSubAccess', [
                                                 'user_id' => $user->id,
-                                                'dept_id' => $subject->subject_id
+                                                'subject_id' => $regSubject->registered_subject_id
                                             ])
                                         ])
                                     </td>
@@ -277,9 +284,9 @@
         <select class="form-select" id="subject_id" name="subject_id" required>
             <option value="" selected>Select a subject</option>
 
-            @foreach ($subjects as $subject)
-                <option value="{{ $subject->id }}">
-                    {{ strtoupper($subject->code) }} - {{ $subject->name }}</option>
+            @foreach ($subjects as $regSubject)
+                <option value="{{ $regSubject->id }}">
+                    {{ $regSubject->subject_code }} - {{ $regSubject->subject->name }}</option>
             @endforeach
 
         </select>

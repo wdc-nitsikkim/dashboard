@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 use App\CustomHelper;
 use App\Models\User;
-use App\Models\Subject;
 use App\Models\UserRole;
 use App\Models\Department;
-use App\Models\UserAccessSubject;
+use App\Models\RegisteredSubject;
+use App\Models\UserAccessRegSubject;
 use App\Models\UserRolePermission;
 use App\Models\UserAccessDepartment;
 
@@ -25,7 +25,7 @@ class ManageUserController extends Controller {
     public function manage($id) {
         $user = User::with([
             'allowedDepartments.department:id,code,name',
-            'allowedSubjects.subject:id,code,name',
+            'allowedSubjects.registeredSubject.subject',
             'roles.permissions'
         ])->withTrashed()->findOrFail($id);
 
@@ -34,9 +34,9 @@ class ManageUserController extends Controller {
         $departments = Department::select('id', 'name')
             ->whereNotIn('id', $user->allowedDepartments->pluck('department_id')->toArray())
             ->get();
-        $subjects = Subject::select('id', 'code', 'name')
-            ->whereNotIn('id', $user->allowedSubjects->pluck('subject_id')->toArray())
-            ->get();
+        $subjects = RegisteredSubject::whereNotIn('id',
+                $user->allowedSubjects->pluck('registered_subject_id')->toArray()
+            )->get();
         $allRoles = collect(CustomHelper::getRoles());
         $roles = $allRoles->diff($user->roles->pluck('role'));
 
@@ -178,9 +178,9 @@ class ManageUserController extends Controller {
         ]);
 
         try {
-            UserAccessSubject::create([
+            UserAccessRegSubject::create([
                 'user_id' => $user->id,
-                'subject_id' => $request->subject_id,
+                'registered_subject_id' => $request->subject_id,
                 'created_at' => $this->timestamp
             ]);
             Log::notice('Subject access granted.', [Auth::user(), $user]);
@@ -252,9 +252,9 @@ class ManageUserController extends Controller {
         $this->authorize('manage', [User::class, $user]);
 
         try {
-            UserAccessSubject::where([
+            UserAccessRegSubject::where([
                 'user_id' => $user->id,
-                'subject_id' => $subject_id
+                'registered_subject_id' => $subject_id
             ])->delete();
             Log::notice('Subject access revoked!', [Auth::user(), $subject_id, $user]);
         } catch (\Exception $e) {
