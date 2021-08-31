@@ -148,7 +148,8 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Type a name to search"
                                     dynamic-list="subjects-list" tmp-name="tmp_subject_id" autofill=""
-                                    endpoint="{{ route('api.searchSubject') }}" append='["department"]'>
+                                    endpoint="{{ route('api.searchSubject') }}" append='["department"]'
+                                    emitevent="subjectChosen">
 
                                 <span id="subjects-list-loader" class="input-group-text d-none">
                                     <div class="text-danger spinner-border spinner-border-sm"

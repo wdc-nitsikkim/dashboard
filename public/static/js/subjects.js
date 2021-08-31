@@ -1,4 +1,4 @@
-const students = (function ($, window) {
+const subjects = (function ($, window) {
     'use strict';
 
     const form = $('#bulk-subjects-form');
@@ -12,6 +12,14 @@ const students = (function ($, window) {
     $(window.document).on('click', 'table [delete-row]', function () {
         const row = $(this).closest('tr');
         return row.siblings().length > 0 ? row.remove() : false;
+    });
+
+    /**
+     * Custom event 'subjectChosen' is fired when subject is chosen via custom dynamic list
+     */
+    $(window).on('subjectChosen', function (e) {
+        const input = e.detail.input;
+        tbody.children('tr').last().find('input[name="subject_id[]"]').val(input.val());
     });
 
     form.on('submit', function (e) {

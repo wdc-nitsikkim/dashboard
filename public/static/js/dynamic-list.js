@@ -11,10 +11,11 @@ const dynamicList = (function ($, window, main) {
      */
     const typegap = 750;
 
-    function getListItem(item, radioName, autofill) {
+    function getListItem(item, radioName, autofill, emitEvent = null) {
+        emitEvent = emitEvent == null ? '' : 'event="' + emitEvent + '"';
         return `<label class='list-group-item cur-pointer'>
             <input class='form-check-input me-1' type='radio' name='${radioName}'
-                fill='${autofill}' value='${item.id}'>
+                fill='${autofill}' value='${item.id}' ${emitEvent}>
             ID: <span class='fw-bolder'>${item.id}</span>,
             Name: <span class='fw-bolder'>${item.name}</span>
         </label>`;
@@ -56,6 +57,7 @@ const dynamicList = (function ($, window, main) {
         const loader = $(`#${id}-loader`);
         const autofill = input.attr('autofill');
         const listRadioName = input.attr('tmp-name');
+        let emitEvent = input[0].hasAttribute('emitevent') ? input.attr('emitevent') : null;
 
         listTimer = setTimeout(() => {
             listAjax = $.ajax({
@@ -75,7 +77,7 @@ const dynamicList = (function ($, window, main) {
                 main.fillContainer(container);
 
                 response.forEach(item => {
-                    container.append(getListItem(item, listRadioName, autofill));
+                    container.append(getListItem(item, listRadioName, autofill, emitEvent));
                 });
             }).fail(() => {
                 console.log('Request failed!');
@@ -85,12 +87,20 @@ const dynamicList = (function ($, window, main) {
         }, typegap);
     });
 
+    /**
+     * @event click
+     * @returns {undefined|boolean}
+     */
     $(window.document).on('click', 'input[fill]', function () {
         const input = $(this);
         try {
             $(`#${input.attr('fill')}`).val(input.val());
         } catch (e) {
-            console.log('Autofill input not found!');
+            console.log('Autofill input not defined. Skipping...');
+        }
+        if (input[0].hasAttribute('event')) {
+            let event = new CustomEvent(input.attr('event'), { detail: {input: input} });
+            return window.dispatchEvent(event);
         }
     });
 }(jQuery, window, main));
