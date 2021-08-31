@@ -175,6 +175,25 @@ class SubjectController extends Controller {
         ], 201);
     }
 
+    public function addReg(Department $dept, Batch $batch = null) {
+        $this->authorize('create', [Subject::class, $dept]);
+
+        $batches = Batch::limit(10)->orderByDesc('id')->get();
+        $departments = Department::all();
+        $semesters = Semester::all();
+        $batch = $batch ?? (session()->has($this->sessionKeys['selectedBatch'])
+                ? session($this->sessionKeys['selectedBatch'])
+                : $batches->last());
+
+        return view('admin.subjects.addReg', [
+            'batch' => $batch,
+            'batches' => $batches,
+            'semesters' => $semesters,
+            'department' => $dept,
+            'departments' => $departments
+        ]);
+    }
+
     public function test() {
         return 'Test';
     }
