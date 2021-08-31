@@ -1,6 +1,6 @@
 {{--
     $department -> single department model
-    $batch -> single batch model
+    $subjectTypes -> collection of subjectType model
 --}}
 
 @extends('layouts.admin', ['title' => 'Add Subjects'])
