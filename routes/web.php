@@ -260,6 +260,8 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware('auth')->
 
             Route::get('/test', 'SubjectController@test');
 
+            Route::get('/{dept}/add', 'SubjectController@add')->name('add');
+            Route::post('/{dept}/add', 'SubjectController@saveNew')->name('saveNew');
             Route::get('/{dept}/{batch}/{semester?}/{course?}', 'SubjectController@show')->name('show');
         });
 
