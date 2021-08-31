@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Student;
-use App\Models\Subject;
 use App\Models\ResultType;
+use App\Models\RegisteredSubject;
 use App\Traits\GlobalAccessors;
 
 class Result extends Model {
@@ -53,7 +53,7 @@ class Result extends Model {
      * Defines many-to-one relationship
      */
     public function subject() {
-        return $this->belongsTo(Subject::class, 'subject_id')->withDefault();
+        return $this->belongsTo(RegisteredSubject::class, 'registered_subject_id')->withDefault();
     }
 
     /**
