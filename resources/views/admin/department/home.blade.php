@@ -76,13 +76,27 @@
         <div class="card shadow h-100">
             <div class="card-body">
                 <h5 class="card-title">
-                    <span class="material-icons me-1">today</span>
-                    Timetable & Syllabus
+                    <span class="material-icons me-1">library_books</span>
+                    Add Base Subjects
                 </h5>
-                <p class="card-text">Update timetable/syllabus semester-wise</p>
+                <p class="card-text">Add base subjects offered by this department</p>
             </div>
             <div class="card-footer">
-                <a href="#!" class="small text-info">Go to page</a>
+                <a href="{{ route('admin.subjects.add', $department) }}" class="small text-info">Add</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card shadow h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span class="material-icons me-1">class</span>
+                    Register Subjects
+                </h5>
+                <p class="card-text">Register subjects taught to students of this department (batchwise)</p>
+            </div>
+            <div class="card-footer">
+                <a href="{{ route('admin.subjects.addReg', $department) }}" class="small text-info">Follow Link</a>
             </div>
         </div>
     </div>
