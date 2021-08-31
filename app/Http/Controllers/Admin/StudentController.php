@@ -169,10 +169,10 @@ class StudentController extends Controller {
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp
                 ];
-                $studentArr[] = $student;
+                $studentsArr[] = $student;
             }
 
-            Student::insert($studentArr);
+            Student::insert($studentsArr);
         } catch (\Exception $e) {
             Log::debug('Failed to bulk insert students!', [Auth::user(), $dept, $batch]);
             return abort(500);
