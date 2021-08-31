@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -149,7 +150,7 @@ class SubjectController extends Controller {
             $timestamp = now();
 
             for ($i = 0; $i < $countName; $i++) {
-                $student = [
+                $subject = [
                     'name' => $data['name'][$i],
                     'subject_type_id' => $data['subject_type_id'][$i],
                     'code' => $data['code'][$i],
@@ -157,7 +158,7 @@ class SubjectController extends Controller {
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp
                 ];
-                $subjectsArr[] = $student;
+                $subjectsArr[] = $subject;
             }
 
             Subject::insert($subjectsArr);
@@ -192,6 +193,79 @@ class SubjectController extends Controller {
             'department' => $dept,
             'departments' => $departments
         ]);
+    }
+
+    public function saveNewReg(Request $request, Department $dept, Batch $batch) {
+        /* use for AJAX calls only, this function returns JSON responses */
+
+        $this->authorize('create', [Subject::class, $dept]);
+
+        $data = $request->validate([
+            'semester_id' => 'required | array | min:1',
+            'semester_id.*' => ['required', Rule::exists('semesters', 'id')],
+            'credit' => 'required | array | min:1',
+            'credit.*' => ['required', 'numeric', 'between:1,6'],
+            'subject_id' => 'required | array | min:1',
+            'subject_id.*' => ['required', Rule::exists('subjects', 'id')]
+        ]);
+
+        $countSems = count($data['semester_id']);
+        $countCredit = count($data['credit']);
+        $countSubIds = count($data['subject_id']);
+        $skipped = 0;
+        if (($countSems != $countCredit) || ($countCredit != $countSubIds)) {
+            return abort(400);
+        }
+
+        $dbSubjects = RegisteredSubject::where([
+            'department_id' => $dept->id,
+            'batch_id' => $batch->id
+        ])->get();
+
+        DB::beginTransaction();
+        try {
+            $subjectsArr = [];
+            $timestamp = now();
+
+            for ($i = 0; $i < $countSems; $i++) {
+                /* custom composite unique key validation */
+                $tmp = $dbSubjects->where('semester_id', $data['semester_id'][$i])
+                    ->where('subject_id', $data['subject_id'][$i])->first();
+
+                if ($tmp != null) {
+                    $skipped++;
+                    continue;
+                }
+
+                $student = [
+                    'department_id' => $dept->id,
+                    'batch_id' => $batch->id,
+                    'semester_id' => $data['semester_id'][$i],
+                    'credit' => $data['credit'][$i],
+                    'subject_id' => $data['subject_id'][$i],
+                    'created_at' => $timestamp,
+                    'updated_at' => $timestamp
+                ];
+                $subjectsArr[] = $student;
+            }
+
+            /* Insert after performing final unique check */
+            RegisteredSubject::insert(collect($subjectsArr)->unique()->toArray());
+            DB::commit();
+            Log::notice('Registered subjects bulk inserted!', [Auth::user(), $dept, $batch]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::debug('Failed to bulk insert registered subjects!', [Auth::user(), $e->getMessage(), $dept, $batch]);
+            return abort(500);
+        }
+
+        session()->flash('status', 'success');
+        session()->flash('message', ($countSems - $skipped) . ' subject(s) added & '
+            . $skipped . ' subject(s) skipped!');
+
+        return response()->json([
+            'redirect' => route('admin.department.home', $dept)
+        ], 201);
     }
 
     public function test() {
