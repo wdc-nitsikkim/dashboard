@@ -17,19 +17,19 @@ class CreateResultsTable extends Migration
             $table->increments('id');
             $table->unsignedTinyInteger('result_type_id');
             $table->unsignedInteger('student_id');
-            $table->unsignedMediumInteger('subject_id');
+            $table->unsignedInteger('registered_subject_id');
             $table->unsignedDecimal('score')->nullable(false);
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['result_type_id', 'student_id', 'subject_id']);
+            $table->unique(['result_type_id', 'student_id', 'registered_subject_id']);
             $table->foreign('result_type_id')->references('id')
                 ->on('result_types')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('student_id')->references('id')->on('students')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('subject_id')->references('id')->on('subjects')
-                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('registered_subject_id')->references('id')->on('registered_subjects')
+                ->onUpdate('cascade')->onDelete('restrict');
         });
     }
 
