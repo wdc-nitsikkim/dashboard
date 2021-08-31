@@ -111,10 +111,9 @@ class ResultController extends Controller {
         $semester = $semester ?? $semesters->first();
         $subjects = RegisteredSubject::where([
                 'department_id' => $dept->id,
-                'semester_id' => $semester->id
-            ])->whereHas('subject', function ($query) use ($batch, $semester) {
-                    $query->where('course_id', $batch->course->id);
-            })->get();
+                'semester_id' => $semester->id,
+                'batch_id' => $batch->id
+            ])->get();
         $students = Student::withTrashed()->where([
                 'batch_id' => $batch->id,
                 'department_id' => $dept->id
