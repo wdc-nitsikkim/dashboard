@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\Subject;
 
 class PublicApiController extends Controller {
     private $maxResults = 10;
@@ -30,5 +31,19 @@ class PublicApiController extends Controller {
         $profiles = Profile::select('id', 'name')->where('name', 'like', $name)
             ->take($this->maxResults)->get()->toJson();
         return $profiles;
+    }
+
+    public function searchSubject(Request $request) {
+        $request->validate([
+            'name' => 'required | min:1',
+            'department' => 'nullable | numeric'
+        ]);
+
+        $name = '%' . $request->name . '%';
+        $subjects = Subject::select('id', 'name')->where('name', 'like', $name)
+            ->when($request->department ?? false, function ($query) use ($request) {
+                $query->where('department_id', $request->department);
+            })->take($this->maxResults + 5)->get()->toJson();
+        return $subjects;
     }
 }

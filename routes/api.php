@@ -22,4 +22,5 @@ Route::name('api.')->group(function () {
         ->name('searchUsersByName');
     Route::get('/search-profiles', 'PublicApiController@searchProfilesByName')
         ->name('searchProfilesByName');
+    Route::get('/search-subjects', 'PublicApiController@searchSubject')->name('searchSubject');
 });
