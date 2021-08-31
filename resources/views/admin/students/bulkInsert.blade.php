@@ -50,7 +50,7 @@
                 @endslot
 
                 @slot('body')
-                        <tr>
+                        <tr row-clone>
                             <td>
                                 <input type="text" class="form-control" placeholder="Name"
                                     name="name[]" required>
@@ -65,7 +65,7 @@
                                     name="email[]" required>
                             </td>
                             <td>
-                                <span class="material-icons disabled">delete</span>
+                                <span class="material-icons cur-pointer text-danger" delete-row>delete</span>
                             </td>
                         </tr>
 

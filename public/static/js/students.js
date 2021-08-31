@@ -4,37 +4,14 @@ const students = (function ($, window) {
     const form = $('#bulk-students-form');
     const tbody = $('#students-table').find('tbody');
 
-    /**
-     * @constant HTMLElementString
-     */
-    const row = `
-        <tr>
-            <td>
-                <input type="text" class="form-control" placeholder="Name"
-                    name="name[]" required>
-            </td>
-            <td>
-                <input type="text" class="form-control"
-                    placeholder="Roll Number" name="roll_number[]"
-                    required>
-            </td>
-            <td>
-                <input type="email" class="form-control"
-                    placeholder="Email" name="email[]" required>
-            </td>
-            <td>
-                <span class="material-icons cur-pointer text-danger"
-                    delete-row>delete</span>
-            </td>
-        </tr>
-    `;
-
     $('#add-row').on('click', function () {
-        tbody.append(row);
+        const row = tbody.find('[row-clone]').first().clone(false);
+        return tbody.append(row);
     });
 
     $(window.document).on('click', 'table [delete-row]', function () {
-        $(this).closest('tr').remove();
+        const row = $(this).closest('tr');
+        return row.siblings().length > 0 ? row.remove() : false;
     });
 
     $(window.document).on('input', 'table input[name="roll_number[]"]', function () {
