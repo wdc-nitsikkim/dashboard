@@ -122,10 +122,10 @@
                 </li>
                 <li class="nav-item">
                     <a href="#!" class="nav-link" title="Semester Registration">
-                        <span class="material-icons sidebar-icon">
+                        <span class="material-icons sidebar-icon text-gray-500">
                             app_registration
                         </span>
-                        <span class="sidebar-text">Registration</span>
+                        <span class="sidebar-text text-gray-500">Registration</span>
                     </a>
                 </li>
                 <li class="nav-item {{ Route::is('student.result') ? 'active' : '' }}">
