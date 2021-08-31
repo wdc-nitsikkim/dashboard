@@ -60,7 +60,7 @@ class SubjectController extends Controller {
             'semester_id' => $semester->id,
             'department_id' => $dept->id
         ])->when($course ?? false, function ($query) use ($course) {
-            $query->whereHas('subject', function ($query) use ($course) {
+            $query->whereHas('batch', function ($query) use ($course) {
                 $query->where('course_id', $course->id);
             });
         })->orderByDesc('credit')->paginate($this->paginate);

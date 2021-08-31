@@ -100,7 +100,7 @@
                                 <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                             </td>
                             <td>
-                                {{ $courses->where('id', $subject->subject->course_id)->first()->name }}
+                                {{ $courses->where('id', $subject->batch->course_id)->first()->name }}
                             </td>
                             <td>
                                 {{ $currentSemester->name }}
