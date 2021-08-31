@@ -158,14 +158,16 @@ const main = (function ($, window, ls) {
         const headClone = $(window.document).find('head').clone();
         headClone.find('meta').filter('[name="viewport"]').attr('content', 'width=1280, initial-scale=1');
 
-        printWindow.document.head.innerHTML = headClone[0].innerHTML;
+        printWindow.document.head.innerHTML = headClone[0].innerHTML + printStyles;
         printWindow.document.body.appendChild($(content).clone()[0]);
 
         printWindow.onload = () => {
             if (! printWindow.focus()) { printWindow.focus(); }
             printWindow.window.print();
             printWindow.onafterprint = function () {
-                printWindow.close();
+                setTimeout(() => {
+                    printWindow.close();
+                }, 5000);
             };
         };
     }

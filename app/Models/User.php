@@ -10,9 +10,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Student;
 use App\Models\UserRole;
 use App\Models\UserProfileLink;
-use App\Models\UserAccessSubject;
 use App\Models\UserRolePermission;
 use App\Models\UserAccessDepartment;
+use App\Models\UserAccessRegSubject;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
@@ -52,7 +52,7 @@ class User extends Authenticatable
      *
      */
     public function allowedSubjects() {
-        return $this->hasMany(UserAccessSubject::class, 'user_id');
+        return $this->hasMany(UserAccessRegSubject::class, 'user_id');
     }
 
     /**

@@ -10,7 +10,7 @@
     $resultTypes -> collection of resultType model
 --}}
 
-@extends('layouts.admin', ['title' => 'Students Results - ' . strtoupper($subject->code)])
+@extends('layouts.admin', ['title' => 'Students Results - ' . $subject->subject_code])
 
 @section('content')
 
@@ -31,7 +31,7 @@
 
     @slot('subheading')
         <h5 class="fw-bolder">
-            {{ $subject->name }} ({{ strtoupper($subject->code) }})
+            {{ $subject->subject->name }} ({{ $subject->subject_code }})
         </h5>
 
         <div>
@@ -184,9 +184,9 @@
                                 </td>
 
                                 @php
-                                    $result = $student->result->where('subject_id', $subject->id)->isEmpty()
+                                    $result = $student->result->where('registered_subject_id', $subject->id)->isEmpty()
                                         ? null
-                                        : $student->result->where('subject_id', $subject->id)->first();
+                                        : $student->result->where('registered_subject_id', $subject->id)->first();
 
                                     $scoreClass = 'text-danger';
                                     $score = '';

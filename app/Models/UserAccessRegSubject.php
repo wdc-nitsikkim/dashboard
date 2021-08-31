@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
-use App\Models\Subject;
+use App\Models\RegisteredSubject;
 use App\Traits\GlobalAccessors;
 
-class UserAccessSubject extends Model {
+class UserAccessRegSubject extends Model {
     use GlobalAccessors;
 
-    protected $table = 'user_access_subjects';
+    protected $table = 'user_access_reg_subjects';
     public $timestamps = false;
 
     /**
      * The attributes that are mass-assignable
      */
-    protected $fillable = ['user_id', 'subject_id', 'created_at'];
+    protected $fillable = ['user_id', 'registered_subject_id', 'created_at'];
 
     /**
      * Defines many-to-one relationship
@@ -29,7 +29,7 @@ class UserAccessSubject extends Model {
     /**
      * Defines many-to-one relationship
      */
-    public function subject() {
-        return $this->belongsTo(Subject::class, 'subject_id')->withDefault();
+    public function registeredSubject() {
+        return $this->belongsTo(RegisteredSubject::class, 'registered_subject_id')->withDefault();
     }
 }

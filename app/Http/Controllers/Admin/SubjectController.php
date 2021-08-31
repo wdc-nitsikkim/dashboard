@@ -9,11 +9,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
 use App\CustomHelper;
+use App\Models\Batch;
 use App\Models\Course;
-use App\Models\Subject;
 use App\Models\Semester;
 use App\Models\Department;
-use App\Models\DepartmentSubjectsTaught as Sub;
+use App\Models\RegisteredSubject;
 
 class SubjectController extends Controller {
     /**
@@ -34,84 +34,66 @@ class SubjectController extends Controller {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function show(Request $request) {
-        $courses        = Course::all();
-        $semesters      = Semester::all();
-        $departments    = Department::select('id', 'code', 'name')->get();
+    public function handleRedirect() {
+        $redirectRoute = route('admin.subjects.handleRedirect');
+        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute,
+            ['selectedDepartment', 'selectedBatch']);
 
-        $dept           = $request->dept ? $departments->where('code', $request->dept)->first() : null;
-        $course         = $request->course ? $courses->where('code', $request->course)->first() : null;
-        $semester       = $request->semester ? $semesters->where('id', $request->semester)->first() : null;
-
-        $route = 'admin.subjects.show';
-        $subjects = Subject::when($dept, function ($query) use ($dept) {
-                $query->where('department_id', $dept->id);
-            })->when($semester ?? false, function ($query) use ($semester) {
-                $query->where('semester_id', $semester->id);
-            })->when($course ?? false, function ($query) use ($course) {
-                $query->where('course_id', $course->id);
-            })->paginate($this->paginate);
-
-        $subjects->setPath(route($route, [
-            'dept' => $request->dept,
-            'course' => $request->course,
-            'semester' => $request->semester
-        ]));
-
-        return view('admin.subjects.show', [
-            'subjects' => $subjects->toArray(),
-            'baseRoute' => $route,
-            'courses' => $courses,
-            'semesters' => $semesters,
-            'departments' => $departments,
-            'currentCourse' => $course,
-            'currentSemester' => $semester,
-            'currentDepartment' => $dept,
-            'secondaryText' => 'Subjects belonging to department',
-            'pagination' => $subjects->links('vendor.pagination.default')
-        ]);
+        if (is_bool($response)) {
+            return redirect()->route('admin.subjects.show', [
+                'dept' => session($this->sessionKeys['selectedDepartment']),
+                'batch' => session($this->sessionKeys['selectedBatch']),
+            ]);
+        }
+        return $response;
     }
 
-    public function showSyllabusWise(Request $request) {
+    public function show(Department $dept, Batch $batch, Semester $semester = null, Course $course = null) {
         $courses        = Course::all();
         $semesters      = Semester::all();
-        $departments    = Department::select('id', 'code', 'name')->get();
 
-        $dept           = $request->dept ? $departments->where('code', $request->dept)->first() : null;
-        $course         = $request->course ? $courses->where('code', $request->course)->first() : null;
-        $semester       = $request->semester ? $semesters->where('id', $request->semester)->first() : null;
+        $route = 'admin.subjects.show';
+        $semester = $semester ?? $semesters->where('id', CustomHelper::getSemesterFromYear($batch->start_year))->first();
 
-        $route = 'admin.subjects.showSyllabusWise';
-        $subjects = Sub::with('subject')->when($dept, function ($query) use ($dept) {
-                $query->where('department_id', $dept->id);
-            })->when($semester ?? false, function ($query) use ($semester) {
-                $query->whereHas('subject', function ($query) use ($semester) {
-                    $query->where('semester_id', $semester->id);
-                });
-            })->when($course ?? false, function ($query) use ($course) {
-                $query->whereHas('subject', function ($query) use ($course) {
-                    $query->where('course_id', $course->id);
-                });
-            })->paginate($this->paginate);
+        $subjects = RegisteredSubject::where([
+            'batch_id' => $batch->id,
+            'semester_id' => $semester->id,
+            'department_id' => $dept->id
+        ])->when($course ?? false, function ($query) use ($course) {
+            $query->whereHas('subject', function ($query) use ($course) {
+                $query->where('course_id', $course->id);
+            });
+        })->orderByDesc('credit')->paginate($this->paginate);
 
         return view('admin.subjects.show', [
-            'subjects' => $subjects->toArray(),
-            'nestedSubject' => true,
+            'subjects' => $subjects,
             'baseRoute' => $route,
             'courses' => $courses,
             'semesters' => $semesters,
-            'departments' => $departments,
+            'currentBatch' => $batch,
             'currentCourse' => $course,
             'currentSemester' => $semester,
             'currentDepartment' => $dept,
-            'secondaryText' => 'Subjects registered in syllabus',
             'pagination' => $subjects->links('vendor.pagination.default')
         ]);
     }
 
     public function select() {
-        $preferred = Auth::user()->allowedSubjects()->with('subject:id,code,name')->get();
-        $subjects = Subject::select('id', 'code', 'name', 'semester_id')->get();
+        $dept = false;
+        $batch = false;
+        if (session()->has($this->sessionKeys['selectedDepartment'])) {
+            $dept = session($this->sessionKeys['selectedDepartment']);
+        }
+        if (session()->has($this->sessionKeys['selectedBatch'])) {
+            $batch = session($this->sessionKeys['selectedBatch']);
+        }
+
+        $preferred = Auth::user()->allowedSubjects()->with('registeredSubject')->get();
+        $subjects = RegisteredSubject::when($dept, function ($query) use ($dept) {
+            $query->where('department_id', $dept->id);
+        })->when($batch, function ($query) use ($batch) {
+            $query->where('batch_id', $batch->id);
+        })->get();
 
         return view('admin.subjects.select', [
             'preferred' => $preferred,
@@ -119,12 +101,12 @@ class SubjectController extends Controller {
         ]);
     }
 
-    public function saveInSession(Request $request, Subject $subject) {
+    public function saveInSession(Request $request, RegisteredSubject $subject) {
         session([$this->sessionKeys['selectedSubject'] => $subject]);
         $redirectRoute = $request->input('redirect');
 
         return $redirectRoute ? redirect($redirectRoute)
-            : redirect()->route('admin.subjects.show');
+            : redirect()->route('root.home');
     }
 
     public function test() {

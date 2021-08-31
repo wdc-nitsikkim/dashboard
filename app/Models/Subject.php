@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Course;
-use App\Models\Semester;
 use App\Models\Department;
+use App\Models\SubjectType;
 use App\Traits\GlobalMutators;
 
 class Subject extends Model {
@@ -24,20 +24,17 @@ class Subject extends Model {
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * Match route parameter of this model to specified string (column)
-     * instead of default 'id'
-     *
-     * @return string
+     * Defines many-to-one relationship
      */
-    public function getRouteKeyName() {
-        return 'code';
+    public function department() {
+        return $this->belongsTo(Department::class, 'department_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function department() {
-        return $this->belongsTo(Department::class, 'department_id')->withDefault();
+    public function type() {
+        return $this->belongsTo(SubjectType::class, 'subject_type_id')->withDefault();
     }
 
     /**
@@ -48,15 +45,8 @@ class Subject extends Model {
     }
 
     /**
-     * Defines many-to-one relationship
-     */
-    public function semester() {
-        return $this->belongsTo(Semester::class, 'semester_id')->withDefault();
-    }
-
-    /**
      * Set name
-     * Override trait function
+     * Override trait mutator
      *
      * @param string $value
      * @return void

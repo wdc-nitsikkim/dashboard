@@ -10,7 +10,7 @@ use App\Models\Student;
 use App\Models\Semester;
 use App\Models\ResultType;
 use App\Models\StudentInfo;
-use App\Models\DepartmentSubjectsTaught as Sub;
+use App\Models\RegisteredSubject;
 
 class ResultController extends Controller {
     public function show(Student $student_by_roll_number, Semester $semester) {
@@ -20,12 +20,12 @@ class ResultController extends Controller {
         $student->load(['batch.course', 'department', 'result']);
         $resultTypes = ResultType::all();
         $semesters = Semester::all();
-        $subjects = Sub::with('subject')
-            ->where('department_id', $student->department->id)
-            ->whereHas('subject', function ($query) use ($student, $semester) {
+        $subjects = RegisteredSubject::where([
+                'semester_id' => $semester->id,
+                'department_id' => $student->department->id
+            ])->whereHas('subject', function ($query) use ($student, $semester) {
                 $query->where([
-                    'course_id' => $student->batch->course->id,
-                    'semester_id' => $semester->id
+                    'course_id' => $student->batch->course->id
                 ]);
             })->get();
 
