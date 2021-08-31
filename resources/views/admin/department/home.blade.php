@@ -53,7 +53,8 @@
                 <a href="{{ route('admin.profiles.search', $deptParam) }}"
                     class="small text-info">Go to page</a>
                 <a href="{{ route('admin.department.orderPeople', $department->code) }}"
-                    class="small text-info ms-2">Manage</a>
+                    data-bs-toggle="tooltip" title="Allows you to reorder the sequence of faculties/staff in department"
+                    class="small text-info ms-2">Re-order</a>
             </div>
         </div>
     </div>

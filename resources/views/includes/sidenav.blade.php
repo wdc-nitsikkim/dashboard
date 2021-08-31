@@ -267,8 +267,8 @@
                             </li>
                             <li class="nav-item {{ false ? 'active' : '' }}">
                                 <a class="nav-link" href="#!">
-                                    <span class="sidebar-text-contracted">R</span>
-                                    <span class="sidebar-text">Researchers</span>
+                                    <span class="sidebar-text-contracted text-gray-500">R</span>
+                                    <span class="sidebar-text text-gray-500">Researchers</span>
                                 </a>
                             </li>
                         </ul>
