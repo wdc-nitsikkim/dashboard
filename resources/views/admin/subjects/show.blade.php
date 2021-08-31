@@ -103,7 +103,7 @@
                                 {{ $courses->where('id', $subject->subject->course_id)->first()->name }}
                             </td>
                             <td>
-                                {{ $semesters->where('id', $subject->semester_id)->first()->name }}
+                                {{ $currentSemester->name }}
                             </td>
                             <td class="fw-bolder">
                                 {{ $subject->subjectCode }}
