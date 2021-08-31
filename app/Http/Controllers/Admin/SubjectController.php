@@ -79,8 +79,21 @@ class SubjectController extends Controller {
     }
 
     public function select() {
-        $preferred = Auth::user()->allowedSubjects()->with('subject:id,code,name')->get();
-        $subjects = Subject::select('id', 'code', 'name', 'semester_id')->get();
+        $dept = false;
+        $batch = false;
+        if (session()->has($this->sessionKeys['selectedDepartment'])) {
+            $dept = session($this->sessionKeys['selectedDepartment']);
+        }
+        if (session()->has($this->sessionKeys['selectedBatch'])) {
+            $batch = session($this->sessionKeys['selectedBatch']);
+        }
+
+        $preferred = Auth::user()->allowedSubjects()->with('registeredSubject')->get();
+        $subjects = RegisteredSubject::when($dept, function ($query) use ($dept) {
+            $query->where('department_id', $dept->id);
+        })->when($batch, function ($query) use ($batch) {
+            $query->where('batch_id', $batch->id);
+        })->get();
 
         return view('admin.subjects.select', [
             'preferred' => $preferred,
@@ -88,7 +101,7 @@ class SubjectController extends Controller {
         ]);
     }
 
-    public function saveInSession(Request $request, Subject $subject) {
+    public function saveInSession(Request $request, RegisteredSubject $subject) {
         session([$this->sessionKeys['selectedSubject'] => $subject]);
         $redirectRoute = $request->input('redirect');
 

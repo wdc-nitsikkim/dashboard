@@ -8,7 +8,7 @@
 @section('content')
 
 @php
-    $subjectModel = 'App\\Models\\Subject';
+    $redirectHandler = route('admin.subjects.select');
 @endphp
 
 @component('components.page.heading')
@@ -18,7 +18,9 @@
 
     @slot('sideButtons')
         @include('partials.pageSideBtns', [
-            'help' => '#!'
+            'help' => '#!',
+            'batchRedirect' => $redirectHandler,
+            'deptRedirect' => $redirectHandler
         ])
     @endslot
 @endcomponent
@@ -36,7 +38,7 @@
                 @foreach ($preferred as $subject)
                     @component('components.inline.anchorBtn', [
                         'href' => route('admin.subjects.saveInSession', [
-                            'subject' => $subject->subject->code,
+                            'subject' => $subject->registeredSubject->subject_code,
                             'redirect' => $redirect
                         ]),
                         'classes' => 'btn-lg btn-outline-tertiary mb-2',
@@ -44,9 +46,9 @@
                     ])
                         @slot('attr')
                             spoof spoof-method="POST"
-                            data-bs-placement="top" title="{{ $subject->subject->name }}"
+                            data-bs-placement="top" title="{{ $subject->registeredSubject->subject->name }}"
                         @endslot
-                        {{ strtoupper($subject->subject->code) }}
+                        {{ $subject->registeredSubject->subject_code }}
                     @endcomponent
                 @endforeach
             @else
@@ -90,18 +92,18 @@
                 @foreach ($subjects as $subject)
                     @component('components.inline.anchorBtn', [
                         'href' => route('admin.subjects.saveInSession', [
-                            'subject' => $subject->code,
+                            'subject' => $subject->id,
                             'redirect' => $redirect
                         ]),
                         'classes' => 'btn-lg btn-outline-tertiary mb-2',
                         'tooltip' => true
                     ])
                         @slot('attr')
-                            name="{{ $subject->name }}"
+                            name="{{ $subject->subject->name }}"
                             spoof spoof-method="POST"
-                            data-bs-placement="top" title="{{ $subject->name }}"
+                            data-bs-placement="top" title="{{ $subject->subject->name }}"
                         @endslot
-                        {{ strtoupper($subject->code) }}
+                        {{ $subject->subject_code }}
                     @endcomponent
                 @endforeach
             @else
