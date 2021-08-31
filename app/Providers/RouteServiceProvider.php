@@ -8,7 +8,6 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use App\Models\Batch;
 use App\Models\Course;
 use App\Models\Student;
-use App\Models\Subject;
 use App\Models\Department;
 
 class RouteServiceProvider extends ServiceProvider
@@ -42,7 +41,6 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::model('dept', Department::class);
         Route::model('course', Course::class);
-        Route::model('subject', Subject::class);
     }
 
     /**
