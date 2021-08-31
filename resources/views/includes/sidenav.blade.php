@@ -434,11 +434,12 @@
                     <div class="multi-level collapse " role="list" id="submenu-subjects" aria-expanded="false">
 
                         @php
-                            $routeUrl = ($isDeptSelected)
+                            $routeUrl = ($isDeptSelected && $isBatchSelected)
                                 ? route('admin.subjects.show', [
-                                        'dept' => $department
-                                    ])
-                                : route('admin.subjects.show');
+                                    'dept' => $department,
+                                    'batch' => $batch
+                                ])
+                                : route('admin.subjects.handleRedirect')
                         @endphp
 
                         <ul class="flex-column nav">
@@ -446,12 +447,6 @@
                                 <a class="nav-link" href="{{ $routeUrl }}">
                                     <span class="sidebar-text-contracted">L</span>
                                     <span class="sidebar-text">List</span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ Route::is('admin.subjects.showSyllabusWise') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('admin.subjects.showSyllabusWise') }}">
-                                    <span class="sidebar-text-contracted">S</span>
-                                    <span class="sidebar-text">Syllabus</span>
                                 </a>
                             </li>
                         </ul>
