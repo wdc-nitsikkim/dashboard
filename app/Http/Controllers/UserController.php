@@ -95,7 +95,7 @@ class UserController extends Controller {
 
         $user = User::with([
             'allowedDepartments.department:id,code,name',
-            'allowedSubjects.subject:id,code,name',
+            'allowedSubjects.registeredSubject.subject',
             'roles.permissions',
             'profileLink'
         ])->withTrashed()->findOrFail($id);
