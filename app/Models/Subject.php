@@ -33,7 +33,7 @@ class Subject extends Model {
     /**
      * Defines many-to-one relationship
      */
-    public function tyoe() {
+    public function type() {
         return $this->belongsTo(SubjectType::class, 'subject_type_id')->withDefault();
     }
 
