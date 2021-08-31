@@ -11,6 +11,10 @@ class Course extends Model {
     protected $table = 'courses';
     public $timestamps = false;
 
+    public function getRouteKeyName() {
+        return 'code';
+    }
+
     /**
      * Defines one-to-many relationship
      */
