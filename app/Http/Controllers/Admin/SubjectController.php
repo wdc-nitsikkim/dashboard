@@ -106,7 +106,7 @@ class SubjectController extends Controller {
         $redirectRoute = $request->input('redirect');
 
         return $redirectRoute ? redirect($redirectRoute)
-            : redirect()->route('admin.subjects.show');
+            : redirect()->route('root.home');
     }
 
     public function test() {
