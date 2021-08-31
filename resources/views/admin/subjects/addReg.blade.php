@@ -149,7 +149,8 @@
                         </div>
                         <div class="col-12 mb-2">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Type a name to search"
+                                <input type="text" class="form-control"
+                                    placeholder="Type a name to fetch subjects from database"
                                     dynamic-list="subjects-list" tmp-name="tmp_subject_id" autofill=""
                                     endpoint="{{ route('api.searchSubject') }}" append='["department"]'
                                     emitevent="subjectChosen">
@@ -172,7 +173,7 @@
                                 </span>
 
                                 <input type="text" class="form-control"
-                                    placeholder="Find" find
+                                    placeholder="Find (Local search)" find
                                     find-in="#subjects-list label.list-group-item"
                                     loader="#find-subject-loader"
                                     status="#find-subjects-status">
@@ -184,7 +185,7 @@
                                     </div>
                                 </span>
                             </div>
-                            <p class="small text-info" id="find-subjects-status">-</p>
+                            <p class="small text-info ms-1" id="find-subjects-status">-</p>
                         </div>
 
                         <div class="col-12 mb-2">
