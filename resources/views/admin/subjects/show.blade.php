@@ -23,6 +23,29 @@
     ];
 @endphp
 
+
+@can('create', ['App\\Models\\Subject', $currentDepartment])
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="material-icons mx-1">add</span>
+                    New
+                </button>
+
+                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                    <a class="dropdown-item d-flex align-items-center"
+                        href="{{ route('admin.subjects.add', $currentDepartment) }}">
+                        <span class="material-icons">auto_stories</span>
+                        Bulk Insert
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+@endcan
+
 @component('components.page.heading')
     @slot('heading')
         List of Subjects
