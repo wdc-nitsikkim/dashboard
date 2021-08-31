@@ -1,13 +1,12 @@
 {{--
     $baseRoute -> string (route name)
     $subjects -> paginated collection of subject model
-    $nestedSubject -> boolean
+    $currentBatch -> single batch model
     $currentSemester -> single semester model
     $semesters -> collection of semester model
-    $currentDepartment -> single department model
-    $departments -> collection of department model
     $currentCourse -> single course model
     $courses -> collection of course model
+    $currentDepartment -> single department model
     $pagination -> pagination links view
 --}}
 
@@ -18,6 +17,7 @@
 @php
     $baseRouteParams = [
         'dept' => $currentDepartment,
+        'batch' => $currentBatch,
         'course' => $currentCourse,
         'semester' => $currentSemester
     ];
@@ -28,14 +28,11 @@
         List of Subjects
         @slot('subheading')
             <h5>
-                <span class="text-info">
-                    {{ $currentDepartment == null ? 'All Departments' : 'Department of '
-                        . $currentDepartment->name }}</span>
-                <br>
                 <span class="fw-bolder">{{ $currentCourse == null ? 'All Courses' : $currentCourse->name }}</span>,
                 {{ $currentSemester == null ? 'All Semesters' : $currentSemester->name }}
             </h5>
-            <h6>{{ $secondaryText ?? '' }}</h6>
+            <h6>Subjects registered for <span class="fw-bolder">
+                {{ $currentBatch->name }}</span></h6>
         @endslot
     @endslot
 
@@ -58,18 +55,6 @@
             ])
 
             @include('components.inline.dropdownBtn', [
-                'all' => route($baseRoute, array_merge($baseRouteParams, [ 'dept' => null ])),
-                'btnText' => 'Department',
-                'iterator' => $departments,
-                'route' => $baseRoute,
-                'routeParam' => 'dept',
-                'routeKey' => 'code',
-                'displayKey' => 'name',
-                'baseParams' => $baseRouteParams
-            ])
-
-            @include('components.inline.dropdownBtn', [
-                'all' => route($baseRoute, array_merge($baseRouteParams, [ 'semester' => null ])),
                 'btnText' => 'Semester',
                 'iterator' => $semesters,
                 'route' => $baseRoute,
@@ -85,12 +70,13 @@
 <div class="card border-0 shadow mb-4">
     <div class="card-body">
 
-        @if (count($subjects['data']) == 0)
+        @if ($subjects->count() == 0)
             <h5 class="text-center text-danger">No results found!</h5>
             <p class="text-center">
                 @component('components.inline.anchorBack', [
                     'href' => route('admin.subjects.show', [
-                        'dept' => $currentDepartment
+                        'dept' => $currentDepartment,
+                        'batch' => $currentBatch
                     ])
                 ])
                 @endcomponent
@@ -107,32 +93,27 @@
                 @endslot
 
                 @slot('body')
-                    @foreach ($subjects['data'] as $subject)
-                        @isset($nestedSubject)
-                            @php
-                                $subject = $subject['subject'];
-                            @endphp
-                        @endif
+                    @foreach ($subjects as $subject)
 
                         <tr class="{{ $subject['deleted_at'] != null ? 'text-danger' : ''}}">
                             <td>
                                 <span class="text-primary fw-bold">{{ $loop->iteration }}</span>
                             </td>
                             <td>
-                                {{ $courses->where('id', $subject['course_id'])->first()->name }}
+                                {{ $courses->where('id', $subject->subject->course_id)->first()->name }}
                             </td>
                             <td>
-                                {{ $semesters->where('id', $subject['semester_id'])->first()->name }}
+                                {{ $semesters->where('id', $subject->semester_id)->first()->name }}
                             </td>
                             <td class="fw-bolder">
-                                {{ strtoupper($subject['code']) }}
+                                {{ $subject->subjectCode }}
                             </td>
                             <td>
                                 <span class="fw-bolder">
-                                    {{ $subject['name'] }}</span>
+                                    {{ $subject->subject->name }}</span>
                             </td>
                             <td class="fw-bolder">
-                                {{ $subject['credit'] }}
+                                {{ $subject->credit }}
                             </td>
                         </tr>
                     @endforeach

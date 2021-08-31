@@ -254,12 +254,13 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware('auth')->
 
         /* subject routes */
         Route::name('subjects.')->prefix('subjects')->group(function () {
-            Route::get('/', 'SubjectController@show')->name('show');
-            Route::get('/syllabuswise', 'SubjectController@showSyllabusWise')->name('showSyllabusWise');
+            Route::get('/', 'SubjectController@handleRedirect')->name('handleRedirect');
             Route::get('/select', 'SubjectController@select')->name('select');
             Route::post('/save-in-session/{subject}', 'SubjectController@saveInSession')->name('saveInSession');
 
             Route::get('/test', 'SubjectController@test');
+
+            Route::get('/{dept}/{batch}/{semester?}/{course?}', 'SubjectController@show')->name('show');
         });
 
         /* result routes */
@@ -289,6 +290,7 @@ Route::namespace('Student')->name('student.')->prefix('student')->middleware('au
     Route::middleware('email.verified')->group(function () {
         Route::get('/{student_by_roll_number}', 'MainController@home')->name('home');
 
+        /* student info routes */
         Route::name('info.')->prefix('{student_by_roll_number}')->group(function () {
             Route::get('/show-info', 'InfoController@show')->name('show');
             Route::get('/add-info', 'InfoController@add')->name('add');
