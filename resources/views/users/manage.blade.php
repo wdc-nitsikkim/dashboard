@@ -281,6 +281,28 @@
 ])
 
     <div class="col-12 mb-2">
+        <div class="input-group">
+            <span class="input-group-text">
+                <span class="material-icons">search</span>
+            </span>
+
+            <input type="text" class="form-control"
+                placeholder="Search among the shown subjects (by name or code)" find
+                find-in="#subject_id option"
+                loader="#find-subject-loader"
+                status="#find-subjects-status">
+
+            <span id="find-subject-loader" class="input-group-text d-none">
+                <div class="text-danger spinner-border spinner-border-sm"
+                    role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </span>
+        </div>
+        <p class="small text-info ms-1" id="find-subjects-status">Type a name to shorten the original list</p>
+    </div>
+
+    <div class="col-12 mb-2">
         <select class="form-select" id="subject_id" name="subject_id" required>
             <option value="" selected>Select a subject</option>
 
@@ -295,3 +317,8 @@
 @endcomponent
 
 @endsection
+
+
+@push('scripts')
+    <script src="{{ asset('static/js/find.js') }}"></script>
+@endpush
