@@ -11,6 +11,7 @@ use App\Models\Batch;
 use App\Models\Result;
 use App\Models\Student;
 use App\Models\Profile;
+use App\Models\Subject;
 use App\Models\Position;
 use App\Models\Department;
 use App\Models\StudentInfo;
@@ -21,6 +22,7 @@ use App\Policies\BatchPolicy;
 use App\Policies\ResultPolicy;
 use App\Policies\StudentPolicy;
 use App\Policies\ProfilePolicy;
+use App\Policies\SubjectPolicy;
 use App\Policies\PositionPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\StudentInfoPolicy;
@@ -40,6 +42,7 @@ class AuthServiceProvider extends ServiceProvider
         Result::class => ResultPolicy::class,
         Student::class => StudentPolicy::class,
         Profile::class => ProfilePolicy::class,
+        Subject::class => SubjectPolicy::class,
         Position::class => PositionPolicy::class,
         Department::class => DepartmentPolicy::class,
         StudentInfo::class => StudentInfoPolicy::class,
