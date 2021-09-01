@@ -58,10 +58,12 @@
                                 {{ strtoupper($student['roll_number']) }}
                             </td>
                             <td>
-                                <span class="d-inline-block text-truncate" style="max-width: 200px"
-                                    data-bs-toggle="tooltip"
-                                    title="{{ ucwords($student['name']) }}">
-                                    {{ ucwords($student['name']) }}</span>
+                                <a class="text-info" href="{{ route('student.home', $student['roll_number']) }}">
+                                    <span class="d-inline-block text-truncate" style="max-width: 200px"
+                                        data-bs-toggle="tooltip"
+                                        title="{{ ucwords($student['name']) }}">
+                                        {{ ucwords($student['name']) }}</span>
+                                </a>
                             </td>
                             <td>
                                 <span class="d-inline-block text-truncate" style="max-width: 200px"
