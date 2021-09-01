@@ -1,6 +1,9 @@
 @component('components.page.heading')
     @slot('heading')
-        <span class="fw-bolder">{{ $student->name }}</span> ({{ $student->roll_number }})
+        <span class=" {{ $student->deleted_at != null ? 'text-danger' : '' }}">
+            <span class="fw-bolder">
+                {{ $student->name }}</span> ({{ $student->roll_number }})
+        </span>
     @endslot
 
     @slot('subheading')
@@ -10,6 +13,10 @@
             @include('admin.students.partials.subheading', [
                 'batch' => $student->batch
             ])
+            <br>
+            @if ($student->deleted_at != null)
+                <span class="text-danger fw-bolder">This student has been deleted!</span>
+            @endif
         </h5>
 
         {{ $slot ?? '' }}
