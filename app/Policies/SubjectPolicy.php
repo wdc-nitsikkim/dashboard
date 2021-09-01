@@ -34,12 +34,4 @@ class SubjectPolicy {
         return $user->isPermissionValid($this->create_roles, $this->permission['create'])
             && ($user->hasRole('admin') || $user->hasDepartmentAccess($department->id));
     }
-
-    public function update(User $user, $student) {
-        return false;
-    }
-
-    public function delete(User $user, $student) {
-        return false;
-    }
 }
