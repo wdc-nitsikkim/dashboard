@@ -51,20 +51,34 @@ class RegisterController extends Controller {
 
         DB::beginTransaction();
         try {
+            $timestamp = now();
             $user = new User($data);
-            $user->deleted_at = now();
+            $user->deleted_at = $timestamp;
             $user->save();
             /* assign role to user */
             $role = UserRole::create([
                 'user_id' => $user->id,
                 'role' => $data['role']
             ]);
-            /* give read permission to the role */
-            UserRolePermission::create([
-                'role_id' => $role->id,
-                'permission' => $permissionConstants['read'],
-                'created_at' => now()
-            ]);
+            /* give c, r, u permissions to the role */
+            $perms = [
+                [
+                    'role_id' => $role->id,
+                    'permission' => $permissionConstants['read'],
+                    'created_at' => $timestamp
+                ],
+                [
+                    'role_id' => $role->id,
+                    'permission' => $permissionConstants['create'],
+                    'created_at' => $timestamp
+                ],
+                [
+                    'role_id' => $role->id,
+                    'permission' => $permissionConstants['update'],
+                    'created_at' => $timestamp
+                ]
+            ];
+            UserRolePermission::insert($perms);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
