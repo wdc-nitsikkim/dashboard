@@ -65,10 +65,11 @@
                     <span class="material-icons me-1">supervised_user_circle</span>
                     Researchers
                 </h5>
-                <p class="card-text">Update researchers</p>
-            </div>
-            <div class="card-footer">
-                <a href="#!" class="small text-info">Go to page</a>
+                <p class="card-text">
+                    Update researchers
+                    <br>
+                    <span class="fw-bolder text-danger">Feature currently unavailable</span>
+                </p>
             </div>
         </div>
     </div>
