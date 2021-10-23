@@ -27,7 +27,7 @@
                                 </div>
                                 <h1 class="h3">{{ Auth::user()->name }}</h1>
                                 <p class="text-gray">
-                                    Re-enter your password to cotinue<br>
+                                    Re-enter your password to continue...<br>
                                     <span class="text-info small">We won't ask for your password
                                         again for some time</span>
                                 </p>
