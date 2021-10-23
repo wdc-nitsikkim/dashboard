@@ -5,7 +5,7 @@ namespace App\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 use App\Models\User;
-use App\Models\Subject;
+use App\Models\RegisteredSubject;
 use App\CustomHelper;
 
 class ResultPolicy {
@@ -23,7 +23,7 @@ class ResultPolicy {
         $this->permission = CustomHelper::getPermissionConstants();
     }
 
-    public function view(User $user, Subject $subject) {
+    public function view(User $user, RegisteredSubject $subject) {
         $permission = $user->isPermissionValid($this->update_roles, $this->permission['read']);
 
         return $permission && ($user->hasRole('admin', 'ecell') || $user->hasSubjectAccess($subject->id));
@@ -34,7 +34,7 @@ class ResultPolicy {
             && $user->isPermissionValid($this->update_roles, $this->permission['read']);
     }
 
-    public function update(User $user, Subject $subject) {
+    public function update(User $user, RegisteredSubject $subject) {
         $resultSetting = CustomHelper::getSiteSetting('resultMod');
 
         /* Check if updating of result is enabled (in database) */

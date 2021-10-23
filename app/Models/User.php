@@ -163,6 +163,6 @@ class User extends Authenticatable
      * @return bool
      */
     public function hasSubjectAccess($subject_id) {
-        return $this->allowedSubjects->where('subject_id', $subject_id)->count() > 0;
+        return $this->allowedSubjects->where('registered_subject_id', $subject_id)->count() > 0;
     }
 }
