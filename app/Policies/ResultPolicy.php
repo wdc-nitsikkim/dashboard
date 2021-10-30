@@ -8,7 +8,8 @@ use App\Models\User;
 use App\Models\RegisteredSubject;
 use App\CustomHelper;
 
-class ResultPolicy {
+class ResultPolicy
+{
     use HandlesAuthorization;
 
     /**
@@ -19,22 +20,26 @@ class ResultPolicy {
     protected $view_roles = ['admin', 'ecell', 'hod', 'faculty', 'staff'];
     protected $update_roles = ['admin', 'hod', 'faculty', 'staff'];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->permission = CustomHelper::getPermissionConstants();
     }
 
-    public function view(User $user, RegisteredSubject $subject) {
+    public function view(User $user, RegisteredSubject $subject)
+    {
         $permission = $user->isPermissionValid($this->update_roles, $this->permission['read']);
 
         return $permission && ($user->hasRole('admin', 'ecell') || $user->hasSubjectAccess($subject->id));
     }
 
-    public function view_sem_wise(User $user) {
+    public function view_sem_wise(User $user)
+    {
         return $user->hasRole('admin', 'ecell')
             && $user->isPermissionValid($this->update_roles, $this->permission['read']);
     }
 
-    public function update(User $user, RegisteredSubject $subject) {
+    public function update(User $user, RegisteredSubject $subject)
+    {
         $resultSetting = CustomHelper::getSiteSetting('resultMod');
 
         /* Check if updating of result is enabled (in database) */

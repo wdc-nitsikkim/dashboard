@@ -12,7 +12,8 @@ use App\Models\StudentInfo;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
-class Student extends Model {
+class Student extends Model
+{
     use SoftDeletes;
     use GlobalMutators, GlobalAccessors;
 
@@ -32,28 +33,32 @@ class Student extends Model {
     /**
      * Defines one-to-many relationship
      */
-    public function result() {
+    public function result()
+    {
         return $this->hasMany(Result::class, 'student_id');
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function department() {
+    public function department()
+    {
         return $this->belongsTo(Department::class, 'department_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function batch() {
+    public function batch()
+    {
         return $this->belongsTo(Batch::class, 'batch_id')->withDefault();
     }
 
     /**
      * Defines one-to-one relationship with StudentInfo model
      */
-    public function info() {
+    public function info()
+    {
         return $this->hasOne(StudentInfo::class, 'student_id');
     }
 
@@ -64,7 +69,8 @@ class Student extends Model {
      * @param string $value
      * @return void
      */
-    public function setRollNumberAttribute($value) {
+    public function setRollNumberAttribute($value)
+    {
         $this->attributes['roll_number'] = strtoupper($value);
     }
 }

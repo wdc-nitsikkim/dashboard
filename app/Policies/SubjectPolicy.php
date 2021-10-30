@@ -8,7 +8,8 @@ use App\Models\User;
 use App\Models\Department;
 use App\CustomHelper;
 
-class SubjectPolicy {
+class SubjectPolicy
+{
     use HandlesAuthorization;
 
     /**
@@ -18,7 +19,8 @@ class SubjectPolicy {
      */
     protected $create_roles = ['admin', 'office', 'hod'];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->permission = CustomHelper::getPermissionConstants();
     }
 
@@ -26,11 +28,13 @@ class SubjectPolicy {
      * @param App\Models\User $user
      */
 
-    public function view(User $user) {
+    public function view(User $user)
+    {
         return true;
     }
 
-    public function create(User $user, Department $department) {
+    public function create(User $user, Department $department)
+    {
         return $user->isPermissionValid($this->create_roles, $this->permission['create'])
             && ($user->hasRole('admin') || $user->hasDepartmentAccess($department->id));
     }

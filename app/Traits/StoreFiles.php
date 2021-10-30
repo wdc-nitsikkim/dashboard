@@ -12,7 +12,8 @@ use App\CustomHelper;
 /**
  * Class contaning pre-defined functions to store files at proper locations
  */
-trait StoreFiles {
+trait StoreFiles
+{
     protected $notificationBasePath = 'files/homepage';
     protected $profileImageBasePath = 'images/profiles';
     protected $userImageBasePath = 'images/users';
@@ -28,7 +29,8 @@ trait StoreFiles {
      * @param boolean $absolute  (optional) Whether to return absolute path
      * @return string  Path of saved file
      */
-    public function storeNotification($file, $type = 'others', bool $absolute = true) {
+    public function storeNotification($file, $type = 'others', bool $absolute = true)
+    {
         $fileName = CustomHelper::formatFileName($file->getClientOriginalName());
         $fileName .= '.' . $file->extension();
         $storagePath = $this->notificationBasePath . '/' . $type;
@@ -44,7 +46,8 @@ trait StoreFiles {
      * @param int $profile_id
      * @return string  Path of saved image
      */
-    public function storeProfileImage($image, $profile_id) {
+    public function storeProfileImage($image, $profile_id)
+    {
         $fileName = $profile_id . '.' . $image->extension();
         $storagePath = $this->profileImageBasePath;
         $path = $image->storeAs($storagePath, $fileName, 'public');
@@ -59,7 +62,8 @@ trait StoreFiles {
      * @param int $user_id
      * @return string  Path of saved image
      */
-    public function storeUserImage($image, $user_id) {
+    public function storeUserImage($image, $user_id)
+    {
         $fileName = $user_id . '.' . $image->extension();
         $storagePath = $this->userImageBasePath;
         $path = $image->storeAs($storagePath, $fileName, 'public');
@@ -75,7 +79,8 @@ trait StoreFiles {
      * @param \App\Models\Student $student  **with nested relations
      * @return string  relative path of stored file
      */
-    public function storeStudentFile($file, $type, $student) {
+    public function storeStudentFile($file, $type, $student)
+    {
         $types = [ 'image', 'sign', 'resume' ];
         if (! in_array($type, $types)) {
             $type = 'file';
@@ -96,7 +101,8 @@ trait StoreFiles {
      * @param $path  Public path of image to be removed
      * @return boolean
      */
-    public function removeUploadedImage($path) {
+    public function removeUploadedImage($path)
+    {
         try {
             return Storage::disk('public')->delete($path);
         } catch (\Exception $e) {
@@ -110,7 +116,8 @@ trait StoreFiles {
      * @param $path  Private path of file to be removed
      * @return boolean
      */
-    public function removePrivateFile($path) {
+    public function removePrivateFile($path)
+    {
         try {
             return Storage::disk('local')->delete($path);
         } catch (\Exception $e) {
@@ -123,7 +130,8 @@ trait StoreFiles {
      *
      * @param string $path  Relative to 'local' disk
      */
-    public function removeDirectory($path) {
+    public function removeDirectory($path)
+    {
         try {
             return Storage::disk('local')->deleteDirectory($path);
         } catch (\Exception $e) {
@@ -134,10 +142,10 @@ trait StoreFiles {
     /**
      * Create backup directory if not exists
      */
-    public function createBackupDir() {
+    public function createBackupDir()
+    {
         if (! File::isDirectory(config('filesystems.disks.local.root')
             . '/' . $this->backupDir)) {
-
             Storage::disk('local')->makeDirectory($this->backupDir);
         }
     }
@@ -149,7 +157,8 @@ trait StoreFiles {
      * @param string $fileName  Name of file in the local disk
      * @param boolean $remove  (optional) Whether to delete original file if error occurs
      */
-    public function moveFileToLocalDisk($absolutePath, $fileName, $remove = true) {
+    public function moveFileToLocalDisk($absolutePath, $fileName, $remove = true)
+    {
         $relativePath = $this->backupDir . '/' . $fileName;
         $dest = config('filesystems.disks.local.root') . '/'
             . $relativePath;

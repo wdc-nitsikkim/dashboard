@@ -8,12 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Feedback;
 
-class FeedbackController extends Controller {
-    public function __construct() {
+class FeedbackController extends Controller
+{
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
-    public function saveNew(Request $request) {
+    public function saveNew(Request $request)
+    {
         $data = $request->validate([
             'rating' => 'nullable | numeric | between:1,5',
             'feedback' => 'required | string'

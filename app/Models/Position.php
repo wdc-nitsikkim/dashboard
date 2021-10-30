@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Profile;
 
-class Position extends Model {
+class Position extends Model
+{
     protected $table = 'positions';
     public $timestamps = false;
 
@@ -20,7 +21,8 @@ class Position extends Model {
     /**
      * One-to-one relationship on profiles table
      */
-    public function profile() {
+    public function profile()
+    {
         return $this->belongsTo(Profile::class, 'profile_id')->withDefault();
     }
 }

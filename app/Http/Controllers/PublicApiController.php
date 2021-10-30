@@ -8,10 +8,12 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Models\Subject;
 
-class PublicApiController extends Controller {
+class PublicApiController extends Controller
+{
     private $maxResults = 10;
 
-    public function searchUsersByName(Request $request) {
+    public function searchUsersByName(Request $request)
+    {
         $request->validate([
             'name' => 'required | min:1'
         ]);
@@ -22,7 +24,8 @@ class PublicApiController extends Controller {
         return $users;
     }
 
-    public function searchProfilesByName(Request $request) {
+    public function searchProfilesByName(Request $request)
+    {
         $request->validate([
             'name' => 'required | min:1'
         ]);
@@ -33,7 +36,8 @@ class PublicApiController extends Controller {
         return $profiles;
     }
 
-    public function searchSubject(Request $request) {
+    public function searchSubject(Request $request)
+    {
         $request->validate([
             'name' => 'required | min:1',
             'department' => 'nullable | numeric'

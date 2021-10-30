@@ -14,7 +14,8 @@ use App\Models\StudentInfo;
 use App\Traits\StoreFiles;
 use App\Http\Requests\StoreStudentInfo;
 
-class InfoController extends Controller {
+class InfoController extends Controller
+{
     use StoreFiles;
 
     /**
@@ -24,11 +25,13 @@ class InfoController extends Controller {
      */
     private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function show(Student $student_by_roll_number) {
+    public function show(Student $student_by_roll_number)
+    {
         $student = $student_by_roll_number;
         $info = StudentInfo::withTrashed()->findOrFail($student->id);
 
@@ -53,7 +56,8 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function add(Student $student_by_roll_number) {
+    public function add(Student $student_by_roll_number)
+    {
         $student = $student_by_roll_number;
         $this->authorize('create', [StudentInfo::class, $student]);
 
@@ -67,7 +71,8 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function saveNew(StoreStudentInfo $request, Student $student_by_roll_number) {
+    public function saveNew(StoreStudentInfo $request, Student $student_by_roll_number)
+    {
         $student = $student_by_roll_number;
         $this->authorize('create', [StudentInfo::class, $student]);
 
@@ -89,7 +94,8 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function edit(Student $student_by_roll_number) {
+    public function edit(Student $student_by_roll_number)
+    {
         $student = $student_by_roll_number;
         $info = StudentInfo::withTrashed()->findOrFail($student->id);
 
@@ -114,7 +120,8 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function update(Request $request, Student $student_by_roll_number) {
+    public function update(Request $request, Student $student_by_roll_number)
+    {
         $student = $student_by_roll_number;
         $info = StudentInfo::select('student_id')->withTrashed()->findOrFail($student->id);
 
@@ -131,7 +138,7 @@ class InfoController extends Controller {
             if (isset($data['remove_image'])) {
                 $this->removePrivateFile($info->image);
                 $fileData['image'] = null;
-            } else if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            } elseif ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $this->removePrivateFile($info->image);
                 $fileData['image'] = $this->storeStudentFile($request->file('image'), 'image', $student);
             }
@@ -139,7 +146,7 @@ class InfoController extends Controller {
             if (isset($data['remove_signature'])) {
                 $this->removePrivateFile($info->signature);
                 $fileData['signature'] = null;
-            } else if ($request->hasFile('signature') && $request->file('signature')->isValid()) {
+            } elseif ($request->hasFile('signature') && $request->file('signature')->isValid()) {
                 $this->removePrivateFile($info->signature);
                 $fileData['signature'] = $this->storeStudentFile($request->file('signature'), 'sign', $student);
             }
@@ -147,7 +154,7 @@ class InfoController extends Controller {
             if (isset($data['remove_resume'])) {
                 $this->removePrivateFile($info->resume);
                 $fileData['resume'] = null;
-            } else if ($request->hasFile('resume') && $request->file('resume')->isValid()) {
+            } elseif ($request->hasFile('resume') && $request->file('resume')->isValid()) {
                 $this->removePrivateFile($info->resume);
                 $fileData['resume'] = $this->storeStudentFile($request->file('resume'), 'resume', $student);
             }
@@ -168,7 +175,8 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function softDelete(Student $student_by_roll_number) {
+    public function softDelete(Student $student_by_roll_number)
+    {
         $student = $student_by_roll_number;
         $info = StudentInfo::select('student_id')->findOrFail($student->id);
 
@@ -189,7 +197,8 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function restore(Student $student_by_roll_number) {
+    public function restore(Student $student_by_roll_number)
+    {
         $student = $student_by_roll_number;
         $info = StudentInfo::select('student_id')->onlyTrashed()->findOrFail($student->id);
 
@@ -210,7 +219,8 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function delete(Student $student_by_roll_number) {
+    public function delete(Student $student_by_roll_number)
+    {
         $student = $student_by_roll_number;
         $info = StudentInfo::select('student_id')->onlyTrashed()->findOrFail($student->id);
 
@@ -231,7 +241,8 @@ class InfoController extends Controller {
         ]);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

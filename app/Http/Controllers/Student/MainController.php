@@ -10,7 +10,8 @@ use App\CustomHelper;
 use App\Models\Student;
 use App\Models\StudentInfo;
 
-class MainController extends Controller {
+class MainController extends Controller
+{
     /**
      * Stores session keys received from \CustomHelper::getSessionConstants()
      *
@@ -18,11 +19,13 @@ class MainController extends Controller {
      */
     private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function home(Student $student_by_roll_number = null) {
+    public function home(Student $student_by_roll_number = null)
+    {
         $student = $student_by_roll_number
             ?? Student::withTrashed()->where('email', Auth::user()->email)->first();
 
@@ -47,7 +50,8 @@ class MainController extends Controller {
         ]);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

@@ -10,7 +10,8 @@ use App\Models\ResultType;
 use App\Models\RegisteredSubject;
 use App\Traits\GlobalAccessors;
 
-class Result extends Model {
+class Result extends Model
+{
     use SoftDeletes;
     use GlobalAccessors;
 
@@ -38,28 +39,32 @@ class Result extends Model {
     /**
      * Defines many-to-one relationship
      */
-    public function resultType() {
+    public function resultType()
+    {
         return $this->belongsTo(ResultType::class, 'result_type_id')->withDefault();
     }
 
     /**
      * Defines many-to-many relationship
      */
-    public function student() {
+    public function student()
+    {
         return $this->belongsTo(Student::class, 'student_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function subject() {
+    public function subject()
+    {
         return $this->belongsTo(RegisteredSubject::class, 'registered_subject_id')->withDefault();
     }
 
     /**
      * Custom dynamic accessor of model
      */
-    public function getPercentageAttribute() {
+    public function getPercentageAttribute()
+    {
         return round(($this->score / $this->resultType->max_marks) * 100, 2);
     }
 }

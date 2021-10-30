@@ -14,14 +14,17 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Models\UserRolePermission;
 
-class RegisterController extends Controller {
-    public function __contruct() {
+class RegisterController extends Controller
+{
+    public function __contruct()
+    {
         $this->middleware('guest');
     }
 
     protected $allowedRoles = ['office', 'hod', 'faculty', 'staff', 'ecell', 'student'];
 
-    public function index(Request $request, $role = null) {
+    public function index(Request $request, $role = null)
+    {
         \Session::keep(['name', 'email']);
 
         if (in_array($role, $this->allowedRoles)) {
@@ -35,7 +38,8 @@ class RegisterController extends Controller {
         ]);
     }
 
-    public function defaultSignup(Request $request) {
+    public function defaultSignup(Request $request)
+    {
         $data = $request->validate([
             'role' => ['required', 'in:' . implode(',', $this->allowedRoles)],
             'name' => 'required | string | min:3',
@@ -94,7 +98,8 @@ class RegisterController extends Controller {
         ]);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

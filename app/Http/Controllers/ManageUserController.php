@@ -17,12 +17,15 @@ use App\Models\UserAccessRegSubject;
 use App\Models\UserRolePermission;
 use App\Models\UserAccessDepartment;
 
-class ManageUserController extends Controller {
-    public function __construct() {
+class ManageUserController extends Controller
+{
+    public function __construct()
+    {
         $this->timestamp = CustomHelper::dateToUtc(now());
     }
 
-    public function manage($id) {
+    public function manage($id)
+    {
         $user = User::with([
             'allowedDepartments.department:id,code,name',
             'allowedSubjects.registeredSubject.subject',
@@ -34,8 +37,10 @@ class ManageUserController extends Controller {
         $departments = Department::select('id', 'name')
             ->whereNotIn('id', $user->allowedDepartments->pluck('department_id')->toArray())
             ->get();
-        $subjects = RegisteredSubject::whereNotIn('id',
-                $user->allowedSubjects->pluck('registered_subject_id')->toArray())->get();
+        $subjects = RegisteredSubject::whereNotIn(
+            'id',
+            $user->allowedSubjects->pluck('registered_subject_id')->toArray()
+        )->get();
         $allRoles = collect(CustomHelper::getRoles());
         $roles = $allRoles->diff($user->roles->pluck('role'));
 
@@ -47,7 +52,8 @@ class ManageUserController extends Controller {
         ]);
     }
 
-    public function savePermissions(Request $request, $id) {
+    public function savePermissions(Request $request, $id)
+    {
         $user = User::with('roles.permissions')->withTrashed()->findOrFail($id);
 
         $this->authorize('manage', [User::class, $user]);
@@ -73,7 +79,7 @@ class ManageUserController extends Controller {
                     $newPerms = array_keys($val);
 
                     foreach ($newPerms as $permission) {
-                        if (! in_array($permission, $permissionMap)){
+                        if (! in_array($permission, $permissionMap)) {
                             continue;
                         }
                         $insert[] = [
@@ -104,7 +110,8 @@ class ManageUserController extends Controller {
         ]);
     }
 
-    public function grantRole(Request $request, $id) {
+    public function grantRole(Request $request, $id)
+    {
         $user = User::withTrashed()->findOrFail($id);
 
         $this->authorize('manage', [User::class, $user]);
@@ -137,7 +144,8 @@ class ManageUserController extends Controller {
             : back()->with($msg);
     }
 
-    public function grantDepartmentAccess(Request $request, $id) {
+    public function grantDepartmentAccess(Request $request, $id)
+    {
         $user = User::withTrashed()->findOrFail($id);
 
         $this->authorize('manage', [User::class, $user]);
@@ -167,7 +175,8 @@ class ManageUserController extends Controller {
         ]);
     }
 
-    public function grantSubjectAccess(Request $request, $id) {
+    public function grantSubjectAccess(Request $request, $id)
+    {
         $user = User::withTrashed()->findOrFail($id);
 
         $this->authorize('manage', [User::class, $user]);
@@ -197,7 +206,8 @@ class ManageUserController extends Controller {
         ]);
     }
 
-    public function revokeRole($role_id) {
+    public function revokeRole($role_id)
+    {
         $role = UserRole::findOrFail($role_id);
         $user = User::withTrashed()->findOrFail($role->user_id);
 
@@ -220,7 +230,8 @@ class ManageUserController extends Controller {
         ]);
     }
 
-    public function revokeDepartmentAccess($user_id, $dept_id) {
+    public function revokeDepartmentAccess($user_id, $dept_id)
+    {
         $user = User::withTrashed()->findOrFail($user_id);
 
         $this->authorize('manage', [User::class, $user]);
@@ -245,7 +256,8 @@ class ManageUserController extends Controller {
         ]);
     }
 
-    public function revokeSubjectAccess($user_id, $subject_id) {
+    public function revokeSubjectAccess($user_id, $subject_id)
+    {
         $user = User::withTrashed()->findOrFail($user_id);
 
         $this->authorize('manage', [User::class, $user]);

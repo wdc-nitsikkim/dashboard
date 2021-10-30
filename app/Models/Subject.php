@@ -10,7 +10,8 @@ use App\Models\Department;
 use App\Models\SubjectType;
 use App\Traits\GlobalMutators;
 
-class Subject extends Model {
+class Subject extends Model
+{
     use SoftDeletes;
     use GlobalMutators;
 
@@ -26,21 +27,24 @@ class Subject extends Model {
     /**
      * Defines many-to-one relationship
      */
-    public function department() {
+    public function department()
+    {
         return $this->belongsTo(Department::class, 'department_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function type() {
+    public function type()
+    {
         return $this->belongsTo(SubjectType::class, 'subject_type_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function course() {
+    public function course()
+    {
         return $this->belongsTo(Course::class, 'course_id')->withDefault();
     }
 
@@ -51,7 +55,8 @@ class Subject extends Model {
      * @param string $value
      * @return void
      */
-    public function setNameAttribute($value) {
+    public function setNameAttribute($value)
+    {
         $this->attributes['name'] = $value;
     }
 }

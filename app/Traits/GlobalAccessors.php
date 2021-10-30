@@ -7,7 +7,8 @@ use App\CustomHelper;
 /**
  * Accessor functions to be applied on common attributes
  */
-trait GlobalAccessors {
+trait GlobalAccessors
+{
     /**
      * Model accessor
      * Modify created_at attribute before accessing
@@ -15,7 +16,8 @@ trait GlobalAccessors {
      * @param string $value
      * @return string
      */
-    public function getCreatedAtAttribute($value) {
+    public function getCreatedAtAttribute($value)
+    {
         return CustomHelper::utcToAppTimezone($value);
     }
 
@@ -26,7 +28,8 @@ trait GlobalAccessors {
      * @param string $value
      * @return string
      */
-    public function getUpdatedAtAttribute($value) {
+    public function getUpdatedAtAttribute($value)
+    {
         return CustomHelper::utcToAppTimezone($value);
     }
 }

@@ -9,7 +9,8 @@ use Illuminate\Notifications\AnonymousNotifiable;
  * Adds renderable capability to notification
  * @see https://dev.to/mratiebatie/previewing-markdown-notifications-directly-in-your-browser-2g3n
  */
-trait RenderNotification {
+trait RenderNotification
+{
     /**
      * Get HTML representation of notification to display in browsers for testing
      * or for other purpose
@@ -18,7 +19,8 @@ trait RenderNotification {
      * @param string $email  (optional)
      * @return string  HTML respresentation of notification
      */
-    public function render($email = null) {
+    public function render($email = null)
+    {
         $anonNotify = new AnonymousNotifiable;
         $notification = $this->toMail($anonNotify->route('mail', [$email ?? 'ankushyadav9302@gmail.com']));
         $markdown = new Markdown(view(), config('mail.markdown'));

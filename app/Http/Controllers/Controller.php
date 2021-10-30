@@ -14,7 +14,8 @@ class Controller extends BaseController
 
     protected $site_settings = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         /**
          * Custom app configuration
          * Making the `site_settings` database accessible to all controllers

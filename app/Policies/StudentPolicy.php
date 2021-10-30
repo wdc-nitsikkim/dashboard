@@ -9,7 +9,8 @@ use App\Models\Student;
 use App\Models\Department;
 use App\CustomHelper;
 
-class StudentPolicy {
+class StudentPolicy
+{
     use HandlesAuthorization;
 
     /**
@@ -22,7 +23,8 @@ class StudentPolicy {
     protected $update_roles = ['admin', 'hod'];
     protected $delete_roles = ['admin'];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->permission = CustomHelper::getPermissionConstants();
     }
 
@@ -31,26 +33,31 @@ class StudentPolicy {
      * @param array $student  Single student model converted to array
      */
 
-    public function view(User $user) {
+    public function view(User $user)
+    {
         return $user->isPermissionValid($this->view_roles, $this->permission['read']);
     }
 
-    public function create(User $user, Department $department) {
+    public function create(User $user, Department $department)
+    {
         return $user->isPermissionValid($this->create_roles, $this->permission['create'])
             && ($user->hasRole('admin') || $user->hasDepartmentAccess($department->id));
     }
 
-    public function update(User $user, $student) {
+    public function update(User $user, $student)
+    {
         return $user->isPermissionValid($this->update_roles, $this->permission['update'])
             && ($user->hasRole('admin') || $user->hasDepartmentAccess($student['department_id']));
     }
 
-    public function delete(User $user, $student) {
+    public function delete(User $user, $student)
+    {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete'])
             && ($user->hasRole('admin') || $user->hasDepartmentAccess($student['department_id']));
     }
 
-    public function updateDepartment(User $user) {
+    public function updateDepartment(User $user)
+    {
         return $user->hasRole('admin');
     }
 }

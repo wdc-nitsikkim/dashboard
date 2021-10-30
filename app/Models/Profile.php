@@ -11,7 +11,8 @@ use App\Models\UserProfileLink;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
-class Profile extends Model {
+class Profile extends Model
+{
     use SoftDeletes;
     use GlobalMutators, GlobalAccessors;
 
@@ -29,21 +30,24 @@ class Profile extends Model {
     /**
      * Defines one-to-one relationship
      */
-    public function userLink() {
+    public function userLink()
+    {
         return $this->hasOne(UserProfileLink::class, 'profile_id');
     }
 
     /**
      * Defines one-to-one relationship on 'hods' table
      */
-    public function hod() {
+    public function hod()
+    {
         return $this->hasOne(Hod::class, 'profile_id');
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function department() {
+    public function department()
+    {
         return $this->belongsTo(Department::class, 'department_id')->withDefault();
     }
 
@@ -53,7 +57,8 @@ class Profile extends Model {
      * @param string $value
      * @return void
      */
-    public function setDesignationAttribute($value) {
+    public function setDesignationAttribute($value)
+    {
         $this->attributes['designation'] = ucwords($value);
     }
 }

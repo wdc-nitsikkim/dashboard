@@ -9,8 +9,10 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Position;
 
-class PositionController extends Controller {
-    public function show() {
+class PositionController extends Controller
+{
+    public function show()
+    {
         $this->authorize('view', Position::class);
 
         $positions = Position::with(['profile:id,name'])->get();
@@ -20,7 +22,8 @@ class PositionController extends Controller {
         ]);
     }
 
-    public function assign(Request $request) {
+    public function assign(Request $request)
+    {
         $this->authorize('create', Position::class);
 
         $data = $request->validate([
@@ -47,7 +50,8 @@ class PositionController extends Controller {
         ]);
     }
 
-    public function remove($id) {
+    public function remove($id)
+    {
         $this->authorize('update', Position::class);
 
         try {

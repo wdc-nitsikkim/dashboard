@@ -14,14 +14,17 @@ use App\Models\PasswordReset;
 use App\Traits\SendEmails;
 use App\Notifications\PasswordReset as ResetEmail;
 
-class ForgotPasswordController extends Controller {
+class ForgotPasswordController extends Controller
+{
     use SendEmails;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('guest');
     }
 
-    public function sendEmail(Request $request) {
+    public function sendEmail(Request $request)
+    {
         $request->validate([
             'email' => 'required | email'
         ]);

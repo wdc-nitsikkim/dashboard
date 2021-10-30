@@ -13,7 +13,8 @@ use App\CustomHelper;
 use App\Models\Batch;
 use App\Models\Course;
 
-class BatchController extends Controller {
+class BatchController extends Controller
+{
     /**
      * Items per page
      *
@@ -28,14 +29,16 @@ class BatchController extends Controller {
      */
     private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sessionKeys = CustomHelper::getSessionConstants();
         $this->courses = Course::all();
         $this->btechCode = $this->courses->where('code', 'btech')->first()->id;
         $this->mtechCode = $this->courses->where('code', 'mtech')->first()->id;
     }
 
-    public function select() {
+    public function select()
+    {
         $batches = Batch::all();
         $btechBatches = $batches->where('course_id', $this->btechCode)->sortByDesc('id');
         $mtechBatches = $batches->where('course_id', $this->mtechCode)->sortByDesc('id');
@@ -46,7 +49,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function saveInSession(Request $request, Batch $batch) {
+    public function saveInSession(Request $request, Batch $batch)
+    {
         session([$this->sessionKeys['selectedBatch'] => $batch]);
         $redirectRoute = $request->input('redirect');
 
@@ -54,7 +58,8 @@ class BatchController extends Controller {
             : redirect()->route('admin.batch.show');
     }
 
-    public function show(Request $request) {
+    public function show(Request $request)
+    {
         $this->authorize('view', Batch::class);
 
         $btechPage = $request->btech;
@@ -78,7 +83,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function add() {
+    public function add()
+    {
         $this->authorize('create', Batch::class);
 
         return view('admin.batch.add', [
@@ -86,7 +92,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function saveNew(Request $request) {
+    public function saveNew(Request $request)
+    {
         $this->authorize('create', Batch::class);
 
         $data = $request->validate([
@@ -113,7 +120,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $this->authorize('update', Batch::class);
 
         $batch = Batch::findOrFail($id);
@@ -123,7 +131,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $this->authorize('update', Batch::class);
 
         $batch = Batch::findOrFail($id);
@@ -152,7 +161,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function softDelete($id) {
+    public function softDelete($id)
+    {
         $this->authorize('update', Batch::class);
 
         $batch = Batch::findOrFail($id);
@@ -179,7 +189,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function restore($id) {
+    public function restore($id)
+    {
         $this->authorize('update', Batch::class);
 
         $batch = Batch::onlyTrashed()->findOrFail($id);
@@ -200,7 +211,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->authorize('delete', Batch::class);
 
         $batch = Batch::onlyTrashed()->findOrFail($id);
@@ -221,7 +233,8 @@ class BatchController extends Controller {
         ]);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
 
-class PasswordReset extends Model {
+class PasswordReset extends Model
+{
     protected $table = 'password_resets';
     protected $primaryKey = 'email';
     public $timestamps = false;
@@ -14,7 +15,8 @@ class PasswordReset extends Model {
 
     protected $fillable = ['email', 'token', 'created_at'];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'email', 'email')->withDefault();
     }
 }

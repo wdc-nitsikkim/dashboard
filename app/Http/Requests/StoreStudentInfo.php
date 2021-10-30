@@ -75,7 +75,8 @@ class StoreStudentInfo extends FormRequest
      * @param \App\Models\Student $student  Student model
      * @return array
      */
-    public function updateRules($student) {
+    public function updateRules($student)
+    {
         $switchRule = 'filled | in:on';
         $fileMimes = 'mimes:pdf,doc,docx';
 

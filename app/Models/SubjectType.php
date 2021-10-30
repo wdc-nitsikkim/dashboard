@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Subject;
 
-class SubjectType extends Model {
+class SubjectType extends Model
+{
     protected $table = 'subject_types';
     public $timestamps = false;
 
     /**
      * Defines one-to-many relationship
      */
-    public function subject() {
+    public function subject()
+    {
         return $this->hasMany(Subject::class, 'subject_type_id');
     }
 }

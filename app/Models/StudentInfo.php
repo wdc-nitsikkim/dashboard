@@ -9,7 +9,8 @@ use App\Models\Student;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
-class StudentInfo extends Model {
+class StudentInfo extends Model
+{
     use SoftDeletes;
     use GlobalMutators, GlobalAccessors;
 
@@ -27,7 +28,8 @@ class StudentInfo extends Model {
     /**
      * Defines one-to-one relationship with Student model
      */
-    public function student() {
+    public function student()
+    {
         return $this->belongsTo(Student::class, 'student_id')->withDefault();
     }
 }

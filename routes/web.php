@@ -80,22 +80,26 @@ Route::name('users.')->prefix('users')->middleware('auth')->group(function () {
         Route::name('manage.')->prefix('manage')->middleware('password.confirm')
             ->group(function () {
 
-            Route::get('/{id}', 'ManageUserController@manage')->name('page');
-            Route::post('/save-permissions/{id}', 'ManageUserController@savePermissions')
+                Route::get('/{id}', 'ManageUserController@manage')->name('page');
+                Route::post('/save-permissions/{id}', 'ManageUserController@savePermissions')
                 ->name('savePermissions');
-            Route::post('/grant-role/{id}', 'ManageUserController@grantRole')
+                Route::post('/grant-role/{id}', 'ManageUserController@grantRole')
                 ->name('grantRole');
-            Route::delete('/revoke-role/{role_id}', 'ManageUserController@revokeRole')
+                Route::delete('/revoke-role/{role_id}', 'ManageUserController@revokeRole')
                 ->name('revokeRole');
-            Route::post('/grant-department-access/{id}', 'ManageUserController@grantDepartmentAccess')
+                Route::post('/grant-department-access/{id}', 'ManageUserController@grantDepartmentAccess')
                 ->name('grantDeptAccess');
-            Route::post('/grant-subject-access/{id}', 'ManageUserController@grantSubjectAccess')
+                Route::post('/grant-subject-access/{id}', 'ManageUserController@grantSubjectAccess')
                 ->name('grantSubAccess');
-            Route::delete('/revoke-subject-access/{user_id}/{subject_id}',
-                'ManageUserController@revokeSubjectAccess')->name('revokeSubAccess');
-            Route::delete('/revoke-department-access/{user_id}/{dept_id}',
-                'ManageUserController@revokeDepartmentAccess')->name('revokeDeptAccess');
-        });
+                Route::delete(
+                    '/revoke-subject-access/{user_id}/{subject_id}',
+                    'ManageUserController@revokeSubjectAccess'
+                )->name('revokeSubAccess');
+                Route::delete(
+                    '/revoke-department-access/{user_id}/{dept_id}',
+                    'ManageUserController@revokeDepartmentAccess'
+                )->name('revokeDeptAccess');
+            });
     });
 
     Route::get('/{id}', 'UserController@profile')->name('account');
@@ -272,8 +276,10 @@ Route::namespace('Admin')->name('admin.')->prefix('admin')->middleware('auth')->
             Route::get('/', 'ResultController@handleRedirect')->name('handleRedirect');
             Route::get('/semwise', 'ResultController@semWiseHandleRedirect')
                 ->name('semWiseHandleRedirect');
-            Route::get('/semwise/{dept}/{batch}/{result_type?}/{semester?}',
-                'ResultController@showSemWise')->name('showSemWise');
+            Route::get(
+                '/semwise/{dept}/{batch}/{result_type?}/{semester?}',
+                'ResultController@showSemWise'
+            )->name('showSemWise');
 
             Route::get('/test', 'ResultController@test');
 

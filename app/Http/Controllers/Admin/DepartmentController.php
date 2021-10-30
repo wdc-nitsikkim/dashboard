@@ -13,7 +13,8 @@ use App\CustomHelper;
 use App\Models\Profile;
 use App\Models\Department;
 
-class DepartmentController extends Controller {
+class DepartmentController extends Controller
+{
     /**
      * Items per page
      *
@@ -28,11 +29,13 @@ class DepartmentController extends Controller {
      */
     private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function index() {
+    public function index()
+    {
         $redirectRoute = route('admin.department.index');
         $response = CustomHelper::sessionCheckAndRedirect($redirectRoute, ['selectedDepartment']);
         if (is_bool($response)) {
@@ -43,10 +46,13 @@ class DepartmentController extends Controller {
         return $response;
     }
 
-    public function select() {
+    public function select()
+    {
         $departments = Department::all();
-        $preferred = $departments->whereIn('id',
-            Auth::user()->allowedDepartments->pluck('department_id')->toArray());
+        $preferred = $departments->whereIn(
+            'id',
+            Auth::user()->allowedDepartments->pluck('department_id')->toArray()
+        );
 
         return view('admin.department.select', [
             'preferred' => $preferred,
@@ -54,7 +60,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function saveInSession(Request $request, Department $dept) {
+    public function saveInSession(Request $request, Department $dept)
+    {
         session([$this->sessionKeys['selectedDepartment'] => $dept]);
         $redirectRoute = $request->input('redirect');
 
@@ -62,7 +69,8 @@ class DepartmentController extends Controller {
             : redirect()->route('admin.department.home', $dept);
     }
 
-    public function home(Department $dept) {
+    public function home(Department $dept)
+    {
         /* temp. -> additional (policy + model) required */
         /* new page model required */
         $advancedAccess = false;
@@ -73,7 +81,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function show(Request $request) {
+    public function show(Request $request)
+    {
         $this->authorize('view', Department::class);
 
         $departments = Department::withTrashed()->paginate($this->paginate);
@@ -84,13 +93,15 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function add() {
+    public function add()
+    {
         $this->authorize('create', Department::class);
 
         return view('admin.department.add');
     }
 
-    public function saveNew(Request $request) {
+    public function saveNew(Request $request)
+    {
         $this->authorize('create', Department::class);
 
         $data = $request->validate([
@@ -115,7 +126,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $this->authorize('update', Department::class);
 
         $department = Department::findOrFail($id);
@@ -125,7 +137,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $this->authorize('update', Department::class);
 
         $department = Department::findOrFail($id);
@@ -154,7 +167,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function softDelete($id) {
+    public function softDelete($id)
+    {
         $this->authorize('update', Department::class);
 
         $department = Department::findOrFail($id);
@@ -181,7 +195,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function restore($id) {
+    public function restore($id)
+    {
         $this->authorize('update', Department::class);
 
         $department = Department::onlyTrashed()->findOrFail($id);
@@ -202,7 +217,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->authorize('delete', Department::class);
 
         $department = Department::onlyTrashed()->findOrFail($id);
@@ -223,7 +239,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function orderPeople(Department $dept) {
+    public function orderPeople(Department $dept)
+    {
         $this->authorize('view', Department::class);
 
         $profiles = Profile::with('hod')->where('department_id', $dept->id)
@@ -235,7 +252,8 @@ class DepartmentController extends Controller {
         ]);
     }
 
-    public function saveOrder(Request $request, Department $dept) {
+    public function saveOrder(Request $request, Department $dept)
+    {
         /* function only meant for AJAX calls */
 
         $this->authorize('orderPeople', [Department::class, $dept]);
@@ -274,7 +292,8 @@ class DepartmentController extends Controller {
         ], 200);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

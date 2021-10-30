@@ -10,12 +10,15 @@ use App\CustomHelper;
 use App\Models\User;
 use App\Models\PasswordReset;
 
-class ResetPasswordController extends Controller {
-    public function __construct() {
+class ResetPasswordController extends Controller
+{
+    public function __construct()
+    {
         $this->middleware('guest');
     }
 
-    public function show($email, $token) {
+    public function show($email, $token)
+    {
         $dbToken = $this->validateLink($email, $token);
 
         if ($this->isLinkExpired($dbToken)) {
@@ -27,7 +30,8 @@ class ResetPasswordController extends Controller {
         ]);
     }
 
-    public function reset(Request $request, $email, $token) {
+    public function reset(Request $request, $email, $token)
+    {
         $request->validate([
             'password' => 'required | min:6 | confirmed'
         ]);
@@ -58,7 +62,8 @@ class ResetPasswordController extends Controller {
         ]);
     }
 
-    private function validateLink($email, $token) {
+    private function validateLink($email, $token)
+    {
         if (strlen($token) != CustomHelper::RESET_PWD_TOKEN_LEN) {
             abort(404);
         }
@@ -69,7 +74,8 @@ class ResetPasswordController extends Controller {
         ])->firstOrFail();
     }
 
-    private function isLinkExpired($tokenRow) {
+    private function isLinkExpired($tokenRow)
+    {
         $validSeconds = 3600;
 
         $tokenCreationTime = strtotime($tokenRow->created_at);
