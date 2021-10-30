@@ -358,6 +358,7 @@ class CustomHelper
                 break;
             case 1:
                     $tmpArr = $specialArr;
+                break;
             default:
                     $tmpArr = array_merge($numArr, $charArr, $specialArr);
                 break;
