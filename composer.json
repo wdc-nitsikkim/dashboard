@@ -1,6 +1,5 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "description": "College management system/dashboard",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
