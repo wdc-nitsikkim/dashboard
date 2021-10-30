@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Result;
 
-class ResultType extends Model {
+class ResultType extends Model
+{
     protected $table = 'result_types';
     public $timestamps = false;
 
     /**
      * Defines one-to-many relationship
      */
-    public function result() {
+    public function result()
+    {
         return $this->hasMany(Result::class, 'result_type_id');
     }
 }

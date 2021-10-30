@@ -10,7 +10,8 @@ use App\Models\Subject;
 use App\Models\Semester;
 use App\Models\Department;
 
-class RegisteredSubject extends Model {
+class RegisteredSubject extends Model
+{
     use SoftDeletes;
 
     protected $table = 'registered_subjects';
@@ -23,35 +24,40 @@ class RegisteredSubject extends Model {
     /**
      * Defines many-to-one relationship
      */
-    public function batch() {
+    public function batch()
+    {
         return $this->belongsTo(Batch::class, 'batch_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function department() {
+    public function department()
+    {
         return $this->belongsTo(Department::class, 'department_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function semester() {
+    public function semester()
+    {
         return $this->belongsTo(Semester::class, 'semester_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function subject() {
+    public function subject()
+    {
         return $this->belongsTo(Subject::class, 'subject_id')->withDefault();
     }
 
     /**
      * Custom dynamic accessor of model
      */
-    public function getSubjectCodeAttribute() {
+    public function getSubjectCodeAttribute()
+    {
         $code = mb_substr($this->subject->department->code, 0, 2) . $this->batch->course_id
             . $this->semester->id . $this->subject->type->id . $this->subject->code;
         return strtoupper($code);

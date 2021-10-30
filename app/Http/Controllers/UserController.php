@@ -15,7 +15,8 @@ use App\Traits\StoreFiles;
 use App\Traits\SendEmails;
 use App\Notifications\VerifyEmail;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
     use SendEmails, StoreFiles;
 
     /**
@@ -25,11 +26,13 @@ class UserController extends Controller {
      */
     private $paginate = 9;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
-    public function show() {
+    public function show()
+    {
         $this->authorize('view', User::class);
 
         $users = User::with('roles')->paginate($this->paginate);
@@ -40,7 +43,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function searchForm() {
+    public function searchForm()
+    {
         $this->authorize('view', User::class);
 
         $roles = CustomHelper::getRoles();
@@ -49,7 +53,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $this->authorize('view', User::class);
 
         $data = $request->validate([
@@ -62,10 +67,11 @@ class UserController extends Controller {
 
         $search = User::withTrashed();
         if (!is_null($data['trash_options'] ?? null)) {
-            if ($data['trash_options'] == 'only_trash')
+            if ($data['trash_options'] == 'only_trash') {
                 $search = User::onlyTrashed();
-            else if ($data['trash_options'] == 'only_active')
+            } elseif ($data['trash_options'] == 'only_active') {
                 $search = User::whereNull('deleted_at');
+            }
         }
 
         $map = [
@@ -90,7 +96,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function profile(int $id) {
+    public function profile(int $id)
+    {
         $this->authorize('view_account', [User::class, $id]);
 
         $user = User::with([
@@ -114,7 +121,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function update(Request $request, int $id) {
+    public function update(Request $request, int $id)
+    {
         $user = User::withTrashed()->findOrFail($id);
         $this->authorize('update', [User::class, $user]);
 
@@ -140,7 +148,7 @@ class UserController extends Controller {
             if (isset($data['remove_profile_image'])) {
                 $this->removeUploadedImage($user->image);
                 $user->image = null;
-            } else if ($request->hasFile('profile_image') && $request->file('profile_image')->isValid()) {
+            } elseif ($request->hasFile('profile_image') && $request->file('profile_image')->isValid()) {
                 $this->removeUploadedImage($user->image);
                 $user->image = $this->storeUserImage($request->file('profile_image'), $user->id);
             }
@@ -159,7 +167,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function changePassword(Request $request, int $id) {
+    public function changePassword(Request $request, int $id)
+    {
         $user = User::withTrashed()->findOrFail($id);
         $this->authorize('update', [User::class, $user]);
 
@@ -191,7 +200,8 @@ class UserController extends Controller {
         ])->withInput();
     }
 
-    public function softDelete(int $id) {
+    public function softDelete(int $id)
+    {
         $user = User::withTrashed()->findOrFail($id);
         $this->authorize('manage', [User::class, $user]);
 
@@ -220,7 +230,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function restore(int $id) {
+    public function restore(int $id)
+    {
         $user = User::onlyTrashed()->findOrFail($id);
         $this->authorize('manage', [User::class, $user]);
 
@@ -239,7 +250,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function delete(int $id) {
+    public function delete(int $id)
+    {
         $user = User::onlyTrashed()->findOrFail($id);
         $this->authorize('delete', [User::class, $user]);
 
@@ -260,7 +272,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function sendVerificationEmail() {
+    public function sendVerificationEmail()
+    {
         $user = User::findOrFail(Auth::id());
 
         if ($user->email_verified_at != null) {
@@ -311,7 +324,8 @@ class UserController extends Controller {
         }
     }
 
-    public function confirmEmail(Request $request, $token) {
+    public function confirmEmail(Request $request, $token)
+    {
         if (strlen($token) != CustomHelper::RESET_PWD_TOKEN_LEN) {
             abort(404);
         }
@@ -339,7 +353,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

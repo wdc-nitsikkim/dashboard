@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 use App\CustomHelper;
 use App\Models\User;
 
-class LoginController extends Controller {
+class LoginController extends Controller
+{
     /**
      * Create a new controller instance.
      *
@@ -25,7 +26,8 @@ class LoginController extends Controller {
         $this->middleware('guest')->except(['logout', 'confirmPassword']);
     }
 
-    public function defaultLogin(Request $request) {
+    public function defaultLogin(Request $request)
+    {
         $request->validate([
             'email' => 'required | email',
             'password' => 'required',
@@ -71,9 +73,10 @@ class LoginController extends Controller {
         ]);
     }
 
-    public function withGoogle(Request $request) {
+    public function withGoogle(Request $request)
+    {
         $cookieVal = $_COOKIE['g_csrf_token'] ?? '';
-        $validator = Validator::make($request->post(),[
+        $validator = Validator::make($request->post(), [
             'g_csrf_token' => ['required', 'string', 'in:' . $cookieVal],
             'credential' => 'required | string'
         ]);
@@ -144,7 +147,8 @@ class LoginController extends Controller {
         ]);
     }
 
-    public function redirectRegister($data = null) {
+    public function redirectRegister($data = null)
+    {
         \Session::flash('name', $data['name'] ?? '');
         \Session::flash('email', $data['email'] ?? '');
 
@@ -154,7 +158,8 @@ class LoginController extends Controller {
         ]);
     }
 
-    public function confirmPassword(Request $request) {
+    public function confirmPassword(Request $request)
+    {
         $request->validate([
             'password' => 'required | string'
         ]);
@@ -172,7 +177,8 @@ class LoginController extends Controller {
             : redirect()->route('root.home');
     }
 
-    private function addLockTimeout() {
+    private function addLockTimeout()
+    {
         $sessionKey = CustomHelper::getSessionConstants()['confirmPassword'];
         /**
          * Verify interval is 30 minutes (defined in Lockscreen middleware)
@@ -181,13 +187,15 @@ class LoginController extends Controller {
         session([$sessionKey => time() - 28 * 60]);
     }
 
-    public function logout() {
+    public function logout()
+    {
         Auth::logout();
         session()->flush();
         return redirect('/home');
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

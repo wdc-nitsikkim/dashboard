@@ -13,7 +13,8 @@ use App\CustomHelper;
 use App\Traits\StoreFiles;
 use App\Models\HomepageNotification as Noti;
 
-class NotificationController extends Controller {
+class NotificationController extends Controller
+{
     use StoreFiles;
 
     /**
@@ -23,7 +24,8 @@ class NotificationController extends Controller {
      */
     private $paginate = 10;
 
-    public function show(Request $request, $trashed = null) {
+    public function show(Request $request, $trashed = null)
+    {
         $this->authorize('view', Noti::class);
 
         if (is_null($trashed)) {
@@ -45,13 +47,15 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function searchForm() {
+    public function searchForm()
+    {
         $this->authorize('view', Noti::class);
 
         return view('admin.homepage.notifications.search');
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $this->authorize('view', Noti::class);
 
         $data = $request->validate([
@@ -66,10 +70,11 @@ class NotificationController extends Controller {
 
         $search = Noti::withTrashed();
         if (!is_null($data['trash_options'] ?? null)) {
-            if ($data['trash_options'] == 'only_trash')
+            if ($data['trash_options'] == 'only_trash') {
                 $search = Noti::onlyTrashed();
-            else if ($data['trash_options'] == 'only_active')
+            } elseif ($data['trash_options'] == 'only_active') {
                 $search = Noti::whereNull('deleted_at');
+            }
         }
 
         $map = [
@@ -95,13 +100,15 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function add($type = null) {
+    public function add($type = null)
+    {
         $this->authorize('create', Noti::class);
 
         return view('admin.homepage.notifications.add', ['type' => $type]);
     }
 
-    public function saveNew(Request $request) {
+    public function saveNew(Request $request)
+    {
         $this->authorize('create', Noti::class);
 
         $validator = Validator::make($request->all(), [
@@ -119,7 +126,7 @@ class NotificationController extends Controller {
 
         if ($validator->fails()) {
             return back()->withErrors($validator->errors())->withInput();
-        } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
+        } elseif ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
             $link = $this->storeNotification($file, $request->type);
         } else {
@@ -145,7 +152,8 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function edit(Noti $notification) {
+    public function edit(Noti $notification)
+    {
         $this->authorize('update', Noti::class);
 
         return view('admin.homepage.notifications.edit', [
@@ -153,7 +161,8 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function update(Request $request, Noti $notification) {
+    public function update(Request $request, Noti $notification)
+    {
         $this->authorize('update', Noti::class);
 
         $validator = Validator::make($request->all(), [
@@ -171,7 +180,7 @@ class NotificationController extends Controller {
 
         if ($validator->fails()) {
             return back()->withErrors($validator->errors())->withInput();
-        } else if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
+        } elseif ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
             $file = $request->file('attachment');
             $link = $this->storeNotification($file, $request->type);
         } else {
@@ -196,7 +205,8 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function updateStatus($id, $status) {
+    public function updateStatus($id, $status)
+    {
         $this->authorize('update', Noti::class);
 
         $notification = Noti::withTrashed()->findOrFail($id);
@@ -216,7 +226,8 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function softDelete(Noti $notification) {
+    public function softDelete(Noti $notification)
+    {
         $this->authorize('update', Noti::class);
 
         try {
@@ -234,7 +245,8 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function restore($id) {
+    public function restore($id)
+    {
         $this->authorize('update', Noti::class);
 
         $notification = Noti::onlyTrashed()->findOrFail($id);
@@ -253,7 +265,8 @@ class NotificationController extends Controller {
         ]);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->authorize('delete', Noti::class);
 
         $notification = Noti::onlyTrashed()->findOrFail($id);
@@ -277,14 +290,16 @@ class NotificationController extends Controller {
      *
      * @return bool
      */
-    private function checkLinkAndFileBothMissing() {
+    private function checkLinkAndFileBothMissing()
+    {
         $file_status = request()->has('attachment')
             && request()->file('attachment')->isValid();
         $link_status = request('link');
         return ($file_status == false && $link_status == false);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

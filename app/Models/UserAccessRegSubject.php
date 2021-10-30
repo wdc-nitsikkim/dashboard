@@ -8,7 +8,8 @@ use App\Models\User;
 use App\Models\RegisteredSubject;
 use App\Traits\GlobalAccessors;
 
-class UserAccessRegSubject extends Model {
+class UserAccessRegSubject extends Model
+{
     use GlobalAccessors;
 
     protected $table = 'user_access_reg_subjects';
@@ -22,14 +23,16 @@ class UserAccessRegSubject extends Model {
     /**
      * Defines many-to-one relationship
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function registeredSubject() {
+    public function registeredSubject()
+    {
         return $this->belongsTo(RegisteredSubject::class, 'registered_subject_id')->withDefault();
     }
 }

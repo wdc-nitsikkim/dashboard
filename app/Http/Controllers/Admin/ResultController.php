@@ -17,7 +17,8 @@ use App\Models\Department;
 use App\Models\ResultType;
 use App\Models\RegisteredSubject;
 
-class ResultController extends Controller {
+class ResultController extends Controller
+{
     /**
      * Items per page
      *
@@ -32,14 +33,18 @@ class ResultController extends Controller {
      */
     private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function handleRedirect() {
+    public function handleRedirect()
+    {
         $redirectRoute = route('admin.results.handleRedirect');
-        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute,
-            ['selectedDepartment', 'selectedBatch', 'selectedSubject']);
+        $response = CustomHelper::sessionCheckAndRedirect(
+            $redirectRoute,
+            ['selectedDepartment', 'selectedBatch', 'selectedSubject']
+        );
 
         if (is_bool($response)) {
             return redirect()->route('admin.results.show', [
@@ -51,8 +56,12 @@ class ResultController extends Controller {
         return $response;
     }
 
-    public function show(Department $dept, Batch $batch, RegisteredSubject $subject,
-        ResultType $result_type = null) {
+    public function show(
+        Department $dept,
+        Batch $batch,
+        RegisteredSubject $subject,
+        ResultType $result_type = null
+    ) {
 
         $this->authorize('view', [Result::class, $subject]);
 
@@ -88,7 +97,8 @@ class ResultController extends Controller {
         ]);
     }
 
-    public function semWiseHandleRedirect() {
+    public function semWiseHandleRedirect()
+    {
         $redirectRoute = route('admin.results.semWiseHandleRedirect');
         $response = CustomHelper::sessionCheckAndRedirect($redirectRoute, ['selectedDepartment', 'selectedBatch']);
         if (is_bool($response)) {
@@ -100,8 +110,12 @@ class ResultController extends Controller {
         return $response;
     }
 
-    public function showSemWise(Department $dept, Batch $batch,
-        ResultType $result_type = null, Semester $semester = null) {
+    public function showSemWise(
+        Department $dept,
+        Batch $batch,
+        ResultType $result_type = null,
+        Semester $semester = null
+    ) {
 
         $this->authorize('view_sem_wise', Result::class);
 
@@ -135,8 +149,13 @@ class ResultController extends Controller {
         ]);
     }
 
-    public function save(Request $request, Department $dept, Batch $batch,
-        RegisteredSubject $subject, ResultType $result_type) {
+    public function save(
+        Request $request,
+        Department $dept,
+        Batch $batch,
+        RegisteredSubject $subject,
+        ResultType $result_type
+    ) {
 
         /* function primarily for use with AJAX requests */
 
@@ -190,7 +209,8 @@ class ResultController extends Controller {
         ], 201);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

@@ -8,7 +8,8 @@ use App\Models\User;
 use App\Models\Department;
 use App\CustomHelper;
 
-class DepartmentPolicy {
+class DepartmentPolicy
+{
     use HandlesAuthorization;
 
     /**
@@ -22,27 +23,33 @@ class DepartmentPolicy {
     protected $update_roles = ['admin'];
     protected $delete_roles = [];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->permission = CustomHelper::getPermissionConstants();
     }
 
-    public function view(User $user) {
+    public function view(User $user)
+    {
         return $user->isPermissionValid($this->view_roles, $this->permission['read']);
     }
 
-    public function create(User $user) {
+    public function create(User $user)
+    {
         return $user->isPermissionValid($this->create_roles, $this->permission['create']);
     }
 
-    public function update(User $user) {
+    public function update(User $user)
+    {
         return $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
-    public function delete(User $user) {
+    public function delete(User $user)
+    {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
     }
 
-    public function orderPeople(User $user, Department $dept) {
+    public function orderPeople(User $user, Department $dept)
+    {
         return $user->isPermissionValid($this->order_roles, $this->permission['update'])
             && ($user->hasRole('admin') || $user->hasDepartmentAccess($dept->id));
     }

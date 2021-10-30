@@ -11,7 +11,8 @@ use App\Models\Subject;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
-class Department extends Model {
+class Department extends Model
+{
     use SoftDeletes;
     use GlobalMutators, GlobalAccessors;
 
@@ -32,28 +33,32 @@ class Department extends Model {
      *
      * @return string
      */
-    public function getRouteKeyName() {
+    public function getRouteKeyName()
+    {
         return 'code';
     }
 
     /**
      * Defines one-to-many relationship
      */
-    public function students() {
+    public function students()
+    {
         return $this->hasMany(Student::class, 'department_id');
     }
 
     /**
      * Defines one-to-many relationship
      */
-    public function subjects() {
+    public function subjects()
+    {
         return $this->hasMany(Subject::class, 'department_id');
     }
 
     /**
      * Defines one-to-one relationship on Hods table
      */
-    public function hod() {
+    public function hod()
+    {
         return $this->hasOne(Hod::class, 'department_id');
     }
 }

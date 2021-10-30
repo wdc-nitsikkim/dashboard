@@ -8,15 +8,17 @@ use Illuminate\Support\Facades\Storage;
 
 use App\CustomHelper;
 
-class PrivateStorageUrlController extends Controller {
+class PrivateStorageUrlController extends Controller
+{
     /**
     * Stores session keys received from \CustomHelper::getSessionConstants()
     *
     * @var null|array
     */
-   private $sessionKeys = null;
+    private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
@@ -27,7 +29,8 @@ class PrivateStorageUrlController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Support\Facades\Storage::response|HttpException
      */
-    public function get(Request $request) {
+    public function get(Request $request)
+    {
         $path = $request->segments();
         /* remove the first segment to get original file path as array */
         array_shift($path);

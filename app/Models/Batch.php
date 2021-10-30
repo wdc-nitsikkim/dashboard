@@ -10,7 +10,8 @@ use App\Models\Student;
 use App\Traits\GlobalMutators;
 use App\Traits\GlobalAccessors;
 
-class Batch extends Model {
+class Batch extends Model
+{
     use SoftDeletes;
     use GlobalMutators, GlobalAccessors;
 
@@ -31,21 +32,24 @@ class Batch extends Model {
      *
      * @return string
      */
-    public function getRouteKeyName() {
+    public function getRouteKeyName()
+    {
         return 'code';
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function course() {
+    public function course()
+    {
         return $this->belongsTo(Course::class, 'course_id')->withDefault();
     }
 
     /**
      * Defines one-to-many relationship
      */
-    public function students() {
+    public function students()
+    {
         return $this->hasMany(Student::class, 'batch_id');
     }
 }

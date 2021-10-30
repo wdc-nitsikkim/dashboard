@@ -5,14 +5,16 @@ namespace App\Traits;
 /**
  * Mutator functions to be applied on common attributes
  */
-trait GlobalMutators {
+trait GlobalMutators
+{
     /**
      * Set name
      *
      * @param string $value
      * @return void
      */
-    public function setNameAttribute($value) {
+    public function setNameAttribute($value)
+    {
         $this->attributes['name'] = ucwords($value);
     }
 
@@ -22,7 +24,8 @@ trait GlobalMutators {
      * @param string $value
      * @return void
      */
-    public function setEmailAttribute($value) {
+    public function setEmailAttribute($value)
+    {
         $this->attributes['email'] = strtolower($value);
     }
 
@@ -32,7 +35,8 @@ trait GlobalMutators {
      * @param string $value
      * @return void
      */
-    public function setCodeAttribute($value) {
+    public function setCodeAttribute($value)
+    {
         $this->attributes['code'] = strtolower($value);
     }
 }

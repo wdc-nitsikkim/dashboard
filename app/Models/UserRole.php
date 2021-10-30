@@ -8,7 +8,8 @@ use App\Models\User;
 use App\Models\UserRolePermission;
 use App\Traits\GlobalAccessors;
 
-class UserRole extends Model {
+class UserRole extends Model
+{
     use GlobalAccessors;
 
     protected $table = 'user_roles';
@@ -21,14 +22,16 @@ class UserRole extends Model {
     /**
      * Returns list of permissions belonging to role
      */
-    public function permissions() {
+    public function permissions()
+    {
         return $this->hasMany(UserRolePermission::class, 'role_id');
     }
 
     /**
      * Defines many-to-one relationship
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
 }

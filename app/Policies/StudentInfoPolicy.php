@@ -9,7 +9,8 @@ use App\Models\Student;
 use App\Models\StudentInfo;
 use App\CustomHelper;
 
-class StudentInfoPolicy {
+class StudentInfoPolicy
+{
     use HandlesAuthorization;
 
     /**
@@ -22,7 +23,8 @@ class StudentInfoPolicy {
     protected $update_roles = ['admin'];
     protected $delete_roles = ['admin'];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->permission = CustomHelper::getPermissionConstants();
     }
 
@@ -31,7 +33,8 @@ class StudentInfoPolicy {
      * @param App\Models\Student $student
      */
 
-    public function view(User $user, Student $student, StudentInfo $info = null) {
+    public function view(User $user, Student $student, StudentInfo $info = null)
+    {
         $isAllowed = false;
 
         if ($info == null) {
@@ -47,7 +50,8 @@ class StudentInfoPolicy {
         return $isAllowed || $user->isPermissionValid($this->view_roles, $this->permission['read']);
     }
 
-    public function view_result(User $user, Student $student) {
+    public function view_result(User $user, Student $student)
+    {
         $isAllowed = false;
 
         if ($user->hasRole('student') && ($student->email ?? false) === $user->email) {
@@ -57,7 +61,8 @@ class StudentInfoPolicy {
         return $isAllowed || $user->isPermissionValid(['admin'], $this->permission['read']);
     }
 
-    public function create(User $user, Student $student) {
+    public function create(User $user, Student $student)
+    {
         $isAllowed = false;
         if ($user->hasRole('student') && $user->email == $student->email) {
             $isAllowed = ($student->info == null)
@@ -67,7 +72,8 @@ class StudentInfoPolicy {
         return $isAllowed || $user->isPermissionValid($this->create_roles, $this->permission['create']);
     }
 
-    public function update(User $user, Student $student, StudentInfo $info = null) {
+    public function update(User $user, Student $student, StudentInfo $info = null)
+    {
         $isAllowed = false;
 
         if ($info == null) {
@@ -81,7 +87,8 @@ class StudentInfoPolicy {
         return $isAllowed || $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
-    public function delete(User $user, Student $student, StudentInfo $info) {
+    public function delete(User $user, Student $student, StudentInfo $info)
+    {
         $isAllowed = false;
         if ($user->hasRole('student') && $user->email == $student->email) {
             $isAllowed = ($student->id == $info->student_id)

@@ -16,7 +16,8 @@ use App\Models\Batch;
 use App\Models\Student;
 use App\Models\Department;
 
-class StudentController extends Controller {
+class StudentController extends Controller
+{
     /**
      * Items per page
      *
@@ -31,11 +32,13 @@ class StudentController extends Controller {
      */
     private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function handleRedirect() {
+    public function handleRedirect()
+    {
         $redirectRoute = route('admin.students.handleRedirect');
         $response = CustomHelper::sessionCheckAndRedirect($redirectRoute, ['selectedDepartment', 'selectedBatch']);
         if (is_bool($response)) {
@@ -47,7 +50,8 @@ class StudentController extends Controller {
         return $response;
     }
 
-    public function show(Department $dept, Batch $batch) {
+    public function show(Department $dept, Batch $batch)
+    {
         $this->authorize('view', Student::class);
 
         $students = $batch->students()->where('department_id', $dept->id)
@@ -61,7 +65,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function searchForm() {
+    public function searchForm()
+    {
         $this->authorize('view', Student::class);
 
         $departments = Department::select('id', 'name')->get();
@@ -79,7 +84,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $this->authorize('view', Student::class);
 
         $data = $request->validate([
@@ -93,10 +99,11 @@ class StudentController extends Controller {
 
         $search = Student::withTrashed();
         if (!is_null($data['trash_options'] ?? null)) {
-            if ($data['trash_options'] == 'only_trash')
+            if ($data['trash_options'] == 'only_trash') {
                 $search = Student::onlyTrashed();
-            else if ($data['trash_options'] == 'only_active')
+            } elseif ($data['trash_options'] == 'only_active') {
                 $search = Student::whereNull('deleted_at');
+            }
         }
 
         $map = [
@@ -116,7 +123,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function add(Department $dept, Batch $batch) {
+    public function add(Department $dept, Batch $batch)
+    {
         $this->authorize('create', [Student::class, $dept]);
 
         return view('admin.students.add', [
@@ -125,7 +133,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function bulkInsert(Department $dept, Batch $batch) {
+    public function bulkInsert(Department $dept, Batch $batch)
+    {
         $this->authorize('create', [Student::class, $dept]);
 
         return view('admin.students.bulkInsert', [
@@ -134,7 +143,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function bulkInsertSave(Request $request, Department $dept, Batch $batch) {
+    public function bulkInsertSave(Request $request, Department $dept, Batch $batch)
+    {
         /* use for AJAX calls only, this function returns JSON responses */
 
         $this->authorize('create', [Student::class, $dept]);
@@ -189,7 +199,8 @@ class StudentController extends Controller {
         ], 201);
     }
 
-    public function saveNew(Request $request, Department $dept, Batch $batch) {
+    public function saveNew(Request $request, Department $dept, Batch $batch)
+    {
         $this->authorize('create', [Student::class, $dept]);
 
         $data = $request->validate([
@@ -219,7 +230,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function edit(Department $dept, Batch $batch, Student $student) {
+    public function edit(Department $dept, Batch $batch, Student $student)
+    {
         $this->authorize('update', [Student::class, $student]);
 
         $departmentList = Department::select('id', 'name')->get();
@@ -231,8 +243,12 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function update(Request $request, Department $dept, Batch $batch,
-        Student $student) {
+    public function update(
+        Request $request,
+        Department $dept,
+        Batch $batch,
+        Student $student
+    ) {
 
         $this->authorize('update', [Student::class, $student]);
 
@@ -272,7 +288,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function softDelete(Department $dept, Batch $batch, Student $student) {
+    public function softDelete(Department $dept, Batch $batch, Student $student)
+    {
         $this->authorize('update', [Student::class, $student]);
 
         try {
@@ -292,7 +309,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function restore(Department $dept, Batch $batch, $student_id) {
+    public function restore(Department $dept, Batch $batch, $student_id)
+    {
         $student = Student::onlyTrashed()->findOrFail($student_id);
         $this->authorize('update', [Student::class, $student]);
 
@@ -313,7 +331,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function delete(Department $dept, Batch $batch, $student_id) {
+    public function delete(Department $dept, Batch $batch, $student_id)
+    {
         $student = Student::onlyTrashed()->findOrFail($student_id);
         $this->authorize('delete', [Student::class, $student]);
 
@@ -334,7 +353,8 @@ class StudentController extends Controller {
         ]);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

@@ -19,7 +19,8 @@ use App\Models\Department;
 use App\Models\SubjectType;
 use App\Models\RegisteredSubject;
 
-class SubjectController extends Controller {
+class SubjectController extends Controller
+{
     /**
      * Items per page
      *
@@ -34,14 +35,18 @@ class SubjectController extends Controller {
      */
     private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function handleRedirect() {
+    public function handleRedirect()
+    {
         $redirectRoute = route('admin.subjects.handleRedirect');
-        $response = CustomHelper::sessionCheckAndRedirect($redirectRoute,
-            ['selectedDepartment', 'selectedBatch']);
+        $response = CustomHelper::sessionCheckAndRedirect(
+            $redirectRoute,
+            ['selectedDepartment', 'selectedBatch']
+        );
 
         if (is_bool($response)) {
             return redirect()->route('admin.subjects.show', [
@@ -52,7 +57,8 @@ class SubjectController extends Controller {
         return $response;
     }
 
-    public function show(Department $dept, Batch $batch, Semester $semester = null, Course $course = null) {
+    public function show(Department $dept, Batch $batch, Semester $semester = null, Course $course = null)
+    {
         $courses        = Course::all();
         $semesters      = Semester::all();
 
@@ -82,7 +88,8 @@ class SubjectController extends Controller {
         ]);
     }
 
-    public function select() {
+    public function select()
+    {
         $dept = false;
         $batch = false;
         if (session()->has($this->sessionKeys['selectedDepartment'])) {
@@ -105,7 +112,8 @@ class SubjectController extends Controller {
         ]);
     }
 
-    public function saveInSession(Request $request, RegisteredSubject $subject) {
+    public function saveInSession(Request $request, RegisteredSubject $subject)
+    {
         session([$this->sessionKeys['selectedSubject'] => $subject]);
         $redirectRoute = $request->input('redirect');
 
@@ -113,7 +121,8 @@ class SubjectController extends Controller {
             : redirect()->route('root.home');
     }
 
-    public function add(Department $dept) {
+    public function add(Department $dept)
+    {
         $this->authorize('create', [Subject::class, $dept]);
 
         $subjectTypes = SubjectType::all();
@@ -124,7 +133,8 @@ class SubjectController extends Controller {
         ]);
     }
 
-    public function saveNew(Request $request, Department $dept) {
+    public function saveNew(Request $request, Department $dept)
+    {
         /* use for AJAX calls only, this function returns JSON responses */
 
         $this->authorize('create', [Subject::class, $dept]);
@@ -176,7 +186,8 @@ class SubjectController extends Controller {
         ], 201);
     }
 
-    public function addReg(Department $dept, Batch $batch = null) {
+    public function addReg(Department $dept, Batch $batch = null)
+    {
         $this->authorize('create', [Subject::class, $dept]);
 
         $batches = Batch::limit(10)->orderByDesc('id')->get();
@@ -195,7 +206,8 @@ class SubjectController extends Controller {
         ]);
     }
 
-    public function saveNewReg(Request $request, Department $dept, Batch $batch) {
+    public function saveNewReg(Request $request, Department $dept, Batch $batch)
+    {
         /* use for AJAX calls only, this function returns JSON responses */
 
         $this->authorize('create', [Subject::class, $dept]);
@@ -268,7 +280,8 @@ class SubjectController extends Controller {
         ], 201);
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

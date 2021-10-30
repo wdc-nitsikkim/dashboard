@@ -43,7 +43,8 @@ class User extends Authenticatable
      * Defines one-to-many relationship
      *
      */
-    public function allowedDepartments() {
+    public function allowedDepartments()
+    {
         return $this->hasMany(UserAccessDepartment::class, 'user_id');
     }
 
@@ -51,21 +52,24 @@ class User extends Authenticatable
      * Defines one-to-many relationship
      *
      */
-    public function allowedSubjects() {
+    public function allowedSubjects()
+    {
         return $this->hasMany(UserAccessRegSubject::class, 'user_id');
     }
 
     /**
      * Defines one-to-many relationship
      */
-    public function roles() {
+    public function roles()
+    {
         return $this->hasMany(UserRole::class, 'user_id');
     }
 
     /**
      * Defines one-to-one relationship
      */
-    public function profileLink() {
+    public function profileLink()
+    {
         return $this->hasOne(UserProfileLink::class, 'user_id');
     }
 
@@ -74,7 +78,8 @@ class User extends Authenticatable
      *
      * @return boolean
      */
-    public function hasProfile() {
+    public function hasProfile()
+    {
         return !is_null($this->profileLink);
     }
 
@@ -83,7 +88,8 @@ class User extends Authenticatable
      *
      * @return boolean
      */
-    public function isStudent() {
+    public function isStudent()
+    {
         return Student::select('id')->withTrashed()->where('email', $this->email)
             ->first() == null ? false : true;
     }
@@ -94,7 +100,8 @@ class User extends Authenticatable
      *
      * @return \App\Models\Student|null
      */
-    public function student() {
+    public function student()
+    {
         return Student::withTrashed()->where('email', $this->email)->first();
     }
 
@@ -103,7 +110,8 @@ class User extends Authenticatable
      *
      * @param array $roles
      */
-    public function hasRole(...$roles) {
+    public function hasRole(...$roles)
+    {
         $userRoles = $this->roles;
         foreach ($roles as $role) {
             if ($userRoles->contains('role', $role)) {
@@ -119,7 +127,8 @@ class User extends Authenticatable
      * @param array $roleList  Array of roles which can perform the action. Eg.: ['admin', 'hod']
      * @return Illuminate\Support\Collection
      */
-    public function validRoles(array $roleList) {
+    public function validRoles(array $roleList)
+    {
         return $this->roles->whereIn('role', $roleList);
     }
 
@@ -132,7 +141,8 @@ class User extends Authenticatable
      * @param array $roleList
      * @param string $permissionToCheck
      */
-    public function isPermissionValid(array $roleList, $permissionToCheck) {
+    public function isPermissionValid(array $roleList, $permissionToCheck)
+    {
         $validRoles = $this->validRoles($roleList);
         foreach ($validRoles as $role) {
             if ($role->permissions->contains('permission', $permissionToCheck)) {
@@ -150,7 +160,8 @@ class User extends Authenticatable
      * @param int $dept  'id' of department
      * @return bool
      */
-    public function hasDepartmentAccess($dept) {
+    public function hasDepartmentAccess($dept)
+    {
         return $this->allowedDepartments->where('department_id', $dept)->count() > 0;
     }
 
@@ -162,7 +173,8 @@ class User extends Authenticatable
      * @param int $subject_id
      * @return bool
      */
-    public function hasSubjectAccess($subject_id) {
+    public function hasSubjectAccess($subject_id)
+    {
         return $this->allowedSubjects->where('registered_subject_id', $subject_id)->count() > 0;
     }
 }

@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 
 use App\CustomHelper;
 
-class RootController extends Controller {
-    public function clearSession() {
+class RootController extends Controller
+{
+    public function clearSession()
+    {
         $sessionKeys = CustomHelper::getSessionConstants();
         foreach ($sessionKeys as $val) {
             session()->forget($val);
@@ -19,14 +21,16 @@ class RootController extends Controller {
         ]);
     }
 
-    public function userRedirect() {
+    public function userRedirect()
+    {
         if (CustomHelper::isStudentOnly()) {
             return redirect()->route('student.index');
         }
         return redirect()->route('admin.home');
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

@@ -11,14 +11,17 @@ use Ifsnop\Mysqldump as IMysqldump;
 use App\CustomHelper;
 use App\Traits\StoreFiles;
 
-class MyAppController extends Controller {
+class MyAppController extends Controller
+{
     use StoreFiles;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('can:manage_app,App\Models\User');
     }
 
-    public function dbBackupCreate() {
+    public function dbBackupCreate()
+    {
         $host = config('database.connections.mysql.host');
         $name = config('database.connections.mysql.database');
         $user = config('database.connections.mysql.username');
@@ -47,7 +50,8 @@ class MyAppController extends Controller {
         }
     }
 
-    public function removeBackupDir() {
+    public function removeBackupDir()
+    {
         $status = $this->removeDirectory($this->backupDir);
         if ($status) {
             return back()->with([
@@ -61,14 +65,16 @@ class MyAppController extends Controller {
         ]);
     }
 
-    public function siteSettings() {
+    public function siteSettings()
+    {
         return view('manageApp');
     }
 
-    public function executeArtisanCommand(Request $request, $command) {
+    public function executeArtisanCommand(Request $request, $command)
+    {
         if ($command == 'storage:link') {
             return $this->linkStorage($request->getHttpHost());
-        } else if ($command == 'route:cache') {
+        } elseif ($command == 'route:cache') {
             return back()->with([
                 'status' => 'fail',
                 'message' => 'Command not supported!'
@@ -84,7 +90,8 @@ class MyAppController extends Controller {
         return back()->with($msg);
     }
 
-    private function linkStorage($host) {
+    private function linkStorage($host)
+    {
         $target = '/home/ntskm85i/domains/nitsikkim.ac.in/laravel-5.5/storage/app/public';
         $shortcut = '/home/ntskm85i/domains/nitsikkim.ac.in/public_html/dashboard-beta/storage';
 

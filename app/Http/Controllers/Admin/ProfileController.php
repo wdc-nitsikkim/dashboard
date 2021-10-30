@@ -16,7 +16,8 @@ use App\Models\Department;
 use App\Models\UserProfileLink;
 use App\Traits\StoreFiles;
 
-class ProfileController extends Controller {
+class ProfileController extends Controller
+{
     use StoreFiles;
 
     /**
@@ -33,11 +34,13 @@ class ProfileController extends Controller {
      */
     private $sessionKeys = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sessionKeys = CustomHelper::getSessionConstants();
     }
 
-    public function show() {
+    public function show()
+    {
         $this->authorize('view', Profile::class);
 
         $profiles = Profile::with(['department', 'hod'])->paginate($this->paginate);
@@ -54,7 +57,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function showTrashed() {
+    public function showTrashed()
+    {
         $this->authorize('view', Profile::class);
 
         $profiles = Profile::with(['department', 'hod'])->onlyTrashed()->paginate($this->paginate);
@@ -71,7 +75,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function searchForm() {
+    public function searchForm()
+    {
         $this->authorize('view', Profile::class);
 
         $departments = Department::select('id', 'name')->get();
@@ -81,7 +86,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $this->authorize('view', Profile::class);
 
         $data = $request->validate([
@@ -98,10 +104,11 @@ class ProfileController extends Controller {
 
         $search = Profile::withTrashed();
         if (!is_null($data['trash_options'] ?? null)) {
-            if ($data['trash_options'] == 'only_trash')
+            if ($data['trash_options'] == 'only_trash') {
                 $search =Profile::onlyTrashed();
-            else if ($data['trash_options'] == 'only_active')
+            } elseif ($data['trash_options'] == 'only_active') {
                 $search =Profile::whereNull('deleted_at');
+            }
         }
 
         $map = [
@@ -130,7 +137,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function add() {
+    public function add()
+    {
         $this->authorize('create', Profile::class);
 
         $user = Auth::user();
@@ -141,7 +149,7 @@ class ProfileController extends Controller {
         $type = '';
         if ($user->hasRole('hod', 'faculty')) {
             $type = 'faculty';
-        } else if ($user->hasRole('staff')) {
+        } elseif ($user->hasRole('staff')) {
             $type = 'staff';
         }
 
@@ -153,7 +161,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function saveNew(Request $request) {
+    public function saveNew(Request $request)
+    {
         $this->authorize('create', Profile::class);
 
         $data = $request->validate([
@@ -214,7 +223,8 @@ class ProfileController extends Controller {
      *
      * @param int $id
      */
-    public function edit(int $id) {
+    public function edit(int $id)
+    {
         $this->authorize('update', [Profile::class, $id]);
 
         $profile = Profile::withTrashed()->with(['department:id,name', 'userLink'])
@@ -232,7 +242,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function link(Request $request) {
+    public function link(Request $request)
+    {
         $this->authorize('customizeLinkOption', Profile::class);
 
         $request->validate([
@@ -265,7 +276,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function unlink(Request $request) {
+    public function unlink(Request $request)
+    {
         $this->authorize('customizeLinkOption', Profile::class);
 
         $request->validate([
@@ -291,7 +303,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function update(Request $request, int $id) {
+    public function update(Request $request, int $id)
+    {
         $this->authorize('update', [Profile::class, $id]);
 
         $profile = Profile::withTrashed()->findOrFail($id);
@@ -326,7 +339,7 @@ class ProfileController extends Controller {
             if (isset($data['remove_profile_image'])) {
                 $this->removeUploadedImage($profile->image);
                 $profile->image = null;
-            } else if ($request->hasFile('profile_image') && $request->file('profile_image')->isValid()) {
+            } elseif ($request->hasFile('profile_image') && $request->file('profile_image')->isValid()) {
                 $this->removeUploadedImage($profile->image);
                 $profile->image = $this->storeProfileImage($request->file('profile_image'), $profile->id);
             }
@@ -351,7 +364,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function softDelete(int $id) {
+    public function softDelete(int $id)
+    {
         $this->authorize('update', [Profile::class, $id]);
 
         $profile = Profile::findOrFail($id);
@@ -372,7 +386,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function restore(int $id) {
+    public function restore(int $id)
+    {
         $this->authorize('update', [Profile::class, $id]);
 
         $profile = Profile::onlyTrashed()->findOrFail($id);
@@ -393,7 +408,8 @@ class ProfileController extends Controller {
         ]);
     }
 
-    public function delete(int $id) {
+    public function delete(int $id)
+    {
         $this->authorize('delete', [Profile::class, $id]);
 
         $profile = Profile::onlyTrashed()->findOrFail($id);
@@ -423,16 +439,18 @@ class ProfileController extends Controller {
      * @param string $chosen
      * @return string
      */
-    private function getProfileType(User $user, $chosen) {
+    private function getProfileType(User $user, $chosen)
+    {
         if ($user->can('chooseType', Profile::class)) {
             return $chosen;
-        } else if ($user->hasRole('hod', 'faculty')) {
+        } elseif ($user->hasRole('hod', 'faculty')) {
             return 'faculty';
         }
         return 'staff';
     }
 
-    public function test() {
+    public function test()
+    {
         return 'Test';
     }
 }

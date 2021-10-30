@@ -11,8 +11,10 @@ use App\Models\Hod;
 use App\Models\Profile;
 use App\Models\Department;
 
-class HodController extends Controller {
-    public function show() {
+class HodController extends Controller
+{
+    public function show()
+    {
         $this->authorize('view', Hod::class);
 
         $hods = Hod::with(['department:id,name', 'profile:id,name'])->get();
@@ -26,7 +28,8 @@ class HodController extends Controller {
         ]);
     }
 
-    public function assign(Request $request) {
+    public function assign(Request $request)
+    {
         $this->authorize('update', Hod::class);
 
         $data = $request->validate([
@@ -59,7 +62,8 @@ class HodController extends Controller {
         ]);
     }
 
-    public function remove($dept_id) {
+    public function remove($dept_id)
+    {
         $this->authorize('update', Hod::class);
 
         try {

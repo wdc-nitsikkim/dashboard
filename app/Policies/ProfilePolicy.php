@@ -9,7 +9,8 @@ use App\Models\Profile;
 use App\Models\UserProfileLink;
 use App\CustomHelper;
 
-class ProfilePolicy {
+class ProfilePolicy
+{
     use HandlesAuthorization;
 
     /**
@@ -23,14 +24,16 @@ class ProfilePolicy {
     protected $delete_roles = ['admin'];
     protected $special_roles = ['hod', 'faculty', 'staff'];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->permission = CustomHelper::getPermissionConstants();
     }
 
     /**
      * @param App\Models\User $user
      */
-    public function view(User $user) {
+    public function view(User $user)
+    {
         return $user->isPermissionValid($this->view_roles, $this->permission['read']);
     }
 
@@ -41,7 +44,8 @@ class ProfilePolicy {
      * @param App\Models\User $user
      * @return boolean
      */
-    public function create(User $user) {
+    public function create(User $user)
+    {
         $isAllowed = false;
         if ($user->hasRole('hod', 'faculty', 'staff')) {
             $isAllowed = is_null($user->profileLink)
@@ -59,11 +63,12 @@ class ProfilePolicy {
      * @param int $profile_id
      * @return boolean
      */
-    public function update(User $user, $profile_id) {
+    public function update(User $user, $profile_id)
+    {
         $isAllowed = false;
         if ($user->hasRole('hod', 'faculty', 'staff') && $user->hasProfile()) {
             $isAllowed = $user->profileLink->profile_id === $profile_id;
-        } else if ($user->hasProfile()) {
+        } elseif ($user->hasProfile()) {
             $isAllowed = $user->profileLink->profile_id === $profile_id;
         }
         $isAllowed = $isAllowed && $user->isPermissionValid($this->special_roles, $this->permission['update']);
@@ -71,20 +76,24 @@ class ProfilePolicy {
         return $isAllowed || $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
-    public function delete(User $user, $profile_id) {
+    public function delete(User $user, $profile_id)
+    {
         return $user->isPermissionValid($this->delete_roles, $this->permission['delete']);
     }
 
-    public function chooseType(User $user) {
+    public function chooseType(User $user)
+    {
         return $user->hasRole('admin');
     }
 
-    public function customizeLinkOption(User $user) {
+    public function customizeLinkOption(User $user)
+    {
         return $user->hasRole('admin') &&
             $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }
 
-    public function updateDepartment(User $user) {
+    public function updateDepartment(User $user)
+    {
         return $user->hasRole('admin') &&
             $user->isPermissionValid($this->update_roles, $this->permission['update']);
     }

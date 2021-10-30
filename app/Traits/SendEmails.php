@@ -9,8 +9,10 @@ use App\CustomHelper;
 /**
  * Default functions to send emails using sendgrid-php api client
  */
-trait SendEmails {
-    protected function getDefaultConfig() {
+trait SendEmails
+{
+    protected function getDefaultConfig()
+    {
         $email = new \SendGrid\Mail\Mail();
         $email->setFrom(config('mail.sendgrid.from_address'), config('mail.from.name'));
         $email->setTemplateId(
@@ -19,7 +21,8 @@ trait SendEmails {
         return $email;
     }
 
-    public function sendSendgridEmail($email) {
+    public function sendSendgridEmail($email)
+    {
         $sendgrid = new \SendGrid(config('mail.sendgrid.api_key'));
         try {
             $response = $sendgrid->send($email);
@@ -46,7 +49,8 @@ trait SendEmails {
      * @param string $link  primary action btn link
      * @return boolean
      */
-    public function sendEmailVerification($to, $to_name, $link) {
+    public function sendEmailVerification($to, $to_name, $link)
+    {
         $subject = 'Verify email address';
 
         $email = $this->getDefaultConfig();
@@ -80,7 +84,8 @@ trait SendEmails {
      * @param string $link  primary action btn link
      * @return boolean
      */
-    public function sendPasswordReset($to, $to_name, $link) {
+    public function sendPasswordReset($to, $to_name, $link)
+    {
         $subject = 'Reset account password';
 
         $email = $this->getDefaultConfig();

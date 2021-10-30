@@ -17,7 +17,7 @@ class EmailVerified
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->email_verified_at == NULL) {
+        if (Auth::user()->email_verified_at == null) {
             $msg = [
                 'status' => 'info',
                 'message' => 'You need to verify your email first'
