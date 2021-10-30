@@ -1,7 +1,20 @@
 <?xml version="1.0"?>
 <ruleset>
     <description>Coding standard for this project.</description>
-    <rule ref="PSR2"/>
+    <rule ref="PSR2">
+        <exclude name="PSR1.Methods.CamelCapsMethodName"/>
+    </rule>
+    <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="100"/>
+            <property name="absoluteLineLimit" value="150"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.ForbiddenFunctions"/>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+
     <arg name="basepath" value="."/>
 
     <file>./app</file>
@@ -10,6 +23,7 @@
     <file>./routes</file>
     <file>./tests</file>
 
+    <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>bootstrap/cache/*</exclude-pattern>
     <exclude-pattern>bootstrap/autoload.php</exclude-pattern>
     <exclude-pattern>*/migrations/*</exclude-pattern>
