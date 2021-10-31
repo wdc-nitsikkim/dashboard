@@ -65,6 +65,7 @@ class ResultController extends Controller
 
         $this->authorize('view', [Result::class, $subject]);
 
+        $route = 'admin.results.show';
         $resultTypes = ResultType::all();
         $result_type = $result_type ?? $resultTypes->first();
         $students = Student::withTrashed()->where([
@@ -88,6 +89,7 @@ class ResultController extends Controller
             'batch' => $batch,
             'subject' => $subject,
             'students' => $students,
+            'baseRoute' => $route,
             'department' => $dept,
             'canUpdate' => $canUpdate,
             'resultTypes' => $resultTypes,
@@ -119,6 +121,7 @@ class ResultController extends Controller
 
         $this->authorize('view_sem_wise', Result::class);
 
+        $route = 'admin.results.showSemWise';
         $resultTypes = ResultType::all();
         $result_type = $result_type ?? $resultTypes->first();
         $semesters = Semester::all();
@@ -143,6 +146,7 @@ class ResultController extends Controller
             'subjects' => $subjects,
             'students' => $students,
             'semesters' => $semesters,
+            'baseRoute' => $route,
             'resultTypes' => $resultTypes,
             'currentSemester' => $semester,
             'currentResultType' => $result_type

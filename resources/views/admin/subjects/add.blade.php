@@ -14,7 +14,7 @@
 
     @slot('subheading')
         <h5>Department of {{ $department->name }}</h5>
-        <h6>Add subjects offered/belonging by this department</h6>
+        <h6>Add subjects <b>offered by/belonging to</b> this department.</h6>
     @endslot
 
     @slot('sideButtons')
