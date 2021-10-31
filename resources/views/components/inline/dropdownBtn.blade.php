@@ -9,6 +9,7 @@
     $displayKey -> string
     $route -> string
     $baseParams -> (optional) array
+    $linkAttr -> (optional) string
 --}}
 
 <button class="btn {{ $classes ?? 'btn-gray-800' }} d-inline-flex align-items-center dropdown-toggle mb-2"
@@ -28,7 +29,7 @@
         <a class="dropdown-item d-flex align-items-center"
             href="{{ route($route, array_merge($baseParams ?? [], [
                 $routeParam => $item[$routeKey]
-            ])) }}">
+            ])) }}" {!! $linkAttr ?? '' !!}>
             {{ $item[$displayKey] }}</a>
     @endforeach
 
