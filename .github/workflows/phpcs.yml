@@ -40,3 +40,14 @@ jobs:
 
       - name: Detect coding standard violations
         run: vendor/bin/phpcs -q --report=checkstyle | cs2pr --graceful-warnings
+
+      - name: Fix coding standard violations
+        run: vendor/bin/phpcbf -q
+
+      - name: Setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Committing files
+        run: git diff-index --quiet HEAD || ((git commit -am "[BOT] Fix coding standard" --allow-empty && git push -f) || echo "Nothing to commit")
