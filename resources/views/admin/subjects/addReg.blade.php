@@ -74,7 +74,7 @@
                 ])
                     @slot('head')
                         @component('components.table.head', [
-                            'items' => [ 'Type', 'Code', 'Name', '-' ]
+                            'items' => [ 'Semester', 'Credit', 'Subject ID', '-' ]
                         ])
                         @endcomponent
                     @endslot
