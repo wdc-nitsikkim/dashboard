@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-8">
+    <div class="col-12 col-md-12">
         <div class="card border-0 shadow mb-4">
             <div class="card-body">
                 <h5 class="mb-2">Department Access</h5>

@@ -37,25 +37,24 @@
         <div>
             <span class="h5 fw-bolder me-3">{{ $currentResultType->name }}</span>
 
-            <button class="btn btn-outline-primary d-inline-flex align-items-center dropdown-toggle
-                mb-2" data-bs-toggle="dropdown">
-                Result Type
-                <span class="material-icons ms-1">keyboard_arrow_down</span>
-            </button>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
+            @component('components.inline.dropdownBtn', [
+                'classes' => 'btn-outline-primary',
+                'btnText' => 'Result Type',
+                'iterator' => $resultTypes,
+                'route' => $baseRoute,
+                'routeParam' => 'result_type',
+                'routeKey' => 'id',
+                'displayKey' => 'name',
+                'baseParams' => $baseRouteParams
+            ])
+                @slot('linkAttr')
+                    @if ($canUpdate)
+                        confirm alert-title="This will refresh the page!"
+                        alert-text="All unsaved changes will be lost"
+                    @endif
+                @endslot
+            @endcomponent
 
-                @foreach ($resultTypes as $type)
-                    <a class="dropdown-item d-flex align-items-center"
-                        @if ($canUpdate)
-                            confirm alert-title="This will refresh the page!"
-                            alert-text="All unsaved changes will be lost"
-                        @endif
-                        href="{{ route('admin.results.show',
-                            array_merge($baseRouteParams, [ 'result_type' => $type->id ])) }}">
-                        {{ $type->name }}</a>
-                @endforeach
-
-            </div>
         </div>
 
         @include('admin.students.partials.subheading', ['batch' => $batch])

@@ -1,4 +1,5 @@
 {{--
+    $baseRoute -> string (route name)
     $currentSemester -> single semester model
     $semesters -> collection of semester model
     $batch -> single batch model
@@ -36,21 +37,16 @@
                 {{ $currentResultType->name }}
             </span>
 
-            <button class="btn btn-outline-primary d-inline-flex align-items-center dropdown-toggle
-                mb-2" data-bs-toggle="dropdown">
-                Result Type
-                <span class="material-icons ms-1">keyboard_arrow_down</span>
-            </button>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
-
-                @foreach ($resultTypes as $type)
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('admin.results.showSemWise',
-                            array_merge($baseRouteParams, [ 'result_type' => $type->id ])) }}">
-                        {{ $type->name }}</a>
-                @endforeach
-
-            </div>
+            @include('components.inline.dropdownBtn', [
+                'classes' => 'btn-outline-primary',
+                'btnText' => 'Result Type',
+                'iterator' => $resultTypes,
+                'route' => $baseRoute,
+                'routeParam' => 'result_type',
+                'routeKey' => 'id',
+                'displayKey' => 'name',
+                'baseParams' => $baseRouteParams
+            ])
         </div>
 
         @include('admin.students.partials.subheading', ['batch' => $batch])
@@ -72,21 +68,16 @@
                 'batchRedirect' => $redirectHandler
             ])
 
-            <button class="btn btn-outline-info d-inline-flex align-items-center dropdown-toggle ms-1
-                mb-2" data-bs-toggle="dropdown">
-                Semester
-                <span class="material-icons ms-1">keyboard_arrow_down</span>
-            </button>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2">
-
-                @foreach ($semesters as $sem)
-                    <a class="dropdown-item d-flex align-items-center"
-                        href="{{ route('admin.results.showSemWise',
-                            array_merge($baseRouteParams, [ 'semester' => $sem->id ])) }}">
-                        {{ $sem->name }}</a>
-                @endforeach
-
-            </div>
+            @include('components.inline.dropdownBtn', [
+                'classes' => 'btn-outline-info ms-1',
+                'btnText' => 'Semester',
+                'iterator' => $semesters,
+                'route' => $baseRoute,
+                'routeParam' => 'semester',
+                'routeKey' => 'id',
+                'displayKey' => 'name',
+                'baseParams' => $baseRouteParams
+            ])
         </div>
 
     @endslot
