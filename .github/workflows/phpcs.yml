@@ -50,4 +50,4 @@ jobs:
           git config user.email "<>"
 
       - name: Committing files
-        run: git commit -am "[ACTION] Fix code style" && git push
+        run: (git commit -am "[ACTION] Fix code style" && git push) || echo "Nothing to commit"
