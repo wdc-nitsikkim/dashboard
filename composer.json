@@ -5,8 +5,8 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "fideloper/proxy": "~3.3",
-        "google/apiclient": "2.12.1",
+        "fideloper/proxy": "~4.4",
+        "google/apiclient": "2.12.4",
         "ifsnop/mysqldump-php": "^2.9",
         "itsgoingd/clockwork": "^5.0",
         "laravel/framework": "5.5.*",
