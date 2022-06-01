@@ -8,6 +8,7 @@
 </p>
 
 ## Documentation
+
 - [Laravel v5.5](https://laravel.com/docs/5.5)
 - [Volt Bootstrap 5 Demo](https://demo.themesberg.com/volt/pages/dashboard/dashboard.html)
 - [Template Docs](https://themesberg.com/docs/volt-bootstrap-5-dashboard/getting-started/quick-start/)
@@ -22,7 +23,7 @@
   - Remove any other versions of PHP if present (**just removing them from your path will work**)
 - Open `php.ini`, which can be found at the root directory of the newly extracted PHP folder
 - Replace all occurences of `D:\Program Files\php-7.0.33` with the absolute path of your PHP installation folder _(as this version of PHP doesn't support relative paths)_
-- Open a terminal and run `php -v`. If it looks something like below, you can continue else follow the above step more carefully or try restarting your PC
+- Open a terminal and run `php -v`. If it looks something like below, you can continue else follow the above steps more carefully or try restarting your PC
 - ![php-v](https://user-images.githubusercontent.com/43738236/128649946-22e2197a-0d82-4100-ab5d-ae1d4086858c.png)
 - After this, download **Composer**
   - [Windows](https://getcomposer.org/Composer-Setup.exe)
@@ -36,12 +37,12 @@
 - Finally, run `php artisan serve` to start your local development server at `http://127.0.0.1:8000`
 
 ## For initial login
+
 - Open the database and insert an entry in the `users` table
-  - Generate a compatible password by visiting `http://127.0.0.1:8000/hash/{your-password}` where your password is any string
+  - Generate a compatible password by visiting `http://127.0.0.1:8000/hash/{your-password}` where `{your password}` is any string
   - Copy the above generated password & paste it in the password field of the new user
 - Insert a record in the `user_roles` table using the `user_id` of the above inserted row & role as `admin` for unrestricted access
 - Give `c`, `r` & `u` permissions to this new role using the `user_role_permissions` table _(different row for each permission)_.
-`role_id` will be the same as `id` of the role you created in `user_roles` table
+  `role_id` will be the same as `id` of the role you created in `user_roles` table
 
-That's it, now open <http://localhost:8000/login> and login using the credentials _(if the email you used belongs to the `nitsikkim.ac.in`
-domain, you can also login via google)_
+That's it, now open [http://localhost:8000/login](http://localhost:8000/login) and login using the credentials _(if the email you used belongs to the `nitsikkim.ac.in` domain, you can also login via google)_
